@@ -4,6 +4,7 @@
 if [ -z "$1" ]
 then
 	echo "Usage: $0 <branch>"
+	exit
 fi
 
 git config --global user.name "John Inman"

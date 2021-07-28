@@ -9,7 +9,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 # PS1
-export PS1='\e[01;31m$(x=$?; (( $x )) && printf "error $x\\\\n")\e[00m
+export PS1='\e[01;31m$(x=$?; (( $x )) && printf ":( $x\\\\n")\e[00m
 \e[01;30m$PWD\e[00m
 \e[01;30m\$ \e[00m'
 
@@ -35,7 +35,7 @@ alias la='ls -AlhF'
 alias ll='ls -lhF'
 alias lynx="lynx -cfg=$HOME/lynx/lynx.cfg -lss=$HOME/lynx/lynx.lss"
 alias mvv='batch-rename'
-alias pdf='sumatra-pdf'
+alias pdf='mupdf'
 alias pdff='markdown-to-pdf'
 alias play='mpv'
 alias ranger='. /usr/local/bin/ranger'
@@ -49,4 +49,5 @@ alias ubak='restore-file'
 alias unas='doas umount /mnt/nas'
 alias mnas='doas mount -t nfs -o noatime,sync rp:/mnt /mnt/nas/'
 alias vpn='start-vpn'
+alias focus='play-sounds'
 

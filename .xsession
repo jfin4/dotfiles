@@ -21,6 +21,7 @@ do
 done
 
 # x utilities
+xset b off
 xrdb .Xresources
 unclutter -root -noevents &
 

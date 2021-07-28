@@ -5,14 +5,10 @@ syntax enable " enables syntax highlighting, keeping :highlight commands
 "}}}
 " variables{{{
 let mapleader = " "
-" supposed to make gx work but doesn't:
-let netrw_browsex_viewer = "/opt/firefox/firefox.exe"
 let markdown_folding = 1
 "}}}
 " options{{{
 
-" set number " print the line number in front of each line
-" set numberwidth=2 " min width
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set autoindent " take indent for new line from previous line
 set autoread " automatically read file when changed outside of vim
@@ -58,17 +54,22 @@ set wildmenu		" display completion matches in a status line
 " functions{{{
 function! HandleLink()"{{{
     " open file with appropriate app
+    " <cfile> does not work if path contains whitespace
+    " Use register instead
+    " let link = fnameescape(expand('<cfile>'))
     let link = @l
     let ext = fnamemodify(link, ':e')
-    if ext[0:2] == 'txt'
+    if isdirectory(link)
+        call system('tmux split-window -c "' . link . '" $SHELL')
+    elseif ext[0:2] == 'txt'
         " ge is part of platsicboy/vim-markdown plugin
         normal ge
     elseif link[0:3] == 'http'
         normal gx
     elseif ext == 'pdf'
-        call system('sumatra-pdf ' . fnameescape(link) . '&')
+        call system('sumatra-pdf ' . fnameescape(link) . ' &')
     else 
-        call system('start "" ' . fnameescape(link) . '&')
+        call system('start "" ' . fnameescape(link) . ' &')
     endif
     " replace contents of unnamed register for pasting after following link
     let @"=@1
@@ -92,8 +93,12 @@ endfunction
 map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U> 
+nnoremap <c-j> :bnext<cr>
+nnoremap <c-k> :bNext<cr>
+nnoremap <c-h> :bdelete<cr>
+nnoremap <c-p> :ls<cr>:b 
 nnoremap <leader>ff :call FzyCommand("rg . ~/foo.txt", ":r!echo")<cr>
-nnoremap <cr> ^f("lyi):call HandleLink()<cr>
+nnoremap <cr> ^f(lv$2h"ly:call HandleLink()<cr>
 inoremap jk <esc>l
 nnoremap <leader>hi
         \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
@@ -108,9 +113,9 @@ noremap Y "*y
 nnoremap <silent> <leader>gd yi)"d:!start "" "$(dirname '<c-r>d')"<cr>
 " uses expression register:
 nnoremap <silent> <leader>wtu
-        \ "pyi)vi)c<c-r>=system('cygpath -u "<c-r>p"')<cr><esc>
+        \ "pyi)vi)c<c-r>=system('cygpath -u "<c-r>p" \| tr -d "\n"')<cr><esc>
 nnoremap <silent> <leader>utw
-        \ "pyi)vi)c<c-r>=system('cygpath -w "<c-r>p"')<cr><esc>
+        \ "pyi)vi)c<c-r>=system('cygpath -w "<c-r>p" \| tr -d "\n"')<cr><esc>
 nnoremap <silent> <leader>ltr
         \ "pyi)vi)c<c-r>=system('local-to-remote "<c-r>p"')<cr><esc>
 nnoremap <silent> <leader>rtl
@@ -129,8 +134,6 @@ augroup r " {
     autocmd FileType r nnoremap <buffer><leader>ri :!open-r-repl<cr>
     autocmd FileType r nnoremap <buffer><leader>ro :!tmux kill-pane -t {bottom-right}<cr>
     autocmd FileType r nnoremap <buffer><silent> K viw"ry:SlimeSend1 help(<c-r>r)<cr>
-    autocmd FileType r nnoremap <buffer><leader>oo :silent !tmux select-layout main-horizontal<cr>
-    autocmd FileType r nnoremap <buffer><leader>ii :silent !tmux select-layout main-vertical<cr>
     autocmd FileType r nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType r xmap <buffer> , <Plug>SlimeRegionSend
     autocmd FileType r nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
@@ -140,22 +143,18 @@ augroup END " }
 augroup sh " {
     autocmd!
     autocmd FileType sh setlocal noexpandtab
-    autocmd FileType sh nnoremap <buffer><leader>ri :!open-shell-repl<cr>
+    autocmd FileType sh nnoremap <buffer><leader>ri :!open-sh-repl<cr>
     autocmd FileType sh nnoremap <buffer><leader>ro :!tmux kill-pane -t {bottom-right}<cr>
-    autocmd FileType sh nnoremap <buffer><leader>oo :silent !tmux select-layout main-horizontal<cr>
-    autocmd FileType sh nnoremap <buffer><leader>ii :silent !tmux select-layout main-vertical<cr>
     autocmd FileType sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType sh xmap <buffer> , <Plug>SlimeRegionSend
     autocmd FileType sh nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
 augroup END " }
 "}}}
-" python{{{
+" py{{{
 augroup python " {
     autocmd!
     autocmd FileType python nnoremap <buffer><leader>ri :!open-python-repl<cr>
     autocmd FileType python nnoremap <buffer><leader>ro :!tmux kill-pane -t {bottom-right}<cr>
-    autocmd FileType python nnoremap <buffer><leader>oo :silent !tmux select-layout main-horizontal<cr>
-    autocmd FileType python nnoremap <buffer><leader>ii :silent !tmux select-layout main-vertical<cr>
     autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType python xmap <buffer> , <Plug>SlimeRegionSend
     autocmd FileType python nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
@@ -170,6 +169,7 @@ augroup markdown " {
     autocmd FileType markdown set tabstop=2 
     autocmd FileType markdown set shiftwidth=2
     autocmd FileType markdown set nowrap
+    autocmd FileType markdown set concealcursor=nc
     autocmd FileType markdown set conceallevel=2
 augroup END " }
 "}}}
@@ -195,67 +195,84 @@ let g:vim_markdown_anchorexpr = 'substitute(v:anchor, "-", " ", "g")'
 "}}}
 "}}}
 " colors{{{
-" color names: black darkred darkgreen brown darkblue darkmagenta darkcyan gray
-highlight   Comment            ctermfg=darkgray   ctermbg=none     cterm=none
-highlight   Conceal            ctermfg=darkgray   ctermbg=none     cterm=none
-highlight   Constant           ctermfg=darkblue   ctermbg=none     cterm=none
-"           highlight          Cursor
-"           highlight          CursorColumn
-"           highlight          CursorIM
-"           highlight          CursorLine
-"           highlight          CursorLineNr
-highlight   DiffAdd            ctermfg=darkgreen      ctermbg=none     cterm=none
-highlight   DiffChange         ctermfg=black      ctermbg=none     cterm=none
-highlight   DiffDelete         ctermfg=red    ctermbg=none     cterm=none
-highlight   DiffText           ctermfg=darkgreen      ctermbg=none     cterm=none
-"           highlight          Directory
-highlight   EndOfBuffer        ctermfg=darkgray   ctermbg=none     cterm=none
-highlight   Error              ctermfg=red    ctermbg=none     cterm=none
-highlight   ErrorMsg           ctermfg=red    ctermbg=none     cterm=none
-"           highlight          FoldColumn
-highlight   Folded             ctermfg=black      ctermbg=none     cterm=none
-highlight   Identifier         ctermfg=black      ctermbg=none     cterm=none
-highlight   Ignore             ctermfg=darkgray   ctermbg=none     cterm=none
-highlight   IncSearch          ctermfg=black      ctermbg=yellow   cterm=none
-highlight   LineNr             ctermfg=darkgray   ctermbg=none     cterm=none
-"           highlight          LineNrAbove
-"           highlight          LineNrBelow
-highlight   MatchParen         ctermfg=black      ctermbg=yellow   cterm=none
-"           highlight          ModeMsg
-"           highlight          MoreMsg
-highlight   NonText            ctermfg=darkgray   ctermbg=none     cterm=none
-"           highlight          Normal
-highlight   Pmenu              ctermfg=darkgray   ctermbg=gray    cterm=none
-highlight   PmenuSbar          ctermfg=none       ctermbg=gray    cterm=none
-highlight   PmenuSel           ctermfg=black      ctermbg=yellow   cterm=none
-highlight   PmenuThumb         ctermfg=black      ctermbg=gray    cterm=none
-highlight   PreProc            ctermfg=black      ctermbg=none     cterm=none
-"           highlight          Question
-"           highlight          QuickFixLine
-highlight   Search             ctermfg=black      ctermbg=yellow   cterm=none
-"           highlight          SignColumn
-highlight   Special            ctermfg=darkgreen      ctermbg=none     cterm=none
-highlight   SpecialKey         ctermfg=darkgray   ctermbg=none     cterm=none
-highlight   SpellBad           ctermfg=red    ctermbg=none     cterm=none
-highlight   SpellCap           ctermfg=red    ctermbg=none     cterm=none
-highlight   SpellLocal         ctermfg=red    ctermbg=none     cterm=none
-highlight   SpellRare          ctermfg=red    ctermbg=none     cterm=none
-highlight   Statement          ctermfg=black      ctermbg=none     cterm=none
-highlight   StatusLine         ctermfg=darkgray   ctermbg=gray    cterm=none
-highlight   StatusLineNC       ctermfg=gray      ctermbg=white    cterm=none
-highlight   StatusLineTerm     ctermfg=darkgray   ctermbg=gray    cterm=none
-highlight   StatusLineTermNC   ctermfg=gray      ctermbg=white    cterm=none
-highlight   TabLine            ctermfg=darkgray   ctermbg=gray    cterm=none
-highlight   TabLineFill        ctermfg=black      ctermbg=gray    cterm=none
-highlight   TabLineSel         ctermfg=black      ctermbg=none     cterm=none
-"           highlight          Terminal
-highlight   Title              ctermfg=black      ctermbg=none     cterm=bold
-highlight   Type               ctermfg=black      ctermbg=none     cterm=none
-highlight   Underlined         ctermfg=black      ctermbg=none     cterm=underline
-highlight   VertSplit          ctermfg=gray      ctermbg=white    cterm=none
-highlight   Visual             ctermfg=black      ctermbg=yellow   cterm=none
-highlight   VisualNOS          ctermfg=black      ctermbg=yellow   cterm=none
-highlight   WarningMsg         ctermfg=red    ctermbg=none     cterm=none
-highlight   WildMenu           ctermfg=black      ctermbg=yellow   cterm=none
-"           highlight          lCursor
+" NR-16   NR-8   COLOR NAME
+" 0       0      Black
+" 8       0*     DarkGray, DarkGrey
+" 1       4      DarkBlue
+" 9       4*     Blue, LightBlue
+" 2       2      DarkGreen
+" 10      2*     Green, LightGreen
+" 3       6      DarkCyan
+" 11      6*     Cyan, LightCyan
+" 4       1      DarkRed
+" 12      1*     Red, LightRed
+" 5       5      DarkMagenta
+" 13      5*     Magenta, LightMagenta
+" 14      3*     Yellow, LightYellow
+" 6       3      Brown, DarkYellow
+" 7       7      LightGray, LightGrey, Gray, Grey
+" 15      7*     White
+
+highlight comment          ctermfg=darkgray  ctermbg=none   cterm=none
+highlight constant         ctermfg=darkcyan  ctermbg=none   cterm=none
+highlight identifier       ctermfg=black     ctermbg=none   cterm=none
+highlight statement        ctermfg=black     ctermbg=none   cterm=none
+highlight preproc          ctermfg=black     ctermbg=none   cterm=none
+highlight type             ctermfg=black     ctermbg=none   cterm=none
+highlight special          ctermfg=black     ctermbg=none   cterm=none
+highlight underlined       ctermfg=black     ctermbg=none   cterm=underline
+highlight ignore           ctermfg=black     ctermbg=none   cterm=none
+highlight error            ctermfg=red       ctermbg=none   cterm=none
+highlight todo             ctermfg=black     ctermbg=yellow cterm=none
+
+" highlight colorcolumn
+" highlight conceal        
+" highlight cursorcolumn       
+" highlight cursorline         
+" highlight cursorlinenr       
+highlight diffadd          ctermfg=darkgreen ctermbg=none   cterm=none
+highlight diffchange       ctermfg=black     ctermbg=none   cterm=none
+highlight diffdelete       ctermfg=red       ctermbg=none   cterm=none
+highlight difftext         ctermfg=darkcyan  ctermbg=none   cterm=none
+" highlight directory          
+highlight endofbuffer      ctermfg=darkgray  ctermbg=none   cterm=none
+highlight errormsg         ctermfg=red       ctermbg=none   cterm=none
+" highlight foldcolumn         
+highlight folded           ctermfg=darkgray  ctermbg=none   cterm=none
+highlight incsearch        ctermfg=black     ctermbg=yellow cterm=none
+" highlight linenr         
+" highlight linenrabove        
+" highlight linenrbelow        
+" highlight modemsg            
+" highlight moremsg            
+highlight nontext          ctermfg=darkgray  ctermbg=none   cterm=none  
+highlight pmenu            ctermfg=black     ctermbg=white  cterm=none
+highlight pmenusbar        ctermfg=none      ctermbg=white  cterm=none
+highlight pmenusel         ctermfg=black     ctermbg=yellow cterm=none
+highlight pmenuthumb       ctermfg=black     ctermbg=white  cterm=none
+" highlight question           
+" highlight quickfixline       
+highlight search           ctermfg=black     ctermbg=yellow cterm=none
+" highlight signcolumn         
+highlight specialkey       ctermfg=darkgray  ctermbg=none   cterm=none
+highlight spellbad         ctermfg=red       ctermbg=none   cterm=none
+highlight spellcap         ctermfg=red       ctermbg=none   cterm=none
+highlight spelllocal       ctermfg=red       ctermbg=none   cterm=none
+highlight spellrare        ctermfg=red       ctermbg=none   cterm=none
+highlight statusline       ctermfg=darkgray  ctermbg=white  cterm=none
+highlight statuslinenc     ctermfg=white     ctermbg=white  cterm=none
+highlight statuslineterm   ctermfg=darkgray  ctermbg=white  cterm=none
+highlight statuslinetermnc ctermfg=white     ctermbg=white  cterm=none
+highlight tabline          ctermfg=darkgray  ctermbg=white  cterm=none
+highlight tablinefill      ctermfg=black     ctermbg=white  cterm=none
+highlight tablinesel       ctermfg=black     ctermbg=none   cterm=none
+highlight title            ctermfg=black     ctermbg=none   cterm=none
+" highlight vertsplit        
+highlight visual           ctermfg=black     ctermbg=yellow cterm=none
+highlight visualnos        ctermfg=black     ctermbg=yellow cterm=none
+" highlight warningmsg      
+highlight wildmenu         ctermfg=black     ctermbg=yellow cterm=none
+
+highlight htmlItalic       ctermfg=black     ctermbg=yellow cterm=none
+highlight matchparen       ctermfg=black     ctermbg=yellow cterm=none
 "}}}

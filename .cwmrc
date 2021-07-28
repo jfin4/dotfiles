@@ -10,12 +10,6 @@ color inactiveborder '#ffffff'
 fontname 'Terminus:size=20:weight=bold'
 moveamount 1080
 
-# commands
-command firefox firefox
-command tmux 'xterm -e tmux'
-command shutdown 'doas halt -p'
-command reboot 'doas reboot'
-
 # unbind keys
 unbind-key all
 
@@ -27,7 +21,7 @@ gap 25 0 0 0
 # key bindings
 bind-key   MS-BackSpace  quit
 bind-key   M-Return      terminal
-bind-key   M-colon       menu-cmd
+bind-key   M-colon       menu-exec
 bind-key   M-1           group-only-1
 bind-key   M-2           group-only-2
 bind-key   M-3           group-only-3

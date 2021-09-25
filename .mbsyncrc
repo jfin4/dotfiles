@@ -21,7 +21,7 @@ Inbox ~/mail/johninman/INBOX
 Channel johninman
 Far :johninman-remote:
 Near :johninman-local:
-Patterns INBOX
+Patterns *
 # }}}
 # icloud ---------------------------------------------------------------{{{
 

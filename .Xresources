@@ -2,7 +2,7 @@
 *color0:  #000000
 *color8:  #808080
 ! red 
-*color1:  #ff0000
+*color1:  #800000
 *color9:  #ff0000
 ! green 
 *color2:  #008000
@@ -35,7 +35,7 @@
 *termName: xterm-256color
 
 *faceName: xft:Terminus:size=20
-*allowBoldFonts: false
+!*allowBoldFonts: false
 
 *scrollBar: false
 

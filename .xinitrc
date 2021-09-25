@@ -1,9 +1,11 @@
-/home/jfin/scripts/status
-sudo modprobe v4l2loopback
 source $HOME/.fehbg
-numlockx
-setxkbmap -option altwin:swap_alt_win 
-xrdb -merge .Xresources
-xcompmgr &
+xset b off
+xrdb .Xresources
+unclutter -root -noevents &
 
-exec $HOME/scripts/startdwm
+# doas ntfs-3g /dev/sd2i /mnt/shared
+
+# status bar
+status-print | status-draw &
+
+cwm

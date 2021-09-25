@@ -15,8 +15,8 @@ CertificateFile /etc/ssl/cert.pem
 # Local
 MaildirStore johninman-local
 Subfolders Verbatim
-Path ~/.mail/johninman/
-Inbox ~/.mail/johninman/INBOX
+Path ~/mail/johninman/
+Inbox ~/mail/johninman/INBOX
 
 Channel johninman
 Far :johninman-remote:
@@ -27,7 +27,7 @@ Patterns INBOX
 
 # Remote
 IMAPStore icloud-remote
-Host imap.mail.me.com
+Host imapmail.me.com
 User jfinmaniv
 PassCmd "cat ~/.pass/icloud"
 SSLType IMAPS
@@ -36,8 +36,8 @@ CertificateFile /etc/ssl/cert.pem
 # Local
 MaildirStore icloud-local
 Subfolders Verbatim
-Path ~/.mail/icloud/
-Inbox ~/.mail/icloud/INBOX
+Path ~/mail/icloud/
+Inbox ~/mail/icloud/INBOX
 
 Channel icloud
 Far :icloud-remote:
@@ -57,8 +57,8 @@ CertificateFile /etc/ssl/cert.pem
 # Local
 MaildirStore gmail-local
 Subfolders Verbatim
-Path ~/.mail/gmail/
-Inbox ~/.mail/gmail/INBOX
+Path ~/mail/gmail/
+Inbox ~/mail/gmail/INBOX
 
 # create channel
 Channel gmail
@@ -79,8 +79,8 @@ CertificateFile /etc/ssl/cert.pem
 # Local
 MaildirStore csumb-local
 Subfolders Verbatim
-Path ~/.mail/csumb/
-Inbox ~/.mail/csumb/INBOX
+Path ~/mail/csumb/
+Inbox ~/mail/csumb/INBOX
 
 # create channel
 Channel csumb-inbox

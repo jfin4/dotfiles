@@ -1,9 +1,8 @@
 source $HOME/.fehbg
 xset b off
-xrdb .Xresources
+xrdb -merge .Xresources
 unclutter -root -noevents &
-
-# doas ntfs-3g /dev/sd2i /mnt/shared
+sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
 
 # status bar
 status-print | status-draw &

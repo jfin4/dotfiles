@@ -54,6 +54,7 @@ alias focus='play-sounds'
 alias zzz='systemctl suspend'
 alias ZZZ='systemctl hibernate'
 alias cans='headphones-connect'
+alias cants='headphones-disconnect'
 alias ydl='download-playlist'
 
 

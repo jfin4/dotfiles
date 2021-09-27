@@ -21,13 +21,13 @@ Inbox ~/mail/johninman/INBOX
 Channel johninman
 Far :johninman-remote:
 Near :johninman-local:
-Patterns *
+Patterns INBOX Drafts Sent
 # }}}
 # icloud ---------------------------------------------------------------{{{
 
 # Remote
 IMAPStore icloud-remote
-Host imapmail.me.com
+Host imap.mail.me.com
 User jfinmaniv
 PassCmd "cat ~/.pass/icloud"
 SSLType IMAPS

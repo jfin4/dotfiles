@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =6
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/jfin/projects/johninman.dev/archetypes'
 let g:netrw_dirhist_6='/home/jfin/waterboard/worklogs'
 let g:netrw_dirhist_5='/home/jfin/waterboard/ccamp/worklogs'
 let g:netrw_dirhist_4='/home/jfin'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_1='/media/wd500/software/dwm-git'
 let g:netrw_dirhist_0='/home/jfin/projects/website'
 let g:netrw_dirhist_9='/home/jfin/projects/website/image'
 let g:netrw_dirhist_8='/home/jfin/trash'
-let g:netrw_dirhist_7='/home/jfin/projects/johninman.dev/themes/default/source/scss'

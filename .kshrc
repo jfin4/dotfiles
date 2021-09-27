@@ -16,8 +16,13 @@ export PS1='\e[01;31m$(x=$?; (( $x )) && printf ":( $x\\\\n")\e[00m
 # set memory to something high
 ulimit -d $(( 8 * 1024 * 1024 )) # 8 Gb, max is 32, installed is 16
 
+#functions
 pdf() { 
 	mupdf $1 &
+}
+
+fvim() {
+	vim $( fd | fzy)
 }
 
 # aliases

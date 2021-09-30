@@ -61,5 +61,6 @@ alias ZZZ='systemctl hibernate'
 alias cans='headphones-connect'
 alias cants='headphones-disconnect'
 alias ydl='download-playlist'
+alias note='take-notes'
 
 

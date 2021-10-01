@@ -38,6 +38,7 @@ set virtualedit=block
 set wildmenu
 " define variables
 let mapleader=" "
+" let markdown_folding = 1
 " define maps
 inoremap jk <esc>l
 nnoremap <leader>w :w<cr>
@@ -62,6 +63,30 @@ augroup END
 augroup markdown 
     autocmd!
     autocmd FileType markdown set commentstring=<!--%s-->
+    autocmd FileType markdown set foldlevel=2 
+    autocmd FileType markdown set formatoptions-=t
+    autocmd FileType markdown set textwidth=0 
+    autocmd FileType markdown set nowrap
+    " autocmd FileType markdown set concealcursor=nc
+    autocmd FileType markdown set conceallevel=2
+    " may eventually move to .vim/after/syntax/markdown.vim >>>>>>>
+    autocmd FileType markdown syn region markdownLinkText 
+                \ matchgroup=markdownLinkTextDelimiter
+                \ start="!\=\[\%(\_[^]]*]\%( \=[[(]\)\)\@=" 
+                \ end="\]\%( \=[[(]\)\@="
+                \ nextgroup=markdownLink,markdownId 
+                \ skipwhite
+                \ contains=@markdownInline,markdownLineStart
+                \ concealends
+    autocmd FileType markdown syn region markdownLink 
+                \ matchgroup=markdownLinkDelimiter 
+                \ start="(" 
+                \ end=")" 
+                \ contains=markdownUrl 
+                \ keepend 
+                \ contained
+                \ conceal
+    " <<<<<<<
 augroup END 
 " python
 augroup python

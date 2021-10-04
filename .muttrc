@@ -12,12 +12,12 @@ color indicator  black       white       # indicator bar
 color quoted     brightblack default
 color status     brightblack white       # status bar
 
-folder-hook ~/.mail/johninman 'source ~/.mutt/johninman' 
-folder-hook ~/.mail/icloud 'source ~/.mutt/icloud' 
-folder-hook ~/.mail/gmail 'source ~/.mutt/gmail' 
-folder-hook ~/.mail/csumb 'source ~/.mutt/csumb' 
+folder-hook ~/mail/johninman 'source ~/.mutt/johninman' 
+folder-hook ~/mail/icloud 'source ~/.mutt/icloud' 
+folder-hook ~/mail/gmail 'source ~/.mutt/gmail' 
+folder-hook ~/mail/csumb 'source ~/.mutt/csumb' 
 
-save-hook . /home/jfin/.mail/saved
+save-hook . /home/jfin/mail/saved
 
 set abort_noattach=ask-yes # ask if no attachments
 # set abort_noattach_regex='\\<attach(ed|ments?)\\>'
@@ -36,13 +36,13 @@ set hostname=foo
 set include=yes # always include messages when replying
 # month, day, from, to, cc, attachments, subject
 # set index_format='%3C %[%b %e %Y %H:%M] %?zt?%zt&%T? %-20.20L  %?X?@& ? %?M?(%M) ?%s' 
-set pager_index_lines=10
+# set pager_index_lines=10
 set recall=no # prompt to recall postponed messages?
 set realname='John Inman' # my real name
 set sort=threads # primary sorting method
 set sort_aux=last-date-received # how to sort subthreads
 set to_chars=' !    '
-set trash='~/.mail/trash'
+set trash='~/mail/trash'
 set use_envelope_from=yes # populate envelope-from from From: header
 set use_from=yes # use from address
 set wait_key=no # don't have to press key after running external command

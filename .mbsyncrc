@@ -83,7 +83,7 @@ Path ~/mail/csumb/
 Inbox ~/mail/csumb/INBOX
 
 # create channel
-Channel csumb-inbox
+Channel csumb
 Far :csumb-remote:
 Near :csumb-local:
 Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"

@@ -1,0 +1,5 @@
+[user]
+	email = john@johninman.dev
+	name = John Inman
+[credential]
+	helper = store

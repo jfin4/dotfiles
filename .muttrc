@@ -1,6 +1,6 @@
 # Options
 auto_view text/html # view html emails in pager
-alternative_order text/plain text/html # view text first if available
+# alternative_order text/plain text/html # view text first if available
 attachments +A */.* 
 attachments -A */ics
 
@@ -19,6 +19,7 @@ folder-hook ~/mail/csumb 'source ~/.mutt/csumb'
 
 save-hook . /home/jfin/mail/saved
 
+set mailcap_path = ~/.mutt/mailcap
 set abort_noattach=ask-yes # ask if no attachments
 # set abort_noattach_regex='\\<attach(ed|ments?)\\>'
 set abort_nosubject=no # abort messages with no subject?

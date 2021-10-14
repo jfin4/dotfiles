@@ -2,8 +2,8 @@
 "                                   vimrc                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-filetype plugin indent on " enables filetype detection
 syntax enable " enables syntax highlighting, keeping :highlight commands
+filetype plugin indent on " enables filetype detection
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  options                                   "
@@ -42,7 +42,7 @@ set signcolumn=yes
 set showbreak=+\  " hanging indents for wrapped lines
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
-set t_Co=16 " get rid of bold light colors
+set t_Co=256
 set tabstop=2 " number of spaces that <tab> in file uses
 set textwidth=0 " maximum width of text that is being inserted
 set ttimeout		" time out for key codes
@@ -252,64 +252,64 @@ let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
 " 7       7      LightGray, LightGrey, Gray, Grey
 " 15      7*     White
 
-highlight  comment          ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  constant         ctermfg=darkcyan  ctermbg=none     cterm=none
-highlight  identifier       ctermfg=black     ctermbg=none     cterm=none
-highlight  statement        ctermfg=black     ctermbg=none     cterm=none
-highlight  preproc          ctermfg=black     ctermbg=none     cterm=none
-highlight  type             ctermfg=black     ctermbg=none     cterm=none
-highlight  special          ctermfg=black     ctermbg=none     cterm=none
-highlight  underlined       ctermfg=black     ctermbg=none     cterm=underline
-highlight  ignore           ctermfg=black     ctermbg=none     cterm=none
-highlight  error            ctermfg=red       ctermbg=none     cterm=none
-highlight  todo             ctermfg=black     ctermbg=yellow   cterm=none
-highlight  colorcolumn      ctermfg=black     ctermbg=gray     cterm=none
+highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
+highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
+highlight  statement        ctermfg=black     ctermbg=none      cterm=none
+highlight  preproc          ctermfg=black     ctermbg=none      cterm=none
+highlight  type             ctermfg=black     ctermbg=none      cterm=none
+highlight  special          ctermfg=black     ctermbg=none      cterm=none
+highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
+highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
+highlight  error            ctermfg=red       ctermbg=none      cterm=none
+highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
+highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
 "highlight conceal
 "highlight cursorcolumn
 "highlight cursorline
 "highlight cursorlinenr
-highlight  diffadd          ctermfg=darkgreen ctermbg=none     cterm=none
-highlight  diffchange       ctermfg=black     ctermbg=none     cterm=none
-highlight  diffdelete       ctermfg=red       ctermbg=none     cterm=none
-highlight  difftext         ctermfg=darkcyan  ctermbg=none     cterm=none
+highlight  diffadd          ctermfg=darkgreen ctermbg=none      cterm=none
+highlight  diffchange       ctermfg=black     ctermbg=none      cterm=none
+highlight  diffdelete       ctermfg=red       ctermbg=none      cterm=none
+highlight  difftext         ctermfg=darkcyan  ctermbg=none      cterm=none
 "highlight directory
-highlight  endofbuffer      ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  errormsg         ctermfg=red       ctermbg=none     cterm=none
+highlight  endofbuffer      ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  errormsg         ctermfg=red       ctermbg=none      cterm=none
 "highlight foldcolumn
-highlight  folded           ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  incsearch        ctermfg=black     ctermbg=yellow   cterm=none
-" highlight  linenr           ctermfg=darkgray  ctermbg=white     cterm=none
+highlight  folded           ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  incsearch        ctermfg=black     ctermbg=yellow    cterm=none
+"          highlight        linenr            ctermfg=darkgray  ctermbg=white   cterm=none
 "highlight linenrabove
 "highlight linenrbelow
 "highlight modemsg
 "highlight moremsg
-highlight  nontext          ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  pmenu            ctermfg=black     ctermbg=gray     cterm=none
-highlight  pmenusbar        ctermfg=none      ctermbg=gray     cterm=none
-highlight  pmenusel         ctermfg=black     ctermbg=yellow   cterm=none
-highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray cterm=none
+highlight  nontext          ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  pmenu            ctermfg=black     ctermbg=lightgray cterm=none
+highlight  pmenusbar        ctermfg=none      ctermbg=lightgray cterm=none
+highlight  pmenusel         ctermfg=black     ctermbg=yellow    cterm=none
+highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray  cterm=none
 "highlight question
 "highlight quickfixline
-highlight  search           ctermfg=black     ctermbg=yellow   cterm=none
-highlight  signcolumn       ctermfg=white     ctermbg=none     cterm=none
-highlight  specialkey       ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  spellbad         ctermfg=red       ctermbg=none     cterm=none
-highlight  spellcap         ctermfg=red       ctermbg=none     cterm=none
-highlight  spelllocal       ctermfg=red       ctermbg=none     cterm=none
-highlight  spellrare        ctermfg=red       ctermbg=none     cterm=none
-highlight  statusline       ctermfg=darkgray  ctermbg=white    cterm=none
-highlight  statuslinenc     ctermfg=white     ctermbg=white    cterm=none
-highlight  statuslineterm   ctermfg=darkgray  ctermbg=white    cterm=none
-highlight  statuslinetermnc ctermfg=white     ctermbg=white    cterm=none
-highlight  tabline          ctermfg=darkgray  ctermbg=gray     cterm=none
-highlight  tablinefill      ctermfg=darkgray  ctermbg=gray     cterm=none
-highlight  tablinesel       ctermfg=darkgray  ctermbg=none     cterm=none
-highlight  title            ctermfg=black     ctermbg=none     cterm=none
+highlight  search           ctermfg=black     ctermbg=yellow    cterm=none
+highlight  signcolumn       ctermfg=white     ctermbg=none      cterm=none
+highlight  specialkey       ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  spellbad         ctermfg=red       ctermbg=none      cterm=none
+highlight  spellcap         ctermfg=red       ctermbg=none      cterm=none
+highlight  spelllocal       ctermfg=red       ctermbg=none      cterm=none
+highlight  spellrare        ctermfg=red       ctermbg=none      cterm=none
+highlight  statusline       ctermfg=darkgray  ctermbg=white     cterm=none
+highlight  statuslinenc     ctermfg=white     ctermbg=white     cterm=none
+highlight  statuslineterm   ctermfg=darkgray  ctermbg=white     cterm=none
+highlight  statuslinetermnc ctermfg=white     ctermbg=white     cterm=none
+highlight  tabline          ctermfg=darkgray  ctermbg=lightgray cterm=none
+highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
+highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  title            ctermfg=black     ctermbg=none      cterm=none
 "highlight vertsplit
-highlight  visual           ctermfg=black     ctermbg=yellow   cterm=none
-highlight  visualnos        ctermfg=black     ctermbg=yellow   cterm=none
+highlight  visual           ctermfg=black     ctermbg=lightgray cterm=none
+highlight  visualnos        ctermfg=black     ctermbg=yellow    cterm=none
 "highlight warningmsg
-highlight  wildmenu         ctermfg=black     ctermbg=yellow   cterm=none
-highlight  htmlItalic       ctermfg=black     ctermbg=yellow   cterm=none
-highlight  matchparen       ctermfg=black     ctermbg=yellow   cterm=none
+highlight  wildmenu         ctermfg=black     ctermbg=yellow    cterm=none
+highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
+highlight  matchparen       ctermfg=black     ctermbg=yellow    cterm=none
 

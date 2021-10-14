@@ -23,6 +23,7 @@ set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldtext=getline(v:foldstart).'...'
+set formatoptions+=r " add comment char after <enter>
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0
@@ -172,7 +173,6 @@ augroup END
 augroup text
   autocmd!
   autocmd FileType text setlocal foldmethod=indent
-  autocmd FileType text setlocal shiftwidth=2 tabstop=2
   autocmd FileType text setlocal formatoptions-=t textwidth=0
 augroup END
 
@@ -198,6 +198,17 @@ augroup sh
   autocmd FileType sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
   autocmd FileType sh xmap <buffer> , <Plug>SlimeRegionSend
   autocmd FileType sh nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
+augroup END
+
+" python
+augroup python 
+  autocmd!
+  autocmd FileType python setlocal shiftwidth=4 tabstop=4
+  autocmd FileType python nnoremap <buffer> <leader>ri :call OpenREPL('ipython')<cr>
+  autocmd FileType python nnoremap <buffer> <leader>ro :call CloseREPL()<cr>
+  autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+  autocmd FileType python xmap <buffer> , <Plug>SlimeRegionSend
+  autocmd FileType python nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
 augroup END
 
 " markdown
@@ -306,7 +317,7 @@ highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  title            ctermfg=black     ctermbg=none      cterm=none
 "highlight vertsplit
-highlight  visual           ctermfg=black     ctermbg=lightgray cterm=none
+highlight  visual           ctermfg=black     ctermbg=yellow cterm=none
 highlight  visualnos        ctermfg=black     ctermbg=yellow    cterm=none
 "highlight warningmsg
 highlight  wildmenu         ctermfg=black     ctermbg=yellow    cterm=none

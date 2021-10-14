@@ -4,5 +4,6 @@ unclutter -root -noevents &
 xrdb -merge .Xresources
 xset b off
 xsetkb
+dunst &
 
 exec startdwm

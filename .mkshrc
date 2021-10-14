@@ -13,9 +13,12 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
-PS1=$'\$(x=\$?; (( \$x )) && printf "\1\e[1;31m:( \$x\n\1\e[0m")
-\1\e[1;30m\$PWD/\1\e[0m
-\1\e[1;30m$\1\e[0m '
+PS1=\
+$'\1\e[31m\$(x=\$?; (( x )) && print ":( $x\n ")\n\1\e[0m'\
+$'\1\e[30m\$([ \$TMUX ] && print "tmux ")\1\e[0m'\
+$'\1\e[30m\$((( USER_ID)) && print "$ " || print "# ")\1\e[0m'\
+ 
+# $'\1\e[1;30m\$PWD/\1\e[0m\n'\
 
 date="$(date +'%Y-%m-%d')"
 
@@ -51,6 +54,7 @@ alias remove='sudo pacman -R'
 alias search='sudo pacman -Ss'
 alias shutdown='sudo halt -p'
 alias sshr='ssh root@192.168.1.1'
+alias tmux='wrap-tmux'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias ubak='restore-file'

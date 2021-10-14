@@ -1,0 +1,67 @@
+##############################################################################
+#                                  options                                   #
+##############################################################################
+
+set -o emacs
+bind ^l=clear-screen
+
+##############################################################################
+#                                 environment                                #
+##############################################################################
+
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+
+PS1=\
+$'\$(x=\$?; (( x )) && print "\1\e[31m:( $x\n\1\e[0m")\n'\
+$'\$([ $TMUX ] && print "\1\e[1;30mtmux \1\e[0m")'\
+$'\$((( USER_ID)) && print "\1\e[1;30m$ \1\e[0m" || print "\1\e[30m# \1\e[0m")'\
+ 
+# $'\1\e[1;30m\$PWD/\1\e[0m\n'\
+
+date="$(date +'%Y-%m-%d')"
+
+##############################################################################
+#                                 aliases                                    #
+##############################################################################
+
+alias R='wrap-r'
+alias ZZZ='systemctl hibernate'
+alias bak='backup-file'
+alias cans='headphones-connect'
+alias cants='headphones-disconnect'
+alias dot='git --git-dir=$HOME/.dot.git/ --work-tree=$HOME'
+alias dott='sync-repo-dot'
+alias fd='wrap-find'
+alias focus='play-sounds'
+alias gitt='sync-repo'
+alias gittt='sync-repo-all'
+alias install='sudo pacman -S'
+alias jot='take-notes'
+alias kb='show-key-bindings'
+alias krc='vim ~/.mkshrc; . ~/.mkshrc'
+alias la='ls -AlhF'
+alias ll='ls -lhF'
+alias lynx="lynx -cfg=$HOME/.lynx/lynx.cfg -lss=$HOME/.lynx/lynx.lss"
+alias mcam='sudo mount /dev/disk/by-label/camera /mnt/camera/'
+alias mnas='sshfs rp:/mnt /mnt/nas'
+alias mthumb='sudo mount /dev/disk/by-label/thumb /mnt/thumb/'
+alias mvv='rename-files'
+alias play='mpv'
+alias reboot='sudo reboot'
+alias remove='sudo pacman -R'
+alias search='sudo pacman -Ss'
+alias shutdown='sudo halt -p'
+alias sshr='ssh root@192.168.1.1'
+alias tmux='wrap-tmux'
+alias tp='move-to-trash'
+alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
+alias ubak='restore-file'
+alias ubak='restore-file'
+alias ucam='sudo umount /mnt/camera/'
+alias unas='fusermount3 -u /mnt/nas'
+alias update='sudo pacman -Syu'
+alias uthumb='sudo umount /mnt/thumb/'
+alias ydl='download-playlist'
+alias zzz='systemctl suspend'

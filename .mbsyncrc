@@ -1,0 +1,90 @@
+# global options--------------------------------------------------------{{{
+Create Near # create folders everywhere
+SyncState * # put syncstate files in respective folders
+# }}}
+# johninman ---------------------------------------------------------------{{{
+
+# Remote
+IMAPStore johninman-remote
+Host mail.privateemail.com
+User john@johninman.dev
+PassCmd "cat ~/.pass/johninman"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+# Local
+MaildirStore johninman-local
+Subfolders Verbatim
+Path ~/mail/johninman/
+Inbox ~/mail/johninman/INBOX
+
+Channel johninman
+Far :johninman-remote:
+Near :johninman-local:
+Patterns INBOX Drafts Sent
+# }}}
+# icloud ---------------------------------------------------------------{{{
+
+# Remote
+IMAPStore icloud-remote
+Host imap.mail.me.com
+User jfinmaniv
+PassCmd "cat ~/.pass/icloud"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+# Local
+MaildirStore icloud-local
+Subfolders Verbatim
+Path ~/mail/icloud/
+Inbox ~/mail/icloud/INBOX
+
+Channel icloud
+Far :icloud-remote:
+Near :icloud-local:
+Patterns INBOX Drafts "Sent Messages"
+# }}}
+# gmail ----------------------------------------------------------------{{{
+
+# Remote
+IMAPStore gmail-remote
+Host imap.gmail.com
+User jfinmaniv@gmail.com
+PassCmd "cat ~/.pass/gmail"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+# Local
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/mail/gmail/
+Inbox ~/mail/gmail/INBOX
+
+# create channel
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"
+# }}}
+# csumb ----------------------------------------------------------------{{{
+
+# Remote
+IMAPStore csumb-remote
+Host imap.gmail.com
+User jinman@csumb.edu
+PassCmd "cat ~/.pass/csumb"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+# Local
+MaildirStore csumb-local
+Subfolders Verbatim
+Path ~/mail/csumb/
+Inbox ~/mail/csumb/INBOX
+
+# create channel
+Channel csumb
+Far :csumb-remote:
+Near :csumb-local:
+Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"
+# }}}

@@ -1,9 +1,9 @@
-/home/jfin/scripts/status
-sudo modprobe v4l2loopback
 source $HOME/.fehbg
-numlockx
-setxkbmap -option altwin:swap_alt_win 
+sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
+unclutter -root -noevents &
 xrdb -merge .Xresources
-xcompmgr &
+xset b off
+xsetkb
+dunst &
 
-exec $HOME/scripts/startdwm
+exec startdwm

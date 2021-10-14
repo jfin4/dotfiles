@@ -2,7 +2,7 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
-PROMPT=$'\n%F{red}%(?..%? )%f%B%F{black}%/\n>%f%b '
+PROMPT=$'\n%F{red}%(?..%? )%f%B%F{black}%~>%f%b '
 
 setopt extendedglob
 bindkey -e

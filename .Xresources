@@ -27,14 +27,14 @@
 *background: #ffffff
 
 ! *cursorUnderLine: true
-*cursorBlink: true
+*cursorBlink: false
 *cursorOffTime: 500
 *cursorOnTime: 500
 
 ! *colorInnerBorder: true
 *termName: xterm-256color
 
-*faceName: xft:DejaVu Sans Mono:size=13
+*faceName: xft:Terminus:size=20
 *allowBoldFonts: false
 
 *scrollBar: false

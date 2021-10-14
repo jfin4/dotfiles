@@ -2,8 +2,10 @@
 	helper = store
 [init]
 	defaultBranch = main
-[user]
-	name = John Inman
-	email = jfinmaniv@icloud.com
 [status]
 	showUntrackedFiles = no
+[user]
+	email = john@johninman.dev
+	name = John Inman
+[credential]
+	helper = store

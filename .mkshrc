@@ -1,0 +1,63 @@
+##############################################################################
+#                                  options                                   #
+##############################################################################
+
+set -o emacs
+bind ^l=clear-screen
+
+##############################################################################
+#                                 environment                                #
+##############################################################################
+
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+
+ffmpeg="/c/Users/$USER/ffmpeg"
+firefox="/c/Users/$USER/firefox"
+pandoc="/c/Users/$USER/pandoc"
+scripts="$HOME/scripts"
+sumatra="/c/Users/$USER/sumatra-pdf"
+texlive="/c/Users/$USER/texlive/2021/bin/win32"
+PATH=".:$ffmpeg:$firefox:$pandoc:$sumatra:$texlive:$scripts:$PATH"
+
+PS1=$'\$(x=\$?; (( \$x )) && printf "\1\e[1;31m:( \$x\n\1\e[0m")
+\1\e[1;30m\$PWD/\1\e[0m
+\1\e[1;30m$\1\e[0m '
+
+date="$(date +'%Y-%m-%d')"
+
+##############################################################################
+#                                 alias                                      #
+##############################################################################
+
+alias R='wrap-r'
+alias bak='backup-file'
+alias dot='git --git-dir=$HOME/.dot.git/ --work-tree=$HOME'
+alias dott='sync-repo-dot'
+alias fd='wrap-find'
+alias focus='play-sounds'
+alias gitt='sync-repo'
+alias gittt='sync-repo-all'
+alias install='pacman -S'
+alias jot='take-notes'
+alias kb='show-key-bindings'
+alias krc='vim ~/.mkshrc; . ~/.mkshrc'
+alias l1='ls -1F'
+alias la='ls -AlhF'
+alias laa='ls -AlhFd .*'
+alias ll='ls -lhF'
+alias lock='cmd //c Rundll32.exe user32.dll,LockWorkStation'
+alias mvv='rename-files'
+alias pdf='sumatraPDF'
+alias play='ffplay'
+alias pw='print $(< ~/.pass/waterboards) > /dev/clipboard'
+alias ranger='source /usr/bin/ranger'
+alias reboot='cmd //c "shutdown /r /t 0"'
+alias remove='pacman -R'
+alias shutdown='cmd //c "shutdown /s /t 0"'
+alias st='cygstart'
+alias tp='move-to-trash'
+alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
+alias ubak='restore-file'
+alias update='pacman -Syu'

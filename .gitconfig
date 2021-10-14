@@ -1,0 +1,9 @@
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
+[user]
+	name = John Inman
+	email = jfinmaniv@icloud.com
+[status]
+	showUntrackedFiles = no

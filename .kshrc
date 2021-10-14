@@ -21,7 +21,7 @@ pdf() {
 	mupdf $1 &
 }
 vif() {
-	vim $( find | fzy)
+	vim $( find -type f | fzy)
 }
 vig() {
 	path="$1"

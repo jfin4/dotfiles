@@ -27,7 +27,7 @@
 *background: #ffffff
 
 ! *cursorUnderLine: true
-*cursorBlink: true
+*cursorBlink: false
 *cursorOffTime: 500
 *cursorOnTime: 500
 

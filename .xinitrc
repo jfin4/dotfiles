@@ -6,4 +6,4 @@ xset b off
 xsetkb
 dunst &
 
-exec startdwm
+exec start-dwm

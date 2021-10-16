@@ -10,7 +10,7 @@ color index      green       default ~Q  # replied messages
 color index      red         default ~D  # deleted messages
 color indicator  black       white       # indicator bar
 color quoted     brightblack default
-color status     brightblack white       # status bar
+color status     brightblack default       # status bar
 
 folder-hook ~/mail/johninman 'source ~/.mutt/johninman' 
 folder-hook ~/mail/icloud 'source ~/.mutt/icloud' 
@@ -33,6 +33,7 @@ set editor='vim +"set tw=0" +"set spell"' # editor settings
 set fast_reply=yes # skip initial prompts when replying
 set fcc_attach=no # keep attachments in copies of sent messages?
 set header_cache=~/.cache/mutt # where to keep headers cache
+set help=no
 set hostname=foo
 set include=yes # always include messages when replying
 # month, day, from, to, cc, attachments, subject

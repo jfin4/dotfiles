@@ -87,19 +87,6 @@ function! FzySearchLine()
     endif
 endfunction
 
-function! OpenREPL(repl)
-    call system('tmux split-window -h -c "#{pane_current_path}" '
-        \ . a:repl
-        \ . ' \; '
-        \ . 'move-pane -t {bottom-right} \; '
-        \ . 'select-layout main-vertical \; '
-        \ . 'select-pane -t {last}')
-endfunction
-
-function! CloseREPL()
-    call system("tmux kill-pane -t {bottom-right}")
-endfunction
-
 function! OpenFile()
     let line = getline('.')
     let link = fnamemodify(line, ':p')
@@ -181,8 +168,8 @@ augroup r
   autocmd!
   autocmd FileType r inoremap <buffer> < <-
   autocmd FileType r inoremap <buffer> << <
-  autocmd FileType r nnoremap <buffer> <leader>ri :call OpenREPL('wrap-r')<cr>
-  autocmd FileType r nnoremap <buffer> <leader>ro :call CloseREPL()<cr>
+  autocmd FileType r nnoremap <buffer><silent> <leader>ri :! open-repl r<cr>
+  autocmd FileType r nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
   autocmd FileType r nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
   autocmd FileType r xmap <buffer> , <Plug>SlimeRegionSend
   autocmd FileType r nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
@@ -193,8 +180,8 @@ augroup END
 augroup sh 
   autocmd!
   autocmd FileType sh setlocal noexpandtab
-  autocmd FileType sh nnoremap <buffer> <leader>ri :call OpenREPL('ksh')<cr>
-  autocmd FileType sh nnoremap <buffer> <leader>ro :call CloseREPL()<cr>
+  autocmd FileType sh nnoremap <buffer><silent> <leader>ri :! open-repl shell<cr>
+  autocmd FileType sh nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
   autocmd FileType sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
   autocmd FileType sh xmap <buffer> , <Plug>SlimeRegionSend
   autocmd FileType sh nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
@@ -204,8 +191,8 @@ augroup END
 augroup python 
   autocmd!
   autocmd FileType python setlocal shiftwidth=4 tabstop=4
-  autocmd FileType python nnoremap <buffer> <leader>ri :call OpenREPL('ipython')<cr>
-  autocmd FileType python nnoremap <buffer> <leader>ro :call CloseREPL()<cr>
+  autocmd FileType python nnoremap <buffer><silent> <leader>ri :! open-repl python<cr>
+  autocmd FileType python nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
   autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
   autocmd FileType python xmap <buffer> , <Plug>SlimeRegionSend
   autocmd FileType python nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j

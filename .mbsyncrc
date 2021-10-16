@@ -8,7 +8,7 @@ SyncState * # put syncstate files in respective folders
 IMAPStore johninman-remote
 Host mail.privateemail.com
 User john@johninman.dev
-PassCmd "cat ~/.pass/johninman"
+PassCmd "cat ~/.passwords/johninman"
 SSLType IMAPS
 CertificateFile /etc/ssl/cert.pem
 
@@ -29,7 +29,7 @@ Patterns INBOX Drafts Sent
 IMAPStore icloud-remote
 Host imap.mail.me.com
 User jfinmaniv
-PassCmd "cat ~/.pass/icloud"
+PassCmd "cat ~/.passwords/icloud"
 SSLType IMAPS
 CertificateFile /etc/ssl/cert.pem
 
@@ -50,7 +50,7 @@ Patterns INBOX Drafts "Sent Messages"
 IMAPStore gmail-remote
 Host imap.gmail.com
 User jfinmaniv@gmail.com
-PassCmd "cat ~/.pass/gmail"
+PassCmd "cat ~/.passwords/gmail"
 SSLType IMAPS
 CertificateFile /etc/ssl/cert.pem
 
@@ -72,7 +72,7 @@ Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"
 IMAPStore csumb-remote
 Host imap.gmail.com
 User jinman@csumb.edu
-PassCmd "cat ~/.pass/csumb"
+PassCmd "cat ~/.passwords/csumb"
 SSLType IMAPS
 CertificateFile /etc/ssl/cert.pem
 

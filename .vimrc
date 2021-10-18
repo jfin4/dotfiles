@@ -33,18 +33,18 @@ set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
 set nowrapscan
-set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-X
+set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
-set shiftwidth=2 " number of spaces to use for (auto)indent step
+set shiftwidth=4 " number of spaces to use for (auto)indent step
 set signcolumn=yes
 set showbreak=+\  " hanging indents for wrapped lines
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256
-set tabstop=2 " number of spaces that <tab> in file uses
+set tabstop=4 " number of spaces that <tab> in file uses
 set textwidth=0 " maximum width of text that is being inserted
 set ttimeout		" time out for key codes
 set ttimeoutlen=100	" wait up to 100ms after Esc for special key
@@ -127,7 +127,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 nnoremap // :call FzySearchLine()<cr>
-nnoremap <cr> :call OpenFile()<cr>
+" nnoremap <cr> :call OpenFile()<cr>
 inoremap jk <esc>l
 nnoremap <leader>hi
       \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
@@ -190,10 +190,10 @@ augroup END
 " python
 augroup python 
   autocmd!
-  autocmd FileType python setlocal shiftwidth=4 tabstop=4
   autocmd FileType python nnoremap <buffer><silent> <leader>ri :! open-repl python<cr>
   autocmd FileType python nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
-  autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+  " autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+  autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend<cr>
   autocmd FileType python xmap <buffer> , <Plug>SlimeRegionSend
   autocmd FileType python nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
 augroup END

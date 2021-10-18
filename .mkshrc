@@ -1,3 +1,4 @@
+# vim: set ft=sh:
 ##############################################################################
 #                                  options                                   #
 ##############################################################################
@@ -23,19 +24,36 @@ $'\$((( USER_ID)) && print "\1\e[1;30m$ \1\e[0m" || print "\1\e[30m# \1\e[0m")'\
 date="$(date +'%Y-%m-%d')"
 
 ##############################################################################
+#                                functions                                   #
+##############################################################################
+
+# here because history is disabled in scripts
+rr() {
+	# awk trims and squeezes
+	# ${1:-.} substitutes . if $1 is empty
+	$(fc -l -n -r 1 \
+		| awk '{$1=$1; print}' \
+		| grep "${1:-.}" \
+		| fzy)
+}
+
+##############################################################################
 #                                 aliases                                    #
 ##############################################################################
 
 alias R='start-r'
 alias ZZZ='systemctl hibernate'
 alias bak='backup-file'
+alias d='date "+%H:%M"'
+alias d='pwd'
 alias dot='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 alias dott='sync-dot-repo'
 alias fd='wrap-find'
+alias ff='fuzzy-find-file'
 alias focus='play-sounds'
 alias gitt='sync-repo'
-alias gittt='sync-repo-all'
-alias head='connect-headphones'
+alias gittt='sync-all-repos'
+alias hp='connect-headphones'
 alias install='sudo pacman -S'
 alias jot='take-notes'
 alias kb='show-key-bindings'
@@ -47,6 +65,7 @@ alias mcam='sudo mount /dev/disk/by-label/camera /mnt/camera/'
 alias mnas='sshfs rp:/mnt /mnt/nas'
 alias mthumb='sudo mount /dev/disk/by-label/thumb /mnt/thumb/'
 alias mvv='rename-files'
+alias p='pwd'
 alias pad='toggle-numpad'
 alias play='mpv'
 alias reboot='sudo reboot'
@@ -54,6 +73,7 @@ alias remove='sudo pacman -R'
 alias search='sudo pacman -Ss'
 alias shutdown='sudo halt -p'
 alias sshr='ssh root@192.168.1.1'
+alias t='date "+%l:%M" | tr -d " "'
 alias tmux='start-tmux'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'

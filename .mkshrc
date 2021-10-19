@@ -29,12 +29,26 @@ date="$(date +'%Y-%m-%d')"
 
 # here because history is disabled in scripts
 rr() {
-	# awk trims and squeezes
-	# ${1:-.} substitutes . if $1 is empty
-	$(fc -l -n -r 1 \
-		| awk '{$1=$1; print}' \
-		| grep "${1:-.}" \
-		| fzy)
+    local copy=0
+    if [ "$1" == "." ]
+    then
+        copy=1
+        shift
+    fi
+    
+    # awk trims and squeezes
+    command=$(fc -l -n 1\
+        | awk '{$1=$1; print}'\
+        | grep -a "${1:-.}"\
+        | fzy)
+
+    if [ "$copy" -eq 1 ]
+    then
+        tmux send-keys "$command"
+        echo
+    else
+        $command
+    fi
 }
 
 ##############################################################################
@@ -84,3 +98,4 @@ alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
 alias ydl='download-playlist'
 alias zzz='systemctl suspend'
+

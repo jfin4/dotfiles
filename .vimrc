@@ -40,7 +40,7 @@ set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
 set signcolumn=yes
-set showbreak=+\  " hanging indents for wrapped lines
+set showbreak=\|\ \ \   " hanging indents for wrapped lines
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256

@@ -16,14 +16,15 @@ set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
-set breakindentopt=shift:2
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldtext=getline(v:foldstart).'...'
-set formatoptions+=r " add comment char after <enter>
+set foldlevel=99
+set foldmethod=indent
+set formatoptions=qnlj  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0
@@ -33,14 +34,14 @@ set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
 set nowrapscan
-set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
+set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
 set signcolumn=yes
-set showbreak=\|\ \ \   " hanging indents for wrapped lines
+set showbreak=\|\ \ \  
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256
@@ -87,15 +88,45 @@ function! FzySearchLine()
     endif
 endfunction
 
+function! FzySearchNotes(...)
+
+    call inputsave()
+    let l:pat = input(':jot ')
+    call inputrestore()
+
+    if l:pat == ''
+        let l:pat = '.'
+    endif
+
+    " Swallow errors from ^C, allow redraw! below
+    try
+        let output = system('grep -ir ' 
+                            \ . l:pat 
+                            \ . ' /home/jfin/notes 
+                                \ | sort -r
+                                \ | sed -e "s/.*\///" 
+                                \ | fzy 
+                                \ | sed -e "s/:.*//"')
+    catch /Vim:Interrupt/
+    endtry
+
+    redraw!
+
+    if v:shell_error == 0 && !empty(output)
+        exec ":edit /home/jfin/notes/" . output
+    endif
+endfunction
+
 function! OpenFile()
     let line = getline('.')
+    let line = trim(line)
     let link = fnamemodify(line, ':p')
     let ext = fnamemodify(link, ':e')
 
     if ext[0:2] == 'txt' || ext[0:1] == 'md' || ext[0:2] == 'csv'
         call system("tmux split-window -b vim " 
-            \ . link 
-            \ . " && tmux select-layout main-vertical")
+                    \ . link 
+                    \ . " && tmux select-layout main-vertical")
     elseif link[0:3] == 'http'
         call system("firefox '" . link . "' &")
     elseif ext == 'pdf'
@@ -106,19 +137,20 @@ function! OpenFile()
 endfunction
 
 function! OpenDir()
-  let link = fnamemodify(@d, ':p:h')
-  if link[0:2] == '/r/' || link[0:2] == '/h/'
-      call system("cygstart '" . link . "' &")
-  else
-      call system("tmux split-window -bc '" 
-            \ . link 
-            \ . "'; tmux select-layout main-vertical")
-  endif
+    let link = fnamemodify(@d, ':p:h')
+    if link[0:2] == '/r/' || link[0:2] == '/h/'
+        call system("cygstart '" . link . "' &")
+    else
+        call system("tmux split-window -bc '" 
+                    \ . link 
+                    \ . "'; tmux select-layout main-vertical")
+    endif
 endfunction
 
 function! CopyPath()
-  let line = getline('.')
-  let @* = system('cygpath -u "' . line . '"')[:-2]
+    let line = getline('.')
+    let line = trim(line)
+    let @* = system('cygpath -u "' . line . '"')[:-2]
 endfunction
 
 
@@ -127,13 +159,13 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 nnoremap // :call FzySearchLine()<cr>
-" nnoremap <cr> :call OpenFile()<cr>
+nnoremap <cr> :call OpenFile()<cr>
 inoremap jk <esc>l
 nnoremap <leader>hi
-      \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+            \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>si :e ~/.vim/snippets-jfin/
 nnoremap <leader>so <c-^>:bdelete snippets<cr>
-      \ :call UltiSnips#RefreshSnippets()<cr>
+            \ :call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 vnoremap Y "*y
@@ -145,72 +177,60 @@ nnoremap Y :call CopyPath()<cr>
 
 cnoreabbrev cdd lcd %:p:h
 cnoreabbrev h tab h
+cnoreabbrev jot call FzySearchNotes()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                autocommands                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" softwrap
-augroup softwrap
-  autocmd!
-  autocmd VimResized * if (&columns > 80) | set columns=80 | endif
-augroup END
-
-" text
-augroup text
-  autocmd!
-  autocmd FileType text setlocal foldmethod=indent
-  autocmd FileType text setlocal formatoptions-=t textwidth=0
+" program
+augroup program
+    autocmd!
+    autocmd FileType python,r,sh,scheme setlocal textwidth=78
+    autocmd FileType python,r,sh,scheme nnoremap <buffer> <leader>ro :silent !open-repl close<cr>
+    autocmd FileType python,r,sh,scheme nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+    autocmd FileType python,r,sh,scheme xmap <buffer> , <Plug>SlimeRegionSend
+    autocmd FileType python,r,sh,scheme nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
+    autocmd FileType python,r,sh,scheme nnoremap <buffer> K viw"ry:SlimeSend1 help(<c-r>r)<cr>
 augroup END
 
 " r
 augroup r 
-  autocmd!
-  autocmd FileType r inoremap <buffer> < <-
-  autocmd FileType r inoremap <buffer> << <
-  autocmd FileType r nnoremap <buffer><silent> <leader>ri :! open-repl r<cr>
-  autocmd FileType r nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
-  autocmd FileType r nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-  autocmd FileType r xmap <buffer> , <Plug>SlimeRegionSend
-  autocmd FileType r nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
-  autocmd FileType r nnoremap <buffer> K viw"ry:SlimeSend1 help(<c-r>r)<cr>
+    autocmd!
+    autocmd FileType r inoremap <buffer> < <-
+    autocmd FileType r inoremap <buffer> << <
+    autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl start-r<cr>
 augroup END 
 
 " sh
-augroup sh 
-  autocmd!
-  autocmd FileType sh setlocal noexpandtab
-  autocmd FileType sh nnoremap <buffer><silent> <leader>ri :! open-repl shell<cr>
-  autocmd FileType sh nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
-  autocmd FileType sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-  autocmd FileType sh xmap <buffer> , <Plug>SlimeRegionSend
-  autocmd FileType sh nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
-augroup END
+augroup sh
+    autocmd!
+    autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl sh<cr>
+augroup END 
 
 " python
-augroup python 
-  autocmd!
-  autocmd FileType python nnoremap <buffer><silent> <leader>ri :! open-repl python<cr>
-  autocmd FileType python nnoremap <buffer><silent> <leader>ro :! tmux kill-pane -t {bottom-right}<cr>
-  " autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-  autocmd FileType python nmap <buffer> , <Plug>SlimeLineSend<cr>
-  autocmd FileType python xmap <buffer> , <Plug>SlimeRegionSend
-  autocmd FileType python nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
-augroup END
+augroup python
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <leader>ri :silent !open-repl python<cr>
+augroup END 
+
+" scheme
+augroup scheme
+    autocmd!
+    autocmd FileType scheme nnoremap <buffer> <leader>ri :silent !open-repl racket<cr>
+augroup END 
 
 " markdown
 augroup markdown 
-  autocmd!
-  autocmd FileType markdown let markdown_folding = 1
-  autocmd FileType markdown setlocal formatoptions-=t nowrap textwidth=0
-  autocmd FileType markdown setlocal conceallevel=2
-  autocmd FileType markdown setlocal foldlevel=2 
+    autocmd!
+    autocmd FileType markdown let markdown_folding = 1
+    autocmd FileType markdown setlocal conceallevel=2
 augroup END 
 
 " csv
 augroup csv
-  autocmd!
-  autocmd FileType csv set commentstring=#%s
+    autocmd!
+    autocmd FileType csv set commentstring=#%s
 augroup END 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -255,7 +275,7 @@ highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
 highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
 highlight  statement        ctermfg=black     ctermbg=none      cterm=none
 highlight  preproc          ctermfg=black     ctermbg=none      cterm=none
-highlight  type             ctermfg=black     ctermbg=none      cterm=none
+highlight  type             ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  special          ctermfg=black     ctermbg=none      cterm=none
 highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
 highlight  ignore           ctermfg=black     ctermbg=none      cterm=none

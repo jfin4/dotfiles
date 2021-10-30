@@ -53,6 +53,11 @@ function get-file() {
 zle -N get-file
 bindkey "^t" "get-file"
 
+function bat() {
+    cap=$(< /sys/class/power_supply/BAT0/capacity)
+    echo ${cap}%
+}
+
 ##############################################################################
 #                                 aliases                                    #
 ##############################################################################

@@ -10,6 +10,11 @@ zstyle :compinstall filename '/home/jfin/.zshrc'
 autoload -Uz compinit
 compinit
 
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt share_history
+
 ##############################################################################
 #                                 environment                                #
 ##############################################################################

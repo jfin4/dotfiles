@@ -14,9 +14,7 @@ set autoread " automatically read file when changed outside of vim
 set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
-set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
-set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted

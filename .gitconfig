@@ -1,0 +1,9 @@
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
+[user]
+	name = John Inman
+	email = john@johninman.dev
+[status]
+	showUntrackedFiles = no

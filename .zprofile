@@ -4,11 +4,12 @@
 
 ffmpeg="/c/Users/$USER/ffmpeg/bin"
 firefox="/c/Users/$USER/firefox"
+julia="/c/Users/$USER/julia/bin"
 pandoc="/c/Users/$USER/pandoc"
 scripts="$HOME/scripts"
 sumatra="/c/Users/$USER/sumatra-pdf"
 texlive="/c/Users/$USER/texlive/2021/bin/win32"
-export PATH=".:$ffmpeg:$firefox:$pandoc:$sumatra:$texlive:$scripts:$PATH"
+export PATH=".:$ffmpeg:$firefox:$julia:$pandoc:$sumatra:$texlive:$scripts:$PATH"
 
 #######################################################################
 #                              variables                              #

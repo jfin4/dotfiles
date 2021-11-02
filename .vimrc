@@ -157,19 +157,25 @@ cnoreabbrev h tab h
 " program
 augroup program
     autocmd!
-    autocmd FileType python,r,sh setlocal textwidth=78
-    autocmd FileType python,r,sh nnoremap <buffer> <leader>ro 
+    autocmd FileType julia,python,r,sh setlocal textwidth=78
+    autocmd FileType julia,python,r,sh nnoremap <buffer> <leader>ro 
                 \:silent !open-repl close<cr>
                 \:redraw!<cr>
-    autocmd FileType python,r,sh nmap <buffer> , 
+    autocmd FileType julia,python,r,sh nmap <buffer> , 
                 \<Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , 
+    autocmd FileType julia,python,r,sh xmap <buffer> , 
                 \<Plug>SlimeRegionSend
-    autocmd FileType python,r,sh nmap <buffer> <leader>, 
+    autocmd FileType julia,python,r,sh nmap <buffer> <leader>, 
                 \<Plug>SlimeParagraphSend}j
-    autocmd FileType python,r,sh nnoremap <buffer> K 
+    autocmd FileType julia,python,r,sh nnoremap <buffer> K 
                 \viw"ry:SlimeSend1 help(<c-r>r)<cr>
 augroup END
+
+" julia
+augroup julia 
+  autocmd!
+  autocmd FileType julia nnoremap <buffer> <leader>ri :silent !open-repl julia<cr>
+augroup END 
 
 " r
 augroup r 
@@ -201,6 +207,7 @@ augroup END
 " csv
 augroup csv
   autocmd!
+  autocmd BufRead,BufNew *.csv set filetype=csv
   autocmd FileType csv set commentstring=#%s
 augroup END 
 

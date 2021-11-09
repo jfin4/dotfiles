@@ -209,6 +209,7 @@ augroup csv
   autocmd!
   autocmd BufRead,BufNew *.csv set filetype=csv
   autocmd FileType csv set commentstring=#%s
+  autocmd FileType csv set nowrap
 augroup END 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

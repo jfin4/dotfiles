@@ -2,7 +2,7 @@
 #                                path                                 #
 #######################################################################
 
-ffmpeg="/c/Users/$USER/ffmpeg/bin"
+ffmpeg="/c/Users/$USER/ffmpeg"
 firefox="/c/Users/$USER/firefox"
 julia="/c/Users/$USER/julia/bin"
 pandoc="/c/Users/$USER/pandoc"

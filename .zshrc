@@ -93,7 +93,8 @@ alias ubak='restore-file'
 alias update='pacman -Syu'
 alias ydl='download-playlist'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
-alias go='open-link'
+alias go='go-to-link'
+alias timer='set-timer'
 
 #######################################################################
 #                                tmux                                 #

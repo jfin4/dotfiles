@@ -288,7 +288,7 @@ highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray  cterm=none
 "highlight question
 "highlight quickfixline
 highlight  search           ctermfg=black     ctermbg=yellow    cterm=none
-highlight  signcolumn       ctermfg=white     ctermbg=none      cterm=none
+highlight  signcolumn       ctermfg=white     ctermbg=lightgray cterm=none
 highlight  specialkey       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  spellbad         ctermfg=red       ctermbg=none      cterm=none
 highlight  spellcap         ctermfg=red       ctermbg=none      cterm=none

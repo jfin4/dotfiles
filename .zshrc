@@ -10,6 +10,7 @@ zstyle :compinstall filename '/home/jfin/.zshrc'
 autoload -Uz compinit
 compinit
 
+setopt sh_word_split
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
@@ -58,17 +59,13 @@ function get-file() {
 zle -N get-file
 bindkey "^t" "get-file"
 
-function bat() {
-    cap=$(< /sys/class/power_supply/BAT0/capacity)
-    echo ${cap}%
-}
+function jot() . $HOME/scripts/take-notes
 
 ##############################################################################
 #                                 aliases                                    #
 ##############################################################################
 
 alias R='start-r'
-alias ZZZ='systemctl hibernate'
 alias bak='backup-file'
 alias d='date "+%H:%M"'
 alias d='pwd'
@@ -81,7 +78,6 @@ alias gitt='sync-repo'
 alias gittt='sync-all-repos'
 alias hp='connect-headphones'
 alias install='sudo pacman -S'
-alias jot='take-notes'
 alias kb='show-key-bindings'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
 alias la='ls -AlhF'
@@ -108,7 +104,6 @@ alias unas='fusermount3 -u /mnt/nas'
 alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
 alias ydl='download-playlist'
-alias zzz='systemctl suspend'
 
 # The following lines were added by compinstall
 
@@ -210,6 +205,8 @@ alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
 alias ydl='download-playlist'
 alias zzz='systemctl suspend'
+alias bat='notify-battery'
+alias cmd='. /home/jfin/scripts/run-command'
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile

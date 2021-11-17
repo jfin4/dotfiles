@@ -189,7 +189,6 @@ augroup program
     autocmd FileType python,r,sh,scheme nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType python,r,sh,scheme xmap <buffer> , <Plug>SlimeRegionSend
     autocmd FileType python,r,sh,scheme nmap <buffer> <leader>, <Plug>SlimeParagraphSend}j
-    autocmd FileType python,r,sh,scheme nnoremap <buffer> K viw"ry:SlimeSend1 help(<c-r>r)<cr>
 augroup END
 
 " r
@@ -198,12 +197,13 @@ augroup r
     autocmd FileType r inoremap <buffer> < <-
     autocmd FileType r inoremap <buffer> << <
     autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl start-r<cr>
+    autocmd FileType r nnoremap <buffer> K viw"ry:SlimeSend1 help(<c-r>r)<cr>
 augroup END 
 
 " sh
 augroup sh
     autocmd!
-    autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl sh<cr>
+    autocmd FileType sh nnoremap <buffer> <leader>ri :silent !open-repl zsh<cr>
 augroup END 
 
 " python

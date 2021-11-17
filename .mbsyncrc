@@ -1,8 +1,8 @@
-# global options--------------------------------------------------------{{{
+# global options--------------------------------------------------------
 Create Near # create folders everywhere
 SyncState * # put syncstate files in respective folders
-# }}}
-# johninman ---------------------------------------------------------------{{{
+
+# johninman ---------------------------------------------------------------
 
 # Remote
 IMAPStore johninman-remote
@@ -22,8 +22,29 @@ Channel johninman
 Far :johninman-remote:
 Near :johninman-local:
 Patterns INBOX Drafts Sent
-# }}}
-# icloud ---------------------------------------------------------------{{{
+
+# account  ---------------------------------------------------------------
+
+# Remote
+IMAPStore account-remote
+Host mail.privateemail.com
+User account@johninman.dev
+PassCmd "cat ~/.passwords/account"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+# Local
+MaildirStore account-local
+Subfolders Verbatim
+Path ~/mail/account/
+Inbox ~/mail/account/INBOX
+
+Channel account
+Far :account-remote:
+Near :account-local:
+Patterns INBOX Drafts Sent
+
+# icloud ---------------------------------------------------------------
 
 # Remote
 IMAPStore icloud-remote
@@ -43,8 +64,8 @@ Channel icloud
 Far :icloud-remote:
 Near :icloud-local:
 Patterns INBOX Drafts "Sent Messages"
-# }}}
-# gmail ----------------------------------------------------------------{{{
+
+# gmail ----------------------------------------------------------------
 
 # Remote
 IMAPStore gmail-remote
@@ -65,8 +86,8 @@ Channel gmail
 Far :gmail-remote:
 Near :gmail-local:
 Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"
-# }}}
-# csumb ----------------------------------------------------------------{{{
+
+# csumb ----------------------------------------------------------------
 
 # Remote
 IMAPStore csumb-remote
@@ -87,4 +108,4 @@ Channel csumb
 Far :csumb-remote:
 Near :csumb-local:
 Patterns INBOX "[Gmail]/Drafts" "[Gmail]/Sent Mail"
-# }}}
+

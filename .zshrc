@@ -72,7 +72,6 @@ alias bak='backup-file'
 alias dot='wrap-git-dot'
 alias focus='play-focus-playlist'
 alias sync='sync-repos'
-alias gittt='sync-all-repos'
 alias install='pacman -S'
 alias jot=". ~/scripts/take-notes"
 alias kb='show-key-bindings'

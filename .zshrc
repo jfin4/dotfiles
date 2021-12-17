@@ -70,8 +70,10 @@ bindkey "^t" "get-file"
 alias R='start-r'
 alias bak='backup-file'
 alias dot='wrap-git-dot'
+alias dott='sync-dot-repo'
 alias focus='play-focus-playlist'
-alias sync='sync-repos'
+alias sync='sync-work-repos'
+alias gitt='sync-repo'
 alias install='pacman -S'
 alias jot=". ~/scripts/take-notes"
 alias kb='show-key-bindings'

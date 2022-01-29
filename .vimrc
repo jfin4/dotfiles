@@ -119,13 +119,6 @@ function! OpenDir()
   endif
 endfunction
 
-function! CopyPath()
-  let line = getline('.')
-  let line = trim(line)
-  let @* = system('cygpath -u "' . line . '"')[:-2]
-endfunction
-
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  keymaps                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -140,8 +133,8 @@ nnoremap <leader>so <c-^>:bdelete snippets<cr>
       \ :call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
+nnoremap Y mm0"*y$`m
 vnoremap Y "*y
-nnoremap Y :call CopyPath()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           command abbreviations                            "

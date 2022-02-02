@@ -60,6 +60,7 @@ set wildmenu		" display completion matches in a status line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let mapleader = " "
+let g:netrw_browsex_viewer= "open-link"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 functions                                  "
@@ -203,6 +204,12 @@ augroup csv
   autocmd BufRead,BufNew *.csv set filetype=csv
   autocmd FileType csv set commentstring=#%s
   autocmd FileType csv set nowrap
+augroup END 
+
+" text
+augroup text
+  autocmd!
+  autocmd FileType text set nowrap
 augroup END 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

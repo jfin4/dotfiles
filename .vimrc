@@ -59,8 +59,8 @@ set wildmenu		" display completion matches in a status line
 "                                 variables                                  "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let mapleader = " "
-let g:netrw_browsex_viewer= "open-link"
+let mapleader=" "
+let g:netrw_browsex_viewer="open-link"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 functions                                  "
@@ -91,33 +91,14 @@ function! FzySearchLine()
 endfunction
 
 function! OpenFile()
-    let line = getline('.')
-    let line = trim(line)
-    let link = fnamemodify(line, ':p')
-    let ext = fnamemodify(link, ':e')
-
-    if ext[0:2] == 'txt' || ext[0:1] == 'md' || ext[0:2] == 'csv'
-        call system("tmux split-window -b vim " 
-            \ . link 
-            \ . " && tmux select-layout main-vertical")
-    elseif link[0:3] == 'http'
-        call system("firefox '" . link . "' &")
-    elseif ext == 'pdf'
-        call system("sumatraPDF '" . link . "' &")
+    " :p make full path
+    let l:link = fnamemodify(trim(getline('.')), ':p')
+    if l:link[0:9] == '/home/jfin'
+        exec "e" l:link
     else 
-        call system("cygstart '" . link . "' &")
+        exec "silent !open-link '".l:link."'"
+        redraw!
     endif
-endfunction
-
-function! OpenDir()
-  let link = fnamemodify(@d, ':p:h')
-  if link[0:2] == '/r/' || link[0:2] == '/h/'
-      call system("cygstart '" . link . "' &")
-  else
-      call system("tmux split-window -bc '" 
-            \ . link 
-            \ . "'; tmux select-layout main-vertical")
-  endif
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

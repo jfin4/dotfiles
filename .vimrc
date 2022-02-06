@@ -156,7 +156,7 @@ endfunction
 "                                  keymaps                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap // :call FzySearchLine()<cr>
+" nnoremap // :call FzySearchLine()<cr>
 nnoremap <cr> :call OpenFile()<cr>
 inoremap jk <esc>l
 nnoremap <leader>hi
@@ -175,7 +175,7 @@ nnoremap Y :call CopyPath()<cr>
 
 cnoreabbrev cdd lcd %:p:h
 cnoreabbrev h tab h
-cnoreabbrev jot call FzySearchNotes()<cr>
+" cnoreabbrev jot call FzySearchNotes()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                autocommands                                "

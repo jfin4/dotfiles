@@ -210,6 +210,7 @@ local function get_visualizer(name, quality, vtrack, albumart)
             "showspectrum       =" ..
                 "size           =" .. w .. "x" .. h .. ":" ..
                 "slide = scroll:" .. 
+                -- "fscale = log:".. -- freq scale
                 "scale = lin:".. -- of color intensification
                 "saturation = 0:".. -- of color
                 "overlap = 1:".. -- scroll faster

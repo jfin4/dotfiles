@@ -2,6 +2,7 @@
 "                                   vimrc                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
 syntax enable " enables syntax highlighting, keeping :highlight commands
 filetype plugin indent on " enables filetype detection
 
@@ -86,69 +87,15 @@ function! FzySearchLine()
     endif
 endfunction
 
-function! FzySearchNotes(...)
-
-    call inputsave()
-    let l:pat = input(':jot ')
-    call inputrestore()
-
-    if l:pat == ''
-        let l:pat = '.'
-    endif
-
-    " Swallow errors from ^C, allow redraw! below
-    try
-        let output = system('grep -ir ' 
-                            \ . l:pat 
-                            \ . ' /home/jfin/notes 
-                                \ | sort -r
-                                \ | sed -e "s/.*\///" 
-                                \ | fzy 
-                                \ | sed -e "s/:.*//"')
-    catch /Vim:Interrupt/
-    endtry
-
-    redraw!
-
-    if v:shell_error == 0 && !empty(output)
-        exec ":edit /home/jfin/notes/" . output
-    endif
-endfunction
-
 function! OpenFile()
-    let line = getline('.')
-    let line = trim(line)
-    let link = fnamemodify(line, ':p')
-    let ext = fnamemodify(link, ':e')
-
-    if ext[0:2] == 'txt' || ext[0:1] == 'md' || ext[0:2] == 'csv'
-        call system("tmux split-window -b vim " 
-                    \ . link 
-                    \ . " && tmux select-layout main-vertical")
-    elseif link[0:3] == 'http'
-        call system("firefox '" . link . "' &")
-    elseif ext == 'pdf'
-        call system("sumatraPDF '" . link . "' &")
+    " :p make full path
+    let l:link = fnamemodify(trim(getline('.')), ':p')
+    if l:link[0:9] == '/home/jfin'
+        exec "e" l:link
     else 
-        call system("cygstart '" . link . "' &")
+        exec "silent !xdg-open '".l:link."'"
+        redraw!
     endif
-endfunction
-
-function! OpenDir()
-    let link = fnamemodify(@d, ':p:h')
-    if link[0:2] == '/r/' || link[0:2] == '/h/'
-        call system("cygstart '" . link . "' &")
-    else
-        call system("tmux split-window -bc '" 
-                    \ . link 
-                    \ . "'; tmux select-layout main-vertical")
-    endif
-endfunction
-
-function! CopyPath()
-    let line = getline('.')
-    let line = trim(line)
-    let @* = system('cygpath -u "' . line . '"')[:-2]
 endfunction
 
 
@@ -167,7 +114,6 @@ nnoremap <leader>so <c-^>:bdelete snippets<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 vnoremap Y "*y
-nnoremap Y :call CopyPath()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           command abbreviations                            "
@@ -175,7 +121,6 @@ nnoremap Y :call CopyPath()<cr>
 
 cnoreabbrev cdd lcd %:p:h
 cnoreabbrev h tab h
-" cnoreabbrev jot call FzySearchNotes()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                autocommands                                "

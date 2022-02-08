@@ -46,7 +46,7 @@ function get-command() {
     local command
     echo
     command=$(history -r -n 1 | fzy) 
-    eval 'LBUFFER="$LBUFFER$command "'
+    eval 'LBUFFER="$command "'
     zle reset-prompt
 }
 zle -N get-command

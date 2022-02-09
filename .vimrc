@@ -2,7 +2,6 @@
 "                                   vimrc                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
 syntax enable " enables syntax highlighting, keeping :highlight commands
 filetype plugin indent on " enables filetype detection
 
@@ -65,6 +64,11 @@ let g:netrw_browsex_viewer="open-link"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 functions                                  "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GetProject()
+    let l:line = getline(search('#proj', 'wn'))
+    let l:proj = substitute(l:line, '#proj ', '', '')
+    return l:proj
+endfunction
 
 function! FzySearchLine()
     call inputsave()

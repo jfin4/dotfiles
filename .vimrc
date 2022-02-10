@@ -113,7 +113,7 @@ nnoremap <leader>so <c-^>:bdelete snippets<cr>
             \ :call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
-vnoremap Y "*y
+vnoremap Y "+y
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           command abbreviations                            "
@@ -252,7 +252,7 @@ highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray  cterm=none
 "highlight question
 "highlight quickfixline
 highlight  search           ctermfg=black     ctermbg=yellow    cterm=none
-highlight  signcolumn       ctermfg=white     ctermbg=none      cterm=none
+highlight  signcolumn       ctermfg=none      ctermbg=lightgray      cterm=none
 highlight  specialkey       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  spellbad         ctermfg=red       ctermbg=none      cterm=none
 highlight  spellcap         ctermfg=red       ctermbg=none      cterm=none

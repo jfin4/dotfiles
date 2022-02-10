@@ -23,27 +23,6 @@ Far :johninman-remote:
 Near :johninman-local:
 Patterns INBOX Drafts Sent
 
-# account  ---------------------------------------------------------------
-
-# Remote
-IMAPStore account-remote
-Host mail.privateemail.com
-User account@johninman.dev
-PassCmd "cat ~/.passwords/account"
-SSLType IMAPS
-CertificateFile /etc/ssl/cert.pem
-
-# Local
-MaildirStore account-local
-Subfolders Verbatim
-Path ~/mail/account/
-Inbox ~/mail/account/INBOX
-
-Channel account
-Far :account-remote:
-Near :account-local:
-Patterns INBOX Drafts Sent
-
 # icloud ---------------------------------------------------------------
 
 # Remote

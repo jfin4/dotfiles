@@ -1,11 +1,19 @@
 # See dunst(5) for all configuration options
 
 [global]
-    width = (0, 650)
+    alignment = right
     font = Terminus 20
-    frame_width = 1
-    frame_color = "#000000"
-    offset = 10x10
-[urgency normal]
-    background = "#ffffff"
-    foreground = "#000000"
+    frame_width = 0
+    hide_duplicate_count = true
+    notification_limit = 1
+    offset = 0x0
+    padding = 0
+    width = 1920
+[urgency_normal]
+    background = "#000000"
+    foreground = "#808080"
+    timeout = 3
+[urgency_critical]
+    background = "#ff0000"
+    foreground = "#ffffff"
+    timeout = 0

@@ -78,6 +78,7 @@ alias hours='get-hours-wrapper'
 alias summary='get-summary-wrapper'
 alias install='pacman -S'
 alias jot=". ~/scripts/fuzzy-find-note"
+alias todo='jot #todo'
 alias kb='show-key-bindings'
 alias la='ls -AlhF'
 alias ll='ls -lhF'

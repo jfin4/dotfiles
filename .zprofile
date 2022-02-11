@@ -2,14 +2,13 @@
 #                                path                                 #
 #######################################################################
 
+brave="/c/Users/$USER/AppData/Local/BraveSoftware/Brave-Browser/Application"
 ffmpeg="/c/Users/$USER/ffmpeg"
-firefox="/c/Users/$USER/firefox"
-julia="/c/Users/$USER/julia/bin"
 pandoc="/c/Users/$USER/pandoc"
 scripts="$HOME/scripts"
 sumatra="/c/Users/$USER/sumatra-pdf"
 texlive="/c/Users/$USER/texlive/2021/bin/win32"
-export PATH=".:$ffmpeg:$firefox:$julia:$pandoc:$sumatra:$texlive:$scripts:$PATH"
+export PATH=".:$brave:$ffmpeg:$pandoc:$sumatra:$texlive:$scripts:$PATH"
 
 #######################################################################
 #                              variables                              #

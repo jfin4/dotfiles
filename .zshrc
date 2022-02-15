@@ -8,11 +8,11 @@
 # zsh-newuser-install -f
 
 bindkey -e
-zstyle ':completion:*' completer _expand _complete _ignored
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
-zstyle :compinstall filename '/home/jfin/.zshrc'
-autoload -Uz compinit
-compinit
+# zstyle ':completion:*' completer _expand _complete _ignored
+# zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
+# zstyle :compinstall filename '/home/jfin/.zshrc'
+# autoload -Uz compinit
+# compinit
 
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
@@ -108,4 +108,3 @@ if [ -z "$TMUX" ]
 then
 	tmux
 fi
-

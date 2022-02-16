@@ -65,6 +65,7 @@ function jot() . $HOME/scripts/fuzzy-find-note
 #                                 aliases                                    #
 ##############################################################################
 
+alias mutt='cd ~/downloads/ && mutt && cd'
 alias R='start-r'
 alias alarm='set-alarm'
 alias bak='backup-file'

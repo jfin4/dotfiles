@@ -1,3 +1,4 @@
+# vim: commentstring=#\ %s
 set folder=~/mail/johninman/
 set from=john@johninman.dev
 set postponed=+Drafts

@@ -20,6 +20,8 @@ folder-hook ~/.mail/csumb 'source ~/.mutt/csumb'
 save-hook . /home/jfin/.mail/saved
 
 set my_year=`date +%Y`
+
+set sleep_time=0
 set mailcap_path = ~/.mutt/mailcap
 set abort_noattach=ask-yes # ask if no attachments
 # set abort_noattach_regex='\\<attach(ed|ments?)\\>'

@@ -1,9 +1,0 @@
-set folder=~/mail/gmail/
-set from=jfinmaniv@gmail.com
-set postponed=+"[Gmail]/Drafts"
-set record=+"[Gmail]/Sent Mail"
-set sendmail='/usr/bin/msmtp --account=gmail'
-set spoolfile=+INBOX
-unset record
-
-macro index i '<shell-escape>mbsync gmail<enter>' 'sync gmail account'

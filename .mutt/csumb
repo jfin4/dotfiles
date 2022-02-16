@@ -1,9 +1,0 @@
-set folder=~/mail/csumb/
-set from=jinman@csumb.edu
-set postponed=+"[Gmail]/Drafts"
-set record=+"[Gmail]/Sent Mail"
-set sendmail="/usr/bin/msmtp --account=csumb"
-set spoolfile=+INBOX
-unset record 
-
-macro index i "<shell-escape>mbsync csumb<enter>" "sync csumb account"

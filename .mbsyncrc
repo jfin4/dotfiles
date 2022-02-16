@@ -1,6 +1,7 @@
 # global options--------------------------------------------------------
-Create Near # create folders everywhere
+Create Near # create folders locally
 SyncState * # put syncstate files in respective folders
+Expunge Both
 
 # johninman ---------------------------------------------------------------
 
@@ -21,7 +22,7 @@ Inbox ~/mail/johninman/INBOX
 Channel johninman
 Far :johninman-remote:
 Near :johninman-local:
-Patterns INBOX Drafts Sent
+Patterns INBOX Drafts Sent "Archive/*" Trash
 
 # icloud ---------------------------------------------------------------
 

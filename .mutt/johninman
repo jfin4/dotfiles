@@ -4,7 +4,9 @@ set postponed=+Drafts
 set record=+"Sent"
 set sendmail="/usr/bin/msmtp --account=johninman"
 set spoolfile=+INBOX
+set my_year=`date +%Y`
 
-macro index i "<shell-escape>mbsync johninman<enter>" "sync johninman account"
-macro index d "<save-message>+Archive<enter>" "Archive"
+macro index i "<shell-escape>mbsync johninman && notmuch new<enter>" "sync johninman account"
+macro index,pager d "<save-message>+Archive/$my_year<enter>" "Archive"
+macro index,pager D "<save-message>+Trash<enter>" "Trash"
 

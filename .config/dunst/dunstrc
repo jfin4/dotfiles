@@ -8,6 +8,7 @@
     notification_limit = 1
     offset = 0x0
     padding = 0
+    show_age_threshold = -1
     width = 1920
 [urgency_normal]
     background = "#000000"
@@ -16,4 +17,4 @@
 [urgency_critical]
     background = "#ff0000"
     foreground = "#ffffff"
-    timeout = 0
+    timeout = 60

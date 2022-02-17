@@ -60,6 +60,8 @@ zle -N get-file
 bindkey "^t" "get-file"
 
 function jot() . $HOME/scripts/fuzzy-find-note
+function jott() . $HOME/scripts/fuzzy-find-note-work
+function todo() . $HOME/scripts/fuzzy-find-note-work '#todo'
 
 ##############################################################################
 #                                 aliases                                    #

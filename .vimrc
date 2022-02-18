@@ -161,7 +161,7 @@ augroup r
   autocmd!
   autocmd FileType r inoremap <buffer> < <-
   autocmd FileType r inoremap <buffer> << <
-  autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl start-r<cr>
+  autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl run-r<cr>
 augroup END 
 
 " sh

@@ -67,19 +67,19 @@ bindkey "^t" "get-file"
 #                                 aliases                                    #
 ##############################################################################
 
-alias R='start-r'
-alias bak='backup-file'
+alias R='run-r'
+alias bak='make-backup'
 alias dot='wrap-git-dot'
-alias dott='sync-dot-repo'
+alias dott='sync-repo-dot'
 alias focus='play-focus-playlist'
 alias gitt='sync-repo'
-alias go='fuzzy-find-link'
-alias hours='get-hours-wrapper'
-alias summary='get-summary-wrapper'
+alias go='open-link "$(get-link)"'
+alias hours='/c/Program\ Files/R/R-4.1.2/bin/Rscript.exe ~/scripts/get-hours.r'
+alias summary='get-summary'
 alias install='pacman -S'
-alias jot=". ~/scripts/fuzzy-find-note"
+alias jot='. ~/scripts/take-notes'
 alias todo='jot #todo'
-alias kb='show-key-bindings'
+alias kb='get-key-bindings'
 alias la='ls -AlhF'
 alias ll='ls -lhF'
 alias lock='cmd //c Rundll32.exe user32.dll,LockWorkStation'

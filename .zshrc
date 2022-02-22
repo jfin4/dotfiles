@@ -26,6 +26,7 @@ setopt share_history
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
+WORDCHARS=${WORDCHARS/\//}
 
 if [ -n "$TMUX" ] 
 then
@@ -73,7 +74,7 @@ alias dot='git --bare --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 alias dott='sync-repo-dot'
 alias focus='play-focus-playlist'
 alias gitt='sync-repo'
-alias go='open-link "$(get-link)"'
+alias go='get-link'
 alias hours='/c/Program\ Files/R/R-4.1.2/bin/Rscript.exe ~/scripts/get-hours.r'
 alias summary='get-summary'
 alias install='pacman -S'

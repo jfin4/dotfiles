@@ -68,9 +68,10 @@ bindkey "^t" "get-file"
 #                                 aliases                                    #
 ##############################################################################
 
+alias dash='dash -l'
 alias R='run-r'
 alias bak='make-backup'
-alias dot='git-dot'
+alias dot='run-dot-git'
 alias dott='sync-dot-repo'
 alias focus='play-focus-playlist'
 alias gitt='sync-repo'

@@ -35,11 +35,11 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #prompt
-if [ -n $TMUX ]
+if [ -n "$TMUX" ]
 then
-    PS1=$(echo -e "\n[1;30mtmux $ [0m")
+    PS1=$(echo -e "\n[1;30mtmux$ [0m")
 else
-    PS1=$(echo -e "\n[1;30m $ [0m")
+    PS1=$(echo -e "\n[1;30m$ [0m")
 fi
 
 # aliases 

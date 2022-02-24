@@ -80,6 +80,8 @@ macro index 5 '<change-folder>~/.mail/johninman/Trash<enter>'
 macro index h '<change-folder>?' 'show incoming mailboxes list'
 # macro index I '<shell-escape>mbsync -a<enter>' 'sync all accounts'
 
+bind attach <return> view-mailcap
+
 bind pager G bottom
 bind pager L group-reply
 bind pager R group-reply

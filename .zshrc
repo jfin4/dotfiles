@@ -23,6 +23,7 @@ setopt share_history
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
+WORDCHARS=${WORDCHARS/\/}
 
 if [ -n "$TMUX" ] 
 then
@@ -62,6 +63,7 @@ bindkey "^t" "get-file"
 function jot() . $HOME/scripts/fuzzy-find-note
 function jott() . $HOME/scripts/fuzzy-find-note-work
 function todo() . $HOME/scripts/fuzzy-find-note-work '#todo'
+function cal() remind -cu$1 .remind $2 $3 | col | less
 
 ##############################################################################
 #                                 aliases                                    #
@@ -83,7 +85,7 @@ alias gittt='sync-all-repos'
 alias hp='connect-headphones'
 alias install='sudo pacman -S'
 alias deorphan='sudo pacman -Qtdq | sudo pacman -Rns -'
-alias kb='show-key-bindings'
+alias kb='get-key-bindings'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
 alias la='ls -AlhF'
 alias ll='ls -lhF'
@@ -109,4 +111,5 @@ alias unas='fusermount3 -u /mnt/nas'
 alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
 alias ydl='download-playlist'
+alias mobile='connect-mobile'
 

@@ -1,5 +1,4 @@
 -- various audio visualization
--- documentation at
 -- https://ffmpeg.org/ffmpeg-filters.html
 
 local opts = {
@@ -24,7 +23,7 @@ local opts = {
     -- high
     -- veryhigh
 
-    height = 9,
+    height = 8,
     -- [4 .. 12]
 }
 
@@ -184,7 +183,6 @@ local function get_visualizer(name, quality, vtrack, albumart)
                 "bar_v          = 9:" ..
                 "sono_v         = 17:" ..
                 "axisfile       = data\\\\:'" .. axis_0 .. "':" ..
-                "axis           = 0:" ..
                 "font           = 'Nimbus Mono L,Courier New,mono|bold':" ..
                 "fontcolor      = 'st(0, (midi(f)-53.5)/12); st(1, 0.5 - 0.5 * cos(PI*ld(0))); r(1-ld(1)) + b(ld(1))':" ..
                 "tc             = 0.33:" ..
@@ -208,15 +206,13 @@ local function get_visualizer(name, quality, vtrack, albumart)
         return "[aid1] asplit [ao]," ..
             "afifo," ..
             "showspectrum       =" ..
+                "overlap = 1:".. -- scroll faster
+                "saturation = 0:".. -- of color
                 "size           =" .. w .. "x" .. h .. ":" ..
                 "slide = scroll:" .. 
-                -- "fscale = log:".. -- freq scale
-                "scale = lin:".. -- of color intensification
-                "saturation = 0:".. -- of color
-                "overlap = 1:".. -- scroll faster
                 "start = 27.5:".. -- low frequency
                 "stop = 4186:".. -- high frequency
-                "win_func       = sine [vo]" -- cleanest shapes
+                "win_func       = sine [vo]"
 
 
     elseif name == "showcqtbar" then
@@ -242,7 +238,6 @@ local function get_visualizer(name, quality, vtrack, albumart)
                 "sono_h         = 0:" ..
                 "axisfile       = data\\\\:'" .. axis_1 .. "':" ..
                 "axis_h         =" .. axis_h .. ":" ..
-                "axis           = 0:" ..
                 "font           = 'Nimbus Mono L,Courier New,mono|bold':" ..
                 "fontcolor      = 'st(0, (midi(f)-53.5)/12); st(1, 0.5 - 0.5 * cos(PI*ld(0))); r(1-ld(1)) + b(ld(1))':" ..
                 "tc             = 0.33:" ..
@@ -263,7 +258,6 @@ local function get_visualizer(name, quality, vtrack, albumart)
             "showwaves          =" ..
                 "size           =" .. w .. "x" .. h .. ":" ..
                 "r              =" .. fps .. ":" ..
-                "colors         = yellow|cyan:" ..
                 "mode           = p2p," ..
             "format             = rgb0 [vo]"
     elseif name == "off" then

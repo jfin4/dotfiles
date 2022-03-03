@@ -112,4 +112,5 @@ alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
 alias ydl='download-playlist'
 alias mobile='connect-mobile'
-
+alias webcam='start-webcam'
+alias off='turn-off-screen'

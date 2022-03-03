@@ -6,6 +6,11 @@ setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
+zstyle :compinstall filename '/home/jfin/.zshrc'
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
+autoload -Uz compinit
+compinit
 
 # zsh functions 
 get-command () {
@@ -35,17 +40,15 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #prompt
-if [ -n "$TMUX" ]
-then
-    PS1=$(echo -e "\n[1;30mtmux$ [0m")
-else
-    PS1=$(echo -e "\n[1;30m$ [0m")
-fi
+# https://ss64.com/bash/syntax-prompt.html
+[ -n "$TMUX" ] && tmux=tmux
+n=$'\n'
+PROMPT="%(?..%F{red}%?%f$n)$n%F{#888}$tmux%#%f "
 
 # aliases 
 alias R='run-r'
 alias bak='make-backup'
-alias dash='ENV= dash'
+alias dash='ENV=~/.shinit dash'
 alias dot='run-dot-git'
 alias dott='sync-dot-repo'
 alias focus='play-focus-playlist'
@@ -80,12 +83,3 @@ then
 	tmux
 fi
 
-# cruft
-# to run set up again:
-# autoload -U zsh-newuser-install
-# zsh-newuser-install -f
-# zstyle ':completion:*' completer _expand _complete _ignored
-# zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
-# zstyle :compinstall filename '/home/jfin/.zshrc'
-# autoload -Uz compinit
-# compinit

@@ -67,7 +67,11 @@ let g:netrw_browsex_viewer="open-link"
 function! GetProject()
     let l:line = getline(search('#proj', 'wn'))
     let l:proj = substitute(l:line, '#proj ', '', '')
-    return l:proj
+    if l:proj == ''
+        return l:proj
+    else
+        return l:proj . ' '
+    endif
 endfunction
 
 function! FzySearchLine()
@@ -211,6 +215,9 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
+
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   colors                                   "

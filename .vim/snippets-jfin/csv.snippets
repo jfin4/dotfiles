@@ -1,3 +1,3 @@
-snippet ho "put in the hours"
+snippet ho "add hours log entry"
 `date '+%m%d'`, ${1:`date -d @$(( (($(date +%s) + 450) / 900) * 900)) "+%H%M"`}, ${3:hhmm}, ${2:description}
 endsnippet

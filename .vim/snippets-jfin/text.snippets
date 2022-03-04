@@ -1,5 +1,5 @@
 # help from 
 # https://unix.stackexchange.com/questions/222368/get-date-of-next-saturday-from-a-given-date
-snippet to "put in the tasks"
-#todo `date +'%Y'`-${1:`date -d "+ $(( ( (6 + 5 - $(date +%u)) % 7) + 1 )) days" +'%m-%d'`} ${2:`!v GetProject()` }$0
+snippet todo 
+#todo `date +'%Y'`-${1:`get-this-friday`} `!v GetProject()`${0:<task>}
 endsnippet

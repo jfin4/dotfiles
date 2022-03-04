@@ -12,27 +12,6 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:
 autoload -Uz compinit
 compinit
 
-# zsh functions 
-get-command () {
-    local command
-    echo
-    command=$(history -r -n 1 | fzy) 
-    eval 'LBUFFER="$command "'
-    zle reset-prompt
-}
-zle -N get-command
-bindkey "^r" "get-command"
-
-get-file () {
-    local file
-    echo
-    file=$(find -path "*/.*" -prune -o -print | fzy)
-    eval 'LBUFFER="$LBUFFER$file "'
-    zle reset-prompt
-}
-zle -N get-file
-bindkey "^t" "get-file"
-
 # environment
 HISTFILE=~/.histfile
 HISTSIZE=10000
@@ -40,12 +19,10 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #prompt
-# https://ss64.com/bash/syntax-prompt.html
-[ -n "$TMUX" ] && tmux=tmux
-n=$'\n'
-PROMPT="%(?..%F{red}%?%f$n)$n%F{#888}$tmux%#%f "
+PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
 
 # aliases 
+
 alias R='run-r'
 alias bak='make-backup'
 alias dash='ENV=~/.shinit dash'
@@ -69,7 +46,7 @@ alias summary='get-summary'
 alias sync='sync-work-repos'
 alias t='date "+%H:%M"'
 alias timer='set-timer'
-alias todo='jot #todo'
+alias todo='jot -t'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
@@ -78,8 +55,7 @@ alias ydl='download-playlist'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
 
 # start tmux
-if [ -z "$TMUX" ] 
+if [ -z "$TMUX" ]
 then
-	tmux
+    tmux 
 fi
-

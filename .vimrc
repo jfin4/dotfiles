@@ -217,7 +217,12 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
 
 " supertab
-let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" youcompleteme
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
+" let g:ycm_auto_trigger = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   colors                                   "

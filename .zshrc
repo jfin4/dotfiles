@@ -9,8 +9,8 @@ setopt share_history
 zstyle :compinstall filename '/home/jfin/.zshrc'
 zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
-autoload -Uz compinit
-compinit
+# autoload -Uz compinit
+# compinit
 
 # environment
 HISTFILE=~/.histfile

@@ -34,8 +34,8 @@
 ! *colorInnerBorder: true
 *termName: xterm-256color
 
-*faceName: xft:Terminus:size=20
-*allowBoldFonts: false
+*faceName: xft:Terminus:size=20:style=bold
+! *allowBoldFonts: true
 
 *scrollBar: false
 

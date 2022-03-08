@@ -1,8 +1,6 @@
 # vim: set ft=sh:
-##############################################################################
-#                                  options                                   #
-##############################################################################
 
+# options
 bindkey -e
 zstyle ':completion:*' completer _complete _ignored
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
@@ -16,65 +14,26 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 
-##############################################################################
-#                                 environment                                #
-##############################################################################
+# environment
 
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
-WORDCHARS=${WORDCHARS/\/}
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-if [ -n "$TMUX" ] 
-then
-	PS1='%F{red}%(?..:( %?
-)%f
-%F{#888}tmux %#%f '
-else
-	PS1='%F{red}%(?..:( %?
-)%f
-%F{#888}%#%f '
-fi
+#prompt
+PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
  
-##############################################################################
-#                                functions                                   #
-##############################################################################
 
-function get-command() {
-    local command
-    echo
-    command=$(history -r -n 1 | fzy) 
-    eval 'LBUFFER="$LBUFFER$command "'
-    zle reset-prompt
-}
-zle -N get-command
-bindkey "^r" "get-command"
+# aliases
 
-function get-file() {
-    local file
-    echo
-	file=$(find -path "*/.*" -prune -o -print | fzy)
-    eval 'LBUFFER="$LBUFFER$file"'
-    zle reset-prompt
-}
-zle -N get-file
-bindkey "^t" "get-file"
-
-function jot() . $HOME/scripts/fuzzy-find-note
-function jott() . $HOME/scripts/fuzzy-find-note-work
-function todo() . $HOME/scripts/fuzzy-find-note-work '#todo'
-function cal() remind -cu$1 .remind $2 $3 | col | less
-
-##############################################################################
-#                                 aliases                                    #
-##############################################################################
-
-alias mutt='cd ~/downloads/ && mutt && cd'
 alias R='start-r'
 alias alarm='set-alarm'
 alias bak='backup-file'
+alias bt='connect-bluetooth'
 alias d='date "+%H:%M"'
 alias d='pwd'
+alias deorphan='sudo pacman -Qtdq | sudo pacman -Rns -'
 alias dot='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 alias dott='sync-dot-repo'
 alias fd='wrap-find'
@@ -82,18 +41,18 @@ alias ff='fuzzy-find-file'
 alias focus='play-focus-playlist'
 alias gitt='sync-repo'
 alias gittt='sync-all-repos'
-alias bt='connect-bluetooth'
 alias install='sudo pacman -S'
-alias deorphan='sudo pacman -Qtdq | sudo pacman -Rns -'
 alias kb='get-key-bindings'
-alias zrc='vim ~/.zshrc; . ~/.zshrc'
 alias la='ls -AlhF'
 alias ll='ls -lhF'
 alias lynx="lynx -cfg=$HOME/.lynx/lynx.cfg -lss=$HOME/.lynx/lynx.lss"
 alias mcam='sudo mount /dev/disk/by-label/camera /mnt/camera/'
 alias mnas='sshfs rp:/mnt /mnt/nas'
+alias mobile='connect-mobile'
 alias mthumb='sudo mount /dev/disk/by-label/thumb /mnt/thumb/'
+alias mutt='cd ~/downloads/ && mutt && cd'
 alias mvv='rename-files'
+alias off='turn-off-screen'
 alias p='pwd'
 alias pad='toggle-numpad'
 alias play='mpv'
@@ -110,7 +69,6 @@ alias ucam='sudo umount /mnt/camera/'
 alias unas='fusermount3 -u /mnt/nas'
 alias update='sudo pacman -Syu'
 alias uthumb='sudo umount /mnt/thumb/'
-alias ydl='download-playlist'
-alias mobile='connect-mobile'
 alias webcam='start-webcam'
-alias off='turn-off-screen'
+alias ydl='download-playlist'
+alias zrc='vim ~/.zshrc; . ~/.zshrc'

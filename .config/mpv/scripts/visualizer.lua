@@ -210,8 +210,7 @@ local function get_visualizer(name, quality, vtrack, albumart)
                 "saturation = 0:".. -- of color
                 "size           =" .. w .. "x" .. h .. ":" ..
                 "slide = scroll:" .. 
-                "start = 27.5:".. -- low frequency
-                "stop = 4186:".. -- high frequency
+                "stop = 5000:".. -- high frequency c6 top of soprano
                 "win_func       = sine [vo]"
 
 

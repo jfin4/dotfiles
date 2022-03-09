@@ -13,7 +13,7 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:
 # compinit
 
 # environment
-HISTFILE=~/.histfile
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
@@ -33,7 +33,7 @@ alias gitt='sync-repo'
 alias go='get-link'
 alias hours='get-hours'
 alias install='pacman -S'
-alias jot='. ~/scripts/take-notes'
+alias jot='take-notes'
 alias kb='get-key-bindings'
 alias la='ls -AlhF'
 alias ll='ls -lhF'
@@ -46,7 +46,7 @@ alias summary='get-summary'
 alias sync='sync-work-repos'
 alias t='date "+%H:%M"'
 alias timer='set-timer'
-alias todo='jot -t'
+alias todo='take-notes -t'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'

@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   vimrc                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -98,14 +98,13 @@ function! FzySearchLine()
     endif
 endfunction
 
-function! OpenFile()
+function! OpenLink()
     " :p make full path
-    let l:link = fnamemodify(trim(getline('.')), ':p')
+    let l:link = shellescape(fnamemodify(trim(getline('.')), ':p'))
     if l:link[0:9] == '/home/jfin'
         exec "e" l:link
     else 
-        exec "silent !open-link '".l:link."'"
-        redraw!
+        call system("open-link" . " " . l:link)
     endif
 endfunction
 
@@ -114,7 +113,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 nnoremap // :call FzySearchLine()<cr>
-nnoremap <cr> :call OpenFile()<cr>
+nnoremap <cr> :call OpenLink()<cr>
 inoremap jk <esc>l
 nnoremap <leader>hi
       \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>

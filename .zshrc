@@ -16,7 +16,7 @@ setopt share_history
 
 # environment
 
-HISTFILE=~/.histfile
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
@@ -32,8 +32,6 @@ alias alarm='set-alarm'
 alias bak='backup-file'
 alias bt='connect-bluetooth'
 alias cal='show-calendar'
-alias d='date "+%H:%M"'
-alias d='pwd'
 alias deorphan='sudo pacman -Qtdq | sudo pacman -Rns -'
 alias dot='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 alias dott='sync-dot-repo'

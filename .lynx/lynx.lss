@@ -52,10 +52,10 @@ ul         : normal : default
 #	whereis	- whereis search target
 
 # normal  : normal : default : default
-alink   : normal : default : default
-status  : normal : default : default
-alert   : normal : default : default
-whereis : normal : red : default
+alink   : normal : green : white
+status  : normal : gray : white
+alert   : normal : red : white
+whereis : normal : black : yellow
 
 # currently not used
 #value:normal:green

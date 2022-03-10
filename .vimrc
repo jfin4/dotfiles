@@ -100,11 +100,16 @@ endfunction
 
 function! OpenLink()
     " :p make full path
-    let l:link = shellescape(fnamemodify(trim(getline('.')), ':p'))
-    if l:link[0:9] == '/home/jfin'
+    let l:link = fnamemodify(trim(getline('.')), ':p')
+    if l:link[0:4] == '/home'
         exec "e" l:link
-    else 
-        call system("open-link" . " " . l:link)
+    else
+        call system("cygstart" . " " . shellescape(l:link))
+        if v:shell_error != 0
+            echohl WarningMsg 
+            echo "No such file or directory. Are network drives connected?"
+            echohl None
+        endif
     endif
 endfunction
 

@@ -64,39 +64,6 @@ let g:netrw_browsex_viewer="open-link"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 functions                                  "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! GetProject()
-    let l:line = getline(search('#proj', 'wn'))
-    let l:proj = substitute(l:line, '#proj ', '', '')
-    if l:proj == ''
-        return l:proj
-    else
-        return l:proj . ' '
-    endif
-endfunction
-
-function! FzySearchLine()
-    call inputsave()
-    let l:pat = input('//')
-    call inputrestore()
-
-    if l:pat == ''
-        let l:pat = '.'
-    endif
-
-    " Swallow errors from ^C, allow redraw! below
-    try
-        let output = system('grep -n ' . l:pat . ' ' . expand('%') . ' | fzy')
-        let pos = match(output, ":")
-        let lnum = output[0:pos - 1]
-    catch /Vim:Interrupt/
-    endtry
-
-    redraw!
-
-    if v:shell_error == 0 && !empty(output)
-        call cursor(lnum, 1)
-    endif
-endfunction
 
 function! OpenLink()
     " :p make full path

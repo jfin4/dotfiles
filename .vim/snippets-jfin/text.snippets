@@ -1,4 +1,30 @@
-# help from 
 snippet to "create task"
-#todo `date +'%Y'`-${1:`get-this-friday`} `!v GetProject()`${0:<task>}
+#todo `!p 
+
+# get year
+import datetime
+today = datetime.date.today()
+snip.rv = today.strftime('%Y-')
+
+`${1:`!p
+
+# get this coming friday
+friday = today + datetime.timedelta( (4-today.weekday()) % 7 )
+snip.rv = friday.strftime('%m-%d')
+
+`} `!p
+
+# project name
+with open(path, 'r') as fp:
+    for line in fp:
+		if '#proj' in line:
+			match = line.rstrip()
+
+if match == '':
+	snip.rv = ''
+else:
+	project = match.replace('#proj ', '')
+	snip.rv = project + ' '
+
+`${0:<task>}
 endsnippet

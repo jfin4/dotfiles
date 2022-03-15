@@ -33,7 +33,7 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
-set nowrapscan
+set wrapscan
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
@@ -65,6 +65,31 @@ let g:netrw_browsex_viewer="open-link"
 "                                 functions                                  "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+function! FindLine()
+    write
+    try
+        let output = system("grep --ignore-case . " . expand("%") . " | fzy | tr -d '\n'")
+    catch /Vim:Interrupt/
+        " Swallow errors from ^C, allow redraw! below
+    endtry
+    redraw!
+    if v:shell_error == 0 && !empty(output)
+        exec "/" . output
+    endif
+endfunction
+
+function! FindFile()
+    try
+        let output = system("find . -type f | fzy")
+    catch /Vim:Interrupt/
+        " Swallow errors from ^C, allow redraw! below
+    endtry
+    redraw!
+    if v:shell_error == 0 && !empty(output)
+        exec "e " . output
+    endif
+endfunction
+
 function! OpenLink()
     " :p make full path
     let l:link = fnamemodify(trim(getline('.')), ':p')
@@ -84,14 +109,13 @@ endfunction
 "                                  keymaps                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap // :call FzySearchLine()<cr>
-nnoremap <cr> :call OpenLink()<cr>
 inoremap jk <esc>l
-nnoremap <leader>hi
-      \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+nnoremap <cr> :call OpenLink()<cr>
+nnoremap <leader>e :call FindFile()<cr>
+nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+nnoremap <leader>/ :call FindLine()<cr>
 nnoremap <leader>si :e ~/.vim/snippets-jfin/
-nnoremap <leader>so <c-^>:bdelete snippets<cr>
-      \ :call UltiSnips#RefreshSnippets()<cr>
+nnoremap <leader>so <c-^>:bdelete snippets<cr>:call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap Y mm0"*y$`m
@@ -188,12 +212,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
 
 " supertab
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" youcompleteme
-let g:ycm_key_list_select_completion = ['<C-n>']
-let g:ycm_key_list_previous_completion = ['<C-p>']
-" let g:ycm_auto_trigger = 0
+let g:SuperTabDefaultCompletionType = 'context'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   colors                                   "

@@ -15,12 +15,13 @@ snip.rv = friday.strftime('%m-%d')
 `} `!p
 
 # project name
+match=None
 with open(path, 'r') as fp:
     for line in fp:
 		if '#proj' in line:
 			match = line.rstrip()
 
-if match == '':
+if match == None:
 	snip.rv = ''
 else:
 	project = match.replace('#proj ', '')

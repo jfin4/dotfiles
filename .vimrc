@@ -40,7 +40,6 @@ set ruler		" show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
-set signcolumn=yes
 set showbreak=\|\ \ \   " hanging indents for wrapped lines
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
@@ -119,7 +118,9 @@ nnoremap <leader>so <c-^>:bdelete snippets<cr>:call UltiSnips#RefreshSnippets()<
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap Y mm0"*y$`m
-vnoremap Y "*y
+vnoremap Y "*y 
+nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
+xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           command abbreviations                            "
@@ -213,6 +214,14 @@ let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
 
 " supertab
 let g:SuperTabDefaultCompletionType = 'context'
+
+" nerd commenter
+let g:NERDCreateDefaultMappings = 0
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   colors                                   "

@@ -43,3 +43,4 @@ Charset=UTF-8
 BoldAsFont=no
 BoldAsColour=yes
 CursorBlinks=no
+Padding=16

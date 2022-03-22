@@ -9,6 +9,7 @@ plugins="
 	sirver/ultisnips
 	tpope/vim-repeat
 	tpope/vim-surround
+    prabirshrestha/vim-lsp
 	"
 
 dir=$HOME/.vim/pack/pack/start

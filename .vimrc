@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   vimrc                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -222,6 +222,12 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
+
+" vim lsc
+let g:lsc_server_commands = { 
+            \'r': '/c/Program\ Files/R/R-4.1.2/bin/R.exe --slave -e languageserver::run()' 
+            \}
+let g:lsc_auto_map = v:true
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   colors                                   "

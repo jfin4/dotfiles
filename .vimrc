@@ -120,9 +120,6 @@ augroup ide
     autocmd!
     autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
                 \:call system("open-repl " . &filetype)<cr>
-    autocmd FileType python,r,sh nnoremap <buffer> <leader>ro 
-                \:call system("open-repl close")<cr>
-                \:redraw!<cr>
 augroup END
 
 " r
@@ -135,7 +132,7 @@ augroup END
 " sh
 augroup sh
     autocmd!
-    autocmd FileType sh set noexpandtab
+    autocmd FileType sh setlocal noexpandtab
 augroup END 
 
 " markdown
@@ -160,14 +157,11 @@ augroup END
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
 let g:slime_dont_ask_default = 1
-augroup slime
+augroup slimerc
     autocmd!
-    autocmd FileType python,r,sh nmap <buffer> , 
-                \<Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , 
-                \<Plug>SlimeRegionSend
+    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
 augroup END
-
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"

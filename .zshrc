@@ -24,7 +24,7 @@ PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
 
 # aliases 
 
-alias R='run-r'
+alias R='R --quiet --no-save'
 alias bak='make-backup'
 alias dash='ENV=~/.shinit dash'
 alias dot='run-dot-git'

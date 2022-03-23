@@ -1,14 +1,8 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                   vimrc                                    "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" vimrc 
 syntax enable " enables syntax highlighting, keeping :highlight commands
 filetype plugin indent on " enables filetype detection
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  options                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" options 
 set autoindent " take indent for new line from previous line
 set autoread " automatically read file when changed outside of vim
 set autowriteall " automatically write file if changed
@@ -16,14 +10,15 @@ set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
+set completeopt=menu,menuone,noinsert
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
 set fillchars=vert:\ ,fold:\ ,eob:\ 
-set foldtext=getline(v:foldstart).'...'
 set foldlevel=99
 set foldmethod=indent
+set foldtext=getline(v:foldstart).'...'
 set formatoptions=qnlj  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
@@ -33,7 +28,6 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
-set wrapscan
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
@@ -45,24 +39,20 @@ set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256
 set tabstop=4 " number of spaces that <tab> in file uses
-set textwidth=0 " maximum width of text that is being inserted
+set textwidth=78 " maximum width of text that is being inserted
 set ttimeout		" time out for key codes
 set ttimeoutlen=100	" wait up to 100ms after Esc for special key
 set undodir=~/.vim/undo " undo files here
 set undofile " persistent undo
 set virtualedit=block
 set wildmenu		" display completion matches in a status line
+set wrapscan
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 variables                                  "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" variables
 let mapleader=" "
 let g:netrw_browsex_viewer="open-link"
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 functions                                  "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" functions
 
 function! FindLine()
     write
@@ -104,116 +94,86 @@ function! OpenLink()
     endif
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  keymaps                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" keymaps
 inoremap jk <esc>l
+nnoremap // :call FindLine()<cr>
 nnoremap <cr> :call OpenLink()<cr>
-nnoremap <leader>e :call FindFile()<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
-nnoremap <leader>/ :call FindLine()<cr>
 nnoremap <leader>si :e ~/.vim/snippets-jfin/
 nnoremap <leader>so <c-^>:bdelete snippets<cr>:call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
+nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
 nnoremap Y mm0"*y$`m
 vnoremap Y "*y 
-nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                           command abbreviations                            "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" command abbreviations
 cnoreabbrev cdd lcd %:p:h
 cnoreabbrev h tab h
+cnoreabbrev ee call FindFile()
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                autocommands                                "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocommands
 
-" program
-augroup program
+" ide
+augroup ide
     autocmd!
-    autocmd FileType julia,python,r,sh setlocal textwidth=78
-    autocmd FileType julia,python,r,sh nnoremap <buffer> <leader>ro 
-                \:silent !open-repl close<cr>
+    autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
+                \:call system("open-repl " . &filetype)<cr>
+    autocmd FileType python,r,sh nnoremap <buffer> <leader>ro 
+                \:call system("open-repl close")<cr>
                 \:redraw!<cr>
-    autocmd FileType julia,python,r,sh nmap <buffer> , 
-                \<Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType julia,python,r,sh xmap <buffer> , 
-                \<Plug>SlimeRegionSend
-    autocmd FileType julia,python,r,sh nmap <buffer> <leader>, 
-                \<Plug>SlimeParagraphSend}j
-    autocmd FileType julia,python,r,sh nnoremap <buffer> K 
-                \viw"ry:SlimeSend1 help(<c-r>r)<cr>
 augroup END
-
-" julia
-augroup julia 
-  autocmd!
-  autocmd FileType julia nnoremap <buffer> <leader>ri :silent !open-repl julia<cr>
-augroup END 
 
 " r
 augroup r 
-  autocmd!
-  autocmd FileType r inoremap <buffer> < <-
-  autocmd FileType r inoremap <buffer> << <
-  autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl run-r<cr>
+    autocmd!
+    autocmd FileType r inoremap <buffer> < <-
+    autocmd FileType r inoremap <buffer> << <
 augroup END 
 
 " sh
 augroup sh
     autocmd!
-    autocmd FileType sh nnoremap <buffer> <leader>ri :silent !open-repl<cr>
-augroup END 
-
-" python
-augroup python
-    autocmd!
-    autocmd FileType python nnoremap <buffer> <leader>ri :silent !open-repl python<cr>
+    autocmd FileType sh set noexpandtab
 augroup END 
 
 " markdown
 augroup markdown 
-  autocmd!
-  autocmd FileType markdown let markdown_folding = 1
-  autocmd FileType markdown setlocal conceallevel=2
-augroup END 
-
-" csv
-augroup csv
-  autocmd!
-  autocmd BufRead,BufNew *.csv set filetype=csv
-  autocmd FileType csv set commentstring=#%s
-  autocmd FileType csv set nowrap
+    autocmd!
+    autocmd FileType markdown let markdown_folding = 1
+    autocmd FileType markdown setlocal conceallevel=2
+    autocmd FileType markdown setlocal textwidth=0
 augroup END 
 
 " text
 augroup text
-  autocmd!
-  autocmd FileType text set nowrap
+    autocmd!
+    autocmd FileType text setlocal nowrap
+    autocmd FileType text setlocal commentstring=#%s
+    autocmd FileType text setlocal textwidth=0
 augroup END 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  plugins                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" plugins
 
 " slime
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
 let g:slime_dont_ask_default = 1
+augroup slime
+    autocmd!
+    autocmd FileType python,r,sh nmap <buffer> , 
+                \<Plug>SlimeLineSend/^[^#\$]<cr>
+    autocmd FileType python,r,sh xmap <buffer> , 
+                \<Plug>SlimeRegionSend
+augroup END
+
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
-
-" supertab
-let g:SuperTabDefaultCompletionType = 'context'
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
@@ -223,92 +183,83 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
-" vim lsc
-let g:lsc_server_commands = { 
-            \'r': '/c/Program\ Files/R/R-4.1.2/bin/R.exe --slave -e languageserver::run()' 
-            \}
+" lsc
 let g:lsc_auto_map = v:true
+let g:lsc_enable_autocomplete = v:false
+let g:lsc_enable_diagnostics = v:false
+let g:lsc_hover_popup = v:false
+let g:lsc_reference_highlights = v:false
+let g:lsc_server_commands = { 'r': 'R --slave -e languageserver::run()' }
+let g:lsc_trace_level = 'off'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                   colors                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
+augroup slime
+    autocmd!
+    autocmd FileType python,r,sh let b:SuperTabNoCompleteAfter = ['^']
+    autocmd FileType python,r,sh let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
+augroup END
 
-" NR-16   NR-8   COLOR NAME
-" 0       0      Black
-" 8       0*     DarkGray, DarkGrey
-" 1       4      DarkBlue
-" 9       4*     Blue, LightBlue
-" 2       2      DarkGreen
-" 10      2*     Green, LightGreen
-" 3       6      DarkCyan
-" 11      6*     Cyan, LightCyan
-" 4       1      DarkRed
-" 12      1*     Red, LightRed
-" 5       5      DarkMagenta
-" 13      5*     Magenta, LightMagenta
-" 14      3*     Yellow, LightYellow
-" 6       3      Brown, DarkYellow
-" 7       7      LightGray, LightGrey, Gray, Grey
-" 15      7*     White
-
+" Colors
+" black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray
+" darkgray red     green     yellow blue     magenta     cyan     white
+" highlight conceal
+" highlight cursorcolumn
+" highlight cursorline
+" highlight cursorlinenr
+" highlight directory
+" highlight foldcolumn
+" highlight linenr            ctermfg=darkgray  ctermbg=white   cterm=none
+" highlight linenrabove
+" highlight linenrbelow
+" highlight modemsg
+" highlight moremsg
+" highlight question
+" highlight quickfixline
+" highlight vertsplit
+" highlight warningmsg
+highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
 highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
-highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
-highlight  statement        ctermfg=black     ctermbg=none      cterm=none
-highlight  preproc          ctermfg=black     ctermbg=none      cterm=none
-highlight  type             ctermfg=black     ctermbg=none      cterm=none
-highlight  special          ctermfg=black     ctermbg=none      cterm=none
-highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
-highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
-highlight  error            ctermfg=red       ctermbg=none      cterm=none
-highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
-highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
-"highlight conceal
-"highlight cursorcolumn
-"highlight cursorline
-"highlight cursorlinenr
 highlight  diffadd          ctermfg=darkgreen ctermbg=none      cterm=none
 highlight  diffchange       ctermfg=black     ctermbg=none      cterm=none
 highlight  diffdelete       ctermfg=red       ctermbg=none      cterm=none
 highlight  difftext         ctermfg=darkcyan  ctermbg=none      cterm=none
-"highlight directory
 highlight  endofbuffer      ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  error            ctermfg=red       ctermbg=none      cterm=none
 highlight  errormsg         ctermfg=red       ctermbg=none      cterm=none
-"highlight foldcolumn
 highlight  folded           ctermfg=darkgray  ctermbg=none      cterm=none
+highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
+highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
+highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
 highlight  incsearch        ctermfg=black     ctermbg=yellow    cterm=none
-"          highlight        linenr            ctermfg=darkgray  ctermbg=white   cterm=none
-"highlight linenrabove
-"highlight linenrbelow
-"highlight modemsg
-"highlight moremsg
+highlight  matchparen       ctermfg=black     ctermbg=yellow    cterm=none
 highlight  nontext          ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  pmenu            ctermfg=black     ctermbg=lightgray cterm=none
 highlight  pmenusbar        ctermfg=none      ctermbg=lightgray cterm=none
 highlight  pmenusel         ctermfg=black     ctermbg=yellow    cterm=none
 highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray  cterm=none
-"highlight question
-"highlight quickfixline
+highlight  preproc          ctermfg=black     ctermbg=none      cterm=none
 highlight  search           ctermfg=black     ctermbg=yellow    cterm=none
 highlight  signcolumn       ctermfg=white     ctermbg=none      cterm=none
+highlight  special          ctermfg=black     ctermbg=none      cterm=none
 highlight  specialkey       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  spellbad         ctermfg=red       ctermbg=none      cterm=none
 highlight  spellcap         ctermfg=red       ctermbg=none      cterm=none
 highlight  spelllocal       ctermfg=red       ctermbg=none      cterm=none
 highlight  spellrare        ctermfg=red       ctermbg=none      cterm=none
-highlight  statusline       ctermfg=darkgray  ctermbg=white     cterm=none
-highlight  statuslinenc     ctermfg=white     ctermbg=white     cterm=none
-highlight  statuslineterm   ctermfg=darkgray  ctermbg=white     cterm=none
-highlight  statuslinetermnc ctermfg=white     ctermbg=white     cterm=none
+highlight  statement        ctermfg=black     ctermbg=none      cterm=none
+highlight  statusline       ctermfg=darkgray  ctermbg=lightgray     cterm=none
+highlight  statuslinenc     ctermfg=darkgray  ctermbg=lightgray     cterm=none
+highlight  statuslineterm   ctermfg=darkgray  ctermbg=lightgray     cterm=none
+highlight  statuslinetermnc ctermfg=darkgray     ctermbg=lightgray     cterm=none
 highlight  tabline          ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  title            ctermfg=black     ctermbg=none      cterm=none
-"highlight vertsplit
+highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
+highlight  type             ctermfg=black     ctermbg=none      cterm=none
+highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
 highlight  visual           ctermfg=black     ctermbg=yellow cterm=none
 highlight  visualnos        ctermfg=black     ctermbg=yellow    cterm=none
-"highlight warningmsg
 highlight  wildmenu         ctermfg=black     ctermbg=yellow    cterm=none
-highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
-highlight  matchparen       ctermfg=black     ctermbg=yellow    cterm=none
-

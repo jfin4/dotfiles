@@ -1,16 +1,15 @@
 #!/bin/sh
 
 plugins="
+	ervandew/supertab
 	godlygeek/tabular
 	honza/vim-snippets
 	jpalardy/vim-slime
+	natebosch/vim-lsc
 	preservim/nerdcommenter
 	sirver/ultisnips
 	tpope/vim-repeat
 	tpope/vim-surround
-    ackyshake/VimCompletesMe
-    lifepillar/vim-mucomplete
-    natebosch/vim-lsc
 	"
 
 dir=$HOME/.vim/pack/pack/start

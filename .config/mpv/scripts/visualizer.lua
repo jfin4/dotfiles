@@ -23,8 +23,7 @@ local opts = {
     -- high
     -- veryhigh
 
-    height = 8,
-    -- [4 .. 12]
+    height = 4, -- [4 .. 12]
 }
 
 -- key bindings
@@ -207,12 +206,11 @@ local function get_visualizer(name, quality, vtrack, albumart)
             "afifo," ..
             "showspectrum       =" ..
                 "overlap = 1:".. -- scroll faster
-                "saturation = 0:".. -- of color
+                "saturation = 0:".. -- black and white
+                "scale = lin:".. -- color intensity
                 "size           =" .. w .. "x" .. h .. ":" ..
-                "slide = scroll:" .. 
-                "stop = 5000:".. -- high frequency c6 top of soprano
+                "stop = 2000:".. -- 1046 is c6, top of soprano
                 "win_func       = sine [vo]"
-
 
     elseif name == "showcqtbar" then
         local axis_h = math.ceil(w * 12 / 1920) * 4

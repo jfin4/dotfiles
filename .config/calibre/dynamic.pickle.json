@@ -1,0 +1,17 @@
+{
+  "add books dialog dir": "/home/jfin/downloads/gtd",
+  "add books dialog dir-last-used-filter-spec-all-files": false,
+  "database location dialog": "/home/jfin/.calibre",
+  "sort_history": [
+    [
+      "timestamp",
+      false
+    ],
+    [
+      "timestamp",
+      false
+    ]
+  ],
+  "welcome_wizard_device": "kindle_pw",
+  "welcome_wizard_was_run": true
+}

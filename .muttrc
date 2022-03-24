@@ -90,10 +90,6 @@ bind pager h exit
 bind pager j next-line
 bind pager k previous-line
 bind pager l reply
-# macro index,pager u "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
-# macro attach,compose u "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
-
-macro index,pager u "<view-attachments><view-mailcap><exit>" 
 
 macro index <F8> \
 "<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\

@@ -1,0 +1,18 @@
+{
+  "accounts": {
+    "jfinmaniv@kindle.com": [
+      "AZW, MOBI, TPZ, PRC, AZW1",
+      true,
+      true
+    ]
+  },
+  "aliases": {},
+  "encryption": "TLS",
+  "from_": "john@johninman.dev",
+  "relay_host": "mail.privateemail.com",
+  "relay_password": "6a7573746966792d626c6565642d646f726d2d766f77656c2d7268796d6573",
+  "relay_port": 587,
+  "relay_username": "john@johninman.dev",
+  "subjects": {},
+  "tags": {}
+}

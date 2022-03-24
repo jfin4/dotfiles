@@ -1,7 +1,7 @@
 #!/bin/sh
 
 plugins="
-	lifepillar/vim-mucomplete
+	ervandew/supertab
 	godlygeek/tabular
 	honza/vim-snippets
 	jpalardy/vim-slime
@@ -25,7 +25,7 @@ done
 
 for d in $dir/*; do
     if ! { echo "$plugins" | grep -q ${d##*/}; }; then
-        echo move-to-trash $d
-        move-to-trash $d
+        echo moving $d to opt
+        mv --no-clobber $d ${dir%/start}/opt
     fi
 done

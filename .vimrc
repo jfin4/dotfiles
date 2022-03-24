@@ -9,7 +9,7 @@ set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set breakindent " wrapped lines are indented same as beginning of line
-set completeopt=menu,noinsert
+set completeopt=menu,menuone,noinsert,noselect
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
@@ -93,6 +93,7 @@ endfunction
 
 " keymaps
 inoremap jk <esc>l
+inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
 nnoremap <cr>:call OpenLink()<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
@@ -104,12 +105,10 @@ nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
 vnoremap Y "+y
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
-
 " command abbreviations
 cnoreabbrev cdd lcd %:p:h
 cnoreabbrev h tab h
 cnoreabbrev ee call FindFile()
-
 
 " autocommands
 
@@ -162,10 +161,10 @@ augroup slime
 augroup END
 
 " ultisnips
-let g:UltiSnipsExpandTrigger="<F5>"
-let g:UltiSnipsJumpForwardTrigger="<F5>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "UltiSnips" ]
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
@@ -179,19 +178,14 @@ let g:NERDToggleCheckAllLines = 1
 let g:lsc_auto_map = v:true
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
-let g:lsc_hover_popup = v:false
+let g:lsc_hover_popup = v:true
 let g:lsc_reference_highlights = v:false
 let g:lsc_server_commands = { 'r': 'R --slave -e languageserver::run()' }
 let g:lsc_trace_level = 'off'
 
-" mucomplete
-let g:mucomplete#always_use_completeopt = 1
-let g:mucomplete#empty_text = 1
-let g:mucomplete#chains = {
-    \ 'default': { 'default':     ['path', 'user', 'keyn'],
-    \              '.*comment.*': ['dict', 'uspl']
-    \            }
-    \ }
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray

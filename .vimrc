@@ -160,7 +160,7 @@ let g:slime_dont_ask_default = 1
 augroup slimerc
     autocmd!
     autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
+    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
 augroup END
 
 " ultisnips

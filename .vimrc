@@ -9,7 +9,7 @@ set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set breakindent " wrapped lines are indented same as beginning of line
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,noinsert
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
@@ -155,15 +155,15 @@ augroup END
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
 let g:slime_dont_ask_default = 1
-augroup slimerc
+augroup slime
     autocmd!
     autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
 augroup END
 
 " ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<F5>"
+let g:UltiSnipsJumpForwardTrigger="<F5>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
 
@@ -175,7 +175,7 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
-" vim lsc
+" lsc
 let g:lsc_auto_map = v:true
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
@@ -184,13 +184,14 @@ let g:lsc_reference_highlights = v:false
 let g:lsc_server_commands = { 'r': 'R --slave -e languageserver::run()' }
 let g:lsc_trace_level = 'off'
 
-" supertab
-let g:SuperTabDefaultCompletionType = "context"
-augroup slime
-    autocmd!
-    autocmd FileType python,r,sh let b:SuperTabNoCompleteAfter = ['^']
-    autocmd FileType python,r,sh let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
-augroup END
+" mucomplete
+let g:mucomplete#always_use_completeopt = 1
+let g:mucomplete#empty_text = 1
+let g:mucomplete#chains = {
+    \ 'default': { 'default':     ['path', 'user', 'keyn'],
+    \              '.*comment.*': ['dict', 'uspl']
+    \            }
+    \ }
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray

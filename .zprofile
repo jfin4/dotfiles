@@ -8,11 +8,12 @@ done
 R="$current/bin"
 brave="/c/Users/$USER/AppData/Local/BraveSoftware/Brave-Browser/Application"
 ffmpeg="/c/Users/$USER/ffmpeg"
+node="/c/Users/$USER/node"
 pandoc="/c/Users/$USER/pandoc"
 scripts="$HOME/scripts"
 sumatra="/c/Users/$USER/sumatra-pdf"
 texlive="/c/Users/$USER/texlive/2021/bin/win32"
-export PATH="$R:$scripts:$brave:$ffmpeg:$pandoc:$sumatra:$texlive:$PATH"
+export PATH="$R:$scripts:$brave:$ffmpeg:$node:$pandoc:$sumatra:$texlive:$PATH"
 
 #######################################################################
 #                              variables                              #

@@ -96,6 +96,7 @@ endfunction
 
 " keymaps
 inoremap jk <esc>l
+inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
 nnoremap <cr> :call OpenLink()<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
@@ -120,6 +121,7 @@ augroup ide
     autocmd!
     autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
                 \:call system("open-repl " . &filetype)<cr>
+    autocmd FileType python,r,sh let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 augroup END
 
 " r
@@ -167,7 +169,7 @@ augroup END
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
+let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "UltiSnips" ]
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
@@ -181,18 +183,14 @@ let g:NERDToggleCheckAllLines = 1
 let g:lsc_auto_map = v:true
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
-let g:lsc_hover_popup = v:false
 let g:lsc_reference_highlights = v:false
-let g:lsc_server_commands = { 'r': 'R --slave -e languageserver::run()' }
-let g:lsc_trace_level = 'off'
+let g:lsc_server_commands = { 
+            \ 'r': 'R --slave -e languageserver::run()',
+            \ }
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
-augroup slime
-    autocmd!
-    autocmd FileType python,r,sh let b:SuperTabNoCompleteAfter = ['^']
-    autocmd FileType python,r,sh let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
-augroup END
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray

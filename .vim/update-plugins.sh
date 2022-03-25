@@ -25,7 +25,7 @@ done
 
 for d in $dir/*; do
     if ! { echo "$plugins" | grep -q ${d##*/}; }; then
-        echo move-to-trash $d
-        move-to-trash $d
+        echo moved $d to opt
+        mv --no-clobber $d ${dir%/start}/opt
     fi
 done

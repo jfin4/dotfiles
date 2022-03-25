@@ -8,4 +8,4 @@
 [status]
 	showUntrackedFiles = no
 [pull]
-	rebase = true
+	rebase = false

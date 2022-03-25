@@ -1,4 +1,4 @@
-" vimrc 
+" vimrc
 syntax enable " enables syntax highlighting, keeping :highlight commands
 filetype plugin indent on " enables filetype detection
 
@@ -53,17 +53,16 @@ let mapleader=" "
 let g:netrw_browsex_viewer="open-link"
 
 " functions
-
 function! FindLine()
-    write
     try
-        let output = system("grep --ignore-case . " . expand("%") . " | fzy | tr -d '\n'")
+        let l:text = join(getline(1, '$'), "\n") . "\n"
+        let l:output = system("echo " . shellescape(l:text) . " | fzy | tr -d '\n'")
     catch /Vim:Interrupt/
         " Swallow errors from ^C, allow redraw! below
     endtry
     redraw!
-    if v:shell_error == 0 && !empty(output)
-        exec "/" . output
+    if v:shell_error == 0 && !empty(l:output)
+       exec '/' . l:output
     endif
 endfunction
 

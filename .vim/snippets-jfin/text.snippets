@@ -5,27 +5,24 @@ snippet to "create task"
 import datetime
 today = datetime.date.today()
 snip.rv = today.strftime('%Y-')
-
 `${1:`!p
 
 # get this coming friday
 friday = today + datetime.timedelta( (4-today.weekday()) % 7 )
 snip.rv = friday.strftime('%m-%d')
-
 `} `!p
 
 # project name
-match=None
-with open(path, 'r') as fp:
-    for line in fp:
-		if '#proj' in line:
-			match = line.rstrip()
+project=None
+file = open(path, 'r')
+for line in file:
+	if '#proj' in line:
+		project = line.rstrip()
 
-if match == None:
+if project == None:
 	snip.rv = ''
 else:
-	project = match.replace('#proj ', '')
-	snip.rv = project + ' '
+	snip.rv = project.replace('#proj ', '') + ' '
 
 `${0:<task>}
 endsnippet

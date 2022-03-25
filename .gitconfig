@@ -7,3 +7,5 @@
 	email = john@johninman.dev
 [status]
 	showUntrackedFiles = no
+[pull]
+	rebase = true

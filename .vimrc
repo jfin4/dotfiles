@@ -10,7 +10,7 @@ set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,menuone
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8

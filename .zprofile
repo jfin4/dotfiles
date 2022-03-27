@@ -5,10 +5,10 @@ export PATH=".:$HOME/.aliases:$HOME/scripts:$PATH"
 export EDITOR=/usr/bin/vim
 export TERM=xterm-256color
 export ENV=$HOME/.mkshrc
-export BROWSER=/usr/bin/firefox
+export BROWSER=/bin/chromium
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+if [ -z "${DISPLAY}" ]; then
 # sudo /home/jfin/scripts/wakeup-disable
 exec startx
 fi

@@ -9,7 +9,7 @@ set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set breakindent " wrapped lines are indented same as beginning of line
-set completeopt=menu,menuone,noinsert,noselect
+set completeopt=menu,menuone,noinsert
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
@@ -52,15 +52,15 @@ let mapleader = " "
 " functions
 
 function! FindLine()
-    write
     try
-        let output = system("grep --ignore-case . " . expand("%") . " | fzy | tr -d '\n'")
+        let l:text = join(getline(1, '$'), "\n") . "\n"
+        let l:output = system("echo " . shellescape(l:text) . " | fzy | tr -d '\n'")
     catch /Vim:Interrupt/
         " Swallow errors from ^C, allow redraw! below
     endtry
     redraw!
-    if v:shell_error == 0 && !empty(output)
-        exec "/" . output
+    if v:shell_error == 0 && !empty(l:output)
+       exec '/' . l:output
     endif
 endfunction
 
@@ -95,7 +95,8 @@ endfunction
 inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
-nnoremap <cr>:call OpenLink()<cr>
+" nnoremap <cr> :call OpenLink()<cr>
+nnoremap <cr> gf
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>si :e ~/.vim/snippets-jfin/
 nnoremap <leader>so <c-^>:bdelete snippets<cr> \ :call UltiSnips#RefreshSnippets()<cr>

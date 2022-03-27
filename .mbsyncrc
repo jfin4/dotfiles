@@ -11,7 +11,7 @@ Host mail.privateemail.com
 User john@johninman.dev
 PassCmd "cat ~/.passwords/johninman"
 SSLType IMAPS
-CertificateFile /etc/ssl/cert.pem
+CertificateFile /etc/ssl/certs.pem
 
 # Local
 MaildirStore johninman-local

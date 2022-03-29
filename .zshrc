@@ -54,7 +54,7 @@ alias vlc='/c/Program\ Files/VideoLAN/VLC/vlc.exe'
 alias ydl='download-playlist'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
 alias play='play-files'
-alias def='/c/Users/jinman/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/Startup/set-default-apps.bat'
+alias def='set-default-apps'
 
 # start tmux
 if [ -z "$TMUX" ]; then

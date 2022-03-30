@@ -118,7 +118,7 @@ augroup ide
     autocmd!
     autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
                 \:call system("open-repl " . &filetype)<cr>
-    autocmd FileType python,r,sh let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
+    autocmd FileType python,r let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 augroup END
 
 " r
@@ -163,9 +163,9 @@ augroup slimerc
 augroup END
 
 " snipmate
-let g:snipMate = { 'snippet_version' : 1 }
+let g:snipMate.snippet_version = { 'snippet_version' : 1 }
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
-nnoremap <leader>so :w<cr>:bd<cr>:SnipMateLoadScope %<cr>
+nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0

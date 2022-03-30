@@ -1,0 +1,12 @@
+snippet todo
+	#todo \
+	`strftime('%Y')`-${1:`strftime('%m-%d')`} \
+	`substitute(getline(search('#proj', 'wn')), '#proj ', '', '')` \
+	${2:<description>}
+
+snippet hour
+	`strftime('%m%d')`, \
+	${1:`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`}, \
+	${3:hhmm}, \
+	${2:<description>}
+

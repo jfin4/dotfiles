@@ -2,15 +2,12 @@
 #                                path                                 #
 #######################################################################
 
-winhome=$(cygpath --windows "$USERPROFILE")
 for current in /c/Program\ Files/R/*; do
     true
 done
 R="$current/bin"
-ffmpeg="$winhome/software/ffmpeg"
 scripts="$HOME/scripts"
-sumatra="$winhome/software/sumatra-pdf"
-export PATH="$R:$scripts:$ffmpeg:$sumatra:$PATH"
+export PATH="$R:$scripts:$PATH"
 
 #######################################################################
 #                              variables                              #

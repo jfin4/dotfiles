@@ -18,6 +18,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export ming=mingw-w64-x86_64
 
 #prompt
 PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "

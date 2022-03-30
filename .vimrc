@@ -99,8 +99,6 @@ inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
 nnoremap <cr> :call OpenLink()<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
-nnoremap <leader>si :e ~/.vim/snippets-jfin/
-nnoremap <leader>so <c-^>:bdelete snippets<cr>:call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
@@ -164,17 +162,15 @@ augroup slimerc
     autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
 augroup END
 
-" ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "UltiSnips" ]
+" snipmate
+let g:snipMate = { 'snippet_version' : 1 }
+nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
+nnoremap <leader>so :w<cr>:bd<cr>:SnipMateLoadScope %<cr>
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
-let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 

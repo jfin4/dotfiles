@@ -2,12 +2,14 @@
 
 plugins="
 	ervandew/supertab
+	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
 	jpalardy/vim-slime
+	marcweber/vim-addon-mw-utils
 	natebosch/vim-lsc
 	preservim/nerdcommenter
-	sirver/ultisnips
+	tomtom/tlib_vim
 	tpope/vim-repeat
 	tpope/vim-surround
 	"

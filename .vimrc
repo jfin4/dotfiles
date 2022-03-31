@@ -163,7 +163,7 @@ augroup slimerc
 augroup END
 
 " snipmate
-let g:snipMate.snippet_version = { 'snippet_version' : 1 }
+let g:snipMate = get(g:, 'snipMate', {'snippet_version' : 1})
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
 

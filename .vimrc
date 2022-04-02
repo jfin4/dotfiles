@@ -154,7 +154,10 @@ augroup END
 
 " slime
 let g:slime_target = "tmux"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
+let g:slime_default_config = {
+            \ "socket_name": "default", 
+            \ "target_pane": "{bottom-right}",
+            \}
 let g:slime_dont_ask_default = 1
 augroup slimerc
     autocmd!
@@ -163,7 +166,22 @@ augroup slimerc
 augroup END
 
 " snipmate
-let g:snipMate = get(g:, 'snipMate', {'snippet_version' : 1})
+" compatibility with mucomplete
+let g:snipMate = get(g:, 'snipMate', {
+            \ 'snippet_version' : 1,
+            \ 'no_match_completion_feedkeys_chars' : '',
+            \ })
+" trigger from completion menu
+inoremap <plug>MyEnter <c-l>
+imap <silent> <expr> <plug>MyCR (pumvisible()
+    \ ? "\<c-y>\<plug>snipMateTrigger"
+    \ : "\<plug>MyEnter")
+imap <c-l> <plug>MyCR
+" custom mappings
+imap <c-l> <Plug>snipMateNextOrTrigger
+smap <c-l> <Plug>snipMateNextOrTrigger
+imap <c-h> <Plug>snipMateBack
+smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
 
@@ -183,9 +201,15 @@ let g:lsc_server_commands = {
             \ 'r': 'R --slave -e languageserver::run()',
             \ }
 
-" supertab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
+" mucomplete
+let g:mucomplete#always_use_completeopt = 0
+inoremap <silent> <plug>(MUcompleteBwdKey) <c-k>
+imap <c-k> <plug>(MUcompleteCycBwd)
+" c-n  c-p  cmd  defs dict file incl keyn keyp line omni
+" spel tags thes user path uspl list nsnp snip ulti
+let g:mucomplete#chains = {
+    \ 'default' : ['uspl', 'path', 'user', 'keyn', 'snip'],
+    \ }
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray
@@ -244,7 +268,7 @@ highlight  tabline          ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  title            ctermfg=black     ctermbg=none      cterm=none
-highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
+highlight  todo             ctermfg=black     ctermbg=none    cterm=none
 highlight  type             ctermfg=black     ctermbg=none      cterm=none
 highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
 highlight  visual           ctermfg=black     ctermbg=yellow cterm=none

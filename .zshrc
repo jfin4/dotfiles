@@ -25,7 +25,7 @@ PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
 
 # aliases 
 
-alias bak='make-backup'
+alias bak='back-up-file'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
 alias dot='git-dot'
@@ -45,6 +45,7 @@ alias pw='cat ~/.passwords/waterboard > /dev/clipboard'
 alias remove='pacman -Rns'
 alias rm='move-to-trash'
 alias search='pacman -Ss'
+alias summary='Rscript ~/scripts/get-summary.r'
 alias sync='sync-repos'
 alias todo='take-notes -t'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'

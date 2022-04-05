@@ -107,9 +107,9 @@ vnoremap Y "*y
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
 " command abbreviations
-cnoreabbrev cdd lcd %:p:h
+cnoreabbrev cdd lcd %:p:h<cr>
 cnoreabbrev h tab h
-cnoreabbrev ee call FindFile()
+cnoreabbrev ee call FindFile()<cr>
 
 " autocommands
 
@@ -166,18 +166,12 @@ augroup slimerc
 augroup END
 
 " snipmate
-" compatibility with mucomplete
+" 'no_match...' for compatibility with mucomplete
 let g:snipMate = get(g:, 'snipMate', {
-            \ 'snippet_version' : 1,
+            \ 'always_choose_first' : 1,
             \ 'no_match_completion_feedkeys_chars' : '',
+            \ 'snippet_version' : 1,
             \ })
-" trigger from completion menu
-inoremap <plug>MyEnter <c-l>
-imap <silent> <expr> <plug>MyCR (pumvisible()
-    \ ? "\<c-y>\<plug>snipMateTrigger"
-    \ : "\<plug>MyEnter")
-imap <c-l> <plug>MyCR
-" custom mappings
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 imap <c-h> <Plug>snipMateBack

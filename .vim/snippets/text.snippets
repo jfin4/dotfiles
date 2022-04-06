@@ -2,15 +2,16 @@ snippet todo
 	#todo \
 	`strftime('%Y')`-${1:`strftime('%m-%d')`} \
 	`substitute(getline(search('#proj', 'wn')), '#proj ', '', '')` \
-	${2:<description>} \
+	${2:<description>}\
 	$0
 
 snippet hour
 	`strftime('%m%d')`, \
 	${1:`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`}, \
 	${2:`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`}, \
-	${3:<description>} \
+	${3:<description>}\
 	$0
 
 snippet time
-	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
+	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`\
+	$0

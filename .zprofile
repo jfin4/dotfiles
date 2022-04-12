@@ -6,8 +6,9 @@ for current in /c/Program\ Files/R/*; do
     true
 done
 R="$current/bin"
+ffmpeg="$USERPROFILE/software/ffmpeg/bin"
 scripts="$HOME/scripts"
-export PATH="$R:$scripts:$PATH"
+export PATH="$R:$ffmpeg:$scripts:$PATH"
 
 #######################################################################
 #                              variables                              #

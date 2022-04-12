@@ -21,7 +21,7 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export ming=mingw-w64-x86_64
 
 #prompt
-PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
+PROMPT=$'\n'"${TMUX:+tmux}%# "
 
 # aliases 
 
@@ -51,6 +51,11 @@ alias todo='take-notes -t'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
+
+# formulae
+hnn () {
+	hn view $1 -c | less -R
+}
 
 # start tmux
 if [ -z "$TMUX" ]; then

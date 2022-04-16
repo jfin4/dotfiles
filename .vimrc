@@ -178,6 +178,7 @@ imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
+imap <expr> . mucomplete#extend_fwd(".")
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0

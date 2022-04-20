@@ -54,7 +54,7 @@ alias zrc='vim ~/.zshrc; . ~/.zshrc'
 
 # formulae
 hnn () {
-	hc view $1 -c | less -R
+	hn view $1 -c | less -R
 }
 
 # start tmux

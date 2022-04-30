@@ -25,7 +25,9 @@ PROMPT=$'\n'"${TMUX:+tmux}%# "
 
 # aliases 
 
+alias R='\R --no-save --quiet'
 alias bak='back-up-file'
+alias cal='cal -y'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
 alias dot='git-dot'
@@ -51,11 +53,6 @@ alias todo='take-notes -t'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
-
-# formulae
-hnn () {
-	hn view $1 -c | less -R
-}
 
 # start tmux
 if [ -z "$TMUX" ]; then

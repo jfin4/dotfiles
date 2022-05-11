@@ -198,8 +198,6 @@ let g:lsc_server_commands = {
 
 " mucomplete
 let g:mucomplete#always_use_completeopt = 0
-inoremap <silent> <plug>(MUcompleteBwdKey) <c-k>
-imap <c-k> <plug>(MUcompleteCycBwd)
 " c-n  c-p  cmd  defs dict file incl keyn keyp line omni
 " spel tags thes user path uspl list nsnp snip ulti
 let g:mucomplete#chains = {

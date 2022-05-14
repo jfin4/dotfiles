@@ -1,14 +1,17 @@
 snippet todo
-	#todo `strftime('%Y')`-\
-	${1:`strftime('%m')`}-\
-	${2:`strftime('%d')`} `getline(search('#proj', 'wn'))[6:]` \
-	${3:<description>}
+	#todo \
+	`strftime('%Y')`-${1:`strftime('%m-%d')`} \
+	`substitute(getline(search('#proj', 'wn')), '#proj ', '', '')` \
+	${2:<description>}\
+	$0
 
 snippet task
 	`strftime('%m%d')`, \
-	${1:`getline(line('.') - 1)[12:15]`}, time\
-	${0}, \
-	${2:<description>}\
+	${1:`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`}, \
+	${2:`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`}, \
+	${3:<description>}\
+	$0
 
 snippet time
-	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
+	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`\
+	$0

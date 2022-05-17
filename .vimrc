@@ -78,26 +78,30 @@ function! FindFile()
     endif
 endfunction
 
-function! OpenLink()
+function! OpenLink(parent)
     " :p make full path
-    let l:link = fnamemodify(trim(getline('.')), ':p')
-    if l:link[0:4] == '/home'
-        exec "e" l:link
+    if a:parent == 1
+        let l:link = fnamemodify(trim(getline('.')), ':p:h')
     else
-        call system("cygstart" . " " . shellescape(l:link))
-        if v:shell_error != 0
-            echohl WarningMsg 
-            echo "No such file or directory. Are network drives connected?"
-            echohl None
-        endif
+        let l:link = fnamemodify(trim(getline('.')), ':p')
     endif
+
+    call system("cygstart" . " " . shellescape(l:link))
+
+    if v:shell_error != 0
+        echohl WarningMsg 
+        echo "No such file or directory. Are network drives connected?"
+        echohl None
+    endif
+
 endfunction
 
 " keymaps
 inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
-nnoremap <cr> :call OpenLink()<cr>
+nnoremap <cr> :call OpenLink(0)<cr>
+nnoremap  <up> :call OpenLink(1)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
@@ -137,9 +141,9 @@ augroup END
 " markdown
 augroup markdown 
     autocmd!
-    autocmd FileType markdown let markdown_folding = 1
-    autocmd FileType markdown setlocal conceallevel=2
-    autocmd FileType markdown setlocal textwidth=0
+    " autocmd FileType markdown let markdown_folding = 1
+    " autocmd FileType markdown setlocal conceallevel=2
+    " autocmd FileType markdown setlocal textwidth=0
 augroup END 
 
 " text

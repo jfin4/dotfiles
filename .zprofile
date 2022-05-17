@@ -7,8 +7,9 @@ for current in /c/Program\ Files/R/*; do
 done
 R="$current/bin"
 ffmpeg="$USERPROFILE/software/ffmpeg/bin"
+pandoc="$USERPROFILE/software/pandoc/"
 scripts="$HOME/scripts"
-export PATH="$R:$ffmpeg:$scripts:$PATH"
+export PATH="$R:$ffmpeg:$pandoc:$scripts:$PATH"
 
 #######################################################################
 #                              variables                              #

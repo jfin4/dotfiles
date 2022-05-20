@@ -2,6 +2,7 @@
 
 plugins=$(mktemp)
 cat <<- EOF > $plugins
+	dhruvasagar/vim-table-mode
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets

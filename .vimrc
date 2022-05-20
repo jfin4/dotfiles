@@ -34,8 +34,7 @@ set ruler		" show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
-set showbreak=\|\ \ \   " hanging indents for wrapped lines
-set showcmd " show commands
+set showbreak=+\ \ \   " hanging indents for wrapped lines set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256
 set tabstop=4 " number of spaces that <tab> in file uses
@@ -51,32 +50,6 @@ set wrapscan
 " variables
 let mapleader=" "
 let g:netrw_browsex_viewer="open-link"
-
-" functions
-function! FindLine()
-    try
-        let l:text = join(getline(1, '$'), "\n") . "\n"
-        let l:output = system("echo " . shellescape(l:text) . " | fzy | tr -d '\n'")
-    catch /Vim:Interrupt/
-        " Swallow errors from ^C, allow redraw! below
-    endtry
-    redraw!
-    if v:shell_error == 0 && !empty(l:output)
-       exec '/' . l:output
-    endif
-endfunction
-
-function! FindFile()
-    try
-        let output = system("find . -type f | fzy")
-    catch /Vim:Interrupt/
-        " Swallow errors from ^C, allow redraw! below
-    endtry
-    redraw!
-    if v:shell_error == 0 && !empty(output)
-        exec "e " . output
-    endif
-endfunction
 
 function! OpenLink(parent)
     " :p make full path
@@ -149,7 +122,7 @@ augroup END
 " text
 augroup text
     autocmd!
-    autocmd FileType text setlocal nowrap
+    " autocmd FileType text setlocal nowrap
     autocmd FileType text setlocal commentstring=#%s
     autocmd FileType text setlocal textwidth=0
 augroup END 
@@ -237,7 +210,7 @@ highlight  endofbuffer      ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  error            ctermfg=red       ctermbg=none      cterm=none
 highlight  errormsg         ctermfg=red       ctermbg=none      cterm=none
 highlight  folded           ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
+" highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
 highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
 highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
 highlight  incsearch        ctermfg=black     ctermbg=yellow    cterm=none

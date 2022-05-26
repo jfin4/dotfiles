@@ -70,7 +70,7 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
-inoremap jk <esc>l
+" inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
 nnoremap <cr> :call OpenLink(0)<cr>

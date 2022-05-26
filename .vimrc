@@ -89,6 +89,22 @@ cnoreabbrev h tab h
 cnoreabbrev ee call FindFile()<cr>
 
 " autocommands
+ 
+" Put these in an autocmd group, so that you can revert them with:
+" ":augroup vimStartup | au! | augroup END"
+augroup vimStartup
+    autocmd!
+
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid, when inside an event handler
+" (happens when dropping a file on gvim) and for a commit message (it's
+" likely a different one than last time).
+    autocmd BufReadPost *
+        \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ |   exe "normal! g`\""
+        \ | endif
+
+augroup END
 
 " ide
 augroup ide
@@ -114,6 +130,7 @@ augroup END
 " markdown
 augroup markdown 
     autocmd!
+    autocmd FileType markdown set nowrap
     " autocmd FileType markdown let markdown_folding = 1
     " autocmd FileType markdown setlocal conceallevel=2
     " autocmd FileType markdown setlocal textwidth=0

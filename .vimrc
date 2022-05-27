@@ -19,7 +19,7 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=indent
 set foldtext=getline(v:foldstart).'...'
-set formatoptions=qnlj  "help fo-table
+set formatoptions=qlj  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0

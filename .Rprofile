@@ -1,1 +1,1 @@
- options(browser="C:\\Users\\jinman\\AppData\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe")
+ options(browser="C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")

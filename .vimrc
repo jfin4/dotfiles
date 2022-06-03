@@ -51,6 +51,7 @@ set wrapscan
 let mapleader=" "
 let g:netrw_browsex_viewer="open-link"
 
+" functions
 function! OpenLink(parent)
     " :p make full path
     if a:parent == 1
@@ -66,6 +67,8 @@ function! OpenLink(parent)
         echo "No such file or directory. Are network drives connected?"
         echohl None
     endif
+
+    redraw!
 
 endfunction
 

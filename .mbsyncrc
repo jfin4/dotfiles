@@ -9,7 +9,7 @@ Expunge Both
 IMAPStore johninman-remote
 Host mail.privateemail.com
 User john@johninman.dev
-PassCmd "cat ~/.passwords/johninman"
+PassCmd "cat ~/passwords/johninman"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs.pem
 

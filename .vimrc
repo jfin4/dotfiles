@@ -2,14 +2,16 @@
 syntax enable " enables syntax highlighting, keeping :highlight commands
 filetype plugin indent on " enables filetype detection
 
-" options
+" options 
 set autoindent " take indent for new line from previous line
 set autoread " automatically read file when changed outside of vim
 set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
+set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,menuone
+set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
 set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
@@ -26,13 +28,13 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
-set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-X
+set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
-set showbreak=\|\ \ \  
+set showbreak=\|\ \ \   " hanging indents for wrapped lines
 set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=256
@@ -47,10 +49,10 @@ set wildmenu		" display completion matches in a status line
 set wrapscan
 
 " variables
-let mapleader = " "
+let mapleader=" "
+let g:netrw_browsex_viewer="open-link"
 
 " functions
-
 function! FindLine()
     try
         let l:text = join(getline(1, '$'), "\n") . "\n"
@@ -82,7 +84,7 @@ function! OpenLink()
     if l:link[0:4] == '/home'
         exec "e" l:link
     else
-        call system("xdg-open" . " " . shellescape(l:link))
+        call system("xdg-open ".shellescape(l:link))
         if v:shell_error != 0
             echohl WarningMsg 
             echo "No such file or directory. Are network drives connected?"
@@ -92,18 +94,15 @@ function! OpenLink()
 endfunction
 
 " keymaps
-inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
-" nnoremap <cr> :call OpenLink()<cr>
-nnoremap <cr> gf
+nnoremap <cr> :call OpenLink()<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
-nnoremap <leader>si :e ~/.vim/snippets-jfin/
-nnoremap <leader>so <c-^>:bdelete snippets<cr> \ :call UltiSnips#RefreshSnippets()<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
-vnoremap Y "+y
+nnoremap Y mm0"*y$`m
+vnoremap Y "*y 
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
 " command abbreviations
@@ -116,8 +115,9 @@ cnoreabbrev ee call FindFile()
 " ide
 augroup ide
     autocmd!
-    autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
+    autocmd FileType python,r,sh,scheme nnoremap <buffer> <leader>ri 
                 \:call system("open-repl " . &filetype)<cr>
+    autocmd FileType python,r let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 augroup END
 
 " r
@@ -153,25 +153,41 @@ augroup END
 
 " slime
 let g:slime_target = "tmux"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
+let g:slime_default_config = {
+            \ "socket_name": "default", 
+            \ "target_pane": "{bottom-right}",
+            \}
 let g:slime_dont_ask_default = 1
-augroup slime
+augroup slimerc
     autocmd!
-    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
+    autocmd FileType python,r,sh,scheme nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
+    autocmd FileType python,r,sh,scheme xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
 augroup END
 
-" ultisnips
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "UltiSnips" ]
+" snipmate
+" compatibility with mucomplete
+let g:snipMate = get(g:, 'snipMate', {
+            \ 'snippet_version' : 1,
+            \ 'no_match_completion_feedkeys_chars' : '',
+            \ })
+" trigger from completion menu
+inoremap <plug>MyEnter <c-l>
+imap <silent> <expr> <plug>MyCR (pumvisible()
+    \ ? "\<c-y>\<plug>snipMateTrigger"
+    \ : "\<plug>MyEnter")
+imap <c-l> <plug>MyCR
+" custom mappings
+imap <c-l> <Plug>snipMateNextOrTrigger
+smap <c-l> <Plug>snipMateNextOrTrigger
+imap <c-h> <Plug>snipMateBack
+smap <c-h> <Plug>snipMateBack
+nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
+nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
-let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
@@ -179,14 +195,20 @@ let g:NERDToggleCheckAllLines = 1
 let g:lsc_auto_map = v:true
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
-let g:lsc_hover_popup = v:true
 let g:lsc_reference_highlights = v:false
-let g:lsc_server_commands = { 'r': 'R --slave -e languageserver::run()' }
-let g:lsc_trace_level = 'off'
+let g:lsc_server_commands = { 
+            \ 'r': 'R --slave -e languageserver::run()',
+            \ }
 
-" supertab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
+" mucomplete
+let g:mucomplete#always_use_completeopt = 0
+inoremap <silent> <plug>(MUcompleteBwdKey) <c-k>
+imap <c-k> <plug>(MUcompleteCycBwd)
+" c-n  c-p  cmd  defs dict file incl keyn keyp line omni
+" spel tags thes user path uspl list nsnp snip ulti
+let g:mucomplete#chains = {
+    \ 'default' : ['uspl', 'path', 'user', 'keyn', 'snip'],
+    \ }
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray
@@ -245,7 +267,7 @@ highlight  tabline          ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
 highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  title            ctermfg=black     ctermbg=none      cterm=none
-highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
+highlight  todo             ctermfg=black     ctermbg=none    cterm=none
 highlight  type             ctermfg=black     ctermbg=none      cterm=none
 highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
 highlight  visual           ctermfg=black     ctermbg=yellow cterm=none

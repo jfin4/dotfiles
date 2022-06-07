@@ -1,31 +1,33 @@
-#!/bin/sh
-
-plugins="
-	ervandew/supertab
+ #!/bin/sh
+ 
+plugins=$(mktemp)
+cat <<- EOF > $plugins
+	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
 	jpalardy/vim-slime
+	lifepillar/vim-mucomplete
+	marcweber/vim-addon-mw-utils
 	natebosch/vim-lsc
 	preservim/nerdcommenter
-	sirver/ultisnips
+	tomtom/tlib_vim
 	tpope/vim-repeat
 	tpope/vim-surround
-	"
+EOF
 
 dir=$HOME/.vim/pack/pack/start
-for p in $plugins 
-do
+while read p; do
     if [ -e $dir/${p##*/} ]
     then
         git -C $dir/${p##*/} pull
     else
         git clone https://github.com/$p $dir/${p#*/}
     fi
-done
+done < $plugins
 
 for d in $dir/*; do
-    if ! { echo "$plugins" | grep -q ${d##*/}; }; then
-        echo moving $d to opt
-        mv --no-clobber $d ${dir%/start}/opt
+    if ! grep -q ${d##*/} $plugins; then
+        mv $d ${dir%/start}/opt
+        [ "$?" = 0 ] && echo moved $d to opt
     fi
 done

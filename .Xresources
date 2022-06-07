@@ -49,3 +49,5 @@
 *omitTranslation: fullscreen
 ! for copy/paste
 *selectToClipboard: true
+
+*internalBorder: 20

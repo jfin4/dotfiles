@@ -46,6 +46,7 @@ alias lock='cmd //c Rundll32.exe user32.dll,LockWorkStation'
 alias mmw='convert-markdown-to-word'
 alias mv='mv --no-clobber'
 alias mvv='rename-files'
+alias path="copy-path"
 alias proj='take-notes #proj'
 alias pw='cat ~/passwords/waterboard > /dev/clipboard'
 alias remove='pacman -Rns'

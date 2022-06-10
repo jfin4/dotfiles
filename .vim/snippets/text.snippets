@@ -2,7 +2,7 @@ snippet todo
 	#todo `strftime('%Y')`-\
 	${1:`strftime('%m')`}-\
 	${2:`strftime('%d')`} \
-	`getline(search('#proj', 'wn'))[6:]` \
+	`getline(search('#proj', 'wn'))[6:]`: \
 	${3:description}
 
 snippet task
@@ -14,3 +14,15 @@ snippet task
 
 snippet time
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
+
+snippet (mcl
+	(`getline(search('# mcl', 'wn'))[6:]`)
+	
+snippet (pro
+	(`getline(search('# pro', 'wn'))[6:]`)
+	
+snippet (swo
+	(`getline(search('# swo', 'wn'))[6:]`)
+	
+snippet (rem
+	(`getline(search('# rem', 'wn'))[6:]`)

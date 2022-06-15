@@ -17,8 +17,8 @@ set encoding=utf-8
 set expandtab " use spaces when <tab> is inserted
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldlevel=99
-set foldmethod=indent
-set foldtext=getline(v:foldstart).'...'
+set foldmethod=manual
+set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
 set formatoptions=qlj  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
@@ -28,6 +28,7 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
+set nowrap
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
@@ -133,7 +134,7 @@ augroup END
 " markdown
 augroup markdown 
     autocmd!
-    autocmd FileType markdown set nowrap
+    " autocmd FileType markdown set nowrap
     " autocmd FileType markdown let markdown_folding = 1
     " autocmd FileType markdown setlocal conceallevel=2
     " autocmd FileType markdown setlocal textwidth=0

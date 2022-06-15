@@ -8,9 +8,8 @@ snippet todo
 snippet task
 	`strftime('%m%d')`, \
 	${1:`getline(line('.') - 1)[12:15]`}, \
-	${3:time$0}, \
-	${2:description}
-	task
+	${2:hhmm}, \
+	${0:description}
 
 snippet time
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`

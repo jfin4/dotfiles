@@ -1,9 +1,9 @@
 snippet todo
-	#todo `strftime('%Y')`-\
-	${1:`strftime('%m')`}-\
-	${2:`strftime('%d')`} \
+	#todo${1: `strftime('%Y')`-\
+	${2:`strftime('%m')`}-\
+	${3:`strftime('%d')`} }\
 	`getline(search('#proj', 'wn'))[6:]`: \
-	${3:description}
+	${4:description}
 
 snippet task
 	`strftime('%m%d')`, \
@@ -25,3 +25,6 @@ snippet swo
 	
 snippet rem
 	`getline(search('# rem', 'wn'))[6:]`
+
+snippet ilp
+	`getline(search('# ilp', 'wn'))[6:]`

@@ -172,7 +172,7 @@ let g:snipMate = get(g:, 'snipMate', {
             \ })
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
-imap <c-h> <Plug>snipMateBack
+" imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>

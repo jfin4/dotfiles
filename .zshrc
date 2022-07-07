@@ -8,10 +8,11 @@ zstyle :compinstall filename '/home/jfin/.zshrc'
 autoload -Uz compinit
 compinit
 
-setopt sh_word_split
+setopt extendedglob
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
+setopt sh_word_split
 setopt share_history
 
 # environment

@@ -1,5 +1,6 @@
 feh --no-fehbg --bg-fill '/home/jfin/.sunset-above-clouds.jpg' 
 # sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
+sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
 xrdb -merge .Xresources
 xset b off
 

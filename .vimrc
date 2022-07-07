@@ -111,6 +111,12 @@ cnoreabbrev h tab h
 cnoreabbrev ee call FindFile()
 
 " autocommands
+ 
+"  Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
 
 " ide
 augroup ide

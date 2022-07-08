@@ -54,14 +54,35 @@ let g:netrw_browsex_viewer="open-link"
 
 " functions
 function! OpenLink(parent)
-    " :p make full path
+    " set link to file or parent directory?
     if a:parent == 1
         let l:link = fnamemodify(trim(getline('.')), ':p:h')
     else
         let l:link = fnamemodify(trim(getline('.')), ':p')
     endif
 
-    call system("cygstart" . " " . shellescape(l:link))
+    " is link a dir?
+    if isdirectory(l:link) == 1
+        let l:is_dir = 1
+    else
+        let l:is_dir = 0
+    endif
+
+    " is link local
+    if l:link[0:2] == '/c/' || l:link[0:5] == '/home/'
+        let l:is_local = 1
+    else
+        let l:is_local = 0
+    endif
+
+    if l:is_dir == 1 && l:is_local == 1
+        call system('tmux split-window -b -c ' . shellescape(l:link))
+        call system('tmux select-layout main-vertical')
+    elseif l:is_dir == 0 && l:is_local == 1
+        execute "edit" l:link
+    else
+        call system('cygstart ' . shellescape(l:link))
+    endif
 
     if v:shell_error != 0
         echohl WarningMsg 
@@ -69,12 +90,10 @@ function! OpenLink(parent)
         echohl None
     endif
 
-    redraw!
-
 endfunction
 
 " keymaps
-" inoremap jk <esc>l
+inoremap jk <esc>
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
 nnoremap <cr> :call OpenLink(0)<cr>
@@ -172,7 +191,7 @@ let g:snipMate = get(g:, 'snipMate', {
             \ })
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
-" imap <c-h> <Plug>snipMateBack
+imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>

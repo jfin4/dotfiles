@@ -2,7 +2,7 @@ snippet todo
 	#todo${1: `strftime('%Y')`-\
 	${2:`strftime('%m')`}-\
 	${3:`strftime('%d')`} }\
-	`getline(search('#proj', 'wn'))[6:]`: \
+	`getline(search('#proj', 'wn'))[6:]` \
 	${4:description}
 
 snippet task

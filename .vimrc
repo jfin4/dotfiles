@@ -28,7 +28,7 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
-set nowrap
+" set nowrap
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
@@ -93,11 +93,12 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
-inoremap jk <esc>
-inoremap <nul> <c-x><c-u>
-nnoremap // :call FindLine()<cr>
+" inoremap jk <esc>
+" inoremap <nul> <c-x><c-u>
+nnoremap j gj
+nnoremap k gk
 nnoremap <cr> :call OpenLink(0)<cr>
-nnoremap  <up> :call OpenLink(1)<cr>
+nnoremap  <nul> :call OpenLink(1)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>

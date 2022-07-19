@@ -20,8 +20,11 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export ming=mingw-w64-x86_64
 
-#prompt
+# prompt
 PROMPT=$'\n'"${TMUX:+tmux}%# "
+
+# functions
+. $HOME/.zsh_functions
 
 # aliases 
 

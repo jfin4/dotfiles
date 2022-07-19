@@ -95,6 +95,7 @@ endfunction
 " keymaps
 " inoremap jk <esc>
 " inoremap <nul> <c-x><c-u>
+nnoremap <leader>tr :TableModeRealign<cr>
 nnoremap j gj
 nnoremap k gk
 nnoremap <cr> :call OpenLink(0)<cr>

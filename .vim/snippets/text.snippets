@@ -8,7 +8,7 @@ snippet todo
 snippet task
 	`strftime('%m%d')`, \
 	${1:`getline(line('.') - 1)[12:15]`}, \
-	${2:hhmm}, \
+	${2:time}$0, \
 	${3:description}
 
 snippet time

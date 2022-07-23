@@ -197,7 +197,6 @@ imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
-imap <expr> . mucomplete#extend_fwd(".")
 
 " nerd commenter
 let g:NERDCreateDefaultMappings = 0
@@ -222,6 +221,7 @@ let g:mucomplete#always_use_completeopt = 0
 let g:mucomplete#chains = {
     \ 'default' : ['uspl', 'path', 'user', 'keyn', 'snip'],
     \ }
+imap <expr> . mucomplete#extend_fwd(".")
 
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray

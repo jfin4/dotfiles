@@ -8,23 +8,27 @@ snippet todo
 snippet task
 	`strftime('%m%d')`, \
 	${1:`getline(line('.') - 1)[12:15]`}, \
-	${2:time}$0, \
+	${2:hhmm}, \
 	${3:description}
 
-snippet time
+snippet hhmm
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
 
-snippet mcl
-	`getline(search('# mcl', 'wn'))[6:]`
+snippet pmcl
+	MCLs BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22024b.txt)
 	
-snippet pro
-	`getline(search('# pro', 'wn'))[6:]`
+snippet ppro
+	Prohibitions BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22062a.txt)
 	
-snippet swo
-	`getline(search('# swo', 'wn'))[6:]`
+snippet pswo
+	Statewide objectives BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22025b.txt)
 	
-snippet rem
-	`getline(search('# rem', 'wn'))[6:]`
+snippet prem
+	BP Remediation (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22032b.txt)
 
-snippet ilp
-	`getline(search('# ilp', 'wn'))[6:]`
+snippet pilp
+	ILP Dashboard (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22179a.txt)
+	
+snippet pmpa
+	SWQPA BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22025f.txt)
+

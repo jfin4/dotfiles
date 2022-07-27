@@ -79,7 +79,9 @@ function! OpenLink(parent)
         call system('tmux split-window -b -c ' . shellescape(l:link))
         call system('tmux select-layout main-vertical')
     elseif l:is_dir == 0 && l:is_local == 1
-        execute "edit" l:link
+        " execute "edit" l:link
+        call system('tmux split-window -b "vim ' . shellescape(l:link) . '"')
+        call system('tmux select-layout main-vertical')
     else
         call system('cygstart ' . shellescape(l:link))
     endif

@@ -95,7 +95,7 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
-" inoremap jk <esc>
+inoremap jk <esc>
 " inoremap <nul> <c-x><c-u>
 nnoremap <leader>tr :TableModeRealign<cr>
 nnoremap j gj

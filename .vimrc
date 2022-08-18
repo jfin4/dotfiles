@@ -97,7 +97,8 @@ endfunction
 " keymaps
 inoremap jk <esc>
 " inoremap <nul> <c-x><c-u>
-nnoremap <leader>tr :TableModeRealign<cr>
+nnoremap <leader>tr mx{2/^+<cr>:TableModeRealign<cr>:s/-/=/g<cr>`x
+" nnoremap <leader>tr :TableModeRealign<cr>
 nnoremap j gj
 nnoremap k gk
 nnoremap <cr> :call OpenLink(0)<cr>
@@ -157,7 +158,7 @@ augroup END
 " markdown
 augroup markdown 
     autocmd!
-    " autocmd FileType markdown set nowrap
+    autocmd FileType markdown set nowrap
     " autocmd FileType markdown let markdown_folding = 1
     " autocmd FileType markdown setlocal conceallevel=2
     " autocmd FileType markdown setlocal textwidth=0

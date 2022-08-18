@@ -48,6 +48,7 @@ alias path="copy-path"
 alias pink='play-tracks -q ~/music/sounds/pink.mp3'
 alias play='play-tracks'
 alias prod='Rscript ~/scripts/get-productivity.r $(cygpath -w $USERPROFILE/msys/home/jfin/hours)'
+alias proj='jot #proj'
 alias pull='pull-repo'
 alias push='push-repo'
 alias pw='cat ~/passwords/waterboard > /dev/clipboard'
@@ -56,11 +57,10 @@ alias rm='move-to-trash'
 alias search='pacman -Ss'
 alias summary='Rscript ~/scripts/get-summary.r $(cygpath -w $USERPROFILE/msys/home/jfin/hours)'
 alias sync='sync-all-repos'
+alias todo='jot #todo'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
-alias proj='jot #proj'
-alias todo='jot #todo'
 
 # start tmux
 if [ -z "$TMUX" ]; then

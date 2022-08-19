@@ -7,31 +7,30 @@ snippet todo
 
 snippet task
 	`strftime('%m%d')`, \
-	${1:`getline(line('.') - 1)[12:15]`}, \
+	${1:`execute('
+			if getline(line(".") - 1)[12:15] == 1630
+				echon "0800"
+			else
+				echon getline(line(".") - 1)[12:15]
+			endif
+	    ')`}, \
 	${3:hhmm}$0, \
 	${2:description}
 
 snippet hhmm
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
 
-snippet pmcl
-	MCLs BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22024b.txt)
-	
-snippet ppro
-	Prohibitions BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22062a.txt)
-	
-snippet pswo
-	Statewide objectives BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22025b.txt)
-	
-snippet prem
-	BP Remediation (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22032b.txt)
-
-snippet pilp
-	ILP Dashboard (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22179a.txt)
-	
-snippet pmpa
-	SWQPA BPA (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22025f.txt)
-
-snippet ppbi
-	Learn Power BI (file:///R:/RB3/Shared/WQ%20Control%20Planning/JI%20Notes/22223a.txt)
-
+# strange that new text must be inserted before removing existing text
+snippet notes
+	`execute('
+		let l:text = getline(line("."))
+		let l:len = strchars(l:text)
+		let l:keyfrom = l:len - 4
+		let l:keyto = l:len - 2
+		let l:key = l:text[l:keyfrom:l:keyto]
+		let l:desc =  getline(search("#" . " " . l:key, "wn"))[6:]
+		let l:newto = l:len - 6
+	    let l:newtext = l:text[:l:newto] . " " . l:desc
+		echon l:newtext
+		call setline(".", "")
+	')`

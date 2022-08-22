@@ -95,6 +95,7 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
+nnoremap <silent> <leader>w :if &wrap \| set nowrap \| else \| set wrap \| endif<cr>
 inoremap jk <esc>
 " inoremap <nul> <c-x><c-u>
 nnoremap <leader>tr mx{2/^+<cr>:TableModeRealign<cr>:s/-/=/g<cr>`x

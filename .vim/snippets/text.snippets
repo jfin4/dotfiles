@@ -20,7 +20,6 @@ snippet task
 snippet hhmm
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`
 
-# strange that new text must be inserted before removing existing text
 snippet notes
 	`execute('
 		let l:text = getline(line("."))
@@ -31,6 +30,6 @@ snippet notes
 		let l:desc =  getline(search("#" . " " . l:key, "wn"))[6:]
 		let l:newto = l:len - 6
 	    let l:newtext = l:text[:l:newto] . " " . l:desc
-		echon l:newtext
 		call setline(".", "")
+		echon l:newtext
 	')`

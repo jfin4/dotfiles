@@ -95,20 +95,22 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
-nnoremap <silent> <leader>w :if &wrap \| set nowrap \| else \| set wrap \| endif<cr>
-inoremap jk <esc>
+
 " inoremap <nul> <c-x><c-u>
-nnoremap <leader>tr mx{2/^+<cr>:TableModeRealign<cr>:s/-/=/g<cr>`x
 " nnoremap <leader>tr :TableModeRealign<cr>
-nnoremap j gj
-nnoremap k gk
-nnoremap <cr> :call OpenLink(0)<cr>
+inoremap jk <esc>
 nnoremap  <nul> :call OpenLink(1)<cr>
+nnoremap <cr> :call OpenLink(0)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+nnoremap <leader>tr mx{j:TableModeRealign<cr>/^ *+<cr>:s/-/=/g<cr>`x
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
+nnoremap <silent> <leader>tc :s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g<cr>
+nnoremap <silent> <leader>w :if &wrap \| set nowrap \| else \| set wrap \| endif<cr>
 nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
 nnoremap Y mm0"*y$`m
+nnoremap j gj
+nnoremap k gk
 vnoremap Y "*y 
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 

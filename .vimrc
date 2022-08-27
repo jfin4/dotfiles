@@ -103,6 +103,7 @@ nnoremap  <nul> :call OpenLink(1)<cr>
 nnoremap <cr> :call OpenLink(0)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>tr mx{j:TableModeRealign<cr>/^ *+<cr>:s/-/=/g<cr>`x
+" nnoremap <leader>tr :TableModeRealign<cr>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap <silent> <leader>tc :s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g<cr>

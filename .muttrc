@@ -40,11 +40,11 @@ set help=no
 set hostname=foo
 set include=yes # always include messages when replying
 # month, day, from, to, cc, attachments, subject
-set index_format='%[%a %m/%d %H:%M]  %-15.15F  %s %* \ \ \ %?X?  @&?'
+set index_format='%[%a %m/%d %H:%M]  %-15.15F  %-30.30s %?X? @& ?'
 set recall=no # prompt to recall postponed messages?
 set realname='John Inman' # my real name
-set sort=threads # primary sorting method
-set sort_aux=reverse-last-date-received # old thread w new child on top
+set sort=reverse-threads # primary sorting method
+set sort_aux=last-date-received # old thread w new child on top
 set to_chars=' !    '
 set trash='~/.mail/trash'
 set use_envelope_from=yes # populate envelope-from from From: header

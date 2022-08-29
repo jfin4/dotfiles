@@ -53,31 +53,6 @@ let mapleader=" "
 let g:netrw_browsex_viewer="open-link"
 
 " functions
-function! FindLine()
-    try
-        let l:text = join(getline(1, '$'), "\n") . "\n"
-        let l:output = system("echo " . shellescape(l:text) . " | fzy | tr -d '\n'")
-    catch /Vim:Interrupt/
-        " Swallow errors from ^C, allow redraw! below
-    endtry
-    redraw!
-    if v:shell_error == 0 && !empty(l:output)
-       exec '/' . l:output
-    endif
-endfunction
-
-function! FindFile()
-    try
-        let output = system("find . -type f | fzy")
-    catch /Vim:Interrupt/
-        " Swallow errors from ^C, allow redraw! below
-    endtry
-    redraw!
-    if v:shell_error == 0 && !empty(output)
-        exec "e " . output
-    endif
-endfunction
-
 function! OpenLink()
     " :p make full path
     let l:link = fnamemodify(trim(getline('.')), ':p')
@@ -185,7 +160,7 @@ imap <c-l> <plug>MyCR
 " custom mappings
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
-imap <c-h> <Plug>snipMateBack
+" imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
 nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
 nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>

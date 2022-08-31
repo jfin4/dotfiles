@@ -19,7 +19,7 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
-set formatoptions=qlj  "help fo-table
+set formatoptions=qljn  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0

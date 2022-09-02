@@ -32,7 +32,7 @@ set nohlsearch
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
-set scrolloff=5 " Show a few lines of context around the cursor
+set scrolloff=10 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
 set shiftwidth=4 " number of spaces to use for (auto)indent step
 set showbreak=+\ \ \   " hanging indents for wrapped lines set showcmd " show commands
@@ -95,6 +95,11 @@ function! OpenLink(parent)
 endfunction
 
 " keymaps
+
+" tables
+nnoremap <up> vt\|yk1vp`<j1vr k
+nnoremap <down> vt\|yj1vp`<k1vr j
+nnoremap <right> f\|?\S<cr>lr\F\|2l
 
 " inoremap <nul> <c-x><c-u>
 " nnoremap <leader>tr :TableModeRealign<cr>

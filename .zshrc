@@ -64,5 +64,5 @@ alias zrc='vim ~/.zshrc; . ~/.zshrc'
 
 # start tmux
 if [ -z "$TMUX" ]; then
-    tmux 
+	tmux
 fi

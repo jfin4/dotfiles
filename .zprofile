@@ -1,7 +1,4 @@
-#######################################################################
-#                                path                                 #
-#######################################################################
-
+# path
 for current in /c/Program\ Files/R/*; do
     true
 done
@@ -12,17 +9,5 @@ pandoc="$user/software/pandoc/"
 scripts="$HOME/scripts"
 export PATH="$R:$ffmpeg:$pandoc:$scripts:$PATH"
 
-#######################################################################
-#                              variables                              #
-#######################################################################
-
-export EDITOR=/usr/bin/vim
-export TERM=xterm-256color
-export BROWSER='/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-export LC_ALL=C
-
-#######################################################################
-#                            envioronment                             #
-#######################################################################
-
+# env
 export ENV=$HOME/.zshrc

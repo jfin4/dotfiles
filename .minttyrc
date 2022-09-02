@@ -45,5 +45,4 @@ BoldAsColour=no
 CursorBlinks=no
 Padding=16
 
-KeyFunctions=S+Enter:^@
 KeyFunctions=CapsLock:'jk'

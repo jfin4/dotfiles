@@ -94,12 +94,30 @@ function! OpenLink(parent)
 
 endfunction
 
+function! ShiftCellContentsUp()
+    let [linecur, colright] = searchpos('|', 'n')
+    let [linecur, colleft] = searchpos('|', 'bn')
+    let linebot = search('^+', 'n')
+    let len = colright - colleft
+    for i in range(linecur, linebot - 2)
+        let beg = strcharpart(getline(i), 0, colleft)
+        let mid = strcharpart(getline(i + 1), colleft, len - 1)
+        let end = strcharpart(getline(i), colright - 1)
+        call setline(i, beg . mid . end)
+    endfor
+    let i += 1
+    let beg = strcharpart(getline(i), 0, colleft)
+    let mid = repeat(' ', len - 1)
+    let end = strcharpart(getline(i), colright - 1)
+    call setline(i, beg . mid . end)
+endfunction
+
 " keymaps
 
 " tables
-nnoremap <up> vt\|yk1vp`<j1vr k
-nnoremap <down> vt\|yj1vp`<k1vr j
-nnoremap <right> f\|?\S<cr>lr\F\|2l
+nnoremap <f1> :call ShiftCellContentsUp()<cr>
+nnoremap <f2> f\|?\S<cr>lr\F\|2l
+nnoremap <f3> v}gq
 
 " inoremap <nul> <c-x><c-u>
 " nnoremap <leader>tr :TableModeRealign<cr>
@@ -238,9 +256,9 @@ imap <expr> . mucomplete#extend_fwd(".")
 " Colors
 " black    darkred darkgreen brown  darkblue darkmagenta darkcyan lightgray
 " darkgray red     green     yellow blue     magenta     cyan     white
+" highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
 " highlight conceal
 " highlight cursorcolumn
-" highlight cursorline
 " highlight cursorlinenr
 " highlight directory
 " highlight foldcolumn
@@ -256,6 +274,7 @@ imap <expr> . mucomplete#extend_fwd(".")
 highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
 highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
+highlight  cursorline       ctermfg=none     ctermbg=lightgray cterm=none
 highlight  diffadd          ctermfg=darkgreen ctermbg=none      cterm=none
 highlight  diffchange       ctermfg=black     ctermbg=none      cterm=none
 highlight  diffdelete       ctermfg=red       ctermbg=none      cterm=none
@@ -264,7 +283,6 @@ highlight  endofbuffer      ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  error            ctermfg=red       ctermbg=none      cterm=none
 highlight  errormsg         ctermfg=red       ctermbg=none      cterm=none
 highlight  folded           ctermfg=darkgray  ctermbg=none      cterm=none
-" highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
 highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
 highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
 highlight  incsearch        ctermfg=black     ctermbg=yellow    cterm=none

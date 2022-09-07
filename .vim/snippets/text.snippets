@@ -16,8 +16,8 @@ snippet task
 				echon getline(line(".") - 1)[12:15]
 			endif
 	    ')`}, \
-	${3:hhmm}$0, \
-	${2:description}
+	${2:hhmm}, \
+	${3:description}$0
 
 snippet hhmm
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`

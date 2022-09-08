@@ -7,6 +7,7 @@ setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
+setopt extended_glob
 # zstyle :compinstall filename '/home/jfin/.zshrc'
 # zstyle ':completion:*' completer _expand _complete _ignored
 # zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
@@ -48,7 +49,7 @@ alias path="copy-path"
 alias pink='play-tracks -q ~/music/sounds/pink.mp3'
 alias play='play-tracks'
 alias prod='Rscript ~/scripts/get-productivity.r $(cygpath -w $USERPROFILE/msys/home/jfin/hours)'
-alias proj='jot #proj'
+alias proj='jot \#proj'
 alias pull='pull-repo'
 alias push='push-repo'
 alias pw='cat ~/passwords/waterboard > /dev/clipboard'

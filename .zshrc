@@ -14,11 +14,14 @@ setopt extended_glob
 # autoload -Uz compinit
 # compinit
 
+bindkey '^[[Z' reverse-menu-complete
+
 # environment
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export PYTHONIOENCODING=UTF-8
 export ming=mingw-w64-x86_64
 
 # prompt
@@ -49,7 +52,7 @@ alias path="copy-path"
 alias pink='play-tracks -q ~/music/sounds/pink.mp3'
 alias play='play-tracks'
 alias prod='Rscript ~/scripts/get-productivity.r $(cygpath -w $USERPROFILE/msys/home/jfin/hours)'
-alias proj='jot \#proj'
+alias proj='jot "#proj"'
 alias pull='pull-repo'
 alias push='push-repo'
 alias pw='cat ~/passwords/waterboard > /dev/clipboard'

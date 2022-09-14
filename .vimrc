@@ -29,6 +29,7 @@ set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
 " set nowrap
+set nowrapscan " searches don't wrap back to the beginning
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
@@ -98,17 +99,16 @@ function! ShiftCellContentsUp()
     let [linecur, colright] = searchpos('|', 'n')
     let [linecur, colleft] = searchpos('|', 'bn')
     let linebot = search('^+', 'n')
-    let len = colright - colleft
     for i in range(linecur, linebot - 2)
-        let beg = strcharpart(getline(i), 0, colleft)
-        let mid = strcharpart(getline(i + 1), colleft, len - 1)
-        let end = strcharpart(getline(i), colright - 1)
+        let beg = getline(i)[ :colleft - 1]
+        let mid = getline(i + 1)[colleft:colright - 2]
+        let end = getline(i)[colright - 1: ]
         call setline(i, beg . mid . end)
     endfor
     let i += 1
-    let beg = strcharpart(getline(i), 0, colleft)
-    let mid = repeat(' ', len - 1)
-    let end = strcharpart(getline(i), colright - 1)
+    let beg = getline(i)[ :colleft - 1]
+    let mid = repeat(' ', (colright - 1) - colleft )
+    let end = getline(i)[colright - 1: ]
     call setline(i, beg . mid . end)
 endfunction
 
@@ -210,6 +210,7 @@ let g:slime_default_config = {
 let g:slime_dont_ask_default = 1
 augroup slimerc
     autocmd!
+    autocmd FileType python,r,sh set nowrapscan
     autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
     autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
 augroup END

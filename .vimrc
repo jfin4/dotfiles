@@ -116,7 +116,7 @@ endfunction
 
 " tables
 nnoremap <f1> :call ShiftCellContentsUp()<cr>
-nnoremap <f2> f\|?\S<cr>lr\F\|2l
+nnoremap <f2> mmf\|?\S<cr>lr\`m
 nnoremap <f3> v}gq
 
 " inoremap <nul> <c-x><c-u>

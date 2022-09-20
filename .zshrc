@@ -8,11 +8,13 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 setopt extended_glob
-# zstyle :compinstall filename '/home/jfin/.zshrc'
-# zstyle ':completion:*' completer _expand _complete _ignored
-# zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
-# autoload -Uz compinit
-# compinit
+
+# completion
+zstyle :compinstall filename '/home/jfin/.zshrc'
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
+autoload -Uz compinit
+compinit
 
 bindkey '^[[Z' reverse-menu-complete
 
@@ -61,7 +63,7 @@ alias rm='move-to-trash'
 alias search='pacman -Ss'
 alias summary='Rscript ~/scripts/get-summary.r $(cygpath -w $USERPROFILE/msys/home/jfin/hours)'
 alias sync='sync-all-repos'
-alias todo='jot #todo'
+alias todo='jot \#todo'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'

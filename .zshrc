@@ -11,7 +11,6 @@ setopt extended_glob
 
 # completion
 zstyle :compinstall filename '/home/jfin/.zshrc'
-zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
 autoload -Uz compinit
 compinit

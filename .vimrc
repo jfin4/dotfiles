@@ -112,6 +112,13 @@ function! ShiftCellContentsUp()
     call setline(i, beg . mid . end)
 endfunction
 
+function! HighlightToday()
+    let month = strftime('%m')
+    let day = strftime('%d')
+    let pattern = '^.\+' . month . '-*' . day . '.*'
+    call matchadd('Search', pattern)
+endfunction
+
 " keymaps
 
 " tables
@@ -159,6 +166,11 @@ augroup vimStartup
         \ |   exe "normal! g`\""
         \ | endif
 
+augroup END
+
+augroup hours
+    autocmd!
+    autocmd CursorHold current.csv call HighlightToday()
 augroup END
 
 " ide

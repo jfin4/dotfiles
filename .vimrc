@@ -113,9 +113,8 @@ function! ShiftCellContentsUp()
 endfunction
 
 function! HighlightToday()
-    let month = strftime('%m')
-    let day = strftime('%d')
-    let pattern = '^.\+' . month . '-*' . day . '.*'
+    let today = strftime('%m%d')
+    let pattern = '^# ' . today . ' time sheets due at 2 p.m.' 
     call matchadd('Search', pattern)
 endfunction
 

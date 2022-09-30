@@ -3,9 +3,9 @@ for current in /c/Program\ Files/R/*; do
     true
 done
 R="$current/bin"
-user=$(cygpath $USERPROFILE)
-ffmpeg="$user/software/ffmpeg/bin"
-pandoc="$user/software/pandoc/"
+dir=$(cygpath $USERPROFILE)
+ffmpeg="$dir/software/ffmpeg/bin"
+pandoc="$dir/software/pandoc"
 scripts="$HOME/scripts"
 export PATH="$R:$ffmpeg:$pandoc:$scripts:$PATH"
 

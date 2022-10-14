@@ -1,8 +1,14 @@
 snippet todo
-	#todo${1: `strftime('%Y')`-\
+	#todo\
+	${1: `strftime('%Y')`-\
 	${2:`strftime('%m')`}-\
 	${3:`strftime('%d')`} }\
-	`getline(search('#proj', 'wn'))[6:]` \
+	`execute('
+		let project = getline(search("#proj", "wn"))[6:]
+		if project != ""
+			echon project . ": "	
+		endif
+	')`\
 	${4:description}
 
 snippet task

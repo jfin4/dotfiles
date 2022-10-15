@@ -12,12 +12,12 @@ color indicator  black       white       # indicator bar
 color quoted     brightblack default
 color status     brightblack default       # status bar
 
-folder-hook ~/.mail/johninman 'source ~/.mutt/johninman' 
-folder-hook ~/.mail/icloud 'source ~/.mutt/icloud' 
-folder-hook ~/.mail/gmail 'source ~/.mutt/gmail' 
-folder-hook ~/.mail/csumb 'source ~/.mutt/csumb' 
+folder-hook ~/mail/johninman 'source ~/.mutt/johninman' 
+folder-hook ~/mail/icloud 'source ~/.mutt/icloud' 
+folder-hook ~/mail/gmail 'source ~/.mutt/gmail' 
+folder-hook ~/mail/csumb 'source ~/.mutt/csumb' 
 
-save-hook . /home/jfin/.mail/saved
+save-hook . /home/jfin/mail/saved
 
 set my_year=`date +%Y`
 
@@ -40,12 +40,11 @@ set help=no
 set hostname=foo
 set include=yes # always include messages when replying
 # month, day, from, to, cc, attachments, subject
-# set index_format='%3C %[%b %e %Y %H:%M] %?zt?%zt&%T? %-20.20L  %?X?@& ? %?M?(%M) ?%s' 
-# set pager_index_lines=10
+set index_format='%[%a %m/%d %H:%M]  %-15.15F  %-30.30s %?X? @& ?'
 set recall=no # prompt to recall postponed messages?
 set realname='John Inman' # my real name
-set sort=threads # primary sorting method
-set sort_aux=reverse-last-date-received # old thread w new child on top
+set sort=reverse-threads # primary sorting method
+set sort_aux=last-date-received # old thread w new child on top
 set to_chars=' !    '
 set trash='~/.mail/trash'
 set use_envelope_from=yes # populate envelope-from from From: header
@@ -72,11 +71,11 @@ bind index R group-reply
 bind index g first-entry
 bind index l display-message
 bind index y sync-mailbox
-macro index 1 '<change-folder>~/.mail/johninman/INBOX<enter>'
-macro index 2 "<change-folder>~/.mail/johninman/Archive/$my_year<enter>"
-macro index 3 '<change-folder>~/.mail/johninman/Sent<enter>'
-macro index 4 '<change-folder>~/.mail/johninman/Drafts<enter>'
-macro index 5 '<change-folder>~/.mail/johninman/Trash<enter>'
+macro index 1 '<change-folder>~/mail/johninman/INBOX<enter>'
+macro index 2 "<change-folder>~/mail/johninman/Archive/$my_year<enter>"
+macro index 3 '<change-folder>~/mail/johninman/Sent<enter>'
+macro index 4 '<change-folder>~/mail/johninman/Drafts<enter>'
+macro index 5 '<change-folder>~/mail/johninman/Trash<enter>'
 macro index h '<change-folder>?' 'show incoming mailboxes list'
 # macro index I '<shell-escape>mbsync -a<enter>' 'sync all accounts'
 

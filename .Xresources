@@ -26,6 +26,8 @@
 *foreground: #000000
 *background: #ffffff
 
+*internalBorder: 16
+
 ! *cursorUnderLine: true
 *cursorBlink: false
 *cursorOffTime: 500

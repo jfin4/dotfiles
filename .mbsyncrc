@@ -9,15 +9,15 @@ Expunge Both
 IMAPStore johninman-remote
 Host mail.privateemail.com
 User john@johninman.dev
-PassCmd "cat ~/.passwords/johninman"
+PassCmd "cat ~/passwords/johninman"
 SSLType IMAPS
-CertificateFile /etc/ssl/cert.pem
+CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 # Local
 MaildirStore johninman-local
 Subfolders Verbatim
-Path ~/.mail/johninman/
-Inbox ~/.mail/johninman/INBOX
+Path ~/mail/johninman/
+Inbox ~/mail/johninman/INBOX
 
 Channel johninman
 Far :johninman-remote:

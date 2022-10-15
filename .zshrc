@@ -77,3 +77,9 @@ alias zrc='vim ~/.zshrc; . ~/.zshrc'
 alias external='set-screen-layout external'
 alias dual='set-screen-layout dual'
 alias default='set-screen-layout default'
+alias crc='vim ~/.cwmrc; pkill -HUP cwm'
+alias vpn='set-vpn'
+
+pdf () {
+	/usr/bin/zathura "$1" & disown
+}

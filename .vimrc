@@ -19,7 +19,7 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
-set formatoptions=qljn  "help fo-table
+set formatoptions=qljnt  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0
@@ -118,12 +118,20 @@ function! HighlightToday()
     call matchadd('Search', pattern)
 endfunction
 
+function! CenterWindow()
+    37vnew
+    normal w
+    set signcolumn=yes
+    set colorcolumn=+3
+endfunction
+
 " keymaps
 
 " tables
 nnoremap <f1> :call ShiftCellContentsUp()<cr>
 nnoremap <f2> mmf\|?\S<cr>lr\`m
 nnoremap <f3> v}gq
+nnoremap <leader>cw :call CenterWindow()<cr>
 
 " inoremap <nul> <c-x><c-u>
 " nnoremap <leader>tr :TableModeRealign<cr>
@@ -281,8 +289,8 @@ imap <expr> . mucomplete#extend_fwd(".")
 " highlight moremsg
 " highlight question
 " highlight quickfixline
-" highlight vertsplit
 " highlight warningmsg
+highlight  vertsplit        ctermfg=none      ctermbg=lightgray cterm=none
 highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
 highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none

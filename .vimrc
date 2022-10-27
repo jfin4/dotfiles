@@ -136,7 +136,7 @@ nnoremap <leader>cw :call CenterWindow()<cr>
 " inoremap <nul> <c-x><c-u>
 " nnoremap <leader>tr :TableModeRealign<cr>
 inoremap jk <esc>
-nnoremap  <nul> :call OpenLink(1)<cr>
+nnoremap  <backspace> :call OpenLink(1)<cr>
 nnoremap <cr> :call OpenLink(0)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>tr mx{j:TableModeRealign<cr>/^ *+<cr>:s/-/=/g<cr>`x

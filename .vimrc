@@ -19,7 +19,7 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
-set formatoptions=qlj  "help fo-table
+set formatoptions=qljt  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0
@@ -46,7 +46,7 @@ set undodir=~/.vim/undo " undo files here
 set undofile " persistent undo
 set virtualedit=block
 set wildmenu		" display completion matches in a status line
-set wrapscan
+" set wrapscan
 
 " variables
 let mapleader=" "
@@ -73,6 +73,13 @@ function! OpenLink(parent)
 
 endfunction
 
+function! CenterWindow()
+    25vnew
+    normal w
+    set signcolumn=yes
+    set colorcolumn=+3
+endfunction
+
 " keymaps
 inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
@@ -84,6 +91,7 @@ nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
 nnoremap Y mm0"*y$`m
+nnoremap <leader>cw :call CenterWindow()<cr>
 vnoremap Y "*y 
 xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
 
@@ -123,6 +131,7 @@ augroup r
     autocmd!
     autocmd FileType r inoremap <buffer> < <-
     autocmd FileType r inoremap <buffer> << <
+    autocmd FileType r nnoremap K :execute 'SlimeSend1 help('.expand('<cword>').')'<cr>
 augroup END 
 
 " sh
@@ -174,8 +183,8 @@ imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 " imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
-nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
-nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
+nnoremap <leader>si :e ~/.vim/snippets/_.snippets<cr>
+nnoremap <leader>so :w<cr>:bd _.snippets<cr>:SnipMateLoadScope %<cr>
 imap <expr> . mucomplete#extend_fwd(".")
 
 " nerd commenter
@@ -186,7 +195,7 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " lsc
-let g:lsc_auto_map = v:true
+let g:lsc_auto_map = {'defaults': v:true, 'ShowHover': ''}
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
 let g:lsc_reference_highlights = v:false
@@ -218,9 +227,8 @@ let g:mucomplete#chains = {
 " highlight moremsg
 " highlight question
 " highlight quickfixline
-" highlight vertsplit
 " highlight warningmsg
-highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
+highlight  colorcolumn      ctermfg=none     ctermbg=lightgray cterm=none
 highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
 highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
 highlight  diffadd          ctermfg=darkgreen ctermbg=none      cterm=none
@@ -262,6 +270,7 @@ highlight  title            ctermfg=black     ctermbg=none      cterm=none
 highlight  todo             ctermfg=black     ctermbg=none    cterm=none
 highlight  type             ctermfg=black     ctermbg=none      cterm=none
 highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
+highlight  vertsplit        ctermfg=none      ctermbg=lightgray cterm=none
 highlight  visual           ctermfg=black     ctermbg=yellow cterm=none
 highlight  visualnos        ctermfg=black     ctermbg=yellow    cterm=none
 highlight  wildmenu         ctermfg=black     ctermbg=yellow    cterm=none

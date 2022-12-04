@@ -34,7 +34,7 @@
 *cursorOnTime: 500
 
 ! *colorInnerBorder: true
-*termName: xterm-256color
+!*termName: xterm-256color
 
 *faceName: xft:Terminus:size=20:style=bold
 ! *allowBoldFonts: true
@@ -44,10 +44,13 @@
 ! The following two settings may be specific to xterm.
 ! As it sounds. allows for emacs bindings in terminal.  
 *metaSendsEscape: true
+
 ! Allows for expected Delete behavior of deleting character in front of
 ! cursor.
 *deleteIsDEL: false
+
 ! cancels xterms m-enter fullscreen keybinding
 *omitTranslation: fullscreen
+
 ! for copy/paste
 *selectToClipboard: true

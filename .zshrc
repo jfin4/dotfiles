@@ -29,7 +29,11 @@ export ming=mingw-w64-x86_64
 PROMPT=$'\n'"${TMUX:+tmux}%# "
 
 # functions
-. $HOME/.zsh_functions
+insert_date () { 
+	LBUFFER+=${(%):-'%D{%Y-%m-%d}'};
+}
+zle -N insert_date
+bindkey '^xd' insert_date
 
 # aliases 
 

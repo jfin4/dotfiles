@@ -1,7 +1,8 @@
 {
-  "add books dialog dir": "/mnt/ssd/torrents/The Earthsea Cycle/Epub",
+  "add books dialog dir": "/home/jfin/tmp",
   "add books dialog dir-last-used-filter-spec-all-files": false,
   "database location dialog": "/home/jfin/.calibre",
+  "library_delete_books_again": false,
   "sort_history": [
     [
       "timestamp",

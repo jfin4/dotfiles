@@ -148,10 +148,10 @@
         "y": 0
       },
       "index_in_screens_list": 0,
-      "manufacturer": "Acer Technologies",
-      "model": "K243Y-",
+      "manufacturer": "",
+      "model": "",
       "name": "HDMI-1",
-      "serial": "TN6AA0018513-",
+      "serial": "",
       "size_in_logical_pixels": {
         "height": 1080,
         "width": 1920
@@ -268,7 +268,7 @@
   },
   "grid view visible": false,
   "library_usage_stats": {
-    "/home/jfin/.calibre": 11,
+    "/home/jfin/.calibre": 17,
     "/home/jfin/Calibre Library": 8
   },
   "quick_start_guide_added": true,

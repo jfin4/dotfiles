@@ -1,4 +1,4 @@
-Font=Terminus
+Font=Terminus (TTF) for Windows
 FontHeight=14
 ClipShortcuts=yes
 WindowShortcuts=no
@@ -18,7 +18,7 @@ BoldRed=255,0,0
 Green=0,128,0
 BoldGreen=0,128,0
 Yellow=128,128,0
-BoldYellow=255,255,0
+ForegroundColour=0,0,0
 Blue=0,0,128
 Magenta=128,0,128
 Cyan=0,128,128

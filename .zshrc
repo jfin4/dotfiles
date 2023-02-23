@@ -24,6 +24,8 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export PYTHONIOENCODING=UTF-8
 export ming=mingw-w64-x86_64
+export LYNX_CFG=~/.lynx/lynx.cfg
+export LYNX_LSS=~/.lynx/lynx.lss
 
 # prompt
 PROMPT=$'\n'"${TMUX:+tmux}%# "

@@ -1,1 +1,3 @@
- options(browser="C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")
+# followin options make tidyverse output play nice in terminal
+options(cli.unicode = FALSE) 
+options(crayon.enabled = FALSE)

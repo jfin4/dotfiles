@@ -193,6 +193,8 @@ augroup r
     autocmd!
     autocmd FileType r inoremap <buffer> < <-
     autocmd FileType r inoremap <buffer> << <
+    autocmd FileType r nnoremap K :execute 'SlimeSend1 help('.expand('<cword>').')'<cr>
+    autocmd FileType r nnoremap <leader>ro :execute 'SlimeSend1 q()'<cr>
 augroup END 
 
 " sh
@@ -230,8 +232,8 @@ let g:slime_dont_ask_default = 1
 augroup slimerc
     autocmd!
     autocmd FileType python,r,sh set nowrapscan
-    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
+    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend
+    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
 augroup END
 
 " snipmate
@@ -256,7 +258,7 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " lsc
-let g:lsc_auto_map = v:true
+let g:lsc_auto_map = {'defaults': v:true, 'ShowHover': ''}
 let g:lsc_enable_autocomplete = v:false
 let g:lsc_enable_diagnostics = v:false
 let g:lsc_reference_highlights = v:false

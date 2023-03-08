@@ -73,6 +73,7 @@ alias todo='jot \#todo'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
+alias gitt='~/scripts/push-repo'
 
 # start tmux
 if [ -z "$TMUX" ]; then

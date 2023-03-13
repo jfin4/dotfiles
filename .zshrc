@@ -9,11 +9,14 @@ setopt hist_save_no_dups
 setopt share_history
 setopt extended_glob
 
-# completion
+# The following lines were added by compinstall
+
+zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
 zstyle :compinstall filename '/home/jfin/.zshrc'
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=** l:|=*'
+
 autoload -Uz compinit
 compinit
+# End of lines added by compinstall
 
 bindkey '^[[Z' reverse-menu-complete
 
@@ -79,3 +82,4 @@ alias gitt='~/scripts/push-repo'
 if [ -z "$TMUX" ]; then
 	tmux
 fi
+

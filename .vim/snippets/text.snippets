@@ -17,7 +17,7 @@ snippet task
 			let l:date_above = getline(line(".") - 1)[:3]
 			let l:date_current = strftime("%m%d")
 			if l:date_above != l:date_current
-				echon "0700"
+				echon "0800"
 			else
 				echon getline(line(".") - 1)[12:15]
 			endif

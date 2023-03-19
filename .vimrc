@@ -132,6 +132,7 @@ augroup r
     autocmd FileType r inoremap <buffer> < <-
     autocmd FileType r inoremap <buffer> << <
     autocmd FileType r nnoremap K :execute 'SlimeSend1 help('.expand('<cword>').')'<cr>
+    autocmd FileType r nnoremap <leader>ro :execute 'SlimeSend1 q()'<cr>
 augroup END 
 
 " sh
@@ -168,8 +169,8 @@ let g:slime_default_config = {
 let g:slime_dont_ask_default = 1
 augroup slimerc
     autocmd!
-    autocmd FileType python,r,scheme,sh nmap <buffer> , <Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,scheme,sh xmap <buffer> , <Plug>SlimeRegionSend/^[^#\$]<cr>
+    autocmd FileType python,r,scheme,sh nmap <buffer> , <Plug>SlimeLineSend
+    autocmd FileType python,r,scheme,sh xmap <buffer> , <Plug>SlimeRegionSend'>
 augroup END
 
 " snipmate

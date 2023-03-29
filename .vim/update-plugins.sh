@@ -2,18 +2,21 @@
 
 plugins=$(mktemp)
 cat <<- EOF > $plugins
+
+	# jpalardy/vim-slime
 	dhruvasagar/vim-table-mode
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
-	jpalardy/vim-slime
+	jalvesaq/Nvim-R
 	lifepillar/vim-mucomplete
 	marcweber/vim-addon-mw-utils
-	natebosch/vim-lsc
+	# natebosch/vim-lsc
 	preservim/nerdcommenter
 	tomtom/tlib_vim
 	tpope/vim-repeat
 	tpope/vim-surround
+
 EOF
 
 dir=$HOME/.vim/pack/pack/start

@@ -222,18 +222,18 @@ augroup END
 " plugins
 
 " slime
-" let g:slime_target = "tmux"
-" let g:slime_default_config = {
-"             \ "socket_name": "default",
-"             \ "target_pane": "{bottom-right}",
-"             \}
-" let g:slime_dont_ask_default = 1
-" augroup slimerc
-"     autocmd!
-"     autocmd FileType python,r,sh set nowrapscan
-"     autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend
-"     autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
-" augroup END
+let g:slime_target = "tmux"
+let g:slime_default_config = {
+            \ "socket_name": "default",
+            \ "target_pane": "{bottom-right}",
+            \}
+let g:slime_dont_ask_default = 1
+augroup slimerc
+    autocmd!
+    autocmd FileType python,r,sh set nowrapscan
+    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend
+    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
+augroup END
 
 " snipmate
 " 'no_match...' for compatibility with mucomplete
@@ -257,13 +257,13 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " lsc
-" let g:lsc_auto_map = {'defaults': v:true, 'ShowHover': ''}
-" let g:lsc_enable_autocomplete = v:false
-" let g:lsc_enable_diagnostics = v:false
-" let g:lsc_reference_highlights = v:false
-" let g:lsc_server_commands = {
-"             \ 'r': 'R --slave -e languageserver::run()',
-"             \ }
+let g:lsc_auto_map = {'defaults': v:true, 'ShowHover': ''}
+let g:lsc_enable_autocomplete = v:false
+let g:lsc_enable_diagnostics = v:false
+let g:lsc_reference_highlights = v:false
+let g:lsc_server_commands = {
+            \ 'r': 'R --slave -e languageserver::run()',
+            \ }
 
 " mucomplete
 let g:mucomplete#always_use_completeopt = 0

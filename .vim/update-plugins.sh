@@ -3,15 +3,15 @@
 plugins=$(mktemp)
 cat <<- EOF > $plugins
 
-	# jpalardy/vim-slime
+	jpalardy/vim-slime
 	dhruvasagar/vim-table-mode
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
-	jalvesaq/Nvim-R
+	# jalvesaq/Nvim-R
 	lifepillar/vim-mucomplete
 	marcweber/vim-addon-mw-utils
-	# natebosch/vim-lsc
+	natebosch/vim-lsc
 	preservim/nerdcommenter
 	tomtom/tlib_vim
 	tpope/vim-repeat

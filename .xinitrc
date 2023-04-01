@@ -1,12 +1,14 @@
 dunst &
-setxkbmap -option caps:escape -option altwin:swap_alt_win
+# setxkbmap -option caps:escape -option altwin:swap_alt_win
+setxkbmap -option caps:escape
 echo true > $HOME/.swap-alt-win
-sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
 source $HOME/.fehbg
-sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
 unclutter -root -noevents &
+nm-applet &
+mullvad-vpn &
 watch-battery &
 xrdb -merge .Xresources
 xset b off
 
 exec awesome
+# exec startlxqt

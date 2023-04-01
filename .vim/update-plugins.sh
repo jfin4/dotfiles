@@ -6,6 +6,7 @@ cat <<- EOF > $plugins
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
+	jalvesaq/Nvim-R
 	jpalardy/vim-slime
 	lifepillar/vim-mucomplete
 	marcweber/vim-addon-mw-utils
@@ -16,7 +17,7 @@ cat <<- EOF > $plugins
 	tpope/vim-surround
 EOF
 
-dir=$HOME/.vim/pack/pack/start
+dir=$HOME/.vim/bundle/pack/start
 while read p; do
     if [ -e $dir/${p##*/} ]
     then

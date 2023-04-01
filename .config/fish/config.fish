@@ -1,11 +1,18 @@
 if status is-login
+
     set -gx PATH $HOME/scripts $PATH
+
+    sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
+    sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
+
     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
         exec startx -- -keeptty
     end
+
 end
 
 if status is-interactive
+
     fish_config theme choose None
     set -g fish_autosuggestion_enabled 0
     set -U fish_greeting
@@ -14,7 +21,7 @@ if status is-interactive
     abbr --add alarm    'set-alarm'
     abbr --add arc      'vim ~/.config/awesome/rc.lua'
     abbr --add bak      'backup-file'
-    abbr --add bt       'connect-bluetooth'
+    abbr --add bt       'manage-bluetooth'
     abbr --add crc      'vim ~/.cwmrc; pkill -HUP cwm'
     abbr --add default  'set-screen-layout default'
     abbr --add deorphan 'sudo pacman -Qtdq | sudo pacman -Rns -'
@@ -72,4 +79,5 @@ if status is-interactive
     function pdf 
         zathura $argv & disown
     end
+
 end

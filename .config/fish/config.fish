@@ -1,6 +1,7 @@
 if status is-login
 
     set -gx PATH $HOME/scripts $PATH
+    set -gx TERM xterm-256color
 
     sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
     sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'

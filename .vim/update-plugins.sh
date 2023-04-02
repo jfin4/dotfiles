@@ -2,15 +2,12 @@
 
 plugins=$(mktemp)
 cat <<- EOF > $plugins
-	dhruvasagar/vim-table-mode
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
 	jalvesaq/Nvim-R
-	jpalardy/vim-slime
 	lifepillar/vim-mucomplete
 	marcweber/vim-addon-mw-utils
-	natebosch/vim-lsc
 	tomtom/tlib_vim
 	tpope/vim-commentary
 	tpope/vim-repeat

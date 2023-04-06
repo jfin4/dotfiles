@@ -9,7 +9,8 @@ set autowriteall " automatically write file if changed
 set background=light " 'dark' or 'light' used for highlight colors
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
-set breakindent " wrapped lines are indented same as beginning of line
+set breakindent 
+set breakindentopt=min:0,shift:1
 set completeopt=menu,menuone
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
@@ -28,18 +29,18 @@ set modeline
 set modelines=1
 set mouse=a " Only xterm can grab the mouse events when using the shift key
 set nohlsearch
-" set nowrap
 set nowrapscan " searches don't wrap back to the beginning
 set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
 set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler		" show the cursor position all the time
 set scrolloff=10 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
-set shiftwidth=4 " number of spaces to use for (auto)indent step
-set showbreak=+\ \ \   " hanging indents for wrapped lines set showcmd " show commands
+set shiftwidth=2 " number of spaces to use for (auto)indent step
+set showbreak=+
 set smartcase " no ignore case when pattern has uppercase
 set t_Co=16 " how many terminal colors
-set tabstop=4 " number of spaces that <tab> in file uses
+set tabstop=2 " number of spaces that <tab> in file uses
+
 set textwidth=78 " maximum width of text that is being inserted
 set ttimeout		" time out for key codes
 set ttimeoutlen=100	" wait up to 100ms after Esc for special key

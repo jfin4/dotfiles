@@ -50,7 +50,6 @@ button:hover {
 #clock,
 #battery,
 #network,
-#pulseaudio,
 #tray {
     padding: 0 10px;
     color: rgb(191, 191, 191);
@@ -111,25 +110,6 @@ label:focus {
 }
 
 #network.disconnected {
-    background-color: rgb(0, 0, 0);
-}
-
-#pulseaudio {
-    background-color: rgb(0, 0, 0);
-    color: rgb(191, 191, 191);
-}
-
-#pulseaudio.muted {
-    background-color: rgb(0, 0, 0);
-    color: rgb(191, 191, 191);
-}
-
-#wireplumber {
-    background-color: rgb(0, 0, 0);
-    color: rgb(191, 191, 191);
-}
-
-#wireplumber.muted {
     background-color: rgb(0, 0, 0);
 }
 

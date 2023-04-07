@@ -6,8 +6,12 @@ if status is-login
     sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
     sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
 
-    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-        exec startx -- -keeptty
+    # if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+    #     exec startx -- -keeptty
+    # end
+
+    if test -z "$WAYLAND_DISPLAY" -a "$XDG_VTNR" = 1
+      exec Hyprland
     end
 
 end

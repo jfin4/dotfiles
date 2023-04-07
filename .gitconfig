@@ -9,3 +9,5 @@
 	name = John Inman
 [credential]
 	helper = store
+[gui]
+	recentrepo = /home/jfin/scripts

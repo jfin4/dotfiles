@@ -11,14 +11,14 @@
 *color3:  #808000
 *color11: #ffff00
 ! blue 
-*color4:  #000080
-*color12: #000080
+*color4:  #0000cd
+*color12: #0000cd
 ! magenta 
-*color5:  #800080
-*color13: #800080
+*color5:  #8b008b
+*color13: #8b008b
 ! cyan 
-*color6:  #008080
-*color14: #008080
+*color6:  #008b8b
+*color14: #008b8b
 ! gray/white
 *color7:  #f5f5f5
 *color15: #f5f5f5
@@ -54,3 +54,4 @@
 
 ! for copy/paste
 *selectToClipboard: true
+

@@ -10,6 +10,7 @@ set autowriteall " automatically write file if changed
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
+set breakindentopt=min:0,shift:1 " wrapped lines are indented same as beginning of line
 set completeopt=menu,menuone
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
@@ -34,10 +35,10 @@ set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler  " show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
-set shiftwidth=4 " number of spaces to use for (auto)indent step
-set showbreak=+\ \ \   " hanging indents for wrapped lines set showcmd " show commands
+set shiftwidth=2 " number of spaces to use for (auto)indent step
+set showbreak=+ " hanging indents for wrapped lines set showcmd " show commands
 set smartcase " no ignore case when pattern has uppercase
-set tabstop=4 " number of spaces that <tab> in file uses
+set tabstop=2 " number of spaces that <tab> in file uses
 set textwidth=78 " maximum width of text that is being inserted
 set ttimeout  " time out for key codes
 set ttimeoutlen=100 " wait up to 100ms after Esc for special key
@@ -48,6 +49,7 @@ set wildmenu  " display completion matches in a status line
 
 " variables
 let mapleader=" "
+let maplocalleader=" "
 let g:netrw_browsex_viewer="open-link"
 
 " functions
@@ -116,10 +118,8 @@ augroup END
 let R_external_term = 'xterm'
 
 function! s:customNvimRMappings()
-   nmap <buffer> <Leader>ri <Plug>RStart
-   nmap <buffer> <Leader>ro <Plug>RClose
-   nmap <buffer> <cr> <Plug>RSendLine
-   vmap <buffer> <cr> <Plug>RDSendSelection
+   nmap <buffer> , <Plug>RSendLine
+   vmap <buffer> , <Plug>RDSendSelection
    inoremap <buffer> < <-
    inoremap <buffer> << <
 endfunction

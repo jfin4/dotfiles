@@ -115,7 +115,7 @@ augroup END
 " plugins
 
 " nvim-r
-let R_external_term = 'xterm'
+let R_external_term = 'foot -a R -T R --login-shell --log-level warning'
 
 function! s:customNvimRMappings()
    nmap <buffer> , <Plug>RSendLine

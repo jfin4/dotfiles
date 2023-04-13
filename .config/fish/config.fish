@@ -22,6 +22,7 @@ if status is-interactive
     set -g fish_autosuggestion_enabled 0
     set -U fish_greeting
 
+    abbr --add hrc      'vim ~/.config/hypr/hyprland.conf'
     abbr --add R        'start-r'
     abbr --add alarm    'set-alarm'
     abbr --add arc      'vim ~/.config/awesome/rc.lua'

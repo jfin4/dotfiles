@@ -1,16 +1,17 @@
 " vimrc
 filetype indent plugin on 
 syntax on 
-colorscheme jfin
+colorscheme quiet
 
 " options 
 set autoindent " take indent for new line from previous line
 set autoread " automatically read file when changed outside of vim
 set autowriteall " automatically write file if changed
+set background=dark
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
 set backupdir=~/.vim/backup
 set breakindent " wrapped lines are indented same as beginning of line
-set breakindentopt=min:0,shift:1 " wrapped lines are indented same as beginning of line
+set breakindentopt=min:0,shift:3 " wrapped lines are indented same as beginning of line
 set completeopt=menu,menuone
 set directory=~/.vim/swap
 set display=lastline " Show @@@ in the last line if it is truncated.
@@ -20,7 +21,7 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
-set formatoptions=qljt  "help fo-table
+set formatoptions=qljtnc  "help fo-table
 set ignorecase " ignore case
 set incsearch " Do incremental searching
 set laststatus=0
@@ -35,10 +36,9 @@ set pastetoggle=<insert> " key code that causes paste to toggle
 set ruler  " show the cursor position all the time
 set scrolloff=5 " Show a few lines of context around the cursor
 set shiftround " round indent to shiftwidth
-set shiftwidth=2 " number of spaces to use for (auto)indent step
+set shiftwidth=4 " number of spaces to use for (auto)indent step
 set showbreak=+ " hanging indents for wrapped lines set showcmd " show commands
-set smartcase " no ignore case when pattern has uppercase
-set tabstop=2 " number of spaces that <tab> in file uses
+set tabstop=4 " number of spaces that <tab> in file uses
 set textwidth=78 " maximum width of text that is being inserted
 set ttimeout  " time out for key codes
 set ttimeoutlen=100 " wait up to 100ms after Esc for special key
@@ -71,25 +71,16 @@ function! OpenLink(parent)
 
 endfunction
 
-function! CenterWindow()
-    25vnew
-    normal w
-    set signcolumn=yes
-    set colorcolumn=+3
-endfunction
-
 " keymaps
 inoremap jk <esc>l
 inoremap <nul> <c-x><c-u>
 nnoremap // :call FindLine()<cr>
-nnoremap <cr> :call OpenLink(0)<cr>
-nnoremap  <up> :call OpenLink(1)<cr>
 nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
 nnoremap Y mm0"*y$`m
 nnoremap <leader>cw :call CenterWindow()<cr>
-vnoremap Y "*y 
+xnoremap <silent> Y :w !wl-copy<CR><CR>
 
 " command abbreviations
 cnoreabbrev cdd lcd %:p:h<cr>
@@ -111,23 +102,7 @@ augroup text
     autocmd FileType text setlocal textwidth=0
 augroup END 
 
-
 " plugins
-
-" nvim-r
-let R_external_term = 'foot -a R -T R --login-shell --log-level warning'
-
-function! s:customNvimRMappings()
-   nmap <buffer> , <Plug>RSendLine
-   vmap <buffer> , <Plug>RDSendSelection
-   inoremap <buffer> < <-
-   inoremap <buffer> << <
-endfunction
-
-augroup myNvimR
-   au!
-   autocmd filetype r call s:customNvimRMappings()
-augroup end
 
 " snipmate
 " 'no_match...' for compatibility with mucomplete

@@ -2,24 +2,19 @@
 
 plugins=$(mktemp)
 cat <<- EOF > $plugins
-
-	jpalardy/vim-slime
-	dhruvasagar/vim-table-mode
 	garbas/vim-snipmate
 	godlygeek/tabular
 	honza/vim-snippets
-	# jalvesaq/Nvim-R
+	jalvesaq/Nvim-R
 	lifepillar/vim-mucomplete
 	marcweber/vim-addon-mw-utils
-	natebosch/vim-lsc
-	preservim/nerdcommenter
 	tomtom/tlib_vim
+	tpope/vim-commentary
 	tpope/vim-repeat
 	tpope/vim-surround
-
 EOF
 
-dir=$HOME/.vim/pack/pack/start
+dir=$HOME/.vim/pack/bundle/start
 while read p; do
     if [ -e $dir/${p##*/} ]
     then

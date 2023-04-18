@@ -1,242 +1,79 @@
-" vimrc
-syntax enable " enables syntax highlighting, keeping :highlight commands
-filetype plugin indent on " enables filetype detection
+" vim: set ft=vim :
+filetype indent plugin on
+syntax on
 colorscheme jfin
 
-" options 
-set autoindent " take indent for new line from previous line
-set autoread " automatically read file when changed outside of vim
-set autowriteall " automatically write file if changed
-set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
-set backupdir=~/.vim/backup
+source $VIMRUNTIME/defaults.vim
+
+if has('gui_running') && has('win32')
+    set backupdir=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\backup
+    set directory=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\swap
+    set undodir=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\undo 
+    set viminfo+=nC:\\Users\\JInman\\msys\\home\\jfin\\.vim\\viminfo
+else
+    set backupdir=~/.vim/backup
+    set directory=~/.vim/swap
+    set undodir=~/.vim/undo 
+    set viminfo+=n~/.vim/viminfo
+endif
+
+set guioptions=egt
+set guicursor+=a:blinkon0
+set guifont=Terminus_(TTF)_for_Windows:h12:b
+
+set autoindent 
+set autoread 
+set autowriteall
 set breakindent 
 set breakindentopt=min:0,shift:1
-set completeopt=menu,menuone
-set directory=~/.vim/swap
-set display=lastline " Show @@@ in the last line if it is truncated.
+set completeopt=menu,menuone " mucomplete needs menuone
 set encoding=utf-8
-set expandtab " use spaces when <tab> is inserted
+set expandtab 
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldlevel=99
 set foldmethod=manual
-set foldtext=getline(v:foldstart)[0:30].repeat('-',48)
-set formatoptions=qljnt  "help fo-table
-set ignorecase " ignore case
-set incsearch " Do incremental searching
-set laststatus=0
-set linebreak " wrap long lines at a blank
-set modeline
-set modelines=1
-set mouse=a " Only xterm can grab the mouse events when using the shift key
+set foldtext=getline(v:foldstart)[0:30].repeat('>',48)
+set formatoptions=qljt  
+set ignorecase 
+set laststatus=1
+set linebreak 
 set nohlsearch
-set nowrapscan " searches don't wrap back to the beginning
-set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
-set pastetoggle=<insert> " key code that causes paste to toggle
-set ruler		" show the cursor position all the time
-set scrolloff=10 " Show a few lines of context around the cursor
-set shiftround " round indent to shiftwidth
-set shiftwidth=2 " number of spaces to use for (auto)indent step
+set pastetoggle=<insert> 
+set shiftround 
+set shiftwidth=4 
 set showbreak=+
-set smartcase " no ignore case when pattern has uppercase
-set tabstop=2 " number of spaces that <tab> in file uses
-
-set textwidth=78 " maximum width of text that is being inserted
-set ttimeout		" time out for key codes
-set ttimeoutlen=100	" wait up to 100ms after Esc for special key
-set undodir=~/.vim/undo " undo files here
-set undofile " persistent undo
+set smartcase 
+set tabstop=4 
+set textwidth=78 
+set undofile 
 set virtualedit=block
-set wildmenu		" display completion matches in a status line
-set wrapscan
+set wildmenu
 
 " variables
-let mapleader=" "
-let g:netrw_browsex_viewer="open-link"
+let mapleader = ' '
+let maplocalleader = ' '
 
-" functions
-function! OpenLink(parent)
-    " set link to file or parent directory?
-    if a:parent == 1
-        let l:link = fnamemodify(trim(getline('.')), ':p:h')
-    else
-        let l:link = fnamemodify(trim(getline('.')), ':p')
-    endif
-
-    " is link a dir?
-    if isdirectory(l:link) == 1
-        let l:is_dir = 1
-    else
-        let l:is_dir = 0
-    endif
-
-    " is link local
-    if l:link[0:2] == '/c/' || l:link[0:5] == '/home/'
-        let l:is_local = 1
-    else
-        let l:is_local = 0
-    endif
-
-    if l:is_dir == 1 && l:is_local == 1
-        call system('tmux split-window -b -c ' . shellescape(l:link))
-        call system('tmux select-layout main-vertical')
-    elseif l:is_dir == 0 && l:is_local == 1
-        " execute "edit" l:link
-        call system('tmux split-window -b "vim ' . shellescape(l:link) . '"')
-        call system('tmux select-layout main-vertical')
-    else
-        call system('cygstart ' . shellescape(l:link))
-    endif
-
-    if v:shell_error != 0
-        echohl WarningMsg 
-        echo "No such file or directory. Are network drives connected?"
-        echohl None
-    endif
-
-endfunction
-
-function! ShiftCellContentsUp()
-    let [linecur, colright] = searchpos('|', 'n')
-    let [linecur, colleft] = searchpos('|', 'bn')
-    let linebot = search('^+', 'n')
-    for i in range(linecur, linebot - 2)
-        let beg = getline(i)[ :colleft - 1]
-        let mid = getline(i + 1)[colleft:colright - 2]
-        let end = getline(i)[colright - 1: ]
-        call setline(i, beg . mid . end)
-    endfor
-    let i += 1
-    let beg = getline(i)[ :colleft - 1]
-    let mid = repeat(' ', (colright - 1) - colleft )
-    let end = getline(i)[colright - 1: ]
-    call setline(i, beg . mid . end)
-endfunction
-
-function! HighlightToday()
-    let today = strftime('%m%d')
-    let pattern = '^# ' . today . ' time sheets due at 2 p.m.' 
-    call matchadd('Search', pattern)
-endfunction
-
-function! CenterWindow()
-    37vnew
-    normal w
-    set signcolumn=yes
-    set colorcolumn=+3
-endfunction
-
-" keymaps
-
-" tables
-nnoremap <f1> :call ShiftCellContentsUp()<cr>
-nnoremap <f2> mmf\|?\S<cr>lr\`m
-nnoremap <f3> v}gq
-nnoremap <leader>cw :call CenterWindow()<cr>
-
-" inoremap <nul> <c-x><c-u>
-" nnoremap <leader>tr :TableModeRealign<cr>
-inoremap jk <esc>
-nnoremap  <backspace> :call OpenLink(1)<cr>
-nnoremap <cr> :call OpenLink(0)<cr>
-nnoremap <leader>hi :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
-nnoremap <leader>tr mx{j:TableModeRealign<cr>/^ *+<cr>:s/-/=/g<cr>`x
-" nnoremap <leader>tr :TableModeRealign<cr>
+" vimrc
 nnoremap <leader>vi :e $MYVIMRC<cr>
-nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
-nnoremap <silent> <leader>tc :s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g<cr>
-nnoremap <silent> <leader>w :if &wrap \| set nowrap \| else \| set wrap \| endif<cr>
-nnoremap <silent> gcc :call nerdcommenter#Comment('n', 'toggle')<CR>
-nnoremap Y mm0"*y$`m
-nnoremap j gj
-nnoremap k gk
-vnoremap Y "*y 
-xnoremap <silent> gc :call nerdcommenter#Comment('x', 'toggle')<CR>
+nnoremap <leader>ci :e $HOME\vimfiles\colors\jfin.vim<cr>
+augroup vimrc
+    au!
+    autocmd BufWritePost $MYVIMRC,*.vim source $MYVIMRC
+augroup end
+
+" get highlight group
+function! GetHighlight()
+    let hi    = synIDattr(synID(line('.'), col('.'), 1), 'name')
+    let trans = synIDattr(synID(line('.'), col('.'), 0), 'name')
+    let lo    = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+    echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
+endfunction
+nnoremap <leader>hi :call GetHighlight()<cr>
 
 " command abbreviations
-cnoreabbrev cdd lcd %:p:h<cr>
 cnoreabbrev h tab h
-cnoreabbrev ee call FindFile()<cr>
-
-" autocommands
- 
-" Put these in an autocmd group, so that you can revert them with:
-" ":augroup vimStartup | au! | augroup END"
-augroup vimStartup
-    autocmd!
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid, when inside an event handler
-" (happens when dropping a file on gvim) and for a commit message (it's
-" likely a different one than last time).
-    autocmd BufReadPost *
-        \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ |   exe "normal! g`\""
-        \ | endif
-
-augroup END
-
-augroup hours
-    autocmd!
-    autocmd CursorHold current.csv call HighlightToday()
-augroup END
-
-" ide
-augroup ide
-    autocmd!
-    autocmd FileType python,r,sh nnoremap <buffer> <leader>ri 
-                \:call system("open-repl " . &filetype)<cr>
-    autocmd FileType python,r let b:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
-augroup END
-
-" r
-augroup r 
-    autocmd!
-    autocmd FileType r inoremap <buffer> < <-
-    autocmd FileType r inoremap <buffer> << <
-    autocmd FileType r nnoremap K :execute 'SlimeSend1 help('.expand('<cword>').')'<cr>
-    autocmd FileType r nnoremap <leader>ro :execute 'SlimeSend1 q()'<cr>
-augroup END 
-
-" sh
-augroup sh
-    autocmd!
-    autocmd FileType sh setlocal noexpandtab
-augroup END 
-
-" markdown
-augroup markdown 
-    autocmd!
-    autocmd FileType markdown set nowrap
-    " autocmd FileType markdown let markdown_folding = 1
-    " autocmd FileType markdown setlocal conceallevel=2
-    " autocmd FileType markdown setlocal textwidth=0
-augroup END 
-
-" text
-augroup text
-    autocmd!
-    " autocmd FileType text setlocal nowrap
-    autocmd FileType text setlocal commentstring=#%s
-    autocmd FileType text setlocal textwidth=0
-augroup END 
-
-" plugins
-
-" slime
-let g:slime_target = "tmux"
-let g:slime_default_config = {
-            \ "socket_name": "default",
-            \ "target_pane": "{bottom-right}",
-            \}
-let g:slime_dont_ask_default = 1
-augroup slimerc
-    autocmd!
-    autocmd FileType python,r,sh set nowrapscan
-    autocmd FileType python,r,sh nmap <buffer> , <Plug>SlimeLineSend
-    autocmd FileType python,r,sh xmap <buffer> , <Plug>SlimeRegionSend
-augroup END
 
 " snipmate
-" 'no_match...' for compatibility with mucomplete
 let g:snipMate = get(g:, 'snipMate', {
             \ 'always_choose_first' : 1,
             \ 'no_match_completion_feedkeys_chars' : '',
@@ -244,33 +81,12 @@ let g:snipMate = get(g:, 'snipMate', {
             \ })
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
-imap <c-h> <Plug>snipMateBack
 smap <c-h> <Plug>snipMateBack
-nnoremap <leader>si :e ~/.vim/snippets/text.snippets<cr>
-nnoremap <leader>so :w<cr>:bd text.snippets<cr>:SnipMateLoadScope %<cr>
-
-" nerd commenter
-let g:NERDCreateDefaultMappings = 0
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
-
-" lsc
-let g:lsc_auto_map = {'defaults': v:true, 'ShowHover': ''}
-let g:lsc_enable_autocomplete = v:false
-let g:lsc_enable_diagnostics = v:false
-let g:lsc_reference_highlights = v:false
-let g:lsc_server_commands = {
-            \ 'r': 'R --slave -e languageserver::run()',
-            \ }
+nnoremap <leader>si :SnipMateOpenSnippetFiles<cr>
+augroup snipmate
+   au!
+   autocmd bufread * SnipMateLoadScope %
+augroup end
 
 " mucomplete
-let g:mucomplete#always_use_completeopt = 0
-" c-n  c-p  cmd  defs dict file incl keyn keyp line omni
-" spel tags thes user path uspl list nsnp snip ulti
-let g:mucomplete#chains = {
-    \ 'default' : ['uspl', 'path', 'user', 'keyn', 'snip'],
-    \ }
 imap <expr> . mucomplete#extend_fwd(".")
-

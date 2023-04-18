@@ -1,32 +1,47 @@
 #!/bin/sh
 
-plugins=$(mktemp)
-cat <<- EOF > $plugins
-	garbas/vim-snipmate
-	godlygeek/tabular
-	honza/vim-snippets
-	jalvesaq/Nvim-R
-	lifepillar/vim-mucomplete
-	marcweber/vim-addon-mw-utils
-	tomtom/tlib_vim
-	tpope/vim-commentary
-	tpope/vim-repeat
-	tpope/vim-surround
-EOF
+# plugin github repositories
+plugins='
+    garbas/vim-snipmate
+    godlygeek/tabular
+    honza/vim-snippets
+    jalvesaq/Nvim-R
+    lifepillar/vim-mucomplete
+    marcweber/vim-addon-mw-utils
+    tomtom/tlib_vim
+    tpope/vim-commentary
+    tpope/vim-repeat
+    tpope/vim-surround
+'
 
-dir=$HOME/.vim/pack/bundle/start
-while read p; do
-    if [ -e $dir/${p##*/} ]
+# plugin directory
+dir=$HOME/.vim/pack/bundle
+
+# move previously unused plugins back to start
+for o in $(ls $dir/opt)
+do
+    if echo $plugins | grep -q ${o##*/}
     then
-        git -C $dir/${p##*/} pull
-    else
-        git clone https://github.com/$p $dir/${p#*/}
+        mv --verbose $o $dir/start
     fi
-done < $plugins
+done
 
-for d in $dir/*; do
-    if ! grep -q ${d##*/} $plugins; then
-        echo moved $d to opt
-        mv --no-clobber $d ${dir%/start}/opt
+# update plugins
+for p in $plugins
+do
+    if [ -e $dir/start/${p##*/} ]
+    then
+        git -C $dir/start/${p##*/} pull
+    else
+        git clone https://github.com/$p $dir/start/${p#*/}
+    fi
+done 
+
+# move unused plugins to opt
+for s in $(ls $dir/start)
+do
+    if ! echo $plugins | grep -q ${s##*/}
+    then
+        mv --verbose $s $dir/opt
     fi
 done

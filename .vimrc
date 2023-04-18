@@ -53,6 +53,9 @@ set wildmenu
 let mapleader = ' '
 let maplocalleader = ' '
 
+" maps
+inoremap jk <esc>
+
 " vimrc
 nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>ci :e $HOME\vimfiles\colors\jfin.vim<cr>

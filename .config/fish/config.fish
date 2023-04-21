@@ -4,7 +4,8 @@ set -U fish_greeting
 
 # nnn
 set -gx EDITOR /usr/bin/vim
-set -gx NNN_BMS 'u:/c/users/jinman;h:/h'
+set -gx NNN_BMS 'b:/home/jfin;h:/h;d:/c/users/jinman/downloads;p:/r/rb3/shared/basin planning;r:/r/rb3/shared;u:/c/users/jinman'
+set -gx NO_COLOR 1
 
 abbr --add R                '\R --no-save --quiet'
 abbr --add bak              'back-up-file'
@@ -24,6 +25,7 @@ abbr --add lock             'cmd //c Rundll32.exe user32.dll,LockWorkStation'
 abbr --add mdd              'convert-markdown-to-word'
 abbr --add mv               'mv --no-clobber'
 abbr --add mvv              'rename-files'
+abbr --add nnn              'nnn -A'
 abbr --add path             'copy-path'
 abbr --add pink             'play-tracks -q ~/music/sounds/pink.mp3'
 abbr --add play             'play-tracks'

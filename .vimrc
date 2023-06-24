@@ -6,10 +6,10 @@ colorscheme jfin
 source $VIMRUNTIME/defaults.vim
 
 if has('gui_running') && has('win32')
-    set backupdir=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/backup
-    set directory=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/swap
-    set undodir=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/undo 
-    set viminfo+=n$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/viminfo
+    set backupdir=c:/msys64/home/JInman/.vim/backup
+    set directory=c:/msys64/home/JInman/.vim/swap
+    set undodir=c:/msys64/home/JInman/.vim/undo 
+    set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
 else
     set backupdir=$HOME/.vim/backup
     set directory=$HOME/.vim/swap
@@ -62,7 +62,7 @@ xnoremap Y "*y
 
 " vimrc
 nnoremap <leader>vi :e $MYVIMRC<cr>
-nnoremap <leader>ci :e c:/users/jinman/appdata/local/programs/msys64/home/jinman/.vim/colors/jfin.vim<cr>
+nnoremap <leader>ci :e c:/msys64/home/jinman/.vim/colors/jfin.vim<cr>
 augroup vimrc
     au!
     autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC

@@ -6,20 +6,20 @@ colorscheme jfin
 source $VIMRUNTIME/defaults.vim
 
 if has('gui_running') && has('win32')
-    set backupdir=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\backup
-    set directory=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\swap
-    set undodir=C:\\Users\\JInman\\msys\\home\\jfin\\.vim\\undo 
-    set viminfo+=nC:\\Users\\JInman\\msys\\home\\jfin\\.vim\\viminfo
+    set backupdir=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/backup
+    set directory=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/swap
+    set undodir=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/undo 
+    set viminfo+=n$LOCALAPPDATA/Programs/msys64/home/JInman/.vim/viminfo
 else
-    set backupdir=~/.vim/backup
-    set directory=~/.vim/swap
-    set undodir=~/.vim/undo 
-    set viminfo+=n~/.vim/viminfo
+    set backupdir=$HOME/.vim/backup
+    set directory=$HOME/.vim/swap
+    set undodir=$HOME/.vim/undo 
+    set viminfo+=n$HOME/.vim/viminfo
 endif
 
 set guioptions=egt
 set guicursor+=a:blinkon0
-set guifont=Terminus_(TTF)_for_Windows:h12:b
+set guifont=Terminus_(TTF)_for_Windows:h12
 
 set autoindent 
 set autoread 
@@ -33,17 +33,17 @@ set fillchars=vert:\ ,fold:\ ,eob:\
 set foldlevel=99
 set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('>',48)
-set formatoptions=qljt  
+set formatoptions=qlj  
 set ignorecase 
 set laststatus=1
 set linebreak 
 set nohlsearch
 set pastetoggle=<insert> 
 set shiftround 
-set shiftwidth=4 
+set shiftwidth=2 
 set showbreak=+
 set smartcase 
-set tabstop=4 
+set tabstop=2 
 set textwidth=78 
 set undofile 
 set virtualedit=block
@@ -52,16 +52,20 @@ set wildmenu
 " variables
 let mapleader = ' '
 let maplocalleader = ' '
+if has('gui_running') && has('win32')
+  let g:netrw_browsex_viewer = 'cygstart'
+endif
 
 " maps
 inoremap jk <esc>
+xnoremap Y "*y
 
 " vimrc
 nnoremap <leader>vi :e $MYVIMRC<cr>
-nnoremap <leader>ci :e $HOME\vimfiles\colors\jfin.vim<cr>
+nnoremap <leader>ci :e c:/users/jinman/appdata/local/programs/msys64/home/jinman/.vim/colors/jfin.vim<cr>
 augroup vimrc
     au!
-    autocmd BufWritePost $MYVIMRC,*.vim source $MYVIMRC
+    autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
 augroup end
 
 " get highlight group
@@ -93,3 +97,5 @@ augroup end
 
 " mucomplete
 imap <expr> . mucomplete#extend_fwd(".")
+
+

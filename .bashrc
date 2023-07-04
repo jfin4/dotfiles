@@ -1,2 +1,4 @@
-export PATH="$HOME/scripts:$LOCALAPPDATA/Programs:$PATH"
-tmux
+export PATH="$HOME/scripts:$USERPROFILE/Programs:$PATH"
+if [ -z "$TMUX" ]; then
+  tmux
+fi

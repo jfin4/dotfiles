@@ -1,3 +1,3 @@
-set runtimepath^=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim
-set packpath^=$LOCALAPPDATA/Programs/msys64/home/JInman/.vim
-source $LOCALAPPDATA/Programs/msys64/home/JInman/.vimrc
+set runtimepath^=C:/Users/jinman/Cygwin/home/JInman/.vim
+set packpath^=C:/Users/jinman/Cygwin/home/JInman/.vim
+source C:/Users/jinman/Cygwin/home/JInman/.vimrc

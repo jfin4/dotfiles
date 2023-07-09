@@ -4,13 +4,13 @@ auto_view text/html # view html emails in pager
 attachments +A */.* 
 attachments -A */ics
 
-color hdrdefault brightblack default
+color hdrdefault white       default
 color index      blue        default ~U  # unread messages
 color index      green       default ~Q  # replied messages
 color index      red         default ~D  # deleted messages
-color indicator  black       white       # indicator bar
-color quoted     brightblack default
-color status     brightblack default       # status bar
+color indicator  default       brightblack # indicator bar
+color quoted     white       default
+color status     white       default     # status bar
 
 folder-hook ~/mail/johninman 'source ~/.mutt/johninman' 
 folder-hook ~/mail/icloud 'source ~/.mutt/icloud' 

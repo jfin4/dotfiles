@@ -30,8 +30,27 @@ HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+
+# path
+export PATH=".:$HOME/.aliases:$HOME/scripts:$PATH"
+
+# other variables
+export EDITOR=/usr/bin/vim
+export TERM=xterm-256color
+export BROWSER=/usr/bin/firefox
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+
+
 #prompt
-PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%F{#888}${TMUX:+tmux}%#%f "
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:git:*' formats '%b'
+# PROMPT=\$vcs_info_msg_0_'%# '
+PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
+$'\n'"${TMUX:+t}%# "
  
 
 # aliases
@@ -101,3 +120,7 @@ pdf () {
 	/usr/bin/zathura "$1" & disown
 }
 
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+# sudo /home/jfin/scripts/wakeup-disable
+    exec sway
+fi

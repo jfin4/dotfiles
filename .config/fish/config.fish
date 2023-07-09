@@ -1,27 +1,30 @@
 if status is-login
 
     set -gx PATH $HOME/scripts $PATH
-    set -gx TERM xterm-256color
 
     sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
     sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
 
-    # if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-    #     exec startx -- -keeptty
-    # end
-
     if test -z "$WAYLAND_DISPLAY" -a "$XDG_VTNR" = 1
-      exec Hyprland
+        exec Hyprland
     end
 
 end
 
 if status is-interactive
 
+    # nnn
+    set -gx NNN_OPTS 'A'
+    set -gx EDITOR /usr/bin/vim
+    set -gx NNN_BMS 'b:/home/jfin'
+    set -gx NO_COLOR 1
+
     fish_config theme choose None
     set -g fish_autosuggestion_enabled 0
     set -U fish_greeting
 
+    abbr --add run      'run-and-exit'
+    abbr --add bg       'run-in-background'
     abbr --add hrc      'vim ~/.config/hypr/hyprland.conf'
     abbr --add R        'start-r'
     abbr --add alarm    'set-alarm'

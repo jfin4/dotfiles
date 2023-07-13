@@ -21,9 +21,9 @@ set $term foot
 # opened on the original workspace that the command was run on.
 set $menu run-bemenu | xargs swaymsg exec --
 
-# Default layout -------------------------------------------------------------
+# Layouts --------------------------------------------------------------------
 
-workspace_layout tabbed
+workspace_layout stacking
 
 # Output configuration -------------------------------------------------------
 
@@ -53,7 +53,10 @@ bindsym $mod+Backspace kill
 bindsym $mod+colon exec $menu
 
 # Search window
-bindsym $mod+tab exec /home/jfin/scripts/search-window
+bindsym $mod+tab exec /home/jfin/scripts/select-window
+
+# toggle layout
+bindsym $mod+space layout toggle splith tabbed
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -123,8 +126,8 @@ bindsym $mod+Down focus child
 
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    mode hide
-    position bottom
+    # mode hide
+    position top
     font Terminus 12
     modifier $mod
 
@@ -141,7 +144,7 @@ bar {
     }
 }
 
-# Title bar ------------------------------------------------------------------
+# Appearance ------------------------------------------------------------------
 
 # colors
 client.focused #000000 #000000 #ffffff
@@ -153,7 +156,7 @@ client.unfocused #000000 #000000 #696969
 default_border none
 
 # font
-font Terminus 12
+font Terminus 0
 
 # Other settings -------------------------------------------------------------
 

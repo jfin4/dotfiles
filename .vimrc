@@ -5,17 +5,10 @@ colorscheme jfin
 
 source $VIMRUNTIME/defaults.vim
 
-if has('gui_running') && has('win32')
-    set backupdir=c:/msys64/home/JInman/.vim/backup
-    set directory=c:/msys64/home/JInman/.vim/swap
-    set undodir=c:/msys64/home/JInman/.vim/undo 
-    set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
-else
-    set backupdir=$HOME/.vim/backup
-    set directory=$HOME/.vim/swap
-    set undodir=$HOME/.vim/undo 
-    set viminfo+=n$HOME/.vim/viminfo
-endif
+set backupdir=c:/msys64/home/JInman/.vim/backup
+set directory=c:/msys64/home/JInman/.vim/swap
+set undodir=c:/msys64/home/JInman/.vim/undo 
+set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
 
 set guioptions=egt
 set guicursor+=a:blinkon0
@@ -61,7 +54,6 @@ inoremap jk <esc>
 xnoremap Y "*y
 
 " vimrc
-nnoremap <leader>vi :e $MYVIMRC<cr>
 nnoremap <leader>ci :e c:/msys64/home/jinman/.vim/colors/jfin.vim<cr>
 augroup vimrc
     au!
@@ -77,6 +69,14 @@ function! GetHighlight()
 endfunction
 nnoremap <leader>hi :call GetHighlight()<cr>
 
+" open file under cursor
+function! OpenLink()
+    let l:link = trim(getline('.'))
+    call system("cygstart" . " " . shellescape(l:link))
+endfunction
+nnoremap <cr> :call OpenLink()<cr>
+
+
 " command abbreviations
 cnoreabbrev h tab h
 
@@ -89,7 +89,6 @@ let g:snipMate = get(g:, 'snipMate', {
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-h> <Plug>snipMateBack
-nnoremap <leader>si :SnipMateOpenSnippetFiles<cr>
 augroup snipmate
    au!
    autocmd bufread * SnipMateLoadScope %

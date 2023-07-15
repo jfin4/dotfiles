@@ -1,2 +1,4 @@
-export PATH="$HOME/scripts:$LOCALAPPDATA/Programs:$PATH"
-tmux
+if [ -x /usr/bin/zsh ]
+then
+  /usr/bin/zsh
+fi

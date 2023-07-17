@@ -1,10 +1,10 @@
 {
-    "layer": "top", // Waybar at top layer
+    "layer": "bottom", // Waybar at top layer
     "height": 24, // Waybar height (to be removed for auto height)
 
     // Choose the order of the modules
-    "modules-left": ["wlr/workspaces"],
-    "modules-center": ["hyprland/window"],
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["sway/window"],
     "modules-right": ["tray", "network", "battery", "clock"],
 
     "tray": {

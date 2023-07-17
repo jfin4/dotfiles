@@ -126,14 +126,14 @@ bindsym $mod+Down focus child
 
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    # mode hide
+    mode invisible
     position top
     font Terminus 12
     modifier $mod
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+    status_command waybar
 
     colors {
         statusline #696969

@@ -39,6 +39,7 @@ export EDITOR=/usr/bin/vim
 export TERM=xterm-256color
 export BROWSER=/usr/bin/firefox
 export _JAVA_AWT_WM_NONREPARENTING=1
+export MOZ_ENABLE_WAYLAND=1
 
 
 
@@ -94,7 +95,8 @@ alias off='turn-off-screen'
 alias p='pwd'
 alias pad='toggle-numpad'
 alias reboot='sudo reboot'
-alias remove='sudo pacman -R'
+alias remove='sudo pacman -Rs'
+alias rsync='rsync -ahP'
 alias search='sudo pacman -Ss'
 alias shutdown='sudo halt -p'
 alias sshr='ssh root@192.168.1.1'
@@ -121,6 +123,5 @@ pdf () {
 }
 
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-# sudo /home/jfin/scripts/wakeup-disable
-    exec sway
+    exec startx
 fi

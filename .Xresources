@@ -23,34 +23,10 @@
 *color7:  #a9a9a9
 *color15: #ffffff
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 *foreground: #ffffff
 *background: #000000
 
-*internalBorder: 16
+/* *internalBorder: 16 */
 
 ! *cursorUnderLine: true
 *cursorBlink: false
@@ -60,7 +36,7 @@
 ! *colorInnerBorder: true
 !*termName: xterm-256color
 
-*faceName: xft:Terminus:size=16:style=bold
+*faceName: xft:Terminus:size=14
 ! *allowBoldFonts: true
 
 *scrollBar: false

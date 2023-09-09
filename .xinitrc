@@ -11,6 +11,6 @@ mullvad-vpn &
 xrdb -merge .Xresources
 xset b off
 
-exec awesome
+exec dwm
 # exec startlxqt
 

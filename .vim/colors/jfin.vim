@@ -28,7 +28,7 @@ let v:colornames['g_white']       = '#ffffff'
 " :help cterm-colors
 " :help group-name
 
-highlight Comment    ctermfg=lightgray ctermbg=NONE     cterm=NONE      guifg=g_lightgray guibg=NONE         gui=NONE      
+highlight Comment    ctermfg=darkgray ctermbg=NONE     cterm=NONE      guifg=g_lightgray guibg=NONE         gui=NONE      
 highlight Constant   ctermfg=yellow    ctermbg=NONE     cterm=NONE      guifg=g_yellow    guibg=NONE         gui=NONE      
 highlight Identifier ctermfg=white     ctermbg=NONE     cterm=NONE      guifg=NONE          guibg=NONE         gui=NONE      
 highlight Statement  ctermfg=white     ctermbg=NONE     cterm=NONE      guifg=NONE          guibg=NONE         gui=NONE      
@@ -44,20 +44,20 @@ highlight Todo       ctermfg=white     ctermbg=darkgray cterm=NONE      guifg=NO
 
 highlight ColorColumn       ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE  
 highlight Conceal           ctermfg=lightgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE          gui=NONE
-highlight Cursor            ctermfg=None      ctermbg=lightgray      cterm=NONE guifg=NONE     guibg=g_lightgray      gui=NONE
+highlight Cursor            ctermfg=white      ctermbg=lightgray      cterm=NONE guifg=g_white     guibg=g_lightgray      gui=NONE
 highlight lCursor           ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight CursorIM          ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight CursorColumn      ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
 highlight CursorLine        ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
 highlight Directory         ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
-highlight DiffAdd           ctermfg=green     ctermbg=NONE  cterm=NONE guifg=g_green     guibg=NONE  gui=NONE
+highlight DiffAdd           ctermfg=NONE     ctermbg=darkgray  cterm=NONE guifg=NONE     guibg=g_darkgray  gui=NONE
 highlight DiffChange        ctermfg=NONE      ctermbg=NONE  cterm=NONE guifg=NONE          guibg=NONE  gui=NONE
-highlight DiffDelete        ctermfg=red       ctermbg=NONE  cterm=NONE guifg=red       guibg=NONE  gui=NONE
-highlight DiffText          ctermfg=black     ctermbg=yellow  cterm=NONE guifg=g_black     guibg=g_yellow  gui=NONE
+highlight DiffDelete        ctermfg=blue       ctermbg=NONE  cterm=NONE guifg=g_blue       guibg=NONE  gui=NONE
+highlight DiffText          ctermfg=NONE     ctermbg=darkgray  cterm=NONE guifg=NONE     guibg=g_darkgray  gui=NONE
 highlight EndOfBuffer       ctermfg=lightgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE          gui=NONE
 highlight ErrorMsg          ctermfg=red       ctermbg=NONE      cterm=NONE guifg=g_red       guibg=NONE          gui=NONE
 highlight VertSplit         ctermfg=NONE      ctermbg=NONE  cterm=NONE guifg=g_black          guibg=NONE  gui=NONE
-highlight Folded            ctermfg=lightgray ctermbg=NONE  cterm=NONE guifg=g_lightgray guibg=NONE  gui=NONE
+highlight Folded            ctermfg=blue ctermbg=NONE  cterm=NONE guifg=g_blue guibg=NONE  gui=NONE
 highlight FoldColumn        ctermfg=lightgray ctermbg=NONE  cterm=NONE guifg=g_lightgray guibg=NONE  gui=NONE
 highlight SignColumn        ctermfg=lightgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE          gui=NONE
 highlight IncSearch         ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
@@ -90,11 +90,11 @@ highlight SpellBad          ctermfg=red       ctermbg=NONE      cterm=NONE guifg
 highlight SpellCap          ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight SpellLocal        ctermfg=red       ctermbg=NONE      cterm=NONE guifg=g_red       guibg=NONE          gui=NONE
 highlight SpellRare         ctermfg=red       ctermbg=NONE      cterm=NONE guifg=g_red       guibg=NONE          gui=NONE
-highlight StatusLine        ctermfg=lightgray      ctermbg=NONE  cterm=NONE guifg=g_lightgray          guibg=NONE  gui=NONE
-highlight StatusLineNC      ctermfg=lightgray ctermbg=NONE  cterm=NONE guifg=g_lightgray guibg=NONE  gui=NONE
+highlight StatusLine        ctermfg=lightgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE  gui=NONE
+highlight StatusLineNC      ctermfg=darkgray ctermbg=NONE      cterm=NONE guifg=g_darkgray guibg=NONE  gui=NONE
 highlight StatusLineTerm    ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
 highlight StatusLineTermNC  ctermfg=lightgray ctermbg=darkgray  cterm=NONE guifg=g_lightgray guibg=g_darkgray  gui=NONE
-highlight TabLine           ctermfg=lightgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE          gui=NONE
+highlight TabLine           ctermfg=darkgray ctermbg=NONE      cterm=NONE guifg=g_lightgray guibg=NONE          gui=NONE
 highlight TabLineFill       ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight TabLineSel        ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight Terminal          ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE

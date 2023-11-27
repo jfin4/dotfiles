@@ -8,6 +8,7 @@ source $VIMRUNTIME/defaults.vim
 set backupdir=c:/msys64/home/JInman/.vim/backup
 set directory=c:/msys64/home/JInman/.vim/swap
 set undodir=c:/msys64/home/JInman/.vim/undo 
+set viewdir=c:/msys64/home/JInman/.vim/view
 set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
 
 set guioptions=egt
@@ -24,9 +25,8 @@ set encoding=utf-8
 set expandtab 
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldlevel=99
-set foldmethod=manual
 set foldtext=getline(v:foldstart)[0:30].repeat('>',48)
-set formatoptions=qlj  
+set formatoptions=qljnro
 set ignorecase 
 set laststatus=1
 set linebreak 
@@ -42,23 +42,36 @@ set undofile
 set virtualedit=block
 set wildmenu
 
+" comments
+let b:commentary_startofline = 1
+
 " variables
 let mapleader = ' '
 let maplocalleader = ' '
-if has('gui_running') && has('win32')
-  let g:netrw_browsex_viewer = 'cygstart'
-endif
+let g:netrw_browsex_viewer = 'shellescape(C:\Users\jinman\AppData\Local\Firefox Developer Edition\firefox.exe)'
 
 " maps
 inoremap jk <esc>
 xnoremap Y "*y
 
 " vimrc
-nnoremap <leader>ci :e c:/msys64/home/jinman/.vim/colors/jfin.vim<cr>
 augroup vimrc
     au!
     autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
 augroup end
+
+" auto reload snipmate configuration
+augroup vimrc
+    au!
+    autocmd BufWritePost _.snippet SnipMateLoadScope _
+augroup end
+
+" remember folds
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave *.r mkview
+  autocmd BufWinEnter *.r silent! loadview
+augroup END
 
 " get highlight group
 function! GetHighlight()
@@ -71,8 +84,12 @@ nnoremap <leader>hi :call GetHighlight()<cr>
 
 " open file under cursor
 function! OpenLink()
-    let l:link = trim(getline('.'))
-    call system("cygstart" . " " . shellescape(l:link))
+  let l:link = trim(getline('.'))
+  if has('gui_running') && has('win32')
+    call system('start "" ' . shellescape(l:link))
+  else
+    call system('cygstart ' . shellescape(l:link))
+  endif
 endfunction
 nnoremap <cr> :call OpenLink()<cr>
 
@@ -97,4 +114,5 @@ augroup end
 " mucomplete
 imap <expr> . mucomplete#extend_fwd(".")
 
-
+" nvim-r
+let R_user_maps_only = 1

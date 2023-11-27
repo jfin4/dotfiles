@@ -1,4 +1,4 @@
-let R_external_term = 1
+" let R_external_term = 1
 let R_assign = 0
 let maplocalleader = ' '
 
@@ -14,7 +14,7 @@ function! ViewTable()
   let counter = 30
   while counter > 0
     if filereadable(temp_file)
-      call system(temp_file)
+      call system('start "" ' . temp_file)
       break
     endif
     let counter -= 1
@@ -22,14 +22,21 @@ function! ViewTable()
   endwhile
 endfunction
 
-inoremap <buffer> -- <esc>0i# <esc>76a-<esc>0f-R
-inoremap <buffer> --- ---
 inoremap <buffer> < <-
 inoremap <buffer> << <
 inoremap <buffer> > %>%
 inoremap <buffer> >> >
 nnoremap <buffer> , <Plug>RSendLine
+nnoremap <buffer> <c-,> <Plug>RSendLine/^ *[^#]<cr>
 nnoremap <buffer> <localleader>new mx$a # new<esc>`x
 nnoremap <buffer> <localleader>vt :call ViewTable()<cr>
-nnoremap <buffer> K :execute 'RSend ?' . expand('<cword>')<cr>
 xnoremap <buffer> , <Plug>RSendSelection<esc>
+
+nnoremap <buffer> <localLeader>rh :call RAction("head")<cr>
+nnoremap <buffer> <localLeader>rn :call RAction("nrow")<cr>
+nnoremap <buffer> K               :call RAction("help")<cr>
+
+nnoremap <buffer> <localLeader>ri <Plug>RStart<esc>
+nnoremap <buffer> <localLeader>ro <Plug>RClose<esc>
+nnoremap <buffer> <localLeader>rm <Plug>RObjectNames<esc>
+nnoremap <buffer> <localLeader>rs <Plug>RObjectStr<esc>

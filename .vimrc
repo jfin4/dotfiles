@@ -95,7 +95,7 @@ nnoremap <cr> :call OpenLink()<cr>
 
 
 " command abbreviations
-cnoreabbrev h tab h
+cnoreabbrev h tab help
 
 " snipmate
 let g:snipMate = get(g:, 'snipMate', {
@@ -116,3 +116,6 @@ imap <expr> . mucomplete#extend_fwd(".")
 
 " nvim-r
 let R_user_maps_only = 1
+
+" vim-markdown
+let g:vim_markdown_new_list_item_indent = 0

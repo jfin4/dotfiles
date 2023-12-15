@@ -13,30 +13,10 @@ snippet todo
 
 snippet task
 	`strftime("%Y")`\
-	${1:`execute('
-		let date = getline(line(".") - 1)[4:7]
-		let prev_task_end = getline(line(".") - 1)[16:19]
-		let work_day_end = "1700"
-		if prev_task_end >= work_day_end
-			let day = date[2:3]
-			let day_next = printf("%02d", day + 1)
-			let month = date[0:1]
-			let date = month . day_next
-		endif
-		echon date 
-		')`}, \
-	${2:`execute('
-		let prev_task_end = getline(line(".") - 1)[16:19]
-		let cur_task_start = prev_task_end
-		let work_day_end = "1700"
-		if prev_task_end >= work_day_end
-			let work_day_start = "0800"
-			let cur_task_start = work_day_start
-		endif
-		echon cur_task_start
-		')`}, \
+	${1:`getline(line(".") - 1)[4:7]`}, \
+	${2:`getline(line(".") - 1)[16:19]`}, \
 	${3:hhmm}, \
-	${0:description}
+	${4:description}
 
 snippet time
 	`strftime('%H%M', ((strftime('%s') + 450) / 900) * 900)`

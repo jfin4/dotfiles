@@ -4,3 +4,6 @@ let b:table_mode_corner_corner='+'
 let g:table_mode_header_fillchar='='
 let g:table_mode_ignore_align=1
 let g:table_mode_align_char=':'
+
+" vim-markdown
+" let g:vim_markdown_new_list_item_indent = 0

@@ -26,7 +26,7 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
-$'\n'"%% "
+$'\n'"${TMUX+tmux }%% "
 # PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 # $'\n'"%2d"\
 # $'\n'"%% "
@@ -46,8 +46,8 @@ export LYNX_CFG=~/.lynx/lynx.cfg
 export LYNX_LSS=~/.lynx/lynx.lss
 
 # path
-for rv in /c/Program\ Files/R/*; do true; done
-r="$rv/bin/x64"
+# for r_ver in /c/Program\ Files/R/*; do true; done
+r="/c/Program Files/R/R-4.3.1/bin/x64"
 vim="/c/vim/vim90"
 tex="/c/miktex/texmfs/install/miktex/bin/x64"
 export PATH="$HOME/scripts:/usr/bin:/c/bin:$vim:$r:$tex:$PATH"
@@ -95,13 +95,17 @@ pw () {
 
 # aliases 
 
+# alias mv='mv --no-clobber'
 alias R='\R --no-save --quiet'
 alias bak='back-up-file'
 alias cal='cal -y'
+alias cdrelep='cd "/c/Users/jinman/Desktop/Final_ReLEP/ReLEP"'
+alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
 alias dot='git-dot'
 alias dott='push-dot-repo'
+alias gitt='~/scripts/push-repo'
 alias go='open-link'
 alias install='pacman -S'
 alias jot='take-notes'
@@ -110,24 +114,21 @@ alias la='ls -AlhF'
 alias ll='ls -lhF'
 alias lock='cmd //c Rundll32.exe user32.dll,LockWorkStation'
 alias mdd='convert-markdown-to-word'
-# alias mv='mv --no-clobber'
 alias mvv='rename-files'
 alias nnn='nnn -A'
 alias path='copy-path'
 alias pink='play-tracks -q ~/music/sounds/pink.mp3'
 alias play='play-tracks'
-alias prod='/c/Program\ Files/R/R-4.2.3/bin/Rscript.exe ~/scripts/get-productivity.r' 
+alias prod='/c/Program\ Files/R/R-4.3.1/bin/Rscript.exe ~/scripts/get-productivity.r' 
 alias proj='take-notes "#proj"'
 alias pull='pull-repo'
 alias push='push-repo'
 alias remove='pacman -Rns'
-alias tp='move-to-trash'
 alias search='pacman -Ss'
 alias summary='/c/Program\ Files/R/R-4.2.3/bin/Rscript.exe ~/scripts/get-summary.r $(cygpath -w $LOCALAPPDATA/Programs/msys64/home/JInman/hours)'
 alias sync='sync-all-repos'
 alias todo='take-notes \#todo'
+alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; source ~/.zshrc'
-alias gitt='~/scripts/push-repo'
-alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'

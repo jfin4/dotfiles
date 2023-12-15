@@ -3,6 +3,11 @@ filetype indent plugin on
 syntax on
 colorscheme jfin
 
+" variables
+let mapleader = ' '
+let maplocalleader = ' '
+
+" settings
 source $VIMRUNTIME/defaults.vim
 
 set backupdir=c:/msys64/home/JInman/.vim/backup
@@ -12,7 +17,7 @@ set viewdir=c:/msys64/home/JInman/.vim/view
 set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
 
 set guioptions=egt
-set guicursor+=a:blinkon0
+set guicursor+=a:blinkoff500-blinkon500
 set guifont=Terminus_(TTF)_for_Windows:h12
 
 set autoindent 
@@ -42,36 +47,7 @@ set undofile
 set virtualedit=block
 set wildmenu
 
-" comments
-let b:commentary_startofline = 1
-
-" variables
-let mapleader = ' '
-let maplocalleader = ' '
-let g:netrw_browsex_viewer = 'shellescape(C:\Users\jinman\AppData\Local\Firefox Developer Edition\firefox.exe)'
-
-" maps
-inoremap jk <esc>
-xnoremap Y "*y
-
-" vimrc
-augroup vimrc
-    au!
-    autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
-augroup end
-
-" auto reload snipmate configuration
-augroup vimrc
-    au!
-    autocmd BufWritePost _.snippet SnipMateLoadScope _
-augroup end
-
-" remember folds
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave *.r mkview
-  autocmd BufWinEnter *.r silent! loadview
-augroup END
+" functions
 
 " get highlight group
 function! GetHighlight()
@@ -93,9 +69,28 @@ function! OpenLink()
 endfunction
 nnoremap <cr> :call OpenLink()<cr>
 
+" maps
+inoremap jk <esc>
+xnoremap Y "*y
 
 " command abbreviations
 cnoreabbrev h tab help
+
+" auto commands
+
+" vimrc
+augroup vimrc
+    au!
+    autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
+augroup end
+
+" markdown
+augroup markdown
+  autocmd!
+  autocmd Filetype markdown set formatoptions+=o
+augroup END
+
+" plug-ins
 
 " snipmate
 let g:snipMate = get(g:, 'snipMate', {
@@ -103,19 +98,36 @@ let g:snipMate = get(g:, 'snipMate', {
             \ 'no_match_completion_feedkeys_chars' : '',
             \ 'snippet_version' : 1,
             \ })
+
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-h> <Plug>snipMateBack
-augroup snipmate
-   au!
-   autocmd bufread * SnipMateLoadScope %
+
+augroup snippets
+    au!
+    autocmd BufWritePost *.snippet SnipMateLoadScope %
 augroup end
 
 " mucomplete
+let g:mucomplete#chains = {
+    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
+    \ 'vim'     : ['path', 'cmd', 'keyn']
+    \ }
 imap <expr> . mucomplete#extend_fwd(".")
 
-" nvim-r
-let R_user_maps_only = 1
+" slime
+let g:slime_target = "tmux"
+let g:slime_no_mappings = 1
+let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+let g:slime_dont_ask_default = 1
 
-" vim-markdown
-let g:vim_markdown_new_list_item_indent = 0
+function! OpenREPL()
+  call system('open-repl ' . &filetype) 
+endfunction
+
+nnoremap <localLeader>ri :call OpenREPL()<cr>
+nnoremap <silent> <localLeader>ro :!tmux kill-pane -t {bottom-right}<cr>
+
+xnoremap , <Plug>SlimeRegionSend
+" nnoremap , <Plug>SlimeMotionSend
+nnoremap , <Plug>SlimeLineSend

@@ -50,7 +50,7 @@ export LYNX_LSS=~/.lynx/lynx.lss
 r="/c/Program Files/R/R-4.3.1/bin/x64"
 vim="/c/vim/vim90"
 tex="/c/miktex/texmfs/install/miktex/bin/x64"
-export PATH="$HOME/scripts:/usr/bin:/c/bin:$vim:$r:$tex:$PATH"
+export PATH="$HOME/scripts:/usr/bin:/c/bin:$r:$tex:$PATH"
 
 # nnn
 export EDITOR=/c/vim/vim90/vim

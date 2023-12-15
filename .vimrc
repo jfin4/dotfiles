@@ -118,15 +118,10 @@ imap <expr> . mucomplete#extend_fwd(".")
 " slime
 let g:slime_target = "tmux"
 let g:slime_no_mappings = 1
-let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+let g:slime_default_config = {"socket_name": "repl", "target_pane": "0"}
 let g:slime_dont_ask_default = 1
 
-function! OpenREPL()
-  call system('open-repl ' . &filetype) 
-endfunction
-
-nnoremap <localLeader>ri :call OpenREPL()<cr>
-nnoremap <silent> <localLeader>ro :!tmux kill-pane -t {bottom-right}<cr>
+nnoremap <localLeader>ri :call system('open-repl ' . &filetype)<cr>
 
 xnoremap , <Plug>SlimeRegionSend
 " nnoremap , <Plug>SlimeMotionSend

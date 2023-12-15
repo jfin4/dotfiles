@@ -41,3 +41,5 @@ nnoremap <buffer> <localLeader>rc :SlimeSend1 ncol(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rs :SlimeSend1 str(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rm :SlimeSend1 names(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rl :SlimeSend1 length(<c-r><c-w>)<cr>
+
+nnoremap <buffer> <localLeader>ro :SlimeSend1 q()<cr>

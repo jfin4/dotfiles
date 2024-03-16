@@ -29,8 +29,6 @@ White       = #a9a9a9
 BoldWhite   = #ffffff
 
 ScrollbackLines=10000
-Columns=190
-Rows=46
 Transparency=off
 Scrollbar=none
 Term=xterm-256color
@@ -42,5 +40,5 @@ Locale=en_US
 Charset=UTF-8
 BoldAsFont=yes
 BoldAsColour=no
-CursorBlinks=no
+CursorBlinks=yes
 Padding=16

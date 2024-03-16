@@ -28,7 +28,7 @@ let v:colornames['g_white']       = '#ffffff'
 " :help cterm-colors
 " :help group-name
 
-highlight Comment    ctermfg=darkgray ctermbg=NONE     cterm=NONE      guifg=g_lightgray guibg=NONE         gui=NONE      
+highlight Comment    ctermfg=lightgray ctermbg=NONE     cterm=NONE      guifg=g_lightgray guibg=NONE         gui=NONE      
 highlight Constant   ctermfg=yellow    ctermbg=NONE     cterm=NONE      guifg=g_yellow    guibg=NONE         gui=NONE      
 highlight Identifier ctermfg=white     ctermbg=NONE     cterm=NONE      guifg=NONE          guibg=NONE         gui=NONE      
 highlight Statement  ctermfg=white     ctermbg=NONE     cterm=NONE      guifg=NONE          guibg=NONE         gui=NONE      

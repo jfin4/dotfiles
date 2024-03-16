@@ -12,9 +12,9 @@ function! ViewTable()
   let table = expand('<cword>')
   setlocal shellslash
   let temp_file = tempname() . '.xlsx'
-  setlocal noshellslash
+  " setlocal noshellslash
   let write_command = 'openxlsx::write.xlsx(' . table . ', "' . temp_file . '")'
-  execute 'RSend ' . write_command
+  execute 'SlimeSend1 ' . write_command
   let counter = 30
   while counter > 0
     if filereadable(temp_file)
@@ -41,5 +41,6 @@ nnoremap <buffer> <localLeader>rc :SlimeSend1 ncol(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rs :SlimeSend1 str(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rm :SlimeSend1 names(<c-r><c-w>)<cr>
 nnoremap <buffer> <localLeader>rl :SlimeSend1 length(<c-r><c-w>)<cr>
+nnoremap <buffer> <localLeader>rg :SlimeSend1 glimpse(<c-r><c-w>)<cr>
 
 nnoremap <buffer> <localLeader>ro :SlimeSend1 q()<cr>

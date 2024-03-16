@@ -12,7 +12,7 @@ snippet todo
 	${4:description}
 
 snippet task
-	`strftime("%Y")`\
+	`getline(line(".") - 1)[0:3]`\
 	${1:`getline(line(".") - 1)[4:7]`}, \
 	${2:`getline(line(".") - 1)[16:19]`}, \
 	${3:hhmm}, \
@@ -35,3 +35,9 @@ snippet notes
 		echon l:newtext
 	')`
 
+snippet --
+	${0}\
+	`execute('
+		let dashes = repeat("-", 78)
+		echon dashes
+	')`

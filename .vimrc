@@ -31,12 +31,13 @@ set expandtab
 set fillchars=vert:\ ,fold:\ ,eob:\ 
 set foldlevel=99
 set foldtext=getline(v:foldstart)[0:30].repeat('>',48)
-set formatoptions=qljnro
+set formatoptions=qljnr
 set ignorecase 
 set laststatus=1
 set linebreak 
 set nohlsearch
 set pastetoggle=<insert> 
+set shell=/usr/bin/sh
 set shiftround 
 set shiftwidth=2 
 set showbreak=+
@@ -72,11 +73,22 @@ nnoremap <cr> :call OpenLink()<cr>
 " maps
 inoremap jk <esc>
 xnoremap Y "*y
+nnoremap <c-j> :bnext<cr>
+nnoremap <c-k> :bprevious<cr>
+nnoremap <backspace> :bdelete<cr>
 
 " command abbreviations
 cnoreabbrev h tab help
 
 " auto commands
+
+" folds
+augroup folds
+  au!
+  autocmd BufWinEnter * if getline(1) =~ 'foldenable' | execute 'loadview' | endif
+  autocmd BufWinLeave * if getline(1) =~ 'foldenable' | execute 'mkview!' | endif
+augroup end
+
 
 " vimrc
 augroup vimrc
@@ -87,8 +99,9 @@ augroup end
 " markdown
 augroup markdown
   autocmd!
-  autocmd Filetype markdown set formatoptions+=o
 augroup END
+
+
 
 " plug-ins
 
@@ -121,8 +134,13 @@ let g:slime_no_mappings = 1
 let g:slime_default_config = {"socket_name": "repl", "target_pane": "0"}
 let g:slime_dont_ask_default = 1
 
-nnoremap <localLeader>ri :call system('open-repl ' . &filetype)<cr>
+nnoremap <localLeader>ri :call system('open-repl ' . 'repl ' . &filetype)<cr>
+nnoremap <localLeader>r2 :call system('open-repl ' . 'repl2 ' . &filetype)<cr>
 
 xnoremap , <Plug>SlimeRegionSend
 " nnoremap , <Plug>SlimeMotionSend
 nnoremap , <Plug>SlimeLineSend
+
+" markdown
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0

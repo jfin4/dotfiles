@@ -93,14 +93,21 @@ pw () {
   pass $pass_store | tee /dev/clipboard
 }
 
+rm () {
+  mv --backup=numbered "$@" "$HOME"/trash/
+}
+
 # aliases 
 
 # alias mv='mv --no-clobber'
 alias R='\R --no-save --quiet'
 alias bak='back-up-file'
 alias cal='cal -y'
-alias cdrelep='cd "/c/Users/jinman/Desktop/Final_ReLEP/ReLEP"'
+alias cdrelep='cd "/c/Users/jinman/ReLEP"'
 alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
+alias cdprojects='cd "/c/Users/jinman/OneDrive - Water Boards/Projects"'
+alias cddownloads='cd "/c/Users/jinman/Downloads"'
+alias cdjinman='cd "/c/Users/jinman/"'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
 alias dot='git-dot'
@@ -119,7 +126,7 @@ alias nnn='nnn -A'
 alias path='copy-path'
 alias pink='play-tracks -q ~/music/sounds/pink.mp3'
 alias play='play-tracks'
-alias prod='/c/Program\ Files/R/R-4.3.1/bin/Rscript.exe ~/scripts/get-productivity.r' 
+alias prod='echo; /c/Program\ Files/R/R-4.3.1/bin/Rscript.exe ~/scripts/get-productivity.r' 
 alias proj='take-notes "#proj"'
 alias pull='pull-repo'
 alias push='push-repo'
@@ -132,3 +139,9 @@ alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; source ~/.zshrc'
+
+# Automatically start tmux if not already running
+if [ -z "$TMUX" ]; then
+  tmux attach -t main || tmux new -s main
+fi
+

@@ -36,7 +36,7 @@
 ! *colorInnerBorder: true
 !*termName: xterm-256color
 
-*faceName: xft:Terminus:size=14
+*faceName: xft:Terminus:size=18
 ! *allowBoldFonts: true
 
 *scrollBar: false
@@ -54,4 +54,3 @@
 
 ! for copy/paste
 *selectToClipboard: true
-

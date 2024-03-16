@@ -2,7 +2,7 @@
 
 [global]
     alignment = right
-    font = Terminus 20
+    font = Terminus 14
     frame_width = 0
     hide_duplicate_count = true
     notification_limit = 1

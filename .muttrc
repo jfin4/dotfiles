@@ -12,12 +12,12 @@ color indicator  default       brightblack # indicator bar
 color quoted     white       default
 color status     white       default     # status bar
 
-folder-hook ~/mail/johninman 'source ~/.mutt/johninman' 
-folder-hook ~/mail/icloud 'source ~/.mutt/icloud' 
-folder-hook ~/mail/gmail 'source ~/.mutt/gmail' 
-folder-hook ~/mail/csumb 'source ~/.mutt/csumb' 
+folder-hook ~/.email/johninman 'source ~/.mutt/johninman' 
+folder-hook ~/.email/icloud 'source ~/.mutt/icloud' 
+folder-hook ~/.email/gmail 'source ~/.mutt/gmail' 
+folder-hook ~/.email/csumb 'source ~/.mutt/csumb' 
 
-save-hook . /home/jfin/mail/saved
+save-hook . /home/jfin/.email/saved
 
 set my_year=`date +%Y`
 
@@ -46,7 +46,7 @@ set realname='John Inman' # my real name
 set sort=reverse-threads # primary sorting method
 set sort_aux=last-date-received # old thread w new child on top
 set to_chars=' !    '
-set trash='~/.mail/trash'
+set trash='~/.email/trash'
 set use_envelope_from=yes # populate envelope-from from From: header
 set use_from=yes # use from address
 set wait_key=no # don't have to press key after external command
@@ -71,11 +71,11 @@ bind index R group-reply
 bind index g first-entry
 bind index l display-message
 bind index y sync-mailbox
-macro index 1 '<change-folder>~/mail/johninman/INBOX<enter>'
-macro index 2 "<change-folder>~/mail/johninman/Archive/$my_year<enter>"
-macro index 3 '<change-folder>~/mail/johninman/Sent<enter>'
-macro index 4 '<change-folder>~/mail/johninman/Drafts<enter>'
-macro index 5 '<change-folder>~/mail/johninman/Trash<enter>'
+macro index 1 '<change-folder>~/.email/johninman/INBOX<enter>'
+macro index 2 "<change-folder>~/.email/johninman/Archive/$my_year<enter>"
+macro index 3 '<change-folder>~/.email/johninman/Sent<enter>'
+macro index 4 '<change-folder>~/.email/johninman/Drafts<enter>'
+macro index 5 '<change-folder>~/.email/johninman/Trash<enter>'
 macro index h '<change-folder>?' 'show incoming mailboxes list'
 # macro index I '<shell-escape>mbsync -a<enter>' 'sync all accounts'
 

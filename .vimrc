@@ -56,6 +56,10 @@ let maplocalleader = ' '
 
 " maps
 inoremap jk <esc>
+nnoremap <c-j> :bnext<cr>
+nnoremap <c-k> :bprevious<cr>
+nnoremap <backspace> :bdelete<cr>
+vnoremap Y "+y
 
 " vimrc
 nnoremap <leader>vi :e $MYVIMRC<cr>
@@ -64,6 +68,11 @@ augroup vimrc
     au!
     autocmd BufWritePost $MYVIMRC,*.vim source $MYVIMRC
 augroup end
+
+" noexpandtab
+augroup shell
+    au!
+    autocmd FileType make,sh set noexpandtab
 
 " get highlight group
 function! GetHighlight()
@@ -94,3 +103,34 @@ augroup end
 
 " mucomplete
 imap <expr> . mucomplete#extend_fwd(".")
+
+"slime
+" let g:slime_python_ipython = 1
+let g:slime_bracketed_paste = 1
+let g:slime_target = "tmux"
+let g:slime_no_mappings = 1
+let g:slime_default_config = {"socket_name": "repl", "target_pane": "0"}
+let g:slime_dont_ask_default = 1
+
+xmap , <Plug>SlimeRegionSend
+nmap , <Plug>SlimeLineSend
+
+
+" open repl
+function! OpenREPL(socketName, ...)
+  let l:interpreter = a:0 > 0 ? a:1 : ''
+  if l:interpreter == ''
+    " Guess interpreter based on the filetype
+    if &filetype == 'python'
+        let l:interpreter = 'python'
+    elseif &filetype == 'r'
+        let l:interpreter = 'R'
+    else
+        let l:interpreter = 'zsh'
+    endif
+  endif
+  let l:tmuxCommand = 'xterm -e tmux -L ' . a:socketName . ' new-session ' . l:interpreter . ' &'
+  call system(l:tmuxCommand)
+endfunction
+
+nnoremap <leader>ri :call OpenREPL('repl')<cr>

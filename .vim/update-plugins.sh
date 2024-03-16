@@ -5,7 +5,7 @@ plugins='
     garbas/vim-snipmate
     godlygeek/tabular
     honza/vim-snippets
-    jalvesaq/Nvim-R
+	jpalardy/vim-slime
     lifepillar/vim-mucomplete
     marcweber/vim-addon-mw-utils
     tomtom/tlib_vim

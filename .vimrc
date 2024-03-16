@@ -73,9 +73,35 @@ nnoremap <cr> :call OpenLink()<cr>
 " maps
 inoremap jk <esc>
 xnoremap Y "*y
-nnoremap <c-j> :bnext<cr>
-nnoremap <c-k> :bprevious<cr>
 nnoremap <backspace> :bdelete<cr>
+
+function! GoToNonTerminalBuffer(direction)
+  let current_bufnr = bufnr('%')
+  let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+  let index = index(buffers, current_bufnr)
+  " Cycle through buffers
+  while index >= 0
+    if a:direction == 'previous'
+      let index = (index - 1 + len(buffers)) % len(buffers)
+    else
+      let index = (index + 1) % len(buffers)
+    endif
+    let next_bufnr = buffers[index]
+    if getbufvar(next_bufnr, '&buftype') !=# 'terminal'
+      execute 'buffer' next_bufnr
+      return
+    endif
+    " If back to the start, no non-terminal buffer found
+    if next_bufnr == current_bufnr
+      echo "No non-terminal buffer found."
+      return
+    endif
+  endwhile
+endfunction
+
+nnoremap <c-j> :call GoToNonTerminalBuffer('next')<cr>
+nnoremap <c-k> :call GoToNonTerminalBuffer('previous')<cr>
+
 
 " command abbreviations
 cnoreabbrev h tab help
@@ -128,19 +154,54 @@ let g:mucomplete#chains = {
     \ }
 imap <expr> . mucomplete#extend_fwd(".")
 
-" slime
-let g:slime_target = "tmux"
-let g:slime_no_mappings = 1
-let g:slime_default_config = {"socket_name": "repl", "target_pane": "0"}
-let g:slime_dont_ask_default = 1
-
-nnoremap <localLeader>ri :call system('open-repl ' . 'repl ' . &filetype)<cr>
-nnoremap <localLeader>r2 :call system('open-repl ' . 'repl2 ' . &filetype)<cr>
-
-xnoremap , <Plug>SlimeRegionSend
-" nnoremap , <Plug>SlimeMotionSend
-nnoremap , <Plug>SlimeLineSend
 
 " markdown
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
+
+" repl
+let g:slime_target = "vimterminal"
+let g:slime_no_mappings = 1
+let g:slime_bracketed_paste = 1
+let g:slime_default_config = {"bufnr": "2"}
+let g:slime_dont_ask_default = 1
+
+function! OpenREPL(...) " Accept optional arguments
+  let l:interpreter = a:0 > 0 ? a:1 : ''
+  if l:interpreter == ''
+    if &filetype == 'python'
+      let l:interpreter = 'python'
+    elseif &filetype == 'r'
+      let l:interpreter = 'R --quiet --no-save'
+    else
+      let l:interpreter = 'zsh'
+    endif
+  endif
+  execute 'rightbelow vertical terminal' l:interpreter
+  wincmd p
+  " make sure after wincmd so b scoping works
+  let b:terminal_buffer_id = '!' . l:interpreter
+endfunction
+
+command! -nargs=? OpenREPL call OpenREPL(<f-args>)
+
+function! SendLine(terminal_buffer_id)
+  let l:current_line = getline('.')
+  call term_sendkeys(a:terminal_buffer_id, l:current_line . "\n")
+endfunction
+
+nnoremap , :call SendLine(b:terminal_buffer_id)<cr>
+
+function! SendSelection(terminal_buffer_id) range
+  let l:lines = getline(a:firstline, a:lastline)
+  if a:terminal_buffer_id == '!python'
+    let l:block = "exec(\"\"\"" . join(l:lines, "\n") . "\"\"\")\n"
+    call term_sendkeys(a:terminal_buffer_id, l:block)
+  else
+    for l:line in l:lines
+      call term_sendkeys(a:terminal_buffer_id, l:line . "\n")
+    endfor
+  endif
+endfunction
+
+xnoremap , :call SendSelection(b:terminal_buffer_id)<cr>

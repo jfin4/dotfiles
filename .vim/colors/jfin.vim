@@ -99,7 +99,7 @@ highlight TabLineFill       ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg
 highlight TabLineSel        ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight Terminal          ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
 highlight Title             ctermfg=NONE      ctermbg=NONE      cterm=NONE guifg=NONE          guibg=NONE          gui=NONE
-highlight Visual            ctermfg=NONE     ctermbg=darkgray    cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
+highlight Visual            ctermfg=NONE     ctermbg=lightgray    cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
 highlight VisualNOS         ctermfg=NONE      ctermbg=darkgray  cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE
 highlight WarningMsg        ctermfg=red       ctermbg=NONE      cterm=NONE guifg=g_red       guibg=NONE          gui=NONE
 highlight WildMenu          ctermfg=black     ctermbg=lightgray cterm=NONE guifg=NONE          guibg=g_darkgray  gui=NONE

@@ -1,35 +1,42 @@
-
 # vim: set ft=sh:
-# autoload -Uz zsh-newuser-install
-# zsh-newuser-install -f
 
 # options
 bindkey -e
-
-
-# The following lines were added by compinstall
-
-zstyle ':completion:*' completer _complete _ignored
-zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
-zstyle :compinstall filename '/home/jfin/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 setopt sh_word_split
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
+setopt extended_glob
+
+# autoload -Uz zsh-newuser-install
+# zsh-newuser-install -f
+# The following lines were added by compinstall
+zstyle ':completion:*' completer _complete _ignored
+zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
+zstyle :compinstall filename '/home/jfin/.zshrc'
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# prompt
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:git:*' formats '%b'
+PROMPT="%(?..%F{red}%?%f"$'\n'")"\
+$'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
+$'\n'"${TMUX+tmux }%% "
+
+# shift tab to reverse cycle
+bindkey '^[[Z' reverse-menu-complete
 
 # environment
-
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
 
 # path
 export PATH=".:$HOME/.aliases:$HOME/scripts:$PATH"
@@ -39,24 +46,56 @@ export EDITOR=/usr/bin/vim
 export TERM=xterm-256color
 export BROWSER=/usr/bin/firefox
 export _JAVA_AWT_WM_NONREPARENTING=1
-export MOZ_ENABLE_WAYLAND=1
 
 
+# functions
+insert_date () { 
+	LBUFFER+=${(%):-'%D{%Y-%m-%d}'};
+}
+zle -N insert_date
+bindkey '^xd' insert_date
 
-#prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-zstyle ':vcs_info:git:*' formats '%b'
-# PROMPT=\$vcs_info_msg_0_'%# '
-PROMPT="%(?..%F{red}%?%f"$'\n'")"$'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
-$'\n'"${TMUX:+t}%# "
- 
+passgen () {
+  pass_name="$1"
+  if [ -z $pass_name ]; then
+    echo 'usage: passgen PASS_NAME [ LENGTH ] [ SYMBOLS ]'
+    echo use PASS_NAME temp to not create store
+    return
+  fi
+  pass_length="${2-12}"
+  symbols="${3-!@#\$%^&*()}"
+  if [ $pass_name = "temp" ]; then
+    PASSWORD_STORE_CHARACTER_SET="a-zA-Z0-9$symbols"\
+      pass generate temp/temp $pass_length
+    unset pass_length symbols PASSWORD_STORE_CHARACTER_SET
+    pass temp/temp > /dev/clipboard
+    pass rm --force temp/temp
+    return
+  fi
+  PASSWORD_STORE_CHARACTER_SET="a-zA-Z0-9$symbols"\
+    pass generate $pass_name $pass_length
+  unset pass_length symbols PASSWORD_STORE_CHARACTER_SET
+} 
+
+pw () {
+  query="${1-.}"
+  pass_stores=$(ls ~/.password-store/*/* | sed -e 's/.*password-store\/\(.*\)\.gpg/\1/')
+  pass_store=$(echo "$pass_stores" | fzy --query="$query")
+  pass $pass_store | tee /dev/clipboard
+}
+
+rm () {
+  mv --backup=numbered "$@" "$HOME"/trash/
+}
+
+zathura () {
+	/usr/bin/zathura "$1" & disown
+}
+mpv () {
+	/usr/bin/mpv --save-position-on-quit --volume-max=200 $1 & disown
+}
 
 # aliases
-
-# alias cal='show-calendar'
 
 alias R='start-r'
 alias alarm='set-alarm'
@@ -100,7 +139,6 @@ alias shutdown='sudo halt -p'
 alias sshr='ssh root@192.168.1.1'
 alias t='date "+%l:%M" | tr -d " "'
 alias tm='toggle-mod-key'
-# alias tmux='tmux attach || tmux'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias ubak='restore-file'
@@ -115,13 +153,6 @@ alias wifi='connect-wifi'
 alias ydl='download-playlist'
 alias zrc='vim ~/.zshrc; . ~/.zshrc'
 
-# functions
-zathura () {
-	/usr/bin/zathura "$1" & disown
-}
-mpv () {
-	/usr/bin/mpv --save-position-on-quit --volume-max=200 $1 & disown
-}
 
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx

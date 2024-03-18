@@ -150,13 +150,19 @@ function! OpenREPL(...) " Accept optional arguments
       let l:interpreter = 'zsh'
     endif
   endif
-  execute 'rightbelow vertical terminal' l:interpreter
+  execute 'rightbelow vertical terminal ' l:interpreter
   wincmd p
   " make sure after wincmd so b scoping works
   let b:terminal_buffer_id = '!' . l:interpreter
 endfunction
 
 command! -nargs=? OpenREPL call OpenREPL(<f-args>)
+
+function! CloseREPL(terminal_buffer_id) " Accept optional arguments
+  execute 'bdelete! ' a:terminal_buffer_id
+endfunction
+
+command! CloseREPL call CloseREPL(b:terminal_buffer_id)
 
 function! SendLine(terminal_buffer_id)
   let l:current_line = getline('.')
@@ -178,3 +184,4 @@ function! SendSelection(terminal_buffer_id) range
 endfunction
 
 xnoremap , :call SendSelection(b:terminal_buffer_id)<cr>
+

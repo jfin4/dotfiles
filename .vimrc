@@ -119,14 +119,8 @@ let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
 
 " repl
-let g:slime_target = "vimterminal"
-let g:slime_no_mappings = 1
-let g:slime_bracketed_paste = 1
-let g:slime_default_config = {"bufnr": "2"}
-let g:slime_dont_ask_default = 1
-
 function! OpenREPL(...)
-  " Determine the interpreter based on filetype or argument
+  " allows interpreter override for python venvs
   let interpreter = a:0 > 0 ? a:1 : ''
   if interpreter == ''
     if &filetype == 'python'
@@ -134,34 +128,51 @@ function! OpenREPL(...)
     elseif &filetype == 'r'
       let interpreter = 'R --quiet --no-save'
     else
-      let interpreter = 'zsh'  " Default to Zsh if no filetype match
+      let interpreter = ''  " Default to shell if no filetype match
     endif
   endif
-  " Construct and execute the tmux command
   let tmux_command = 'tmux split-window -h -P -F "#{pane_id}" ' . interpreter
-  " Execute the tmux command and capture the output, which includes the new pane ID
+  " opens repl and captures pane id
   let pane_id = system(tmux_command)
-  " Remove trailing newline from the output
   let b:pane_id = substitute(pane_id, '\n\+$', '', '')
-  " refocus original pane
   call system('tmux select-pane -t {last}')
 endfunction
-
 command! -nargs=? OpenREPL call OpenREPL(<f-args>)
 
-function! CloseREPL(pane_id) " Accept optional arguments
+function! CloseREPL(pane_id) 
   call system('tmux kill-pane -t '. a:pane_id)
 endfunction
-
 command! CloseREPL call CloseREPL(b:pane_id)
+
+function! SendString(string, pane_id)
+  " used in SendLine() and SendSelection()
+  " some instances also are mapped in ftplugin/r.vim
+  let command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:string) . ' Enter'
+  call system(command)
+endfunction
 
 function! SendLine(pane_id)
   let line = getline('.')
-  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(line) . ' Enter'
-  call system(tmux_command)
+  call SendString(line, a:pane_id)
 endfunction
-
 nnoremap , :call SendLine(b:pane_id)<cr>
+
+function! SendChunk(chunk, pane_id)
+  " used in SendSelection() and SendFile()
+  let temp_file = tempname()
+  let win_temp_file = substitute(temp_file, '^', 'c:/msys64', '')
+  call writefile(a:chunk, temp_file)
+  "
+  if &filetype == 'python'
+    let command = 'exec(open("' . temp_file . '").read())'
+  elseif &filetype == 'r'
+    let command = 'source("' . win_temp_file . '", echo = TRUE)'
+  else
+    let command = 'source "' . temp_file . '"'
+  endif
+  "
+  call SendString(command, a:pane_id)
+endfunction
 
 function! SendSelection(pane_id)
   " Capture the visual selection
@@ -169,37 +180,19 @@ function! SendSelection(pane_id)
   normal! gv"xy
   let selection = @x
   let @" = saved_reg
-  " use exec() trick for python
-  if &filetype == 'python'
-    let selection = 'exec("""' . selection . '""")'
+  " Check if the selection is truly single line
+  if selection !~ '\n'
+    call SendString(selection, a:pane_id)
+  else
+    let selection = split(selection, "\n")
+    call SendChunk(selection, a:pane_id)
   endif
-  " Construct and execute the tmux command
-  let tmux_command = 'tmux load-buffer - ; tmux paste-buffer -t ' . a:pane_id
-  call system('echo ' . shellescape(selection) . ' | ' . tmux_command)
 endfunction
-
 xnoremap , :<C-u>silent! call SendSelection(b:pane_id)<CR>
 
-function! SendString(string, pane_id)
-  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:string) . ' Enter'
-  call system(tmux_command)
-endfunction
-
 function! SendFile(pane_id)
-  let filepath = expand('%')  " Get the full path of the current file
-  if &filetype == 'python'
-    " Python Use exec() to execute the file's contents in the interactive session
-    let command = 'exec(open("' . filepath . '").read())'
-  elseif &filetype == 'r'
-    " R Use source() to execute the file in the interactive session
-    let command = 'source("' . filepath . '")'
-  else
-    let command = 'source "' . filepath . '"'
-  endif
-  " Prepare the command for sending to tmux
-  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(command) . ' Enter'
-  " Execute the tmux command
-  call system(tmux_command)
+  let current_line = line('.')
+  let file_to_line = getline(1, current_line)
+  call SendChunk(file_to_line, a:pane_id)
 endfunction
-
-nnoremap <leader>f :call SendFile(b:pane_id)<CR>
+nnoremap <leader>, :call SendFile(b:pane_id)<CR>

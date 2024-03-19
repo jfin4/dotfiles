@@ -15,7 +15,7 @@ plugins='
 '
 
 # plugin directory
-dir=$HOME/.vim/pack/bundle
+dir=$HOME/.vim/pack/default
 
 # move previously unused plugins back to start
 for o in $(ls $dir/opt)

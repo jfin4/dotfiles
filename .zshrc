@@ -27,7 +27,7 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
-$'\n'"${TMUX+tmux }%% "
+$'\n'"%m %% "
 
 # shift tab to reverse cycle
 bindkey '^[[Z' reverse-menu-complete

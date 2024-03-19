@@ -1,6 +1,6 @@
 # vim: set ft=sh:
 
-# zsh options
+# options
 bindkey -e
 setopt sh_word_split
 setopt hist_ignore_dups
@@ -12,6 +12,7 @@ setopt extended_glob
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
 # The following lines were added by compinstall
+zstyle ':completion:*' completer _complete _ignored
 zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
 zstyle :compinstall filename '/home/jfin/.zshrc'
 autoload -Uz compinit
@@ -27,10 +28,6 @@ zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
 $'\n'"${TMUX+tmux }%% "
-# PROMPT="%(?..%F{red}%?%f"$'\n'")"\
-# $'\n'"%2d"\
-# $'\n'"%% "
-# PROMPT="%% "
 
 # shift tab to reverse cycle
 bindkey '^[[Z' reverse-menu-complete
@@ -41,10 +38,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-export PYTHONIOENCODING=UTF-8
-export LYNX_CFG=~/.lynx/lynx.cfg
-export LYNX_LSS=~/.lynx/lynx.lss
-
 # path
 # for r_ver in /c/Program\ Files/R/*; do true; done
 r="/c/Program Files/R/R-4.3.1/bin/x64"
@@ -52,7 +45,7 @@ vim="/c/vim/vim90"
 tex="/c/miktex/texmfs/install/miktex/bin/x64"
 export PATH="$HOME/scripts:/usr/bin:/c/bin:$r:$tex:$PATH"
 
-# nnn
+# other variables
 export EDITOR=/c/vim/vim90/vim
 export NNN_BMS='b:/home/jfin;h:/h;d:/c/users/jinman/downloads;p:/r/rb3/shared/basin planning;r:/r/rb3/shared;u:/c/users/jinman'
 export NO_COLOR=1
@@ -99,15 +92,14 @@ rm () {
 
 # aliases 
 
-# alias mv='mv --no-clobber'
 alias R='\R --no-save --quiet'
 alias bak='back-up-file'
 alias cal='cal -y'
-alias cdrelep='cd "/c/Users/jinman/ReLEP"'
-alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
-alias cdprojects='cd "/c/Users/jinman/OneDrive - Water Boards/Projects"'
 alias cddownloads='cd "/c/Users/jinman/Downloads"'
 alias cdjinman='cd "/c/Users/jinman/"'
+alias cdprojects='cd "/c/Users/jinman/OneDrive - Water Boards/Projects"'
+alias cdrelep='cd "/c/Users/jinman/ReLEP"'
+alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
 alias dot='git-dot'

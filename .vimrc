@@ -44,11 +44,10 @@ set showbreak=+
 set smartcase 
 set tabstop=2 
 set textwidth=78 
+set title
 set undofile 
 set virtualedit=block
 set wildmenu
-
-" functions
 
 " get highlight group
 function! GetHighlight()
@@ -61,11 +60,11 @@ nnoremap <leader>hi :call GetHighlight()<cr>
 
 " open file under cursor
 function! OpenLink()
-  let l:link = trim(getline('.'))
+  let link = trim(getline('.'))
   if has('gui_running') && has('win32')
-    call system('start "" ' . shellescape(l:link))
+    call system('start "" ' . shellescape(link))
   else
-    call system('cygstart ' . shellescape(l:link))
+    call system('cygstart ' . shellescape(link))
   endif
 endfunction
 nnoremap <cr> :call OpenLink()<cr>
@@ -74,39 +73,12 @@ nnoremap <cr> :call OpenLink()<cr>
 inoremap jk <esc>
 xnoremap Y "*y
 nnoremap <backspace> :bdelete<cr>
-
-function! GoToNonTerminalBuffer(direction)
-  let current_bufnr = bufnr('%')
-  let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val)')
-  let index = index(buffers, current_bufnr)
-  " Cycle through buffers
-  while index >= 0
-    if a:direction == 'previous'
-      let index = (index - 1 + len(buffers)) % len(buffers)
-    else
-      let index = (index + 1) % len(buffers)
-    endif
-    let next_bufnr = buffers[index]
-    if getbufvar(next_bufnr, '&buftype') !=# 'terminal'
-      execute 'buffer' next_bufnr
-      return
-    endif
-    " If back to the start, no non-terminal buffer found
-    if next_bufnr == current_bufnr
-      echo "No non-terminal buffer found."
-      return
-    endif
-  endwhile
-endfunction
-
-nnoremap <c-j> :call GoToNonTerminalBuffer('next')<cr>
-nnoremap <c-k> :call GoToNonTerminalBuffer('previous')<cr>
-
+nnoremap <leader>w :wincmd w<cr>
+nnoremap <c-j> :bnext<cr>
+nnoremap <c-k> :bprevious<cr>
 
 " command abbreviations
 cnoreabbrev h tab help
-
-" auto commands
 
 " folds
 augroup folds
@@ -115,21 +87,11 @@ augroup folds
   autocmd BufWinLeave * if getline(1) =~ 'foldenable' | execute 'mkview!' | endif
 augroup end
 
-
 " vimrc
 augroup vimrc
     au!
     autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
 augroup end
-
-" markdown
-augroup markdown
-  autocmd!
-augroup END
-
-
-
-" plug-ins
 
 " snipmate
 let g:snipMate = get(g:, 'snipMate', {
@@ -137,14 +99,12 @@ let g:snipMate = get(g:, 'snipMate', {
             \ 'no_match_completion_feedkeys_chars' : '',
             \ 'snippet_version' : 1,
             \ })
-
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-h> <Plug>snipMateBack
-
 augroup snippets
-    au!
-    autocmd BufWritePost *.snippet SnipMateLoadScope %
+  au!
+  autocmd BufWritePost *.snippet SnipMateLoadScope %
 augroup end
 
 " mucomplete
@@ -153,7 +113,6 @@ let g:mucomplete#chains = {
     \ 'vim'     : ['path', 'cmd', 'keyn']
     \ }
 imap <expr> . mucomplete#extend_fwd(".")
-
 
 " markdown
 let g:vim_markdown_auto_insert_bullets = 0
@@ -166,42 +125,81 @@ let g:slime_bracketed_paste = 1
 let g:slime_default_config = {"bufnr": "2"}
 let g:slime_dont_ask_default = 1
 
-function! OpenREPL(...) " Accept optional arguments
-  let l:interpreter = a:0 > 0 ? a:1 : ''
-  if l:interpreter == ''
+function! OpenREPL(...)
+  " Determine the interpreter based on filetype or argument
+  let interpreter = a:0 > 0 ? a:1 : ''
+  if interpreter == ''
     if &filetype == 'python'
-      let l:interpreter = 'python'
+      let interpreter = 'python'
     elseif &filetype == 'r'
-      let l:interpreter = 'R --quiet --no-save'
+      let interpreter = 'R --quiet --no-save'
     else
-      let l:interpreter = 'zsh'
+      let interpreter = 'zsh'  " Default to Zsh if no filetype match
     endif
   endif
-  execute 'rightbelow vertical terminal' l:interpreter
-  wincmd p
-  " make sure after wincmd so b scoping works
-  let b:terminal_buffer_id = '!' . l:interpreter
+  " Construct and execute the tmux command
+  let tmux_command = 'tmux split-window -h -P -F "#{pane_id}" ' . interpreter
+  " Execute the tmux command and capture the output, which includes the new pane ID
+  let pane_id = system(tmux_command)
+  " Remove trailing newline from the output
+  let b:pane_id = substitute(pane_id, '\n\+$', '', '')
+  " refocus original pane
+  call system('tmux select-pane -t {last}')
 endfunction
 
 command! -nargs=? OpenREPL call OpenREPL(<f-args>)
 
-function! SendLine(terminal_buffer_id)
-  let l:current_line = getline('.')
-  call term_sendkeys(a:terminal_buffer_id, l:current_line . "\n")
+function! CloseREPL(pane_id) " Accept optional arguments
+  call system('tmux kill-pane -t '. a:pane_id)
 endfunction
 
-nnoremap , :call SendLine(b:terminal_buffer_id)<cr>
+command! CloseREPL call CloseREPL(b:pane_id)
 
-function! SendSelection(terminal_buffer_id) range
-  let l:lines = getline(a:firstline, a:lastline)
-  if a:terminal_buffer_id == '!python'
-    let l:block = "exec(\"\"\"" . join(l:lines, "\n") . "\"\"\")\n"
-    call term_sendkeys(a:terminal_buffer_id, l:block)
-  else
-    for l:line in l:lines
-      call term_sendkeys(a:terminal_buffer_id, l:line . "\n")
-    endfor
+function! SendLine(pane_id)
+  let line = getline('.')
+  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(line) . ' Enter'
+  call system(tmux_command)
+endfunction
+
+nnoremap , :call SendLine(b:pane_id)<cr>
+
+function! SendSelection(pane_id)
+  " Capture the visual selection
+  let saved_reg = @"
+  normal! gv"xy
+  let selection = @x
+  let @" = saved_reg
+  " use exec() trick for python
+  if &filetype == 'python'
+    let selection = 'exec("""' . selection . '""")'
   endif
+  " Construct and execute the tmux command
+  let tmux_command = 'tmux load-buffer - ; tmux paste-buffer -t ' . a:pane_id
+  call system('echo ' . shellescape(selection) . ' | ' . tmux_command)
 endfunction
 
-xnoremap , :call SendSelection(b:terminal_buffer_id)<cr>
+xnoremap , :<C-u>silent! call SendSelection(b:pane_id)<CR>
+
+function! SendString(string, pane_id)
+  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:string) . ' Enter'
+  call system(tmux_command)
+endfunction
+
+function! SendFile(pane_id)
+  let filepath = expand('%')  " Get the full path of the current file
+  if &filetype == 'python'
+    " Python Use exec() to execute the file's contents in the interactive session
+    let command = 'exec(open("' . filepath . '").read())'
+  elseif &filetype == 'r'
+    " R Use source() to execute the file in the interactive session
+    let command = 'source("' . filepath . '")'
+  else
+    let command = 'source "' . filepath . '"'
+  endif
+  " Prepare the command for sending to tmux
+  let tmux_command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(command) . ' Enter'
+  " Execute the tmux command
+  call system(tmux_command)
+endfunction
+
+nnoremap <leader>f :call SendFile(b:pane_id)<CR>

@@ -1,3 +1,4 @@
+
 # vim: ft=zsh foldenable
 
 # options
@@ -20,15 +21,19 @@ MINGW_PACKAGE_PREFIX=mingw-w64-ucrt-x86_64
 # path
 r_path='/c/programs/r/bin'
 pandoc_path='/c/programs/pandoc'
-PATH="$PATH:$r_path:$pandoc_path"
+PATH="$PATH:$HOME/scripts:$r_path:$pandoc_path"
 
 # completion
+
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
+
 # The following lines were added by compinstall
+
 zstyle ':completion:*' completer _complete _ignored
-zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
-zstyle :compinstall filename '/home/jfin/.zshrc'
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[/ ]=** r:|=**' '+l:|=* r:|=*'
+zstyle :compinstall filename '/home/jinman/.zshrc'
+
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
@@ -79,11 +84,6 @@ pw () {
   pass_stores=$(ls ~/.password-store/*/* | sed -e 's/.*password-store\/\(.*\)\.gpg/\1/')
   pass_store=$(echo "$pass_stores" | fzy --query="$query")
   pass $pass_store | tee /dev/clipboard
-}
-
-# move to trash
-rm () {
-  mv --backup=numbered "$@" "$HOME"/trash/
 }
 
 # Paste the selected file path(s) into the command line

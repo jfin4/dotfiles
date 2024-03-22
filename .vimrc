@@ -128,6 +128,15 @@ function! OpenREPL(...)
 endfunction
 command! -nargs=? OpenREPL call OpenREPL(<f-args>)
 
+function! ShareREPL()
+  if exists("b:pane_id")
+    let g:pane_id = b:pane_id
+  else
+    let b:pane_id = g:pane_id
+  endif
+endfunction
+command! ShareREPL call ShareREPL()
+
 function! CloseREPL(pane_id) 
   call system('tmux kill-pane -t '. a:pane_id)
 endfunction
@@ -159,6 +168,12 @@ function! SendAsFile(text, pane_id, echo)
   call SendAsString(command, a:pane_id)
 endfunction
 
+function! SendLine(pane_id)
+  let line = getline('.')
+  call SendAsString(line, a:pane_id)
+endfunction
+nnoremap , :call SendLine(b:pane_id)<CR>
+
 function! SendParagraph(pane_id)
   " Get the line number of the start and end of the paragraph
   let start_line = line("'{")
@@ -171,7 +186,7 @@ function! SendParagraph(pane_id)
     call SendAsString(paragraph[0], a:pane_id)
   endif
 endfunction
-nnoremap , :call SendParagraph(b:pane_id)<CR>
+" nnoremap , :call SendParagraph(b:pane_id)<CR>
 
 function! SendSelection(pane_id)
   " Capture the visual selection

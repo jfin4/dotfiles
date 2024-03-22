@@ -1,118 +1,107 @@
-" vim: set ft=vim :
+" vim: foldenable
+
+" initial commands
 filetype indent plugin on
 syntax on
 colorscheme jfin
 
-" variables
+" define variables
 let mapleader = ' '
 let maplocalleader = ' '
 
 " settings
+" default options first, following can override
 source $VIMRUNTIME/defaults.vim
 
+" dir options
 set backupdir=c:/msys64/home/JInman/.vim/backup
 set directory=c:/msys64/home/JInman/.vim/swap
 set undodir=c:/msys64/home/JInman/.vim/undo 
 set viewdir=c:/msys64/home/JInman/.vim/view
 set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
 
+" gui options
 set guioptions=egt
 set guicursor+=a:blinkoff500-blinkon500
 set guifont=Terminus_(TTF)_for_Windows:h12
 
-set autoindent 
+" other options
 set autoread 
 set autowriteall
-set breakindent 
-set breakindentopt=min:0,shift:1
 set completeopt=menu,menuone " mucomplete needs menuone
 set encoding=utf-8
-set expandtab 
 set fillchars=vert:\ ,fold:\ ,eob:\ 
-set foldlevel=99
-set foldtext=getline(v:foldstart)[0:30].repeat('>',48)
 set formatoptions=qljnr
 set ignorecase 
 set laststatus=1
-set linebreak 
 set nohlsearch
 set pastetoggle=<insert> 
 set shell=/usr/bin/sh
-set shiftround 
-set shiftwidth=2 
-set showbreak=+
 set smartcase 
-set tabstop=2 
-set textwidth=78 
 set title
 set undofile 
 set virtualedit=block
 set wildmenu
-
-" get highlight group
-function! GetHighlight()
-    let hi    = synIDattr(synID(line('.'), col('.'), 1), 'name')
-    let trans = synIDattr(synID(line('.'), col('.'), 0), 'name')
-    let lo    = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-    echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
-endfunction
-nnoremap <leader>hi :call GetHighlight()<cr>
-
-" open file under cursor
-function! OpenLink()
-  let link = trim(getline('.'))
-  if has('gui_running') && has('win32')
-    call system('start "" ' . shellescape(link))
-  else
-    call system('cygstart ' . shellescape(link))
-  endif
-endfunction
-nnoremap <cr> :call OpenLink()<cr>
 
 " maps
 inoremap jk <esc>
 xnoremap Y "*y
 nnoremap <backspace> :bdelete<cr>
 nnoremap <leader>w :wincmd w<cr>
-nnoremap <c-j> :bnext<cr>
-nnoremap <c-k> :bprevious<cr>
+nnoremap <c-n> :bnext<cr>
+nnoremap <c-p> :bprevious<cr>
 
 " command abbreviations
 cnoreabbrev h tab help
 
+" indentation
+set autoindent 
+set breakindent 
+set breakindentopt=min:0,shift:1
+set expandtab 
+set linebreak 
+set shiftround 
+set shiftwidth=2 
+set showbreak=+
+set tabstop=2 
+set textwidth=78 
+
 " folds
+set foldlevel=0
 augroup folds
   au!
   autocmd BufWinEnter * if getline(1) =~ 'foldenable' | execute 'loadview' | endif
   autocmd BufWinLeave * if getline(1) =~ 'foldenable' | execute 'mkview!' | endif
 augroup end
 
-" vimrc
-augroup vimrc
-    au!
-    autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
-augroup end
-
-" snipmate
+" snippets
 let g:snipMate = get(g:, 'snipMate', {
             \ 'always_choose_first' : 1,
             \ 'no_match_completion_feedkeys_chars' : '',
             \ 'snippet_version' : 1,
             \ })
+
 imap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-l> <Plug>snipMateNextOrTrigger
 smap <c-h> <Plug>snipMateBack
+
 augroup snippets
   au!
   autocmd BufWritePost *.snippet SnipMateLoadScope %
 augroup end
 
-" mucomplete
+" completion
 let g:mucomplete#chains = {
     \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
     \ 'vim'     : ['path', 'cmd', 'keyn']
     \ }
-imap <expr> . mucomplete#extend_fwd(".")
+imap <expr> . mucomplete#extend_bwd(".")
+
+" vimrc
+augroup vimrc
+    au!
+    autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
+augroup end
 
 " markdown
 let g:vim_markdown_auto_insert_bullets = 0
@@ -144,35 +133,45 @@ function! CloseREPL(pane_id)
 endfunction
 command! CloseREPL call CloseREPL(b:pane_id)
 
-function! SendString(string, pane_id)
-  " used in SendLine() and SendSelection()
+function! SendAsString(text, pane_id)
+  " used in SendSelection()
   " some instances also are mapped in ftplugin/r.vim
-  let command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:string) . ' Enter'
+  let command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:text) . ' Enter'
   call system(command)
 endfunction
 
-function! SendLine(pane_id)
-  let line = getline('.')
-  call SendString(line, a:pane_id)
-endfunction
-nnoremap , :call SendLine(b:pane_id)<cr>
-
-function! SendChunk(chunk, pane_id)
+function! SendAsFile(text, pane_id, echo)
   " used in SendSelection() and SendFile()
   let temp_file = tempname()
   let win_temp_file = substitute(temp_file, '^', 'c:/msys64', '')
-  call writefile(a:chunk, temp_file)
+  call writefile(a:text, temp_file)
   "
   if &filetype == 'python'
     let command = 'exec(open("' . temp_file . '").read())'
   elseif &filetype == 'r'
-    let command = 'source("' . win_temp_file . '", echo = TRUE)'
+    let command = 'suppressWarnings(suppressMessages(source("'.win_temp_file.'", '.
+                \ 'echo = '.a:echo.', '.
+                \ 'max.deparse.length = Inf)))'
   else
     let command = 'source "' . temp_file . '"'
   endif
   "
-  call SendString(command, a:pane_id)
+  call SendAsString(command, a:pane_id)
 endfunction
+
+function! SendParagraph(pane_id)
+  " Get the line number of the start and end of the paragraph
+  let start_line = line("'{")
+  let end_line = line("'}")
+  let paragraph = getline(start_line, end_line)
+  let paragraph = filter(paragraph, 'v:val !~ "^\\s*$"')
+  if len(paragraph) > 1 
+    call SendAsFile(paragraph, a:pane_id, 'TRUE')
+  else
+    call SendAsString(paragraph[0], a:pane_id)
+  endif
+endfunction
+nnoremap , :call SendParagraph(b:pane_id)<CR>
 
 function! SendSelection(pane_id)
   " Capture the visual selection
@@ -180,12 +179,12 @@ function! SendSelection(pane_id)
   normal! gv"xy
   let selection = @x
   let @" = saved_reg
-  " Check if the selection is truly single line
-  if selection !~ '\n'
-    call SendString(selection, a:pane_id)
+  " Check if the selection is single line
+  if selection !~ '\n\zs.'
+    call SendAsString(selection, a:pane_id)
   else
     let selection = split(selection, "\n")
-    call SendChunk(selection, a:pane_id)
+    call SendAsFile(selection, a:pane_id, 'TRUE')
   endif
 endfunction
 xnoremap , :<C-u>silent! call SendSelection(b:pane_id)<CR>
@@ -193,6 +192,28 @@ xnoremap , :<C-u>silent! call SendSelection(b:pane_id)<CR>
 function! SendFile(pane_id)
   let current_line = line('.')
   let file_to_line = getline(1, current_line)
-  call SendChunk(file_to_line, a:pane_id)
+  call SendAsFile(file_to_line, a:pane_id, 'FALSE')
 endfunction
 nnoremap <leader>, :call SendFile(b:pane_id)<CR>
+
+
+" get highlight group
+function! GetHighlight()
+    let hi    = synIDattr(synID(line('.'), col('.'), 1), 'name')
+    let trans = synIDattr(synID(line('.'), col('.'), 0), 'name')
+    let lo    = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+    echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
+endfunction
+nnoremap <leader>hi :call GetHighlight()<cr>
+
+" follow link
+function! FollowLink()
+  let link = trim(getline('.'))
+  if has('gui_running') && has('win32')
+    call system('start "" ' . shellescape(link))
+  else
+    call system('cygstart ' . shellescape(link))
+  endif
+endfunction
+nnoremap <cr> :call FollowLink()<cr>
+

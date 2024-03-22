@@ -6,7 +6,7 @@ function! ViewTable()
   let temp_file = tempname() . '.xlsx'
   " setlocal noshellslash
   let write_command = 'openxlsx::write.xlsx(' . table . ', "' . temp_file . '")'
-  execute 'SlimeSend1 ' . write_command
+  execute 'call SendAsString(' . write_command . ')'
   let counter = 30
   while counter > 0
     if filereadable(temp_file)
@@ -25,12 +25,14 @@ inoremap <buffer> << <
 inoremap <buffer> > %>%
 inoremap <buffer> >> >
 
-nnoremap <buffer> K :call SendString('help(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rh :call SendString('head(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rr :call SendString('nrow(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rc :call SendString('ncol(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rs :call SendString('str(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rn :call SendString('names(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rl :call SendString('length(<c-r><c-w>)', b:pane_id)<cr>
-nnoremap <buffer> <localLeader>rg :call SendString('glimpse(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rc :call SendAsString('ncol(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rg :call SendAsString('glimpse(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rh :call SendAsString('head(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>ri :call SendAsString('<c-r><c-w>', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rl :call SendAsString('length(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rn :call SendAsString('names(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rr :call SendAsString('nrow(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rs :call SendAsString('str(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> <localLeader>rv :call SendAsString('View(<c-r><c-w>)', b:pane_id)<cr>
+nnoremap <buffer> K :call SendAsString('help(<c-r><c-w>)', b:pane_id)<cr>
 

@@ -1,4 +1,4 @@
-# vim: set ft=sh:
+# vim: ft=zsh foldenable
 
 # options
 bindkey -e
@@ -9,6 +9,20 @@ setopt hist_save_no_dups
 setopt share_history
 setopt extended_glob
 
+# environment variables
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+EDITOR=/c/vim/vim90/vim
+MINGW_PACKAGE_PREFIX=mingw-w64-ucrt-x86_64
+
+# path
+r_path='/c/programs/r/bin'
+pandoc_path='/c/programs/pandoc'
+PATH="$PATH:$r_path:$pandoc_path"
+
+# completion
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
 # The following lines were added by compinstall
@@ -18,6 +32,7 @@ zstyle :compinstall filename '/home/jfin/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+bindkey '^[[Z' reverse-menu-complete
 
 # prompt
 autoload -Uz vcs_info
@@ -29,34 +44,14 @@ PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
 $'\n'"${TMUX+tmux }%% "
 
-# shift tab to reverse cycle
-bindkey '^[[Z' reverse-menu-complete
-
-# environment
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# path
-# for r_ver in /c/Program\ Files/R/*; do true; done
-r="/c/Program Files/R/R-4.3.1/bin/x64"
-vim="/c/vim/vim90"
-tex="/c/miktex/texmfs/install/miktex/bin/x64"
-export PATH="$HOME/scripts:/usr/bin:/c/bin:$r:$tex:$PATH"
-
-# other variables
-export EDITOR=/c/vim/vim90/vim
-export NNN_BMS='b:/home/jfin;h:/h;d:/c/users/jinman/downloads;p:/r/rb3/shared/basin planning;r:/r/rb3/shared;u:/c/users/jinman'
-export NO_COLOR=1
-
-# functions
+# insert date
 insert_date () { 
 	LBUFFER+=${(%):-'%D{%Y-%m-%d}'};
 }
 zle -N insert_date
-bindkey '^xd' insert_date
+bindkey '^@d' insert_date
 
+# password management
 passgen () {
   pass_name="$1"
   if [ -z $pass_name ]; then
@@ -86,12 +81,49 @@ pw () {
   pass $pass_store | tee /dev/clipboard
 }
 
+# move to trash
 rm () {
   mv --backup=numbered "$@" "$HOME"/trash/
 }
 
-# aliases 
+# Paste the selected file path(s) into the command line
+select_paths() {
+  fd_cmd="fd\
+    --hidden\
+    --no-ignore\
+    --path-separator //\
+    $type"
+  fzf_cmd="fzf\
+    --height 40%\
+    --multi\
+    --reverse\
+    --scheme=path"
+  $fd_cmd | $fzf_cmd | while read path; do
+    echo -n " '$path'"
+  done
+}
+paste_paths() {
+  # * allow for spaces after command
+  if [[ ${LBUFFER} == cd* ]]; then
+    type="--type=directory"
+  elif [[ ${LBUFFER} == vim* ]]; then
+    type="--type=file"
+  else
+    type=""
+  fi
+  OLD_LBUFFER="$LBUFFER"
+  LBUFFER="${LBUFFER}$(select_paths $type)"
+  if [[ "${LBUFFER}" == "${OLD_LBUFFER}" ]]; then
+    zle kill-whole-line
+  else
+    zle accept-line
+  fi
+  zle reset-prompt
+}
+zle -N paste_paths
+bindkey '^@' paste_paths
 
+# aliases 
 alias R='\R --no-save --quiet'
 alias bak='back-up-file'
 alias cal='cal -y'
@@ -100,11 +132,10 @@ alias cdjinman='cd "/c/Users/jinman/"'
 alias cdprojects='cd "/c/Users/jinman/OneDrive - Water Boards/Projects"'
 alias cdrelep='cd "/c/Users/jinman/ReLEP"'
 alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
+alias cduserprofile='cd "/c/Users/jinman/"'
 alias cp='cp --recursive --no-clobber'
 alias dash='ENV=~/.shinit dash'
-alias dot='git-dot'
-alias dott='push-dot-repo'
-alias gitt='~/scripts/push-repo'
+alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias go='open-link'
 alias install='pacman -S'
 alias jot='take-notes'
@@ -134,6 +165,6 @@ alias zrc='vim ~/.zshrc; source ~/.zshrc'
 
 # Automatically start tmux if not already running
 if [ -z "$TMUX" ]; then
-  tmux attach -t main || tmux new -s main
+  tmux new-session -s main
 fi
 

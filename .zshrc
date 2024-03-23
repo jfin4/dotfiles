@@ -1,4 +1,5 @@
-# vim: set ft=sh:
+
+# vim: ft=zsh foldenable
 
 # options
 bindkey -e
@@ -9,15 +10,29 @@ setopt hist_save_no_dups
 setopt share_history
 setopt extended_glob
 
+# environment variables
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+EDITOR=/c/vim/vim90/vim
+MINGW_PACKAGE_PREFIX=mingw-w64-ucrt-x86_64
+
+# completion
+
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
+
 # The following lines were added by compinstall
+
 zstyle ':completion:*' completer _complete _ignored
-zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**' '+l:|=* r:|=*'
-zstyle :compinstall filename '/home/jfin/.zshrc'
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[/ ]=** r:|=**' '+l:|=* r:|=*'
+zstyle :compinstall filename '/home/jinman/.zshrc'
+
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+bindkey '^[[Z' reverse-menu-complete
 
 # prompt
 autoload -Uz vcs_info
@@ -27,34 +42,16 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
-$'\n'"%m %% "
+$'\n'"rpi %% "
 
-# shift tab to reverse cycle
-bindkey '^[[Z' reverse-menu-complete
-
-# environment
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# path
-export PATH=".:$HOME/.aliases:$HOME/scripts:$PATH"
-
-# other variables
-export EDITOR=/usr/bin/vim
-export TERM=xterm-256color
-export BROWSER=/usr/bin/firefox
-export _JAVA_AWT_WM_NONREPARENTING=1
-
-
-# functions
+# insert date
 insert_date () { 
 	LBUFFER+=${(%):-'%D{%Y-%m-%d}'};
 }
 zle -N insert_date
-bindkey '^xd' insert_date
+bindkey '^@d' insert_date
 
+# password management
 passgen () {
   pass_name="$1"
   if [ -z $pass_name ]; then
@@ -84,77 +81,79 @@ pw () {
   pass $pass_store | tee /dev/clipboard
 }
 
-rm () {
-  mv --backup=numbered "$@" "$HOME"/trash/
+# Paste the selected file path(s) into the command line
+select_paths() {
+  fd_cmd="fdfind\
+    --hidden\
+    --no-ignore\
+    $type"
+  fzf_cmd="fzf\
+    --height 40%\
+    --multi\
+    --reverse\
+    --scheme=path"
+  $fd_cmd | $fzf_cmd | while read path; do
+    echo -n " '$path'"
+  done
 }
-
-zathura () {
-	/usr/bin/zathura "$1" & disown
+paste_paths() {
+  # * allow for spaces after command
+  if [[ ${LBUFFER} == cd* ]]; then
+    type="--type=directory"
+  elif [[ ${LBUFFER} == vim* ]]; then
+    type="--type=file"
+  else
+    type=""
+  fi
+  OLD_LBUFFER="$LBUFFER"
+  LBUFFER="${LBUFFER}$(select_paths $type)"
+  if [[ "${LBUFFER}" == "${OLD_LBUFFER}" ]]; then
+    zle kill-whole-line
+  else
+    zle accept-line
+  fi
+  zle reset-prompt
 }
-mpv () {
-	/usr/bin/mpv --save-position-on-quit --volume-max=200 $1 & disown
-}
+zle -N paste_paths
+bindkey '^@' paste_paths
 
-# aliases
-
-alias R='start-r'
-alias alarm='set-alarm'
-alias arc='vim ~/.config/awesome/rc.lua'
-alias bak='backup-file'
-alias bt='manage-bluetooth'
-alias capsescape='setxkbmap -option caps:escape'
-alias crc='vim ~/.cwmrc; pkill -HUP cwm'
-alias default='set-screen-layout default'
-alias deorphan='sudo pacman -Qtdq | sudo pacman -Rns -'
-alias dot='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-alias dual='set-screen-layout dual'
-alias external='set-screen-layout external'
-alias fd='wrap-find'
-alias ff='fuzzy-find-file'
-alias focus='play-focus-playlist'
-alias install='sudo pacman -S'
-alias ji='pandoc --template ~/.pandoc/johninman.dev --metadata title="John Inman" -o index.html'
+# aliases 
+alias R='\R --no-save --quiet'
+alias bak='back-up-file'
+alias cal='cal -y'
+alias cddownloads='cd "/c/Users/jinman/Downloads"'
+alias cdjinman='cd "/c/Users/jinman/"'
+alias cdprojects='cd "/c/Users/jinman/OneDrive - Water Boards/Projects"'
+alias cdrelep='cd "/c/Users/jinman/ReLEP"'
+alias cdsounds='cd "/c/Users/jinman/OneDrive - Water Boards/Music/Sounds"'
+alias cduserprofile='cd "/c/Users/jinman/"'
+alias cp='cp --recursive --no-clobber'
+alias dash='ENV=~/.shinit dash'
+alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
+alias go='open-link'
+alias install='pacman -S'
 alias jot='take-notes'
-alias kb='get-key-bindings'
+alias kb='show-key-bindings'
 alias la='ls -AlhF'
 alias ll='ls -lhF'
-alias lynx="lynx -cfg=$HOME/.lynx/lynx.cfg -lss=$HOME/.lynx/lynx.lss"
-alias mam='rtorrent -n -o import=~/.rtorrent-mam.rc'
-alias mcam='sudo mount /dev/disk/by-label/camera /mnt/camera/'
-alias mobile='connect-mobile'
-alias mphone='ifuse /mnt/phone'
-alias mrpi='sshfs rpi:/ /mnt/rpi/'
-alias mthumb='sudo mount /dev/disk/by-label/thumb /mnt/thumb/'
-alias mutt='cd ~/downloads/ && mutt && cd -'
-alias mv='mv --no-clobber'
+alias lock='cmd //c Rundll32.exe user32.dll,LockWorkStation'
+alias mdd='convert-markdown-to-word'
 alias mvv='rename-files'
-alias off='turn-off-screen'
-alias p='pwd'
-alias pad='toggle-numpad'
-alias reboot='sudo reboot'
-alias remove='sudo pacman -Rs'
-alias rsync='rsync -ahP'
-alias search='sudo pacman -Ss'
-alias shutdown='sudo halt -p'
-alias sshr='ssh root@192.168.1.1'
-alias t='date "+%l:%M" | tr -d " "'
-alias tm='toggle-mod-key'
+alias nnn='nnn -A'
+alias path='copy-path'
+alias pink='play-tracks -q ~/music/sounds/pink.mp3'
+alias play='play-tracks'
+alias prod='echo; /c/Program\ Files/R/R-4.3.1/bin/Rscript.exe ~/scripts/get-productivity.r' 
+alias proj='take-notes "#proj"'
+alias pull='pull-repo'
+alias push='push-repo'
+alias remove='pacman -Rns'
+alias search='pacman -Ss'
+alias summary='/c/Program\ Files/R/R-4.2.3/bin/Rscript.exe ~/scripts/get-summary.r $(cygpath -w $LOCALAPPDATA/Programs/msys64/home/JInman/hours)'
+alias sync='sync-all-repos'
+alias todo='take-notes \#todo'
 alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
-alias ubak='restore-file'
-alias ucam='sudo umount /mnt/camera/'
-alias update='sudo pacman --sync --refresh --sysupgrade && sudo pacman --sync --clean --noconfirm'
-alias uphone='fusermount -u /mnt/phone'
-alias urpi='sudo umount /mnt/rpi/'
-alias uthumb='sudo umount /mnt/thumb/'
-alias vpn='set-vpn'
-alias webcam='start-webcam'
-alias wifi='connect-wifi'
-alias ydl='download-playlist'
-alias zrc='vim ~/.zshrc; . ~/.zshrc'
-
-
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-    exec startx
-fi
+alias update='pacman -Syu'
+alias zrc='vim ~/.zshrc; source ~/.zshrc'
 

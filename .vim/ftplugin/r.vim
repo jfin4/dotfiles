@@ -1,24 +1,18 @@
 let maplocalleader = ' '
 
-function! ViewTable()
+function! SaveTable(pane_id)
   let table = expand('<cword>')
-  setlocal shellslash
-  let temp_file = tempname() . '.xlsx'
-  " setlocal noshellslash
-  let write_command = 'openxlsx::write.xlsx(' . table . ', "' . temp_file . '")'
-  execute 'call SendAsString(' . write_command . ')'
-  let counter = 30
-  while counter > 0
-    if filereadable(temp_file)
-      call system('start "" ' . temp_file)
-      break
-    endif
-    let counter -= 1
-    sleep
-  endwhile
+  let b:temp_file = tempname() . '.xlsx'
+  let win_temp_file = substitute(b:temp_file, '^', 'c:/msys64', '')
+  let r_cmd = 'openxlsx::write.xlsx(' . table . ', "' . win_temp_file . '")'
+  call SendAsString(r_cmd, a:pane_id)
 endfunction
+command! SaveTable call SaveTable(b:pane_id, <f-args>)
 
-nnoremap <buffer> <localleader>vt :call ViewTable()<cr>
+function! ViewTable(temp_file)
+  call system('cygstart ' . a:temp_file)
+endfunction
+command! ViewTable call ViewTable(b:temp_file)
 
 inoremap <buffer> < <-
 inoremap <buffer> << <

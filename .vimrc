@@ -1,31 +1,29 @@
-" vim: foldenable
-
-" initial commands
+" initial commands{{{
 filetype indent plugin on
 syntax on
 colorscheme jfin
-
-" define variables
+"}}}
+" define variables{{{
 let mapleader = ' '
 let maplocalleader = ' '
-
-" settings
+"}}}
+" settings{{{
 " default options first, following can override
 source $VIMRUNTIME/defaults.vim
-
-" dir options
+"}}}
+" dir options{{{
 set backupdir=c:/msys64/home/JInman/.vim/backup
 set directory=c:/msys64/home/JInman/.vim/swap
 set undodir=c:/msys64/home/JInman/.vim/undo 
 set viewdir=c:/msys64/home/JInman/.vim/view
 set viminfo+=nc:/msys64/home/JInman/.vim/viminfo
-
-" gui options
+"}}}
+" gui options{{{
 set guioptions=egt
 set guicursor+=a:blinkoff500-blinkon500
 set guifont=Terminus_(TTF)_for_Windows:h12
-
-" other options
+"}}}
+" other options{{{
 set autoread 
 set autowriteall
 set completeopt=menu,menuone " mucomplete needs menuone
@@ -42,19 +40,34 @@ set title
 set undofile 
 set virtualedit=block
 set wildmenu
-
-" maps
+"}}}
+" maps{{{
 inoremap jk <esc>
 xnoremap Y "*y
 nnoremap <backspace> :bdelete<cr>
 nnoremap <leader>w :wincmd w<cr>
 nnoremap <c-n> :bnext<cr>
 nnoremap <c-p> :bprevious<cr>
-
-" command abbreviations
-cnoreabbrev h tab help
-
-" indentation
+nnoremap <cr> :write<cr>
+"}}}
+" help{{{
+function! Help()
+  if &filetype == 'help'
+      let cmd = 'help  | set buflisted'
+  else
+      let cmd = 'help  | only | set buflisted'
+  endif
+  " Calculate the position for cursor adjustment
+  let pos = stridx(cmd, '  |')
+  " Prefill the command line with the desired command
+  call feedkeys(cmd, 'i')
+  " Move the cursor to the desired position
+  call feedkeys(repeat("\<Left>", len(cmd) - pos))
+  return ''
+endfunction
+cnoreabbrev <expr> h Help()
+"}}}
+" indentation{{{
 set autoindent 
 set breakindent 
 set breakindentopt=min:0,shift:1
@@ -65,16 +78,17 @@ set shiftwidth=2
 set showbreak=+
 set tabstop=2 
 set textwidth=78 
-
-" folds
+"}}}
+" folds{{{
 set foldlevel=0
+set foldmethod=marker
 augroup folds
   au!
-  autocmd BufWinEnter * if getline(1) =~ 'foldenable' | execute 'loadview' | endif
-  autocmd BufWinLeave * if getline(1) =~ 'foldenable' | execute 'mkview!' | endif
+  autocmd BufWinEnter * if getline(1) =~ 'foldmethod=manual' | execute 'loadview' | endif
+  autocmd BufWinLeave * if getline(1) =~ 'foldmethod=manual' | execute 'mkview!' | endif
 augroup end
-
-" snippets
+"}}}
+" snippets{{{
 let g:snipMate = get(g:, 'snipMate', {
             \ 'always_choose_first' : 1,
             \ 'no_match_completion_feedkeys_chars' : '',
@@ -89,26 +103,28 @@ augroup snippets
   au!
   autocmd BufWritePost *.snippet SnipMateLoadScope %
 augroup end
-
-" completion
+"}}}
+" completion{{{
 let g:mucomplete#chains = {
     \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
     \ 'vim'     : ['path', 'cmd', 'keyn']
     \ }
 imap <expr> . mucomplete#extend_bwd(".")
-
-" vimrc
+"}}}
+" vimrc{{{
 augroup vimrc
     au!
     autocmd BufWritePost _vimrc,.vimrc,*.vim source $MYVIMRC
+    nnoremap <buffer> <leader>l :execute getline('.')<cr>
+    nnoremap <buffer> <leader>e :echo <c-r><c-w><cr>
 augroup end
-
-" markdown
+"}}}
+" markdown{{{
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
-
-" repl
-function! OpenREPL(...)
+"}}}
+" repl{{{
+function! OpenREPL(...)"{{{
   " allows interpreter override for python venvs
   let interpreter = a:0 > 0 ? a:1 : ''
   if interpreter == ''
@@ -127,8 +143,8 @@ function! OpenREPL(...)
   call system('tmux select-pane -t {last}')
 endfunction
 command! -nargs=? OpenREPL call OpenREPL(<f-args>)
-
-function! ShareREPL()
+"}}}
+function! ShareREPL()"{{{
   if exists("b:pane_id")
     let g:pane_id = b:pane_id
   else
@@ -136,20 +152,20 @@ function! ShareREPL()
   endif
 endfunction
 command! ShareREPL call ShareREPL()
-
-function! CloseREPL(pane_id) 
-  call system('tmux kill-pane -t '. a:pane_id)
+"}}}
+function! CloseREPL() "{{{
+  call system('tmux kill-pane -t '. b:pane_id)
 endfunction
-command! CloseREPL call CloseREPL(b:pane_id)
-
-function! SendAsString(text, pane_id)
+command! CloseREPL call CloseREPL()
+"}}}
+function! SendAsString(text)"{{{
   " used in SendSelection()
   " some instances also are mapped in ftplugin/r.vim
-  let command = 'tmux send-keys -t ' . a:pane_id . ' ' . shellescape(a:text) . ' Enter'
+  let command = 'tmux send-keys -t ' . b:pane_id . ' ' . shellescape(a:text) . ' Enter'
   call system(command)
 endfunction
-
-function! SendAsFile(text, pane_id, echo)
+"}}}
+function! SendAsFile(text, echo)"{{{
   " used in SendSelection() and SendFile()
   let temp_file = tempname()
   let win_temp_file = substitute(temp_file, '^', 'c:/msys64', '')
@@ -165,30 +181,30 @@ function! SendAsFile(text, pane_id, echo)
     let command = 'source "' . temp_file . '"'
   endif
   "
-  call SendAsString(command, a:pane_id)
+  call SendAsString(command)
 endfunction
-
-function! SendLine(pane_id)
+"}}}
+function! SendLine()"{{{
   let line = getline('.')
-  call SendAsString(line, a:pane_id)
+  call SendAsString(line)
 endfunction
-nnoremap , :call SendLine(b:pane_id)<CR>
-
-function! SendParagraph(pane_id)
+nnoremap , :call SendLine()<CR>
+"}}}
+function! SendParagraph()"{{{
   " Get the line number of the start and end of the paragraph
   let start_line = line("'{")
   let end_line = line("'}")
   let paragraph = getline(start_line, end_line)
   let paragraph = filter(paragraph, 'v:val !~ "^\\s*$"')
   if len(paragraph) > 1 
-    call SendAsFile(paragraph, a:pane_id, 'TRUE')
+    call SendAsFile(paragraph, b:pane_id, 'TRUE')
   else
-    call SendAsString(paragraph[0], a:pane_id)
+    call SendAsString(paragraph[0], b:pane_id)
   endif
 endfunction
-" nnoremap , :call SendParagraph(b:pane_id)<CR>
-
-function! SendSelection(pane_id)
+" nnoremap , :call SendParagraph()<CR>
+"}}}
+function! SendSelection()"{{{
   " Capture the visual selection
   let saved_reg = @"
   normal! gv"xy
@@ -196,23 +212,42 @@ function! SendSelection(pane_id)
   let @" = saved_reg
   " Check if the selection is single line
   if selection !~ '\n\zs.'
-    call SendAsString(selection, a:pane_id)
+    call SendAsString(selection, b:pane_id)
   else
     let selection = split(selection, "\n")
-    call SendAsFile(selection, a:pane_id, 'TRUE')
+    call SendAsFile(selection, b:pane_id, 'TRUE')
   endif
 endfunction
-xnoremap , :<C-u>silent! call SendSelection(b:pane_id)<CR>
-
-function! SendFile(pane_id)
+xnoremap , :<C-u>silent! call SendSelection()<CR>
+"}}}
+function! SendFile()"{{{
   let current_line = line('.')
-  let file_to_line = getline(1, current_line)
-  call SendAsFile(file_to_line, a:pane_id, 'FALSE')
+  let buffer_id = bufnr('%')
+  let start_line = 1
+  " Look for the signs
+  let signs = sign_getplaced(buffer_id)
+  if len(signs[0].signs) > 0
+    " Assuming there is at most one sign
+    let sign_line = signs[0].signs[0].lnum 
+    if sign_line < current_line
+      let start_line = sign_line + 1
+    endif
+  endif
+  " Send lines from start_line to the current line
+  let lines_to_send = getline(start_line, current_line)
+  call SendAsFile(lines_to_send, 'FALSE')
+  " Remove existing 'chunk_start' sign in the current buffer, if any
+  call sign_unplace('', {'buffer': buffer_id, 'name': 'chunk_start'})
+  " Place a new 'chunk_start' sign at the current line
+  let b:sign_id = localtime()  " Generate a unique sign ID
+  call sign_place(b:sign_id, '', 'chunk_start', buffer_id, {'lnum': current_line, 'priority': 10})
 endfunction
-nnoremap <leader>, :call SendFile(b:pane_id)<CR>
-
-
-" get highlight group
+sign define chunk_start text=> texthl=SignColumn
+nnoremap <leader>, :call SendFile()<CR>
+nnoremap <leader>o :execute 'sign jump ' . b:sign_id<CR>
+"}}}
+"}}}
+" get highlight group{{{
 function! GetHighlight()
     let hi    = synIDattr(synID(line('.'), col('.'), 1), 'name')
     let trans = synIDattr(synID(line('.'), col('.'), 0), 'name')
@@ -220,15 +255,4 @@ function! GetHighlight()
     echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
 endfunction
 nnoremap <leader>hi :call GetHighlight()<cr>
-
-" follow link
-function! FollowLink()
-  let link = trim(getline('.'))
-  if has('gui_running') && has('win32')
-    call system('start "" ' . shellescape(link))
-  else
-    call system('cygstart ' . shellescape(link))
-  endif
-endfunction
-nnoremap <cr> :call FollowLink()<cr>
-
+"}}}

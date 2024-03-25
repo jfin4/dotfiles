@@ -165,6 +165,6 @@ alias zrc='vim ~/.zshrc; source ~/.zshrc'
 
 # Automatically start tmux if not already running
 if [ -z "$TMUX" ]; then
-  tmux new-session -s main
+  tmux attach -t main || tmux new-session -s main
 fi
 

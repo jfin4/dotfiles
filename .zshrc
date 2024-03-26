@@ -1,7 +1,4 @@
-
-# vim: ft=zsh foldenable
-
-# options
+# options{{{
 bindkey -e
 setopt sh_word_split
 setopt hist_ignore_dups
@@ -9,21 +6,23 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 setopt extended_glob
-
-# environment variables
+# }}}
+# environment variables{{{
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-EDITOR=/c/vim/vim90/vim
 MINGW_PACKAGE_PREFIX=mingw-w64-ucrt-x86_64
+# USERPROFILE=$(cygpath $USERPROFILE)
+export EDITOR=/c/vim/vim90/vim
 
-# path
+# }}}
+# path{{{
 r_path='/c/programs/r/bin'
 pandoc_path='/c/programs/pandoc'
 PATH="$PATH:$HOME/scripts:$r_path:$pandoc_path"
-
-# completion
+# }}}
+# completion{{{
 
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
@@ -36,10 +35,17 @@ zstyle :compinstall filename '/home/jinman/.zshrc'
 
 autoload -Uz compinit
 compinit
+
 # End of lines added by compinstall
 bindkey '^[[Z' reverse-menu-complete
 
-# prompt
+# speed up complition in git repos
+# https://stackoverflow.com/questions/9810327/zsh-auto-completion-for-git-takes-significant-amount-of-time-can-i-turn-it-off/9810485#9810485
+__git_files () { 
+    _wanted files expl 'local files' _files  
+  }
+# }}}
+# prompt{{{
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
@@ -48,15 +54,15 @@ zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?%f"$'\n'")"\
 $'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
 $'\n'"${TMUX+tmux }%% "
-
-# insert date
+# }}}
+# insert date{{{
 insert_date () { 
 	LBUFFER+=${(%):-'%D{%Y-%m-%d}'};
 }
 zle -N insert_date
 bindkey '^@d' insert_date
-
-# password management
+# }}}
+# password management{{{
 passgen () {
   pass_name="$1"
   if [ -z $pass_name ]; then
@@ -85,8 +91,8 @@ pw () {
   pass_store=$(echo "$pass_stores" | fzy --query="$query")
   pass $pass_store | tee /dev/clipboard
 }
-
-# Paste the selected file path(s) into the command line
+# }}}
+# Paste the selected file path(s) into the command line{{{
 select_paths() {
   fd_cmd="fd\
     --hidden\
@@ -122,8 +128,13 @@ paste_paths() {
 }
 zle -N paste_paths
 bindkey '^@' paste_paths
-
-# aliases 
+# }}}
+# move to trash{{{
+rm() {
+  mv --backup=numbered "$@" $HOME/trash
+}
+# }}}
+# aliases {{{
 alias R='\R --no-save --quiet'
 alias bak='back-up-file'
 alias cal='cal -y'
@@ -158,13 +169,12 @@ alias search='pacman -Ss'
 alias summary='/c/Program\ Files/R/R-4.2.3/bin/Rscript.exe ~/scripts/get-summary.r $(cygpath -w $LOCALAPPDATA/Programs/msys64/home/JInman/hours)'
 alias sync='sync-all-repos'
 alias todo='take-notes \#todo'
-alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; source ~/.zshrc'
-
-# Automatically start tmux if not already running
+# }}}
+# Automatically start tmux if not already running{{{
 if [ -z "$TMUX" ]; then
   tmux attach -t main || tmux new-session -s main
 fi
-
+# }}}

@@ -204,7 +204,7 @@ function! SendParagraph()"{{{
 endfunction
 " nnoremap , :call SendParagraph()<CR>
 "}}}
-function! SendSelection()"{{{
+function! SendSelection() range "{{{
   " Capture the visual selection
   let saved_reg = @"
   normal! gv"xy
@@ -212,13 +212,13 @@ function! SendSelection()"{{{
   let @" = saved_reg
   " Check if the selection is single line
   if selection !~ '\n\zs.'
-    call SendAsString(selection, b:pane_id)
+    call SendAsString(selection)
   else
     let selection = split(selection, "\n")
-    call SendAsFile(selection, b:pane_id, 'TRUE')
+    call SendAsFile(selection, 'TRUE')
   endif
 endfunction
-xnoremap , :<C-u>silent! call SendSelection()<CR>
+xnoremap , :call SendSelection()<CR>
 "}}}
 function! SendFile()"{{{
   let current_line = line('.')

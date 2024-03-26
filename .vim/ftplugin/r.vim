@@ -1,19 +1,19 @@
 let maplocalleader = ' '
 
-function! ViewTable()
+function! ViewTable() range
   call SaveTable()
   let wait_time = '5'
   while wait_time > 0
     if filereadable(b:temp_file)
       call ViewSavedTable()
-      break
+      return
     endif
     let wait_time -= 1
-    sleep
+    sleep 1
   endwhile
   echo 'Still writing file. Call ViewSavedTable when finished.'
 endfunction
-command! ViewTable call ViewTable()
+xnoremap <localleader>vt :<c-u>silent! call ViewTable()<cr>
 
 function! SaveTable()
   " Capture the visual selection
@@ -21,15 +21,16 @@ function! SaveTable()
   normal! gvy
   let table = @"
   let @" = saved_reg
-  let b:temp_file = tempname() . '.xlsx'
+  let b:temp_file = tempname() . '.txt'
+  " because R is running in Windows
   let win_temp_file = substitute(b:temp_file, '^', 'c:/msys64', '')
-  let r_cmd = 'openxlsx::write.xlsx(' . table . ', "' . win_temp_file . '")'
-  call SendAsString(r_cmd, b:pane_id)
+  let r_cmd = 'write_tsv(' . table . ', "' . win_temp_file . '")'
+  call SendAsString(r_cmd)
 endfunction
 command! SaveTable call SaveTable()
 
 function! ViewSavedTable()
-  call system('cygstart ' . b:temp_file)
+  call system('cygstart ' . shellescape(b:temp_file))
 endfunction
 command! ViewSavedTable call ViewSavedTable()
 

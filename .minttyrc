@@ -1,4 +1,4 @@
-Font=Terminus (TTF) for Windows
+Font=Terminess Nerd Font
 FontHeight=12
 ClipShortcuts=yes
 WindowShortcuts=no
@@ -7,39 +7,49 @@ ZoomShortcuts=no
 AltFnShortcuts=no
 CursorType=block
 
-ForegroundColour=0,0,0
-BackgroundColour=255,255,255
-CursorColour=0,0,0
-
-Black=0,0,0
-BoldBlack=128,128,128
-Red=255,0,0
-BoldRed=255,0,0
-Green=0,128,0
-BoldGreen=0,128,0
-Yellow=128,128,0
-BoldYellow=255,255,0
-Blue=0,0,128
-BoldBlue=0,0,128
-Magenta=128,0,128
-BoldMagenta=128,0,128
-Cyan=0,128,128
-BoldCyan=0,128,128
-White=245,245,245
-BoldWhite=255,255,255
-
 ScrollbackLines=10000
-Columns=190
-Rows=46
 Transparency=off
 Scrollbar=none
 Term=xterm-256color
-FontWeight=700
+FontWeight=500
 FontIsBold=no
 FontSmoothing=none
 EmojiPlacement=stretch
 Locale=en_US
 Charset=UTF-8
-BoldAsFont=no
-BoldAsColour=yes
+BoldAsFont=yes
+BoldAsColour=no
 CursorBlinks=no
+Padding=16
+BellType=0
+
+# copy this file to /usr/share/mintty/themes/jfin
+#
+# ff 255
+# cc 204
+# 99 153
+# 66 102
+# 33 51
+# 00 0
+
+ForegroundColour=255,255,255
+BackgroundColour=0,0,0
+CursorColour=255,153,153
+
+Black=51,51,51
+BoldBlack=51,51,51
+Blue=153,204,255
+BoldBlue=153,204,255
+Green=153,255,153
+BoldGreen=153,255,153
+Cyan=153,255,255
+BoldCyan=153,255,255
+Red=255,153,106
+BoldRed=255,153,106
+Magenta=255,153,204
+BoldMagenta=255,153,204
+Yellow=255,255,153
+BoldYellow=255,255,153
+White=153,153,153
+BoldWhite=153,153,153
+

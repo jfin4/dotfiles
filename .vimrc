@@ -1,304 +1,197 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                   vimrc                                    "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" initial commands{{{
+filetype indent plugin on"}}}
+syntax on
+colorscheme jfin
 
+" define variables
+let mapleader = ' '
+let maplocalleader = ' '
 
-syntax enable " enables syntax highlighting, keeping :highlight commands
-filetype plugin indent on " enables filetype detection
+" default options first, following can override
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  options                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" dir options
+set backupdir=~/.cache/vim/backup
+set directory=~/.cache/vim/swap
+set undodir=~/.cache/vim/undo 
+set viewdir=~/.cache/vim/view
+set shadafile=~/.cache/vim/shada
 
-set autoindent " take indent for new line from previous line
-set autoread " automatically read file when changed outside of vim
-set autowriteall " automatically write file if changed
-set background=light " 'dark' or 'light' used for highlight colors
-set backspace=indent,eol,start " Allow backspacing over everything in insert mode.
-set backupdir=~/.vim/backup
-set breakindent " wrapped lines are indented same as beginning of line
-set directory=~/.vim/swap
-set display=lastline " Show @@@ in the last line if it is truncated.
+" other options
+set autoread 
+set autowriteall
+set completeopt=menuone,longest
 set encoding=utf-8
-set expandtab " use spaces when <tab> is inserted
-set fillchars=vert:\ ,fold:\ ,eob:\ 
-set foldtext=getline(v:foldstart).'...'
-set foldlevel=99
-set foldmethod=indent
-set formatoptions=qnlj  "help fo-table
-set ignorecase " ignore case
-set incsearch " Do incremental searching
-set laststatus=0
-set linebreak " wrap long lines at a blank
-set modeline
-set modelines=1
-set mouse=a " Only xterm can grab the mouse events when using the shift key
-set nohlsearch
-set nowrapscan
-set nrformats-=octal " Do not recognize octal numbers for Ctrl-A and Ctrl-x
-set pastetoggle=<insert> " key code that causes paste to toggle
-set ruler		" show the cursor position all the time
-set scrolloff=5 " Show a few lines of context around the cursor
-set shiftround " round indent to shiftwidth
-set shiftwidth=4 " number of spaces to use for (auto)indent step
-set signcolumn=yes
-set showbreak=\|\ \ \   " hanging indents for wrapped lines
-set showcmd " show commands
-set smartcase " no ignore case when pattern has uppercase
-set t_Co=256
-set tabstop=4 " number of spaces that <tab> in file uses
-set textwidth=0 " maximum width of text that is being inserted
-set ttimeout		" time out for key codes
-set ttimeoutlen=100	" wait up to 100ms after Esc for special key
-set undodir=~/.vim/undo " undo files here
-set undofile " persistent undo
-set virtualedit=block
-set wildmenu		" display completion matches in a status line
+set ignorecase 
+set laststatus=3
+set mouse=
+set pastetoggle=<insert> 
+set signcolumn=no
+set shellcmdflag='-c'
+set shellslash
+set shellquote=""
+set shellxquote=""
+set smartcase 
+set undofile 
+" set virtualedit=block
+set wildmenu
+set formatoptions=qlcjnr
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 variables                                  "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" maps
+nnoremap <backspace> :bdelete<cr>
+nnoremap <c-j> :bnext<cr>
+nnoremap <c-k> :bprevious<cr>
+nnoremap <cr> :write<cr>
+nnoremap <leader>N viwy/<c-r>"<cr>NN
+nnoremap <leader>n viwy/<c-r>"<cr>
+nnoremap <leader>w :wincmd w<cr>
+nnoremap <silent> <esc> :noh<cr>
+xnoremap Y "*y
 
-let mapleader = " "
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 functions                                  "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" commands
+cnoreabbrev h help \| only \| set buflisted<home><s-right>
 
-function! FzySearchLine()
-    call inputsave()
-    let l:pat = input('//')
-    call inputrestore()
+" indentation
+set autoindent 
+set breakindent 
+set breakindentopt=min:0,shift:1
+set expandtab 
+set linebreak 
+set shiftround 
+set shiftwidth=4
+set showbreak=+
+set tabstop=4
+set textwidth=78 
 
-    if l:pat == ''
-        let l:pat = '.'
-    endif
+" folds
+set foldlevelstart=0
+set foldmethod=marker
 
-    " Swallow errors from ^C, allow redraw! below
-    try
-        let output = system('grep -n ' . l:pat . ' ' . expand('%') . ' | fzy')
-        let pos = match(output, ":")
-        let lnum = output[0:pos - 1]
-    catch /Vim:Interrupt/
-    endtry
+" snippets
+let g:snipMate = get(g:, 'snipMate', {
+            \ 'always_choose_first' : 1,
+            \ 'no_match_completion_feedkeys_chars' : '',
+            \ })
+inoremap <c-l> <Plug>snipMateNextOrTrigger
+snoremap <c-l> <Plug>snipMateNextOrTrigger
+inoremap <c-h <Plug>snipMateBack
+snoremap <c-h> <Plug>snipMateBack
+augroup snipmate
+   au!
+   autocmd bufleave *.snippets SnipMateLoadScope %
+augroup end
 
-    redraw!
+" completion
+let g:mucomplete#empty_text = 1
+let g:mucomplete#no_mappings = 1
+let g:mucomplete#chains = {
+    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
+    \ }
 
-    if v:shell_error == 0 && !empty(output)
-        call cursor(lnum, 1)
-    endif
+imap <tab> <plug>(MUcompleteFwd)
+imap <s-tab> <plug>(MUcompleteBwd)
+imap <c-j> <plug>(MUcompleteCycFwd)
+imap <c-k> <plug>(MUcompleteCycBwd)
+imap <expr> . mucomplete#extend_bwd(".")
+
+" get highlight group
+function! GetHighlight()
+    let hi    = synIDattr(synID(line('.'), col('.'), 1), 'name')
+    let trans = synIDattr(synID(line('.'), col('.'), 0), 'name')
+    let lo    = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+    echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
+endfunction
+nnoremap <f10> :call GetHighlight()<cr>
+
+" source updated config files 
+augroup vimrc
+    au!
+    autocmd BufWritePost .vimrc,*/colors/*.vim,*/plugin/*.vim source <afile>
+augroup end
+
+" lsp
+" Function to check if a specific LSP server is running
+function! IsServerRunning(name)
+    let clients = luaeval("vim.lsp.get_active_clients()")
+    for client in clients
+        if client.name == a:name
+            return 1
+        endif
+    endfor
+    return 0
 endfunction
 
-function! OpenFile()
-    let line = getline('.')
-    let line = trim(line)
-    let link = fnamemodify(line, ':p')
-    let ext = fnamemodify(link, ':e')
+if !IsServerRunning('r_language_server')
+    lua require'lspconfig'.r_language_server.setup{}
+endif
 
-    if ext[0:2] == 'txt' || ext[0:1] == 'md' || ext[0:2] == 'csv'
-        call system("tmux split-window -b vim " 
-            \ . link 
-            \ . " && tmux select-layout main-vertical")
-    elseif link[0:3] == 'http'
-        call system("firefox '" . link . "' &")
-    elseif ext == 'pdf'
-        call system("sumatraPDF '" . link . "' &")
-    else 
-        call system("cygstart '" . link . "' &")
-    endif
-endfunction
+lua vim.diagnostic.disable()
 
-function! OpenDir()
-  let link = fnamemodify(@d, ':p:h')
-  if link[0:2] == '/r/' || link[0:2] == '/h/'
-      call system("cygstart '" . link . "' &")
-  else
-      call system("tmux split-window -bc '" 
-            \ . link 
-            \ . "'; tmux select-layout main-vertical")
-  endif
-endfunction
+" clipboard
+" set clipboard^=unnamedplus
+let g:clipboard = {
+    \   'name': 'clipboard',
+    \   'copy': {
+    \      '+': "sh -c 'cat > /dev/clipboard'",
+    \      '*': "sh -c 'cat > /dev/clipboard'",
+    \    },
+    \   'paste': {
+    \      '+': "sh -c 'cat /dev/clipboard'",
+    \      '*': "sh -c 'cat /dev/clipboard'",
+    \   },
+    \ }
 
-function! CopyPath()
-  let line = getline('.')
-  let line = trim(line)
-  let @* = system('cygpath -u "' . line . '"')[:-2]
-endfunction
+" fzf
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fl :BLines<cr>
+nnoremap <leader>fh :Helptags<cr>
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  keymaps                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-nnoremap // :call FzySearchLine()<cr>
-nnoremap <cr> :call OpenFile()<cr>
-inoremap jk <esc>l
-nnoremap <leader>hi
-      \ :echo synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
-nnoremap <leader>si :e ~/.vim/snippets-jfin/
-nnoremap <leader>so <c-^>:bdelete snippets<cr>
-      \ :call UltiSnips#RefreshSnippets()<cr>
-nnoremap <leader>vi :e $MYVIMRC<cr>
-nnoremap <leader>vo :w<cr><c-^>:bdelete .vimrc<cr>:source $MYVIMRC<cr>
-vnoremap Y "*y
-nnoremap Y :call CopyPath()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                           command abbreviations                            "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-cnoreabbrev cdd lcd %:p:h
-cnoreabbrev h tab h
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                autocommands                                "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" program
-augroup program
-    autocmd!
-    autocmd FileType python,r,sh setlocal textwidth=78
-    autocmd FileType python,r,sh nnoremap <buffer> <leader>ro 
-                \:silent !open-repl close<cr>
-                \:redraw!<cr>
-    autocmd FileType python,r,sh nmap <buffer> , 
-                \<Plug>SlimeLineSend/^[^#\$]<cr>
-    autocmd FileType python,r,sh xmap <buffer> , 
-                \<Plug>SlimeRegionSend
-    autocmd FileType python,r,sh nmap <buffer> <leader>, 
-                \<Plug>SlimeParagraphSend}j
-    autocmd FileType python,r,sh nnoremap <buffer> K 
-                \viw"ry:SlimeSend1 help(<c-r>r)<cr>
-augroup END
-
-" r
-augroup r 
-  autocmd!
-  autocmd FileType r inoremap <buffer> < <-
-  autocmd FileType r inoremap <buffer> << <
-  autocmd FileType r nnoremap <buffer> <leader>ri :silent !open-repl start-r<cr>
-augroup END 
-
-" sh
-augroup sh
-    autocmd!
-    autocmd FileType sh nnoremap <buffer> <leader>ri :silent !open-repl<cr>
-augroup END 
-
-" python
-augroup python
-    autocmd!
-    autocmd FileType python nnoremap <buffer> <leader>ri :silent !open-repl python<cr>
-augroup END 
-
-" markdown
-augroup markdown 
-  autocmd!
-  autocmd FileType markdown let markdown_folding = 1
-  autocmd FileType markdown setlocal conceallevel=2
-augroup END 
-
-" csv
-augroup csv
-  autocmd!
-  autocmd FileType csv set commentstring=#%s
-augroup END 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  plugins                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" slime
-let g:slime_target = "tmux"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{bottom-right}"}
-let g:slime_dont_ask_default = 1
-
-" ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=[ "snippets-jfin", "Ultisnips" ]
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                   colors                                   "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" NR-16   NR-8   COLOR NAME
-" 0       0      Black
-" 8       0*     DarkGray, DarkGrey
-" 1       4      DarkBlue
-" 9       4*     Blue, LightBlue
-" 2       2      DarkGreen
-" 10      2*     Green, LightGreen
-" 3       6      DarkCyan
-" 11      6*     Cyan, LightCyan
-" 4       1      DarkRed
-" 12      1*     Red, LightRed
-" 5       5      DarkMagenta
-" 13      5*     Magenta, LightMagenta
-" 14      3*     Yellow, LightYellow
-" 6       3      Brown, DarkYellow
-" 7       7      LightGray, LightGrey, Gray, Grey
-" 15      7*     White
-
-highlight  comment          ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  constant         ctermfg=darkcyan  ctermbg=none      cterm=none
-highlight  identifier       ctermfg=black     ctermbg=none      cterm=none
-highlight  statement        ctermfg=black     ctermbg=none      cterm=none
-highlight  preproc          ctermfg=black     ctermbg=none      cterm=none
-highlight  type             ctermfg=black     ctermbg=none      cterm=none
-highlight  special          ctermfg=black     ctermbg=none      cterm=none
-highlight  underlined       ctermfg=black     ctermbg=none      cterm=underline
-highlight  ignore           ctermfg=black     ctermbg=none      cterm=none
-highlight  error            ctermfg=red       ctermbg=none      cterm=none
-highlight  todo             ctermfg=black     ctermbg=yellow    cterm=none
-highlight  colorcolumn      ctermfg=black     ctermbg=lightgray cterm=none
-"highlight conceal
-"highlight cursorcolumn
-"highlight cursorline
-"highlight cursorlinenr
-highlight  diffadd          ctermfg=darkgreen ctermbg=none      cterm=none
-highlight  diffchange       ctermfg=black     ctermbg=none      cterm=none
-highlight  diffdelete       ctermfg=red       ctermbg=none      cterm=none
-highlight  difftext         ctermfg=darkcyan  ctermbg=none      cterm=none
-"highlight directory
-highlight  endofbuffer      ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  errormsg         ctermfg=red       ctermbg=none      cterm=none
-"highlight foldcolumn
-highlight  folded           ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  incsearch        ctermfg=black     ctermbg=yellow    cterm=none
-"          highlight        linenr            ctermfg=darkgray  ctermbg=white   cterm=none
-"highlight linenrabove
-"highlight linenrbelow
-"highlight modemsg
-"highlight moremsg
-highlight  nontext          ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  pmenu            ctermfg=black     ctermbg=lightgray cterm=none
-highlight  pmenusbar        ctermfg=none      ctermbg=lightgray cterm=none
-highlight  pmenusel         ctermfg=black     ctermbg=yellow    cterm=none
-highlight  pmenuthumb       ctermfg=none      ctermbg=darkgray  cterm=none
-"highlight question
-"highlight quickfixline
-highlight  search           ctermfg=black     ctermbg=yellow    cterm=none
-highlight  signcolumn       ctermfg=white     ctermbg=none      cterm=none
-highlight  specialkey       ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  spellbad         ctermfg=red       ctermbg=none      cterm=none
-highlight  spellcap         ctermfg=red       ctermbg=none      cterm=none
-highlight  spelllocal       ctermfg=red       ctermbg=none      cterm=none
-highlight  spellrare        ctermfg=red       ctermbg=none      cterm=none
-highlight  statusline       ctermfg=darkgray  ctermbg=white     cterm=none
-highlight  statuslinenc     ctermfg=white     ctermbg=white     cterm=none
-highlight  statuslineterm   ctermfg=darkgray  ctermbg=white     cterm=none
-highlight  statuslinetermnc ctermfg=white     ctermbg=white     cterm=none
-highlight  tabline          ctermfg=darkgray  ctermbg=lightgray cterm=none
-highlight  tablinefill      ctermfg=darkgray  ctermbg=lightgray cterm=none
-highlight  tablinesel       ctermfg=darkgray  ctermbg=none      cterm=none
-highlight  title            ctermfg=black     ctermbg=none      cterm=none
-"highlight vertsplit
-highlight  visual           ctermfg=black     ctermbg=yellow cterm=none
-highlight  visualnos        ctermfg=black     ctermbg=yellow    cterm=none
-"highlight warningmsg
-highlight  wildmenu         ctermfg=black     ctermbg=yellow    cterm=none
-highlight  htmlItalic       ctermfg=black     ctermbg=yellow    cterm=none
-highlight  matchparen       ctermfg=black     ctermbg=yellow    cterm=none
+" ai avante
+lua require('avante_lib').load()
+lua << EOF
+    require('avante').setup ({ 
+        -- provider = "openai",
+        -- auto_suggestions_provider = "openai", 
+        -- provider = "claude",
+        -- auto_suggestions_provider = "claude", 
+        provider = "deepseek",
+        auto_suggestions_provider = "deepseek", 
+        openai = {
+            model = "gpt-4o-mini",
+        },
+        hints = { enabled = false },
+        vendors = {
+            ---@type AvanteProvider
+            deepseek = {
+                endpoint = "https://api.deepseek.com/chat/completions",
+                model = "deepseek-coder",
+                api_key_name = "DEEPSEEK_API_KEY",
+                parse_curl_args = function(opts, code_opts)
+                return {
+                    url = opts.endpoint,
+                    headers = {
+                        ["Accept"] = "application/json",
+                        ["Content-Type"] = "application/json",
+                        ["Authorization"] = "Bearer " .. os.getenv(opts.api_key_name),
+                    },
+                    body = {
+                        model = opts.model,
+                        messages = { -- you can make your own message, but this is very advanced
+                        { role = "system", content = code_opts.system_prompt },
+                        { role = "user", content = require("avante.providers.openai").get_user_message(code_opts) },
+                        },
+                        temperature = 0,
+                        max_tokens = 4096,
+                        stream = true, -- this will be set by default.
+                    },
+                }
+                end,
+                parse_response_data = function(data_stream, event_state, opts)
+                require("avante.providers").openai.parse_response(data_stream, event_state, opts)
+                end,
+            }
+        }
+    })
+EOF
 

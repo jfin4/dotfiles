@@ -4,20 +4,19 @@ function! SaveTable(args)
   let file = tempname() . '.csv'
   if a:args.head
       " needs to be a list for writefile() in sendcode()
-      let code = [ printf('readr::write_tsv(head(%s), "%s")', table, file) ]
+      let code = [ printf('readr::write_csv(head(%s), "%s")', table, file) ]
   else
-      let code = [ printf('readr::write_tsv(%s, "%s")', table, file) ] 
+      let code = [ printf('readr::write_csv(%s, "%s")', table, file) ] 
   endif
   call SendCode({'code': code, 'echo': 'TRUE'})
   return file
 endfunction
 
 function! OpenTable()
-    call system(printf('tmux split-window -d visidata "%s"', b:file))
+    call system(printf('tmux split-window visidata "%s"', b:file))
 endfunction
 
 function! ExploreTable(args) range
-    echo 'hi'
     let b:file = SaveTable(a:args)
     let wait = '5'
     while wait > 0

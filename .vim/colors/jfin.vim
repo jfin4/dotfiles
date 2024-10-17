@@ -5,11 +5,11 @@ set termguicolors
 let colors_name = "jfin"
 
 " function to apply colors to a highlight group using a dictionary for named arguments
-function! Hl(group, opts)
+function! Hl(group, args)
     " Set default values for foreground (fg), background (bg), and gui if not provided
-    let fg = has_key(a:opts, 'fg') ? a:opts.fg : 'none'
-    let bg = has_key(a:opts, 'bg') ? a:opts.bg : 'none'
-    let style = has_key(a:opts, 'gui') ? a:opts.style : 'none'
+    let fg = has_key(a:args, 'fg') ? a:args.fg : 'none'
+    let bg = has_key(a:args, 'bg') ? a:args.bg : 'none'
+    let style = has_key(a:args, 'gui') ? a:args.style : 'none'
 
     " Apply the highlight group using the dictionary arguments
     let cmd = printf('highlight %s guifg=%s guibg=%s gui=%s',
@@ -32,7 +32,8 @@ let s:yellow    = '#ffff99'
 let s:lightgray = '#999999'
 let s:none      = 'none'
 
-call Hl('normal', {'fg': s:none})
+" normal
+call Hl('normal',        {'fg': s:none})
 
 " :help group-name
 

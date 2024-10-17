@@ -1,6 +1,4 @@
-" initial commands{{{
-filetype indent plugin on"}}}
-syntax on
+" first thing's first
 colorscheme jfin
 
 " define variables
@@ -32,7 +30,7 @@ set shellquote=""
 set shellxquote=""
 set smartcase 
 set undofile 
-" set virtualedit=block
+set virtualedit=block
 set wildmenu
 set formatoptions=qlcjnr
 
@@ -46,7 +44,6 @@ nnoremap <leader>n viwy/<c-r>"<cr>
 nnoremap <leader>w :wincmd w<cr>
 nnoremap <silent> <esc> :noh<cr>
 xnoremap Y "*y
-
 
 " commands
 cnoreabbrev h help \| only \| set buflisted<home><s-right>

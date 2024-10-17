@@ -66,7 +66,11 @@ PATH="$HOME/scripts:$PATH"
 PATH="$JAVA_HOME:$PATH" 
 PATH="/c/programs/ffmpeg/bin:$PATH"
 PATH="/c/programs/pandoc:$PATH" 
-PATH="/c/programs/r/bin/x64:$PATH" 
+# get latest r
+for r in "c:/Program Files/R"/*; do
+    true
+done
+PATH="/c${r#c:}/bin/x64:$PATH" 
 PATH="/c/programs/sumatrapdf:$PATH" 
 PATH="/c/programs/texlive/2024/bin/windows:$PATH" 
 PATH="/c/programs/yt-dlp:$PATH"

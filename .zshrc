@@ -26,17 +26,15 @@ HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-# bookmark variables
-export bbo='c:/Users/jinman/OneDrive - Water Boards/'
-export bbp='c:/Users/jinman/OneDrive - Water Boards/Projects/'
-export bbr='c:/Users/jinman/Desktop/Final_ReLEP/'
-export bbu='c:/users/jinman/'
-export bbd='c:/Users/jinman/Downloads/'
-export bba='c:/Users/jinman/AppData/Local/'
-
 # shortcut variables
-export dd=$(date +%Y-%m-%d)
+export dd=$(date +%y-%m-%d)
 export mm='mingw-w64-ucrt-x86_64-'
+export bba="c:/users/jinman/appdata/local/"
+export bbd='c:/users/jinman/downloads/'
+export bbo='c:/users/jinman/onedrive\ -\ water\ boards/'
+export bbp='c:/users/jinman/onedrive\ -\ water\ boards/projects/'
+export bbr='c:/users/jinman/desktop/final_relep/'
+export bbu='c:/users/jinman/'
 
 # avante variables
 export ANTHROPIC_API_KEY=$(pass anthropic.com/default-api-key)
@@ -140,20 +138,27 @@ alias ll='ls -l --time-style=long-iso --classify --human-readable'
 alias ls='ls --format=single-column --classify'
 alias mdd='convert-markdown-to-word'
 alias mvv='rename-files'
+alias notes='cd ~/notes; search-files "" notes.txt; cd -'
 alias pdf='open-pdf'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
+alias pw='get-password'
+alias rm='~/scripts/move-to-trash'
 alias rmm='/usr/bin/rm -rf'
-alias tanpura='play-files "c:/users/JInman/OneDrive - Water Boards/Music/Sounds/tanpura.mp3"'
-alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
+alias sot='tmux source-file ~/.tmux.conf'
+alias soz='source ~/.zshrc'
+alias tanpura='play-sounds "c:/users/JInman/OneDrive - Water Boards/Music/Sounds/tanpura.mp3"'
 alias txt_to_xl='Rscript ~/scripts/text-to-excel.r'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias vim='nvim'
 alias xl_to_txt='Rscript ~/scripts/excel-to-text.r'
-alias zrc='vim ~/.zshrc; source ~/.zshrc'
-alias rm='~/scripts/move-to-trash'
+alias p='pacman'
 
 # start tumx
 if [ -z $TMUX ]; then
     pacman -Syu --noconfirm
     tmux
 fi
+
+# future ideas
+#
+# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab

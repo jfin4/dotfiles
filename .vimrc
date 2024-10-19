@@ -17,6 +17,7 @@ set shadafile=~/.cache/vim/shada
 " other options
 set autoread 
 set autowriteall
+set clipboard=unnamedplus
 set completeopt=menuone,longest
 set encoding=utf-8
 set ignorecase 
@@ -43,7 +44,6 @@ nnoremap <leader>N viwy/<c-r>"<cr>NN
 nnoremap <leader>n viwy/<c-r>"<cr>
 nnoremap <leader>w :wincmd w<cr>
 nnoremap <silent> <esc> :noh<cr>
-xnoremap Y "*y
 
 " commands
 cnoreabbrev h help \| only \| set buflisted<home><s-right>

@@ -29,6 +29,7 @@ set shellcmdflag='-c'
 set shellslash
 set shellquote=""
 set shellxquote=""
+set scrolloff=5
 set smartcase 
 set undofile 
 set virtualedit=block
@@ -51,12 +52,12 @@ cnoreabbrev h help \| only \| set buflisted<home><s-right>
 " indentation
 set autoindent 
 set breakindent 
-set breakindentopt=min:0,shift:1
+set breakindentopt=shift:0
 set expandtab 
 set linebreak 
 set shiftround 
 set shiftwidth=4
-set showbreak=+
+set showbreak=+++\ 
 set tabstop=4
 set textwidth=78 
 
@@ -71,7 +72,7 @@ let g:snipMate = get(g:, 'snipMate', {
             \ })
 inoremap <c-l> <Plug>snipMateNextOrTrigger
 snoremap <c-l> <Plug>snipMateNextOrTrigger
-inoremap <c-h <Plug>snipMateBack
+inoremap <c-h> <Plug>snipMateBack
 snoremap <c-h> <Plug>snipMateBack
 augroup snipmate
    au!
@@ -79,11 +80,10 @@ augroup snipmate
 augroup end
 
 " completion
-let g:mucomplete#empty_text = 1
 let g:mucomplete#no_mappings = 1
-let g:mucomplete#chains = {
-    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
-    \ }
+" let g:mucomplete#chains = {
+"     \ 'default' : ['path', 'omni', 'keyn', 'dict', 'uspl'],
+"     \ }
 
 imap <tab> <plug>(MUcompleteFwd)
 imap <s-tab> <plug>(MUcompleteBwd)
@@ -150,10 +150,10 @@ lua << EOF
     require('avante').setup ({ 
         -- provider = "openai",
         -- auto_suggestions_provider = "openai", 
-        -- provider = "claude",
-        -- auto_suggestions_provider = "claude", 
-        provider = "deepseek",
-        auto_suggestions_provider = "deepseek", 
+        provider = "claude",
+        auto_suggestions_provider = "claude", 
+        -- provider = "deepseek",
+        -- auto_suggestions_provider = "deepseek", 
         openai = {
             model = "gpt-4o-mini",
         },

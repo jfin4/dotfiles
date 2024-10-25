@@ -11,14 +11,16 @@ setopt share_history
 setopt extended_glob
 
 # prompt variaible
+unset precmd_functions # clear this each time config is sourced
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
-PROMPT="%(?..%F{red}%?%f"$'\n'")"\
-$'\n'"%2d\${vcs_info_msg_0_:+ -< \$vcs_info_msg_0_}"\
-$'\n'"${TMUX+tmux }%% "
+PROMPT="%(?..%F{red}%?
+%f)
+%F{white}%2d \${vcs_info_msg_0_:+< \$vcs_info_msg_0_}
+%% %f"
 
 # zsh variables
 HISTFILE=~/.zsh_history
@@ -26,13 +28,18 @@ HISTSIZE=10000
 SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# standard variables
+export BROWSER='c:/Program Files/Mozilla Firefox/firefox.exe'
+export VISUAL=nvim
+export EDITOR=$VISUAL
+
 # shortcut variables
-export dd=$(date +%y-%m-%d)
+export dd=$(date +%Y-%m-%d)
 export mm='mingw-w64-ucrt-x86_64-'
-export bba="c:/users/jinman/appdata/local/"
+export bba='c:/users/jinman/appdata/local/'
 export bbd='c:/users/jinman/downloads/'
-export bbo='c:/users/jinman/onedrive\ -\ water\ boards/'
-export bbp='c:/users/jinman/onedrive\ -\ water\ boards/projects/'
+export bbo='c:/users/jinman/onedrive - water boards/'
+export bbp='c:/users/jinman/onedrive - water boards/projects/'
 export bbr='c:/users/jinman/desktop/final_relep/'
 export bbu='c:/users/jinman/'
 
@@ -55,7 +62,7 @@ export GOROOT=$(cygpath -w /ucrt64/lib/go)
 JAVA_HOME='/c/Program Files (x86)/Java/jre-1.8/bin'
 
 # path
-[ -z "$initial_path" ] && export initial_path="$PATH"
+[ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/.cargo/bin:$PATH" 
 PATH="$HOME/.go/bin:$PATH" 
@@ -139,6 +146,7 @@ alias ls='ls --format=single-column --classify'
 alias mdd='convert-markdown-to-word'
 alias mvv='rename-files'
 alias notes='cd ~/notes; search-files "" notes.txt; cd -'
+alias todo='cd ~/notes; search-files "#todo" notes.txt; cd -'
 alias pdf='open-pdf'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
 alias pw='get-password'
@@ -152,6 +160,7 @@ alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias vim='nvim'
 alias xl_to_txt='Rscript ~/scripts/excel-to-text.r'
 alias p='pacman'
+alias open='open-link'
 
 # start tumx
 if [ -z $TMUX ]; then

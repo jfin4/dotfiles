@@ -9,3 +9,5 @@
 	showUntrackedFiles = no
 [pull]
 	rebase = false
+[core]
+    editor = nvim

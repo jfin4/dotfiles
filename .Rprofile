@@ -17,10 +17,3 @@ local({
     r["CRAN"] <- "https://cloud.r-project.org/"
     options(repos = r)
 })
-
-# quiet source
-qsource <- function(file, echo) {
-        suppressWarnings(suppressMessages(source(file, 
-                                                 echo = echo, 
-                                                 max.deparse.length = Inf)))
-}

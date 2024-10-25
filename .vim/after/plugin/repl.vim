@@ -2,6 +2,8 @@
 function! OpenREPL()
     if &filetype == 'r'
         let interpreter = 'Rterm --quiet --no-save'
+    elseif &filetype == 'vim'
+        let interpreter = 'nvim'
     else
         let interpreter = 'zsh' " Default to shell if no filetype match
     endif
@@ -35,6 +37,10 @@ function! SendCode(args)
                     \max = Inf, 
                     \echo = %s,
                     \    "%s")))', echo, file)
+    elseif &filetype == 'vim'
+        let file = tempname()
+        call writefile(code, file)
+        let inner_command = printf(':source %s', file)
     else
         let file = tempname()
         call writefile(code, file)

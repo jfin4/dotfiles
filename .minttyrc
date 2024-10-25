@@ -44,12 +44,13 @@ Green=153,255,153
 BoldGreen=153,255,153
 Cyan=153,255,255
 BoldCyan=153,255,255
-Red=255,153,106
-BoldRed=255,153,106
-Magenta=255,153,204
-BoldMagenta=255,153,204
+Red=255,153,153
+BoldRed=255,153,153
+Magenta=255,153,255
+BoldMagenta=255,153,255
 Yellow=255,255,153
 BoldYellow=255,255,153
 White=153,153,153
 BoldWhite=153,153,153
 
+ThemeFile=jfin

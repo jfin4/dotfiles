@@ -22,14 +22,16 @@ function! Hl(group, args)
 endfunction
 
 " define colors
+let s:black     = '#000000'
 let s:darkgray  = '#333333'
 let s:blue      = '#99ccff'
 let s:green     = '#99ff99'
 let s:cyan      = '#99ffff'
-let s:red       = '#ff9966'
-let s:magenta   = '#ff99cc'
+let s:red       = '#ff9999'
+let s:magenta   = '#ff99ff'
 let s:yellow    = '#ffff99'
 let s:lightgray = '#999999'
+let s:white     = '#ffffff'
 let s:none      = 'none'
 
 " normal
@@ -83,7 +85,7 @@ call Hl('error',          {'fg': s:red})
 
 call Hl('todo',           {'bg': s:darkgray})
 
-call Hl('added',          {'bg': s:darkgray})
+call Hl('added',          {'bg': s:none})
 call Hl('changed',        {'fg': s:none})
 call Hl('removed',        {'fg': s:lightgray})
 
@@ -98,7 +100,7 @@ call Hl('CursorIM',       {'fg': s:none})
 call Hl('CursorColumn',   {'fg': s:none})
 call Hl('CursorLine',     {'fg': s:none})
 call Hl('Directory',      {'fg': s:none})
-call Hl('DiffAdd',        {'bg': s:darkgray})
+call Hl('DiffAdd',        {'bg': s:none})
 call Hl('DiffChange',     {'fg': s:none})
 call Hl('DiffDelete',     {'fg': s:lightgray})
 call Hl('DiffText',       {'bg': s:darkgray})

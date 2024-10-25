@@ -19,6 +19,7 @@ stevearc/dressing.nvim
 tpope/vim-commentary
 tpope/vim-repeat
 tpope/vim-surround
+vim-scripts/tlib
 wellle/targets.vim
 yetone/avante.nvim
 
@@ -28,6 +29,7 @@ yetone/avante.nvim
 dir=$HOME/.vim/pack/default/start
 
 #remove unused plugin
+echo -e "\nremove unused plugins"
 existing=$(\ls $dir)
 for e in $existing; do
     ! echo $plugins | grep -q $e && rm $dir/$e
@@ -35,10 +37,13 @@ done
 
 # update plugins
 for p in $plugins; do
-    git -C $dir/${p#*/} pull || git clone https://github.com/$p $dir/${p#*/}
+    echo -e "\nupdate ${p#*/}"
+    git -C $dir/${p#*/} pull 2> /dev/null \
+        || git clone https://github.com/$p $dir/${p#*/}
 done 
 
 # download avante binaries
+echo -e "\ndownload avante binaries"
 if echo $plugins | grep -q avante; then
     rm $dir/avante.nvim/build/*
     powershell \
@@ -48,4 +53,6 @@ if echo $plugins | grep -q avante; then
 fi
 
 # update helptags
-nvim -u NORC +'helptags ALL' +quit
+# /dev/null to preserve terminal output
+echo -e "\nupdate helptags"
+nvim -u NORC +'helptags ALL' +quit > /dev/null

@@ -1,3 +1,5 @@
+let g:mucomplete#empty_text = 1
+
 function! SaveTable(args)
   normal! gv"xy
   let table = substitute(@x, '\n', '', 'g')
@@ -48,23 +50,35 @@ inoremap <buffer> << <
 inoremap <buffer> > %>%
 inoremap <buffer> >> >
 
-nnoremap <buffer> <localLeader>rc 
-        \:call SendCode({'code': ['ncol(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rg 
-        \:call SendCode({'code': ['glimpse(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rh 
-        \:call SendCode({'code': ['head(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>ri 
-        \:call SendCode({'code': ['<c-r><c-w>'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rl 
-        \:call SendCode({'code': ['length(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rn 
-        \:call SendCode({'code': ['names(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rr 
-        \:call SendCode({'code': ['nrow(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rs 
-        \:call SendCode({'code': ['str(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> <localLeader>rv 
-        \:call SendCode({'code': ['View(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
-nnoremap <buffer> K 
-        \:call SendCode({'code': ['help(<c-r><c-w>)'], 'echo': 'TRUE'})<cr>
+function! s:MakeRKeymaps(args)
+    let command = 
+        \printf(
+            \'nnoremap <buffer> 
+                \%s 
+                \:call SendCode(
+                    \{ 
+                        \''code'': [''%s''], 
+                        \''echo'': ''TRUE'' 
+                    \})<cr>',
+            \a:args.lhs,
+            \a:args.rhs
+        \)
+    execute command
+endfunction
+
+let keymaps = [
+            \{ 'lhs': '<localleader>rc', 'rhs': 'ncol(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rg', 'rhs': 'glimpse(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rh', 'rhs': 'head(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>ri', 'rhs': '<c-r><c-w>' },
+            \{ 'lhs': '<localleader>rl', 'rhs': 'length(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rn', 'rhs': 'names(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rr', 'rhs': 'nrow(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rs', 'rhs': 'str(<c-r><c-w>)' },
+            \{ 'lhs': '<localleader>rv', 'rhs': 'View(<c-r><c-w>)' },
+            \{ 'lhs': 'K',               'rhs': 'help(<c-r><c-w>)' }
+            \]
+
+for k in keymaps
+    call s:MakeRKeymaps(k)
+endfor

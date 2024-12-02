@@ -156,4 +156,5 @@ alias tp='move-to-trash'
 alias trc='vim ~/.tmux.conf; tmux source-file ~/.tmux.conf'
 alias update='pacman -Syu'
 alias zrc='vim ~/.zshrc; source ~/.zshrc'
+alias fd='fdfind'
 

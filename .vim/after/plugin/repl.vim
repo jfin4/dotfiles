@@ -1,57 +1,38 @@
 " repl
 function! OpenREPL()
-    if &filetype == 'r'
-        let interpreter = 'Rterm --quiet --no-save'
-    elseif &filetype == 'vim'
-        let interpreter = 'nvim'
-    else
-        let interpreter = 'zsh' " Default to shell if no filetype match
-    endif
-    let command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s', 
-                \interpreter)
-    let b:pane = system(command)->substitute('\n$', '', '')
+    vertical botright terminal ++close Rterm --quiet --no-save
+    let buf = bufnr('%') 
+    wincmd w 
+    let b:repl_buf = buf
 endfunction
 command! OpenREPL call OpenREPL()
-
-function! SetREPLPane() 
-    let command = 'tmux display-panes -d 5000 ''display-message -p -l %%'''
-    let b:pane = system(command)->substitute('\n$', '', '')
+            
+function! SetREPLPane(args) 
+    let b:repl_buf = args
 endfunction
-command! SetREPLPane call SetREPLPane()
+command! -nargs=1 SetREPLPane call SetREPLPane(<args>)
 
 function! CloseREPL() 
-    let command = printf('tmux kill-pane -t %s', b:pane)
-    call system(command)
+    execute 'bdelete! ' . b:repl_buf
+    unlet b:repl_buf
 endfunction
 command! CloseREPL call CloseREPL()
 
 function! SendCode(args) 
+    if !exists('b:repl_buf')
+        echo "set repl pane"
+        return
+    endif
     let code = get(a:args, 'code', '')
     let echo = get(a:args, 'echo', '')
-    if &filetype == 'r'
-        let file = 'c:/Users/jinman/Desktop/Final_ReLEP/ReLEP/temp-code.r'
-        call writefile(code, file)
-        " let inner_command = printf('qsource("%s", echo = %s)', file, echo)
-        let inner_command = printf(
-                    \'suppressWarnings(suppressMessages(source(
-                    \max = Inf, 
-                    \echo = %s,
-                    \    "%s")))', echo, file)
-    elseif &filetype == 'vim'
-        let file = tempname()
-        call writefile(code, file)
-        let inner_command = printf(':source %s', file)
-    else
-        let file = tempname()
-        call writefile(code, file)
-        let inner_command = printf('source %s', file)
-    endif
-    " used escaped single quotes to avoid closing by double quotes 
-    " in inner_command
-    let command = printf('tmux send-keys -t %s ''%s'' Enter', 
-                \b:pane, 
-                \inner_command)
-    call system(command)
+    let file = 'c:/Users/jinman/Desktop/Final_ReLEP/ReLEP/temp-code.r'
+    call writefile(code, file)
+    let source_command = printf(
+                \'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
+                \echo, 
+                \file)
+    " Switch to REPL buffer and send input
+    call term_sendkeys(b:repl_buf, source_command . "\r")
 endfunction
 
 function! RunLine() 
@@ -85,12 +66,10 @@ function! RunFile()
             let start = sign + 1
         endif
     endif
-    
     " send code
     let code = getline(start, current)
     let args = {'code': code, 'echo': 'FALSE'}
     call SendCode(args)
-    
     " shift start sign
     call sign_unplace('', {'buffer': buffer, 'name': 'start'})
     let b:sign = localtime()

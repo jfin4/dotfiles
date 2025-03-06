@@ -5,19 +5,11 @@ colorscheme jfin
 let mapleader = ' '
 let maplocalleader = ' '
 
-" default options first, following can override
-
-" dir options
-set backupdir=~/.cache/vim/backup
-set directory=~/.cache/vim/swap
-set undodir=~/.cache/vim/undo 
-set viewdir=~/.cache/vim/view
-set shadafile=~/.cache/vim/shada
-
 " other options
 set autoread 
 set autowriteall
-set clipboard=unnamedplus
+set belloff=all
+" set clipboard=unnamedplus
 set completeopt=menuone,longest
 set encoding=utf-8
 set ignorecase 
@@ -33,7 +25,8 @@ set scrolloff=5
 set smartcase 
 set undofile 
 set virtualedit=block
-set wildmenu
+" set wildmenu
+set wildmode=full
 set formatoptions=qlcjnr
 
 " maps
@@ -46,8 +39,9 @@ nnoremap <leader>n viwy/<c-r>"<cr>
 nnoremap <leader>w :wincmd w<cr>
 nnoremap <silent> <esc> :noh<cr>
 
-" commands
-cnoreabbrev h help \| only \| set buflisted<home><s-right>
+nnoremap <esc-j> <c-w><c-w>
+tnoremap <esc-j> <c-w><c-w>
+tnoremap <esc> <c-\><c-n>
 
 " indentation
 set autoindent 
@@ -106,89 +100,22 @@ augroup vimrc
     autocmd BufWritePost .vimrc,*/colors/*.vim,*/plugin/*.vim source <afile>
 augroup end
 
-" lsp
-" Function to check if a specific LSP server is running
-function! IsServerRunning(name)
-    let clients = luaeval("vim.lsp.get_active_clients()")
-    for client in clients
-        if client.name == a:name
-            return 1
-        endif
-    endfor
-    return 0
-endfunction
-
-if !IsServerRunning('r_language_server')
-    lua require'lspconfig'.r_language_server.setup{}
-endif
-
-lua vim.diagnostic.disable()
-
 " clipboard
 " set clipboard^=unnamedplus
-let g:clipboard = {
-    \   'name': 'clipboard',
-    \   'copy': {
-    \      '+': "sh -c 'cat > /dev/clipboard'",
-    \      '*': "sh -c 'cat > /dev/clipboard'",
-    \    },
-    \   'paste': {
-    \      '+': "sh -c 'cat /dev/clipboard'",
-    \      '*': "sh -c 'cat /dev/clipboard'",
-    \   },
-    \ }
+" let g:clipboard = {
+"     \   'name': 'clipboard',
+"     \   'copy': {
+"     \      '+': "sh -c 'cat > /dev/clipboard'",
+"     \      '*': "sh -c 'cat > /dev/clipboard'",
+"     \    },
+"     \   'paste': {
+"     \      '+': "sh -c 'cat /dev/clipboard'",
+"     \      '*': "sh -c 'cat /dev/clipboard'",
+"     \   },
+"     \ }
 
 " fzf
 let g:fzf_layout = { 'down': '40%' }
 nnoremap <leader>ff :Files<cr>
 nnoremap <leader>fl :BLines<cr>
 nnoremap <leader>fh :Helptags<cr>
-
-" ai avante
-lua require('avante_lib').load()
-lua << EOF
-    require('avante').setup ({ 
-        -- provider = "openai",
-        -- auto_suggestions_provider = "openai", 
-        provider = "claude",
-        auto_suggestions_provider = "claude", 
-        -- provider = "deepseek",
-        -- auto_suggestions_provider = "deepseek", 
-        openai = {
-            model = "gpt-4o-mini",
-        },
-        hints = { enabled = false },
-        vendors = {
-            ---@type AvanteProvider
-            deepseek = {
-                endpoint = "https://api.deepseek.com/chat/completions",
-                model = "deepseek-coder",
-                api_key_name = "DEEPSEEK_API_KEY",
-                parse_curl_args = function(opts, code_opts)
-                return {
-                    url = opts.endpoint,
-                    headers = {
-                        ["Accept"] = "application/json",
-                        ["Content-Type"] = "application/json",
-                        ["Authorization"] = "Bearer " .. os.getenv(opts.api_key_name),
-                    },
-                    body = {
-                        model = opts.model,
-                        messages = { -- you can make your own message, but this is very advanced
-                        { role = "system", content = code_opts.system_prompt },
-                        { role = "user", content = require("avante.providers.openai").get_user_message(code_opts) },
-                        },
-                        temperature = 0,
-                        max_tokens = 4096,
-                        stream = true, -- this will be set by default.
-                    },
-                }
-                end,
-                parse_response_data = function(data_stream, event_state, opts)
-                require("avante.providers").openai.parse_response(data_stream, event_state, opts)
-                end,
-            }
-        }
-    })
-EOF
-

@@ -19,7 +19,7 @@ Locale=en_US
 Charset=UTF-8
 BoldAsFont=yes
 BoldAsColour=no
-CursorBlinks=no
+CursorBlinks=yes
 Padding=16
 BellType=0
 
@@ -54,3 +54,5 @@ White=153,153,153
 BoldWhite=153,153,153
 
 ThemeFile=jfin
+BellTaskbar=yes
+KeyAlphaMode=yes

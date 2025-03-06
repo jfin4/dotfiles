@@ -1,7 +1,5 @@
 " see /usr/share/vim/vim90/colors/README.txt
-
 set background=dark
-set termguicolors
 let colors_name = "jfin"
 
 " function to apply colors to a highlight group using a dictionary for named arguments
@@ -9,10 +7,10 @@ function! Hl(group, args)
     " Set default values for foreground (fg), background (bg), and gui if not provided
     let fg = has_key(a:args, 'fg') ? a:args.fg : 'none'
     let bg = has_key(a:args, 'bg') ? a:args.bg : 'none'
-    let style = has_key(a:args, 'gui') ? a:args.style : 'none'
+    let style = has_key(a:args, 'style') ? a:args.style : 'none'
 
     " Apply the highlight group using the dictionary arguments
-    let cmd = printf('highlight %s guifg=%s guibg=%s gui=%s',
+    let cmd = printf('highlight %s ctermfg=%s ctermbg=%s cterm=%s',
                 \a:group,
                 \fg,
                 \bg,
@@ -21,143 +19,123 @@ function! Hl(group, args)
     execute cmd
 endfunction
 
-" define colors
-let s:black     = '#000000'
-let s:darkgray  = '#333333'
-let s:blue      = '#99ccff'
-let s:green     = '#99ff99'
-let s:cyan      = '#99ffff'
-let s:red       = '#ff9999'
-let s:magenta   = '#ff99ff'
-let s:yellow    = '#ffff99'
-let s:lightgray = '#999999'
-let s:white     = '#ffffff'
-let s:none      = 'none'
-
 " normal
-call Hl('normal',        {'fg': s:none})
+call Hl('normal',         { 'fg': 'none'})
 
 " :help group-name
 
-call Hl('comment',        {'fg': s:lightgray})
+call Hl('comment',        { 'fg': 'lightgray'})
 
-call Hl('constant',       {'fg': s:blue})
-call Hl('string',         {'fg': s:blue})
-call Hl('character',      {'fg': s:blue})
-call Hl('number',         {'fg': s:blue})
-call Hl('boolean',        {'fg': s:blue})
-call Hl('float',          {'fg': s:blue})
+call Hl('constant',       { 'fg': 'blue'})
+call Hl('string',         { 'fg': 'blue'})
+call Hl('character',      { 'fg': 'blue'})
+call Hl('number',         { 'fg': 'blue'})
+call Hl('boolean',        { 'fg': 'blue'})
+call Hl('float',          { 'fg': 'blue'})
 
-call Hl('identifier',     {'fg': s:none})
-call Hl('function',       {'fg': s:none})
+call Hl('identifier',     { 'fg': 'none'})
+call Hl('function',       { 'fg': 'none'})
 
-call Hl('statement',      {'fg': s:none})
-call Hl('conditional',    {'fg': s:none})
-call Hl('repeat',         {'fg': s:none})
-call Hl('label',          {'fg': s:none})
-call Hl('operator',       {'fg': s:none})
-call Hl('keyword',        {'fg': s:none})
-call Hl('exception',      {'fg': s:none})
+call Hl('statement',      { 'fg': 'none'})
+call Hl('conditional',    { 'fg': 'none'})
+call Hl('repeat',         { 'fg': 'none'})
+call Hl('label',          { 'fg': 'none'})
+call Hl('operator',       { 'fg': 'none'})
+call Hl('keyword',        { 'fg': 'none'})
+call Hl('exception',      { 'fg': 'none'})
 
-call Hl('preproc',        {'fg': s:none})
-call Hl('include',        {'fg': s:none})
-call Hl('define',         {'fg': s:none})
-call Hl('macro',          {'fg': s:none})
-call Hl('precondit',      {'fg': s:none})
+call Hl('preproc',        { 'fg': 'none'})
+call Hl('include',        { 'fg': 'none'})
+call Hl('define',         { 'fg': 'none'})
+call Hl('macro',          { 'fg': 'none'})
+call Hl('precondit',      { 'fg': 'none'})
 
-call Hl('type',           {'fg': s:none})
-call Hl('storageclass',   {'fg': s:none})
-call Hl('structure',      {'fg': s:none})
-call Hl('typedef',        {'fg': s:none})
+call Hl('type',           { 'fg': 'none'})
+call Hl('storageclass',   { 'fg': 'none'})
+call Hl('structure',      { 'fg': 'none'})
+call Hl('typedef',        { 'fg': 'none'})
 
-call Hl('special',        {'fg': s:none})
-call Hl('specialchar',    {'fg': s:none})
-call Hl('tag',            {'fg': s:none})
-call Hl('delimiter',      {'fg': s:none})
-call Hl('specialcomment', {'fg': s:none})
-call Hl('debug',          {'fg': s:none})
+call Hl('special',        { 'fg': 'none'})
+call Hl('specialchar',    { 'fg': 'none'})
+call Hl('tag',            { 'fg': 'none'})
+call Hl('delimiter',      { 'fg': 'none'})
+call Hl('specialcomment', { 'fg': 'none'})
+call Hl('debug',          { 'fg': 'none'})
 
-call Hl('underlined',     {'style': 'underline'})
+call Hl('underlined',     { 'style': 'underline'})
 
-call Hl('ignore',         {'fg': s:none})
+call Hl('ignore',         { 'fg': 'none'})
 
-call Hl('error',          {'fg': s:red})
+call Hl('error',          { 'fg': 'red'})
 
-call Hl('todo',           {'bg': s:darkgray})
+call Hl('todo',           { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
 
-call Hl('added',          {'bg': s:none})
-call Hl('changed',        {'fg': s:none})
-call Hl('removed',        {'fg': s:lightgray})
+call Hl('added',          { 'bg': 'none'})
+call Hl('changed',        { 'fg': 'none'})
+call Hl('removed',        { 'fg': 'lightgray'})
 
 " :help highlight-groups
-
-call Hl('ColorColumn',    {'fg': s:none})
-call Hl('Conceal',        {'fg': s:lightgray})
-call Hl('CurSearch',      {'bg': s:lightgray})
-call Hl('Cursor',         {'fg': s:none})
-call Hl('lCursor',        {'fg': s:none})
-call Hl('CursorIM',       {'fg': s:none})
-call Hl('CursorColumn',   {'fg': s:none})
-call Hl('CursorLine',     {'fg': s:none})
-call Hl('Directory',      {'fg': s:none})
-call Hl('DiffAdd',        {'bg': s:none})
-call Hl('DiffChange',     {'fg': s:none})
-call Hl('DiffDelete',     {'fg': s:lightgray})
-call Hl('DiffText',       {'bg': s:darkgray})
-call Hl('EndOfBuffer',    {'fg': s:lightgray})
-call Hl('TermCursor',     {'fg': s:none})
-call Hl('TermCursorNC',   {'fg': s:none})
-call Hl('ErrorMsg',       {'fg': s:red})
-call Hl('WinSeparator',   {'fg': s:darkgray})
-call Hl('Folded',         {'fg': s:lightgray})
-call Hl('FoldColumn',     {'fg': s:none})
-call Hl('SignColumn',     {'fg': s:none})
-call Hl('IncSearch',      {'bg': s:darkgray})
-call Hl('Substitute',     {'bg': s:darkgray})
-call Hl('LineNr',         {'fg': s:lightgray})
-call Hl('LineNrAbove',    {'fg': s:none})
-call Hl('LineNrBelow',    {'fg': s:none})
-call Hl('CursorLineNr',   {'fg': s:none})
-call Hl('CursorLineFold', {'fg': s:none})
-call Hl('CursorLineSign', {'fg': s:none})
-call Hl('MatchParen',     {'bg': s:darkgray})
-call Hl('ModeMsg',        {'fg': s:lightgray})
-call Hl('MsgArea',        {'fg': s:none})
-call Hl('MsgSeparator',   {'fg': s:none})
-call Hl('MoreMsg',        {'fg': s:none})
-call Hl('NonText',        {'fg': s:lightgray})
-call Hl('NormalFloat',    {'fg': s:none})
-call Hl('FloatBorder',    {'fg': s:darkgray})
-call Hl('FloatTitle',     {'fg': s:none})
-call Hl('FloatFooter',    {'fg': s:none})
-call Hl('NormalNC',       {'fg': s:none})
-call Hl('Pmenu',          {'bg': s:darkgray})
-call Hl('PmenuSel',       {'bg': s:lightgray})
-call Hl('PmenuKind',      {'bg': s:darkgray})
-call Hl('PmenuKindSel',   {'bg': s:lightgray})
-call Hl('PmenuExtra',     {'bg': s:darkgray})
-call Hl('PmenuExtraSel',  {'bg': s:lightgray})
-call Hl('PmenuSbar',      {'bg': s:darkgray})
-call Hl('PmenuThumb',     {'bg': s:lightgray})
-call Hl('Question',       {'fg': s:none})
-call Hl('QuickFixLine',   {'fg': s:none})
-call Hl('Search',         {'bg': s:darkgray})
-call Hl('SnippetTabstop', {'bg': s:darkgray})
-call Hl('SpecialKey',     {'fg': s:lightgray})
-call Hl('SpellBad',       {'fg': s:red})
-call Hl('SpellCap',       {'fg': s:red})
-call Hl('SpellLocal',     {'fg': s:red})
-call Hl('SpellRare',      {'fg': s:red})
-call Hl('StatusLine',     {'fg': s:lightgray})
-call Hl('StatusLineNC',   {'fg': s:lightgray})
-call Hl('TabLine',        {'fg': s:lightgray})
-call Hl('TabLineFill',    {'fg': s:lightgray})
-call Hl('TabLineSel',     {'fg': s:lightgray})
-call Hl('Title',          {'fg': s:none})
-call Hl('Visual',         {'bg': s:darkgray})
-call Hl('VisualNOS',      {'bg': s:darkgray})
-call Hl('WarningMsg',     {'fg': s:red})
-call Hl('Whitespace',     {'fg': s:lightgray})
-call Hl('WildMenu',       {'bg': s:darkgray})
-call Hl('WinBar',         {'fg': s:none})
-call Hl('WinBarNC',       {'fg': s:none})
+call Hl('colorcolumn',       { 'fg': 'none'})
+call Hl('conceal',           { 'fg': 'lightgray'})
+call Hl('cursearch',         { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('cursor',            { 'fg': 'none'})
+call Hl('cursorcolumn',      { 'fg': 'none'})
+call Hl('cursorim',          { 'fg': 'none'})
+call Hl('cursorline',        { 'fg': 'none'})
+call Hl('cursorlinefold',    { 'fg': 'none'})
+call Hl('cursorlinenr',      { 'fg': 'none'})
+call Hl('cursorlinesign',    { 'fg': 'none'})
+call Hl('diffadd',           { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('diffchange',        { 'fg': 'none'})
+call Hl('diffdelete',        { 'fg': 'lightgray'})
+call Hl('difftext',          { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('directory',         { 'fg': 'none'})
+call Hl('endofbuffer',       { 'fg': 'lightgray'})
+call Hl('errormsg',          { 'fg': 'red'})
+call Hl('foldcolumn',        { 'fg': 'none'})
+call Hl('folded',            { 'fg': 'lightgray'})
+call Hl('incsearch',         { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('lcursor',           { 'fg': 'none'})
+call Hl('linenr',            { 'fg': 'lightgray'})
+call Hl('linenrabove',       { 'fg': 'none'})
+call Hl('linenrbelow',       { 'fg': 'none'})
+call Hl('matchparen',        { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('messagewindow',     { 'fg': 'lightgray'})
+call Hl('modemsg',           { 'fg': 'lightgray'})
+call Hl('moremsg',           { 'fg': 'none'})
+call Hl('msgarea',           { 'fg': 'none'})
+call Hl('nontext',           { 'fg': 'lightgray'})
+call Hl('pmenu',             { 'bg': 'darkgray', 'style': 'bold'})
+call Hl('pmenuextra',        { 'bg': 'darkgray', 'style': 'bold'})
+call Hl('pmenuextrasel',     { 'bg': 'lightgray', 'style': 'bold'})
+call Hl('pmenukind',         { 'bg': 'darkgray', 'style': 'bold'})
+call Hl('pmenukindsel',      { 'bg': 'lightgray', 'style': 'bold'})
+call Hl('pmenumatch',        { 'bg': 'darkgray', 'style': 'bold'})
+call Hl('pmenumatchsel',     { 'bg': 'lightgray', 'style': 'bold'})
+call Hl('pmenusbar',         { 'bg': 'darkgray', 'style': 'bold'})
+call Hl('pmenusel',          { 'bg': 'lightgray', 'style': 'bold'})
+call Hl('pmenuthumb',        { 'bg': 'lightgray', 'style': 'bold'})
+call Hl('popupnotification', { 'bg': 'lightgray'})
+call Hl('question',          { 'fg': 'none'})
+call Hl('quickfixline',      { 'fg': 'none'})
+call Hl('search',            { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('signcolumn',        { 'fg': 'none'})
+call Hl('specialkey',        { 'fg': 'lightgray'})
+call Hl('spellbad',          { 'fg': 'red'})
+call Hl('spellcap',          { 'fg': 'red'})
+call Hl('spelllocal',        { 'fg': 'red'})
+call Hl('spellrare',         { 'fg': 'red'})
+call Hl('statusline',        { 'fg': 'lightgray'})
+call Hl('statuslinenc',      { 'fg': 'lightgray'})
+call Hl('statuslineterm',    { 'fg': 'lightgray'})
+call Hl('statuslinetermnc',  { 'fg': 'lightgray'})
+call Hl('tabline',           { 'fg': 'lightgray'})
+call Hl('tablinefill',       { 'fg': 'lightgray'})
+call Hl('tablinesel',        { 'fg': 'lightgray'})
+call Hl('terminal',          { 'fg': 'none'})
+call Hl('title',             { 'fg': 'none'})
+call Hl('vertsplit',         { 'fg': 'darkgray'})
+call Hl('visual',            { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('visualnos',         { 'fg': 'black', 'bg': 'yellow', 'style': 'bold'})
+call Hl('warningmsg',        { 'fg': 'red'})
+call Hl('wildmenu',          { 'bg': 'darkgray', 'style': 'bold'})

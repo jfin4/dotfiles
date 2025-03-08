@@ -1,13 +1,15 @@
 " repl
 function! OpenREPL()
     terminal Rterm --quiet --no-save
-    let b:repl_buf = bufnr('$') 
+    let repl_buf = bufnr() 
+    wincmd w
+    let b:repl_buf = repl_buf
     call DWM_Focus()
 endfunction
 command! OpenREPL call OpenREPL()
             
-function! SetREPLPane(args) 
-    let b:repl_buf = args
+function! SetREPLPane(arg) 
+    let b:repl_buf = a:arg
 endfunction
 command! -nargs=1 SetREPLPane call SetREPLPane(<args>)
 

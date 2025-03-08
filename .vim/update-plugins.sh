@@ -7,7 +7,6 @@ garbas/vim-snipmate
 godlygeek/tabular
 honza/vim-snippets
 junegunn/fzf
-junegunn/fzf.vim
 lifepillar/vim-mucomplete
 marcweber/vim-addon-mw-utils
 michaeljsmith/vim-indent-object

@@ -1,12 +1,8 @@
 " repl
 function! OpenREPL()
-    call DWM_Stack(1)
-    vertical topleft terminal ++close Rterm --quiet --no-save
-    call DWM_Resize()
+    terminal Rterm --quiet --no-save
+    let b:repl_buf = bufnr('$') 
     call DWM_Focus()
-    let buf = bufnr('%') 
-    wincmd w 
-    let b:repl_buf = buf
 endfunction
 command! OpenREPL call OpenREPL()
             

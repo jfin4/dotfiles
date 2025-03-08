@@ -11,7 +11,6 @@ junegunn/fzf.vim
 lifepillar/vim-mucomplete
 marcweber/vim-addon-mw-utils
 michaeljsmith/vim-indent-object
-nvim-treesitter/nvim-treesitter
 tpope/vim-commentary
 tpope/vim-repeat
 tpope/vim-surround
@@ -39,4 +38,4 @@ done
 # update helptags
 # /dev/null to preserve terminal output
 echo -e "\nupdate helptags"
-vim -u NORC +'helptags ALL' +quit > /dev/null
+vim -u NORC +'helptags ALL' +quit

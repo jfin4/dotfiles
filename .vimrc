@@ -13,7 +13,7 @@ set belloff=all
 set completeopt=menuone,longest
 set encoding=utf-8
 set ignorecase 
-set laststatus=3
+" set laststatus=3
 set mouse=
 set pastetoggle=<insert> 
 set signcolumn=no
@@ -29,10 +29,14 @@ set virtualedit=block
 set wildmode=full
 set formatoptions=qlcjnr
 
+" dir options
+set backupdir=~/.vim/backup
+set directory=~/.vim/swap
+set undodir=~/.vim/undo 
+set viewdir=~/.vim/view
+
 " maps
 nnoremap <backspace> :bdelete<cr>
-nnoremap <c-j> :bnext<cr>
-nnoremap <c-k> :bprevious<cr>
 nnoremap <cr> :write<cr>
 nnoremap <leader>N viwy/<c-r>"<cr>NN
 nnoremap <leader>n viwy/<c-r>"<cr>
@@ -42,6 +46,7 @@ nnoremap <silent> <esc> :noh<cr>
 nnoremap <esc-j> <c-w><c-w>
 tnoremap <esc-j> <c-w><c-w>
 tnoremap <esc> <c-\><c-n>
+tnoremap <c-j> <c-w>:bn<cr>
 
 " indentation
 set autoindent 
@@ -75,9 +80,9 @@ augroup end
 
 " completion
 let g:mucomplete#no_mappings = 1
-" let g:mucomplete#chains = {
-"     \ 'default' : ['path', 'omni', 'keyn', 'dict', 'uspl'],
-"     \ }
+let g:mucomplete#chains = {
+    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl']
+    \ }
 
 imap <tab> <plug>(MUcompleteFwd)
 imap <s-tab> <plug>(MUcompleteBwd)
@@ -97,7 +102,7 @@ nnoremap <f10> :call GetHighlight()<cr>
 " source updated config files 
 augroup vimrc
     au!
-    autocmd BufWritePost .vimrc,*/colors/*.vim,*/plugin/*.vim source <afile>
+    autocmd BufWritePost .vimrc,*/colors/*.vim,*/after/plugin/*.vim source <afile>
 augroup end
 
 " clipboard

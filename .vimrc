@@ -38,8 +38,8 @@ set viewdir=~/.vim/view
 " maps
 nnoremap <cr> :write<cr>
 nnoremap <silent> <esc> :noh<cr>
-tnoremap <c-[> <c-\><c-n>
-tnoremap : <c-w>:
+tnoremap <esc><esc> <c-\><c-n>
+tnoremap :: <c-w>:
 
 " indentation
 set autoindent 

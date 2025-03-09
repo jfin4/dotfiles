@@ -2,7 +2,7 @@
 export PS1='\[\033]0;$PWD\007\]\n\w`__git_ps1`\n$ '
 
 # Use bash-completion, if available
-source /c/bin/bash-completion/bash_completion
+source $HOME/src/bash_completion
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
@@ -22,18 +22,13 @@ export bbu='c:/users/jinman/'
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
-PATH="/c/bin/pandoc:$PATH" 
+PATH="$HOME/bin:$PATH" 
+PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
 # get latest r
 for r in "c:/Program Files/R"/*; do
     true
 done
 PATH="/c${r#c:}/bin/x64:$PATH" 
-PATH="/c/bin/sumatrapdf:$PATH" 
-PATH="/c/bin/texlive/2024/bin/windows:$PATH" 
-PATH="/c/bin/yt-dlp:$PATH"
-PATH="/c/bin/fd:$PATH"
-PATH="/c/bin/ripgrep:$PATH"
-PATH="/c/bin/fzf:$PATH"
 export PATH
 
 # Set up fzf key bindings and fuzzy completion

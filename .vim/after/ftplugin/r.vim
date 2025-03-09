@@ -1,4 +1,7 @@
-let g:mucomplete#empty_text = 1
+" let g:mucomplete#empty_text = 1
+setlocal omnifunc=lsp#complete
+nnoremap <c-h> <plug>(lsp-signature-help)
+
 
 function! SaveTable(args)
   normal! gv"xy

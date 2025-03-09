@@ -9,7 +9,9 @@ honza/vim-snippets
 junegunn/fzf
 lifepillar/vim-mucomplete
 marcweber/vim-addon-mw-utils
+mattn/vim-lsp-settings
 michaeljsmith/vim-indent-object
+prabirshrestha/vim-lsp
 tpope/vim-commentary
 tpope/vim-repeat
 tpope/vim-surround

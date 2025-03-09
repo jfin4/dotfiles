@@ -38,7 +38,7 @@ set viewdir=~/.vim/view
 " maps
 nnoremap <cr> :write<cr>
 nnoremap <silent> <esc> :noh<cr>
-tnoremap <esc> <c-\><c-n>
+tnoremap <c-[> <c-\><c-n>
 tnoremap : <c-w>:
 
 " indentation
@@ -99,5 +99,8 @@ augroup end
 
 " fzf
 let g:fzf_layout = { 'left': '50%' }
-command! NN call fzf#run(fzf#wrap({'sink': 'new'}))
+command! -nargs=? NN call fzf#run(fzf#wrap({'sink': 'new', 'options': <q-args> != '' ? ['--query', <q-args>] : []}))
 
+"lsp
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_settings_enable_suggestions = 0

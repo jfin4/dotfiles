@@ -1,4 +1,7 @@
 " first thing's first
+syntax on
+filetype indent on
+filetype plugin on
 colorscheme jfin
 
 " define variables
@@ -104,3 +107,9 @@ command! -nargs=? NN call fzf#run(fzf#wrap({'sink': 'new', 'options': <q-args> !
 "lsp
 let g:lsp_diagnostics_enabled = 0
 let g:lsp_settings_enable_suggestions = 0
+" let g:lsp_completion_documentation_enabled = 0
+let g:lsp_signature_help_enabled = 0
+set omnifunc=lsp#complete
+" nnoremap <c-x> <plug>(lsp-signature-help)
+inoremap <c-h> <c-o><plug>(lsp-signature-help)
+

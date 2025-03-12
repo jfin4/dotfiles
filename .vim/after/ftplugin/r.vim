@@ -1,8 +1,3 @@
-" let g:mucomplete#empty_text = 1
-setlocal omnifunc=lsp#complete
-nnoremap <c-h> <plug>(lsp-signature-help)
-
-
 function! SaveTable(args)
   normal! gv"xy
   let table = substitute(@x, '\n', '', 'g')

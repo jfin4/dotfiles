@@ -1,22 +1,22 @@
-# prompt
-export PS1='\[\033]0;$PWD\007\]\n\w`__git_ps1`\n$ '
-
-# Use bash-completion, if available
-source $HOME/src/bash_completion
+# options
+shopt -s direxpand
+shopt -s cdable_vars
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
 export HISTCONTROL="erasedups:ignorespace"
 
-# shortcut variables
-export dd=$(date +%Y-%m-%d)
-export mm='mingw-w64-ucrt-x86_64-'
-export bba='c:/users/jinman/appdata/local/'
-export bbd='c:/users/jinman/downloads/'
-export bbo='c:/users/jinman/onedrive - water boards/'
-export bbp='c:/users/jinman/onedrive - water boards/projects/'
-export bbr='c:/users/jinman/desktop/final_relep/'
-export bbu='c:/users/jinman/'
+# complete some commands
+source $HOME/src/bash_completion
+
+# set up fzf
+FZF_CTRL_T_COMMAND=
+FZF_ALT_C_COMMAND=
+eval "$(fzf --bash)"
+bind '"\C-r": reverse-search-history'
+
+# prompt
+export PS1='\[\033]0;${PWD##*/}\007\]\n\w`__git_ps1`\n$ '
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
@@ -31,8 +31,10 @@ done
 PATH="/c${r#c:}/bin/x64:$PATH" 
 export PATH
 
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
+# shortcut variables
+export bbp='/c/users/jinman/onedrive - water boards/projects/'
+export bbr='/c/users/jinman/desktop/final_relep/'
+export dd=$(date +%Y-%m-%d)
 
 # aliases 
 

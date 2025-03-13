@@ -2,9 +2,10 @@
 function! OpenREPL()
     terminal Rterm --quiet --no-save
     let repl_buf = bufnr() 
+    " refocus pane
     wincmd w
-    let b:repl_buf = repl_buf
     call DWM_Focus()
+    let b:repl_buf = repl_buf
 endfunction
 command! OpenREPL call OpenREPL()
             

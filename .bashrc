@@ -10,13 +10,17 @@ export HISTCONTROL="erasedups:ignorespace"
 source $HOME/src/bash_completion
 
 # set up fzf
-FZF_CTRL_T_COMMAND=
-FZF_ALT_C_COMMAND=
 eval "$(fzf --bash)"
+# rebind readline commands, i only use ** trigger
+bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
+bind '"\M-c": capitalize-word'
 
 # prompt
 export PS1='\[\033]0;${PWD##*/}\007\]\n\w`__git_ps1`\n$ '
+
+# ensure cursor blinks in vim terminals
+echo -e "\e[?12h"
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"

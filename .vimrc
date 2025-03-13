@@ -82,8 +82,7 @@ let g:mucomplete#chains = {
 
 imap <tab> <plug>(MUcompleteFwd)
 imap <s-tab> <plug>(MUcompleteBwd)
-imap <c-n> <plug>(MUcompleteCycFwd)
-imap <c-p> <plug>(MUcompleteCycBwd)
+imap <c-space> <plug>(MUcompleteCycFwd)
 imap <expr> . mucomplete#extend_bwd(".")
 
 " get highlight group
@@ -112,4 +111,3 @@ let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
 " nnoremap <c-x> <plug>(lsp-signature-help)
 inoremap <c-h> <c-o><plug>(lsp-signature-help)
-

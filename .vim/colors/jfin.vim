@@ -66,7 +66,7 @@ call Hl('debug',          { 'fg': 'none'})
 
 call Hl('underlined',     { 'style': 'underline'})
 
-call Hl('ignore',         { 'fg': 'none'})
+call Hl('ignore',         { 'fg': 'gray'})
 
 call Hl('error',          { 'fg': 'red'})
 

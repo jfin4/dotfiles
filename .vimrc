@@ -100,8 +100,7 @@ augroup vimrc
 augroup end
 
 " fzf
-let g:fzf_layout = { 'left': '50%' }
-command! -nargs=? NN call fzf#run(fzf#wrap({'sink': 'new', 'options': <q-args> != '' ? ['--query', <q-args>] : []}))
+let g:fzf_colors = { 'border':  ['fg', 'vertsplit'] }
 
 "lsp
 let g:lsp_diagnostics_enabled = 0

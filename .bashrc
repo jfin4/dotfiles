@@ -7,7 +7,7 @@ shopt -s cdable_vars
 export HISTCONTROL="erasedups:ignorespace"
 
 # complete some commands
-source $HOME/src/bash_completion
+source $HOME/.bash_completion
 
 # set up fzf
 eval "$(fzf --bash)"
@@ -36,7 +36,7 @@ PATH="/c${r#c:}/bin/x64:$PATH"
 export PATH
 
 # shortcut variables
-export bbp='/c/users/jinman/onedrive - water boards/projects/'
+export bbo='/c/users/jinman/onedrive - water boards/'
 export bbr='/c/users/jinman/desktop/final_relep/'
 export dd=$(date +%Y-%m-%d)
 
@@ -52,8 +52,8 @@ alias lf='lf -config ~/.config/lf/lfrc'
 alias ll='ls -l --time-style=long-iso --classify --human-readable'
 alias ls='ls --format=single-column --classify'
 alias mvv='rename-files'
-alias notes='cd ~/notes; search-files "" notes.txt; cd -'
-alias todo='cd ~/notes; search-files "#todo" notes.txt; cd -'
+alias notes='cd ~/notes; search-notes notes.txt; cd -'
+alias todo='cd ~/notes; search-notes "#todo"; cd -'
 alias pdf='open-pdf'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
 alias pw='get-password'

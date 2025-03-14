@@ -7,6 +7,7 @@ garbas/vim-snipmate
 godlygeek/tabular
 honza/vim-snippets
 junegunn/fzf
+junegunn/fzf.vim
 lifepillar/vim-mucomplete
 marcweber/vim-addon-mw-utils
 mattn/vim-lsp-settings
@@ -39,4 +40,4 @@ done
 # update helptags
 # /dev/null to preserve terminal output
 echo -e "\nupdate helptags"
-vim -u NORC +'helptags ALL' +quit
+vim -u NORC +'helptags ALL' +quit > /dev/null

@@ -2,34 +2,25 @@
 
 
 ```
-branch=msys
-backup="~/backup"
+[ -z "$1" ] && echo need branch && return
+branch=$1
 
-pacman -Syu --noconfirm --needed git
+git_dir=$HOME/.dotfiles.git
+[ -d $git_dir ] && rm -rf $git_dir
 
-git clone --bare https://github.com/jfin4/dotfiles $HOME/.dotfiles.git
+git clone --bare https://github.com/jfin4/dotfiles $git_dir
 
 function dot {
-   git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME "$@"
+   git --git-dir=$git_dir --work-tree=$HOME "$@"
 }
-
-dot config --local status.showUntrackedFiles no
 
 dot switch $branch 2> /dev/null
 
 if [ $? != 0 ]; then
-    mkdir -p $backup
-    dot switch $branch 2>&1 \
-        | grep -e '	' \
-        | awk {'print $1'} \
-        | sed -e 's/\/.*//' \
-        | uniq \
-        | xargs -I{} mv {} $backup/{}
+    backup_dir=$HOME/dotfiles-backup
+    mkdir -p $backup_dir
+    dot switch $branch 2>&1 | grep -e '	' | sed -e 's/	\(.*\).*/\1/' | uniq \
+        | xargs -I{} mv {} $backup_dir/{}
     dot switch $branch
 fi
-
-# git clone https://github.com/jfin4/scripts
-# git clone https://github.com/jfin4/secrets $HOME/.password-store
-# pacman -Syu --noconfirm --needed pass
-# pass show github.com/personal-access-token > $HOME/.git-credentials
 ```

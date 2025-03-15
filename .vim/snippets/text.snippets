@@ -1,0 +1,13 @@
+snippet todo
+	#todo `strftime('%Y')`-\
+	${1:`strftime('%m', localtime() + (60 * 60 * 24 * 7))`}-\
+	${2:`strftime('%d', localtime() + (60 * 60 * 24 * 7))`} \
+	${3:description}
+
+snippet note
+	`strftime('%Y-%m-%d')`
+	`repeat('-', 78)`
+
+	$0
+	
+

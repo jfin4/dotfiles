@@ -36,8 +36,8 @@ PATH="/c${r#c:}/bin/x64:$PATH"
 export PATH
 
 # shortcut variables
-export bbo='/c/users/jinman/onedrive - water boards/'
-export bbr='/c/users/jinman/desktop/final_relep/'
+export bo='/c/users/jinman/onedrive - water boards'
+export br='/c/users/jinman/desktop/final_relep'
 export dd=$(date +%Y-%m-%d)
 
 # aliases 
@@ -61,6 +61,39 @@ alias rm='~/scripts/move-to-trash'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
+alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key)"
+alias start='\start ""'
+alias gitc='git commit -am'
+alias dotc='dot commit -am'
+
+# expand line
+expand_line() {
+  READLINE_LINE=$(eval "echo $READLINE_LINE")
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-l\C-l": expand_line'
+
+# expand line with shell escaping
+expand_line() {
+  READLINE_LINE=$(eval "printf '%q ' $READLINE_LINE")
+  # Remove trailing space
+  READLINE_LINE="${READLINE_LINE% }"
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-l\C-l": expand_line'
+
+# expand command line
+expand_line() {
+  local expanded_line=""
+  local token
+  for token in $READLINE_LINE; do
+    local expanded=$(eval "echo $token")
+    expanded_line+="$(printf '%q' "$expanded") " # space at end separates tokens
+  done
+  READLINE_LINE="${expanded_line% }" # remove last space?
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-l\C-l": expand_line'
 
 # future ideas
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab

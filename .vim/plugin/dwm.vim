@@ -1,4 +1,4 @@
-" https://github.com/spolu/dwm.vim Copyright (C) 2012 Stanislas Polu an other Contributors
+" https://github.com/spolu/dwm.vim 
 
 " stack focused pane
 function! DWM_Stack(on_top)
@@ -24,7 +24,7 @@ endfunction
 " close window
 function! DWM_Close()
     if winnr() == 1
-        return 'bdelete! | call DWM_Focus()'
+        return 'bdelete! | wincmd H'
     else
         return 'bdelete!'
     end
@@ -66,17 +66,19 @@ augroup dwm
 augroup end
 
 " map commands
-nnoremap <silent> <c-,>     :call DWM_Move()<CR>
+nnoremap <silent>       :call DWM_Move()<CR>
 nnoremap <silent> <c-i>     :terminal<cr>
 nnoremap <silent> <c-j>     :wincmd w<cr>
 nnoremap <silent> <c-k>     :wincmd W<cr>
 nnoremap <silent> <c-o>     :exec DWM_Close()<CR>
 nnoremap <silent> <c-space> :call DWM_Focus()<CR>
+nnoremap <silent> <nul>     :call DWM_Focus()<CR>
 
-tnoremap <silent> <c-,>     <c-w>:call DWM_Move()<CR>
+tnoremap <silent>       <c-w>:call DWM_Move()<CR>
 tnoremap <silent> <c-i>     <c-w>:terminal<cr>
 tnoremap <silent> <c-j>     <c-w>:wincmd w<cr>
 tnoremap <silent> <c-k>     <c-w>:wincmd W<cr>
 tnoremap <silent> <c-o>     <c-w>:exec DWM_Close()<CR>
 tnoremap <silent> <c-space> <c-w>:call DWM_Focus()<CR>
+tnoremap <silent> <nul>     <c-w>:call DWM_Focus()<CR>
 

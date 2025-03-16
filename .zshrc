@@ -72,7 +72,7 @@ __git_files () {
 source <(fzf --zsh)
 
 # Use ~~ as the trigger sequence instead of the default **
-export FZF_COMPLETION_TRIGGER='kk'
+export FZF_COMPLETION_TRIGGER='jk'
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 _fzf_compgen_path() {

@@ -18,7 +18,7 @@ command! -nargs=1 SetReplPane call SetReplPane(<args>)
 function! CloseRepl() 
     execute 'bdelete! ' . b:repl_buf
     unlet b:repl_buf
-    call delete(s:tempfile)
+    call delete(s:temp_file)
 endfunction
 command! CloseRepl call CloseRepl()
 

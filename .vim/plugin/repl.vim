@@ -1,23 +1,26 @@
 " repl
-function! OpenREPL()
-    terminal Rterm --quiet --no-save
+let s:temp_file = 'repl-code.r'
+
+function! OpenRepl()
+    terminal R --quiet --no-save
     let repl_buf = bufnr() 
     wincmd w
     call DWM_Focus()
     let b:repl_buf = repl_buf
 endfunction
-command! OpenREPL call OpenREPL()
+command! OpenRepl call OpenRepl()
             
-function! SetREPLPane(arg) 
+function! SetReplPane(arg) 
     let b:repl_buf = a:arg
 endfunction
-command! -nargs=1 SetREPLPane call SetREPLPane(<args>)
+command! -nargs=1 SetReplPane call SetReplPane(<args>)
 
-function! CloseREPL() 
+function! CloseRepl() 
     execute 'bdelete! ' . b:repl_buf
     unlet b:repl_buf
+    call delete(s:tempfile)
 endfunction
-command! CloseREPL call CloseREPL()
+command! CloseRepl call CloseRepl()
 
 function! SendCode(args) 
     if !exists('b:repl_buf')
@@ -26,13 +29,12 @@ function! SendCode(args)
     endif
     let code = get(a:args, 'code', '')
     let echo = get(a:args, 'echo', '')
-    let file = 'c:/Users/jinman/Desktop/Final_ReLEP/ReLEP/temp-code.r'
-    call writefile(code, file)
+    call writefile(code, s:temp_file)
     let source_command = printf(
                 \'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
                 \echo, 
-                \file)
-    " Switch to REPL buffer and send input
+                \s:temp_file)
+    " Switch to Repl buffer and send input
     call term_sendkeys(b:repl_buf, source_command . "\r")
 endfunction
 

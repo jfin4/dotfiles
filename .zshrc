@@ -19,8 +19,10 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 PROMPT="%(?..%F{red}%?
 %f)
-%F{white}%2d \${vcs_info_msg_0_:+< \$vcs_info_msg_0_}
+%F{white}${TMUX:+tmux }%d \${vcs_info_msg_0_:+< \$vcs_info_msg_0_}
 %% %f"
+
+# export PS1='\[\033]0;${PWD##*/}\007\]\n\w`__git_ps1`\n$ '
 
 # zsh variables
 HISTFILE=~/.zsh_history
@@ -70,7 +72,7 @@ __git_files () {
 source <(fzf --zsh)
 
 # Use ~~ as the trigger sequence instead of the default **
-export FZF_COMPLETION_TRIGGER='ii'
+export FZF_COMPLETION_TRIGGER='kk'
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 _fzf_compgen_path() {

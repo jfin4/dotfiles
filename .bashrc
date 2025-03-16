@@ -9,13 +9,6 @@ export HISTCONTROL="erasedups:ignorespace"
 # complete some commands
 source $HOME/.bash_completion
 
-# set up fzf
-eval "$(fzf --bash)"
-# rebind readline commands, i only use ** trigger
-bind '"\C-t": transpose-chars'
-bind '"\C-r": reverse-search-history'
-bind '"\M-c": capitalize-word'
-
 # prompt
 export PS1='\[\033]0;${PWD##*/}\007\]\n\w`__git_ps1`\n$ '
 
@@ -34,6 +27,22 @@ for r in "c:/Program Files/R"/*; do
 done
 PATH="/c${r#c:}/bin/x64:$PATH" 
 export PATH
+
+# set up fzf
+eval "$(fzf --bash)"
+# rebind readline commands, i only use ** trigger
+bind '"\C-t": transpose-chars'
+bind '"\C-r": reverse-search-history'
+bind '"\M-c": capitalize-word'
+# trigger sequence
+export FZF_COMPLETION_TRIGGER='jk'
+# use fd 
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
 
 # shortcut variables
 export bo='/c/users/jinman/onedrive - water boards'
@@ -65,22 +74,6 @@ alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$
 alias start='\start ""'
 alias gitc='git commit -am'
 alias dotc='dot commit -am'
-
-# expand line
-expand_line() {
-  READLINE_LINE=$(eval "echo $READLINE_LINE")
-  READLINE_POINT=${#READLINE_LINE}
-}
-bind -x '"\C-l\C-l": expand_line'
-
-# expand line with shell escaping
-expand_line() {
-  READLINE_LINE=$(eval "printf '%q ' $READLINE_LINE")
-  # Remove trailing space
-  READLINE_LINE="${READLINE_LINE% }"
-  READLINE_POINT=${#READLINE_LINE}
-}
-bind -x '"\C-l\C-l": expand_line'
 
 # expand command line
 expand_line() {

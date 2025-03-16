@@ -16,7 +16,7 @@ set belloff=all
 set completeopt=menuone,longest
 set encoding=utf-8
 set ignorecase 
-" set laststatus=3
+set laststatus=2
 set mouse=
 set pastetoggle=<insert> 
 set signcolumn=no

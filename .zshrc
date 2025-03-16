@@ -29,57 +29,15 @@ SAVEHIST=10000
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # standard variables
-export BROWSER='c:/Program Files/Mozilla Firefox/firefox.exe'
-export VISUAL=nvim
-export EDITOR=$VISUAL
+# export BROWSER='c:/Program Files/Mozilla Firefox/firefox.exe'
+# export VISUAL=nvim
+# export EDITOR=$VISUAL
 
 # shortcut variables
 export dd=$(date +%Y-%m-%d)
-export mm='mingw-w64-ucrt-x86_64-'
-export bba='c:/users/jinman/appdata/local/'
-export bbd='c:/users/jinman/downloads/'
-export bbo='c:/users/jinman/onedrive - water boards/'
-export bbp='c:/users/jinman/onedrive - water boards/projects/'
-export bbr='c:/users/jinman/desktop/final_relep/'
-export bbu='c:/users/jinman/'
-
-# avante variables
-export ANTHROPIC_API_KEY=$(pass anthropic.com/default-api-key)
-export OPENAI_API_KEY=$(pass openai.com/default-api-key)
-export DEEPSEEK_API_KEY=$(pass deepseek.com/default-api-key)
-
-# nvim variables
-export XDG_CONFIG_HOME="$HOME/.config"
 
 # vcxsrv variables for ssh -Y rpi
 export DISPLAY='localhost:0.0'
-
-# go variables
-export GOPATH=$(cygpath -w $HOME/.go)
-export GOROOT=$(cygpath -w /ucrt64/lib/go)
-
-# java variables
-JAVA_HOME='/c/Program Files (x86)/Java/jre-1.8/bin'
-
-# path
-[ -z "$initial_path" ] && initial_path="$PATH"
-PATH="$initial_path"
-PATH="$HOME/.cargo/bin:$PATH" 
-PATH="$HOME/.go/bin:$PATH" 
-PATH="$HOME/.python/bin:$PATH" 
-PATH="$HOME/scripts:$PATH" 
-PATH="$JAVA_HOME:$PATH" 
-PATH="/c/programs/ffmpeg/bin:$PATH"
-PATH="/c/programs/pandoc:$PATH" 
-# get latest r
-for r in "c:/Program Files/R"/*; do
-    true
-done
-PATH="/c${r#c:}/bin/x64:$PATH" 
-PATH="/c/programs/sumatrapdf:$PATH" 
-PATH="/c/programs/texlive/2024/bin/windows:$PATH" 
-PATH="/c/programs/yt-dlp:$PATH"
-export PATH
 
 # completion
 
@@ -157,7 +115,6 @@ alias soz='source ~/.zshrc'
 alias tanpura='play-sounds "c:/users/JInman/OneDrive - Water Boards/Music/Sounds/tanpura.mp3"'
 alias txt_to_xl='Rscript ~/scripts/text-to-excel.r'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
-alias vim='nvim'
 alias xl_to_txt='Rscript ~/scripts/excel-to-text.r'
 alias p='pacman'
 alias open='open-link'

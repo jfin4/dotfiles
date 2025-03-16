@@ -13,7 +13,7 @@
 
 [core]
 
-    autocrlf = true
+    autocrlf = false
     editor = nvim
     excludesfile = ~/.gitignore
     fsmonitor = true

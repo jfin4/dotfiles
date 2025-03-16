@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# make dirs
+for d in backup swap undo view; do
+    [ -d ~/.vim/$d ] || ( mkdir ~/.vim/$d && echo "make dir $d" )
+done
+
 # plugins
 plugins='
 
@@ -24,7 +29,6 @@ wellle/targets.vim
 dir=$HOME/.vim/pack/default/start
 
 #remove unused plugin
-echo -e "\nremove unused plugins"
 existing=$(\ls $dir)
 for e in $existing; do
     ! echo $plugins | grep -q $e && rm -rf $dir/$e && echo removing $e
@@ -40,4 +44,4 @@ done
 # update helptags
 # /dev/null to preserve terminal output
 echo -e "\nupdate helptags"
-vim -u NORC +'helptags ALL' +quit > /dev/null
+vim -u NONE +'helptags ALL' +quit

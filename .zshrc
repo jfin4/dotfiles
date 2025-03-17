@@ -98,6 +98,8 @@ alias c='cygstart'
 alias cal='cal -y'
 alias cp='cp --recursive --no-clobber'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
+alias dott='dot commit -am "no message" && dot push'
+alias gitt='git commit -am "no message" && git push'
 alias kb='show-key-bindings'
 alias la='ls -AlhF'
 alias lf='lf -config ~/.config/lf/lfrc'
@@ -123,7 +125,7 @@ alias open='open-link'
 
 # start tumx
 if [ -z $TMUX ]; then
-    pacman -Syu --noconfirm
+    sudo pacman -Syu --noconfirm
     tmux
 fi
 

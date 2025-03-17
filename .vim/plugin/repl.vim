@@ -18,9 +18,14 @@ command! -nargs=1 SetReplPane call SetReplPane(<args>)
 function! CloseRepl() 
     execute 'bdelete! ' . b:repl_buf
     unlet b:repl_buf
-    call delete(s:temp_file)
 endfunction
 command! CloseRepl call CloseRepl()
+
+" Set up autocommand to clean up temp file when buffer is closed
+augroup ReplCleanup
+    autocmd!
+    autocmd BufDelete * if exists('b:repl_buf') | call delete(s:temp_file) | endif
+augroup END
 
 function! SendCode(args) 
     if !exists('b:repl_buf')

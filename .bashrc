@@ -48,6 +48,7 @@ _fzf_compgen_dir() {
 export bo='/c/users/jinman/onedrive - water boards'
 export br='/c/users/jinman/desktop/final_relep'
 export dd=$(date +%Y-%m-%d)
+export jfin='jfin@10.0.0.52'
 
 # aliases 
 
@@ -74,6 +75,7 @@ alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$
 alias start='\start ""'
 alias gitc='git commit -am'
 alias dotc='dot commit -am'
+alias sshj='ssh jfin@10.0.0.52'
 
 # expand command line
 expand_line() {

@@ -1,6 +1,5 @@
 # Set Up Development Environment
 
-
 ```
 # set <branch>
 [ -z "$1" ] && echo need branch && return
@@ -17,9 +16,8 @@ dot switch $branch 2> /dev/null
 if [ $? != 0 ]; then
     backup_dir=$HOME/dotfiles-backup
     mkdir -p $backup_dir
-    dot switch $branch 2>&1 | grep -e ' ' | sed -e 's/  \([^/]*\).*/\1/' | uniq \
+    dot switch $branch 2>&1 | grep -eP '\t' | sed -eP 's/\t\([^/]*\).*/\1/' | uniq \
         | xargs -I{} mv {} $backup_dir/{}
     dot switch $branch
 fi
-
 ```

@@ -71,7 +71,7 @@ alias rm='~/scripts/move-to-trash'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
-alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key)"
+alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
 alias start='\start ""'
 alias gitt='git commit -am "no message" && git push'
 alias dott='dot commit -am "no message" && dot push'

@@ -7,6 +7,8 @@ function! OpenRepl()
     wincmd w
     call DWM_Focus()
     let b:repl_buf = repl_buf
+    execute 'autocmd BufDelete <buffer=' . repl_buf . '> '
+                \ . 'call delete("' . s:temp_file . '")'
 endfunction
 command! OpenRepl call OpenRepl()
             
@@ -20,12 +22,6 @@ function! CloseRepl()
     unlet b:repl_buf
 endfunction
 command! CloseRepl call CloseRepl()
-
-" Set up autocommand to clean up temp file when buffer is closed
-augroup ReplCleanup
-    autocmd!
-    autocmd BufDelete * if exists('b:repl_buf') | call delete(s:temp_file) | endif
-augroup END
 
 function! SendCode(args) 
     if !exists('b:repl_buf')
@@ -91,4 +87,4 @@ function! RunFile()
     " update mark r
     mark r
 endfunction
-nnoremap <leader>, :call RunFile()<CR>
+nnoremap g, :call RunFile()<CR>

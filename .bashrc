@@ -10,7 +10,7 @@ export HISTCONTROL="erasedups:ignorespace"
 source $HOME/.bash_completion
 
 # prompt
-export PS1='\[\033]0;${PWD##*/}\007\]\n\w`__git_ps1`\n$ '
+export PS1='\[\e]0;${PWD##*/}\a\]\n$PWD`__git_ps1`\n$ '
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"
@@ -75,7 +75,7 @@ alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$
 alias start='\start ""'
 alias gitc='git commit -am'
 alias dotc='dot commit -am'
-alias sshj='ssh jfin@10.0.0.52'
+alias sshj='echo -ne "\e]0;jfin@jfin\a" && ssh jfin@10.0.0.52'
 
 # expand command line
 expand_line() {

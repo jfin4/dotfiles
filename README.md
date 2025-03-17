@@ -1,5 +1,4 @@
-# Set Up Development Environment
-
+# Set Up Dotfiles
 ```
 # set <branch>
 [ -z "$1" ] && echo need branch && return

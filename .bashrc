@@ -73,8 +73,8 @@ alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
 alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key)"
 alias start='\start ""'
-alias gitc='git commit -am'
-alias dotc='dot commit -am'
+alias gitt='git commit -am "no message" && git push'
+alias dott='dot commit -am "no message" && dot push'
 alias sshj='echo -ne "\e]0;jfin@jfin\a" && ssh jfin@10.0.0.52'
 
 # expand command line

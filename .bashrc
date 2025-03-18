@@ -35,7 +35,7 @@ bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
 bind '"\M-c": capitalize-word'
 # trigger sequence
-export FZF_COMPLETION_TRIGGER='jk'
+export FZF_COMPLETION_TRIGGER='ii'
 # use fd 
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"

@@ -2,16 +2,7 @@ snippet x
 	\\(x)
 
 snippet library
-	package_list <- list()
-	package_list <- c(package_list, list(try(library("tidyverse"))))
-	package_list <- c(package_list, list(try(library("fs"))))
-	package_list <- c(package_list, list(try(library("readxl"))))
-	package_list <- c(package_list, list(try(library("writexl"))))
-	for (missing_package in package_list) {
-	if (inherits(missing_package, "try-error")) {
-		package_name <- sub(".*library\\\\((.*)\\\\).*", "\\\\1", missing_package)
-		install.packages(package_name)
-		library(package_name, character.only = TRUE)
-	}
-	}
-	rm(list = ls())
+	library("tidyverse")
+	library("fs")
+	library("readxl")
+	library("writexl")

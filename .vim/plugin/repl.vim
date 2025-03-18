@@ -57,9 +57,9 @@ function! RunTextObject(textobj)
     call SendCode(args)
     call setreg('"', old_reg, old_regtype)
 endfunction
-nnoremap ,ip :call <SID>RunTextObject('p')<CR>
-nnoremap ,iw :call <SID>RunTextObject('w')<CR>
-nnoremap ,i{ :call <SID>RunTextObject('{')<CR>
+nnoremap ,ip :call RunTextObject('p')<CR>
+nnoremap ,iw :call RunTextObject('w')<CR>
+nnoremap ,i{ :call RunTextObject('{')<CR>
 
 function! RunSelection() range 
     let old_reg = getreg('"')

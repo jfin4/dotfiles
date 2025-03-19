@@ -15,7 +15,7 @@ export HISTCONTROL="erasedups:ignorespace"
 
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-export PS1='\[\e]0;\u@\h:$PWD\a\]\n\u@\h:$PWD`__git_ps1`\n\$ '
+export PS1="\[\e]0;\u@\h:$PWD\a\]\n\u@\h:$PWD$(__git_ps1)\n\$ "
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"

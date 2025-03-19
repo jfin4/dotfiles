@@ -13,8 +13,8 @@ export HISTCONTROL="erasedups:ignorespace"
 # prompt
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-prompt_info='${SSH_TTY:+\u@\h:}$PWD'
-export PS1="\[\e]0;$prompt_info\a\]\n$prompt_info$(__git_ps1)\n\$ "
+prompt_info='${SSH_TTY:+\u@\h:}'
+export PS1="\[\e]0;$prompt_info\W\a\]\n$prompt_info\w$(__git_ps1)\n\$ "
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"
@@ -23,7 +23,7 @@ echo -e "\e[?12h"
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
-PATH="$HOME/bin:$PATH" 
+PATH="$HOME/.bin:$PATH" 
 PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
 # get latest r
 for r in "c:/Program Files/R"/*; do
@@ -42,10 +42,10 @@ bind '"\M-c": capitalize-word'
 export FZF_COMPLETION_TRIGGER='ii'
 # use fd 
 _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+  fd --follow --exclude ".git" . "$1"
 }
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+  fd --type d --follow --exclude ".git" . "$1"
 }
 
 # shortcut variables

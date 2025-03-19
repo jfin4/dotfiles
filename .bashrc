@@ -15,7 +15,12 @@ export HISTCONTROL="erasedups:ignorespace"
 
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-export PS1="\[\e]0;\u@\h:$PWD\a\]\n\u@\h:$PWD$(__git_ps1)\n\$ "
+
+if [[ -n "$SSH_CLIENT" ]]; then
+    export PS1="\[\e]0;\u@\h:$PWD\a\]\n\u@\h:$PWD$(__git_ps1)\n\$ "
+else
+    export PS1="\[\e]0;$PWD\a\]\n$PWD$(__git_ps1)\n\$ "
+fi
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"
@@ -80,7 +85,7 @@ alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$
 alias start='\start ""'
 alias gitt='git commit -am "no message" && git push'
 alias dott='dot commit -am "no message" && dot push'
-alias sshj='echo -ne "\e]0;jfin@jfin\a" && ssh jfin@10.0.0.52'
+alias sshj='ssh jfin@10.0.0.52'
 
 # expand command line
 expand_line() {

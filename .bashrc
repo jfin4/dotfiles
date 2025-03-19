@@ -11,16 +11,9 @@ export HISTCONTROL="erasedups:ignorespace"
     && source $HOME/.bash_completion
 
 # prompt
-# export PS1='\[\e]0;${PWD##*/}\a\]\n$PWD`__git_ps1`\n$ '
-
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-
-if [[ -n "$SSH_CLIENT" ]]; then
-    export PS1="\[\e]0;\u@\h:$PWD\a\]\n\u@\h:$PWD$(__git_ps1)\n\$ "
-else
-    export PS1="\[\e]0;$PWD\a\]\n$PWD$(__git_ps1)\n\$ "
-fi
+export PS1="\[\e]0;${SSH_TTY:+\u@\h:}$PWD\a\]\n${SSH_TTY:+\u@\h:}$PWD$(__git_ps1)\n\$ "
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"

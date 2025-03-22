@@ -13,9 +13,9 @@ export HISTCONTROL="erasedups:ignorespace"
 # prompt
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-ssh_info='${SSH_TTY:+\u@\h:}'
+ssh='${SSH_TTY:+\u@\h }'
 # $(command) doesn't work on windows, use `command`
-PS1="\[\e]0;$ssh_info\W\a\]\n$ssh_info\w\`__git_ps1\`\n\$ "
+PS1="\[\e]0;$ssh\W\a\]\n$ssh\w\`__git_ps1 ' %s'\`\n\$ "
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"

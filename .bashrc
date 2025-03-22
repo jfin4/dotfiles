@@ -81,6 +81,8 @@ alias start='\start ""'
 alias sshj='ssh jfin@10.0.0.52'
 alias gits='git status'
 alias dots='dot status'
+alias gitp='git pull'
+alias dotp='dot pull'
 
 gitt() {
     git add .

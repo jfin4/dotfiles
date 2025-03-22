@@ -1,36 +1,65 @@
-function! SaveTable(args)
-  normal! gv"xy
-  let table = substitute(@x, '\n', '', 'g')
-  let file = tempname() . '.csv'
-  if a:args.head
-      " needs to be a list for writefile() in sendcode()
-      let code = [ printf('readr::write_csv(head(%s), "%s")', table, file) ]
-  else
-      let code = [ printf('readr::write_csv(%s, "%s")', table, file) ] 
-  endif
-  call SendCode({'code': code, 'echo': 'TRUE'})
-  return file
-endfunction
-
-function! OpenTable()
-    call system(printf('tmux split-window visidata "%s"', b:file))
-endfunction
-
-function! ExploreTable(args) range
-    let b:file = SaveTable(a:args)
-    let wait = '5'
-    while wait > 0
-        if filereadable(b:file)
-            call OpenTable()
+function! ViewTable(table) abort
+    let table = a:table
+    let table_file = substitute(table, '[^a-zA-Z0-9]', '', 'g')
+    let table_file = '.' . table_file . '.csv'
+    let code = printf('readr::write_csv(%s, "%s")', table, table_file)
+    call RunCode({'code': [code], 'echo': 'FALSE'})
+    while 1
+        if filereadable(table_file)
+            execute 'terminal visidata --theme=ascii8 ' . table_file
+            execute 'autocmd BufDelete <buffer=' . bufnr() . '> '
+                        \ . 'call delete("' . table_file . '")'
             return
         endif
-        let wait -= 1
         sleep 1
     endwhile
-    echo 'ExploreTable() timed out. Call OpenTable().'
 endfunction
-xnoremap <localleader>ee :<c-u>call ExploreTable({'head': 0})<cr>
-xnoremap <localleader>eh :<c-u>call ExploreTable({'head': 1})<cr>
+
+function! ViewTableMap(getter, ...) abort
+    let result = call('GetCode', [a:getter] + a:000)
+    let table = map(result.code, {_, v -> substitute(v, '#.*', '', '')})
+    let table = join(table, '')
+    call ViewTable(table)
+
+    " Set up for repeat based on the getter type
+    if a:getter ==# 'line'
+        silent! call repeat#set("\<Plug>ViewTableLine", v:count)
+    elseif a:getter ==# 'selection'
+        " Visual mode is handled differently
+    elseif a:getter ==# 'text_object'
+        if a:1 ==# 'p'
+            silent! call repeat#set("\<Plug>ViewTableTextObjectP", v:count)
+        elseif a:1 ==# 'w'
+            silent! call repeat#set("\<Plug>ViewTableTextObjectW", v:count)
+        elseif a:1 ==# '{'
+            silent! call repeat#set("\<Plug>ViewTableTextObjectCurly", v:count)
+        endif
+    endif
+endfunction
+
+function! ViewTableOp(type) abort
+    let result = GetCode('motion', a:type)
+    let table = result.code[0]
+    call ViewTable(table)
+    " allow . repeat
+    silent! call repeat#set("\<Plug>ViewTableMotion", v:count)
+endfunction
+
+" Define <Plug> mappings - each with a unique name
+nnoremap <silent> <Plug>ViewTableLine           :call ViewTableMap('line')<CR>
+nnoremap <silent> <Plug>ViewTableTextObjectP    :call ViewTableMap('text_object', 'p')<CR>
+nnoremap <silent> <Plug>ViewTableTextObjectW    :call ViewTableMap('text_object', 'w')<CR>
+nnoremap <silent> <Plug>ViewTableTextObjectCurly :call ViewTableMap('text_object', '{')<CR>
+xnoremap <silent> <Plug>ViewTableSelection      :<C-U>call ViewTableMap('selection')<CR>
+nnoremap <silent> <Plug>ViewTableMotion         :set opfunc=ViewTableOp<CR>g@
+
+" Map actual key sequences to the <Plug> mappings
+nnoremap <silent> <localleader>tt    <Plug>ViewTableLine
+xnoremap <silent> <localleader>t     <Plug>ViewTableSelection
+nnoremap <silent> <localleader>t     <Plug>ViewTableMotion
+nnoremap <silent> <localleader>tip   <Plug>ViewTableTextObjectP
+nnoremap <silent> <localleader>tiw   <Plug>ViewTableTextObjectW
+nnoremap <silent> <localleader>ti{   <Plug>ViewTableTextObjectCurly
 
 function! TogglePipe()
     let line = getline('.')
@@ -51,13 +80,8 @@ inoremap <buffer> >> >
 function! s:MakeRKeymaps(args)
     let command = 
         \printf(
-            \'nnoremap <buffer> 
-                \%s 
-                \:call SendCode(
-                    \{ 
-                        \''code'': [''%s''], 
-                        \''echo'': ''TRUE'' 
-                    \})<cr>',
+            \'nnoremap <buffer> %s 
+                \:call RunCode({''code'': [''%s''], ''echo'': ''TRUE''})<cr>',
             \a:args.lhs,
             \a:args.rhs
         \)

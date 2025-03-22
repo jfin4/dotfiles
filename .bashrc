@@ -1,6 +1,6 @@
 # options
 shopt -s direxpand
-shopt -s cdable_vars
+shopt -s nocaseglob
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
@@ -13,8 +13,9 @@ export HISTCONTROL="erasedups:ignorespace"
 # prompt
 [[ "$(uname -s)" == "Linux" ]] \
     && source /usr/share/git/completion/git-prompt.sh
-prompt_info='${SSH_TTY:+\u@\h:}'
-export PS1="\[\e]0;$prompt_info\W\a\]\n$prompt_info\w$(__git_ps1)\n\$ "
+ssh_info='${SSH_TTY:+\u@\h:}'
+export PS1="\[\e]0;$ssh_info\W\a\]\n$ssh_info\w$(__git_ps1)\n\$ "
+export PROMPT_COMMAND='__git_ps1 "\[\e]0;$ssh_info\W\a\]\n$ssh_info\w" "\n\$ "'
 
 # ensure cursor blinks in vim terminals
 echo -e "\e[?12h"
@@ -34,12 +35,12 @@ export PATH
 
 # set up fzf
 eval "$(fzf --bash)"
-# rebind readline commands, i only use ** trigger
+# rebind readline commands, i only use .. trigger
 bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
-bind '"\M-c": capitalize-word'
+bind '"\ec": capitalize-word'
 # trigger sequence
-export FZF_COMPLETION_TRIGGER='ii'
+export FZF_COMPLETION_TRIGGER='..'
 # use fd 
 _fzf_compgen_path() {
   fd --follow --exclude ".git" . "$1"
@@ -96,3 +97,6 @@ bind -x '"\C-l\C-l": expand_line'
 
 # future ideas
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
+# this replaces dots with stars for easier globbing, like zsh partial string
+# expansion
+# READLINE_LINE="${READLINE_LINE//./*}"

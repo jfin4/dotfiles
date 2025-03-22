@@ -50,7 +50,7 @@ Magenta=255,153,255
 BoldMagenta=255,153,255
 Yellow=255,255,153
 BoldYellow=255,255,153
-White=153,153,153
+White=204,204,204
 BoldWhite=255,255,255
 
 ThemeFile=jfin

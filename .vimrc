@@ -77,7 +77,8 @@ augroup end
 " completion
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
-    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl']
+    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
+    \ 'r' : ['path', 'omni', 'keyn', 'dict', 'uspl']
     \ }
 
 imap <tab> <plug>(MUcompleteFwd)

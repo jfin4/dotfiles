@@ -19,10 +19,14 @@ function! DWM_Focus()
     call DWM_Stack(1)
     exec l:curwin . "wincmd w"
     wincmd H
+    normal! zz
 endfunction
 
 " close window
 function! DWM_Close()
+    if &l:buftype == '' && expand('%') != ''
+        write
+    endif
     if winnr() == 1
         return 'bdelete! | wincmd H'
     else
@@ -61,8 +65,8 @@ endfunction
 
 " focus new windows
 augroup dwm
-    au!
-    au BufWinEnter * call DWM_FocusNew()
+    autocmd!
+    autocmd BufWinEnter * call DWM_FocusNew()
 augroup end
 
 " map commands

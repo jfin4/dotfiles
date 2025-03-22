@@ -24,14 +24,14 @@ endfunction
 
 " close window
 function! DWM_Close()
-    if &l:buftype == '' && expand('%') != ''
-        write
+    if &buftype == 'terminal'
+        quit!
+    else
+        quit
     endif
     if winnr() == 1
-        return 'bdelete! | wincmd H'
-    else
-        return 'bdelete!'
-    end
+        wincmd H
+    endif
 endfunction
 
 " move window

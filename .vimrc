@@ -12,23 +12,17 @@ let maplocalleader = ' '
 set autoread 
 set autowriteall
 set belloff=all
-" set clipboard=unnamedplus
 set completeopt=menuone,longest
 set encoding=utf-8
 set ignorecase 
-" set laststatus=3
 set mouse=
 set pastetoggle=<insert> 
 set signcolumn=no
-" set shellcmdflag='-c'
-" set shellslash
-" set shellquote=""
-" set shellxquote=""
 set scrolloff=5
 set smartcase 
 set undofile 
 set virtualedit=block
-" set wildmenu
+set wildmenu
 set wildmode=full
 set formatoptions=qlcjnr
 
@@ -106,8 +100,7 @@ let g:fzf_colors = { 'border':  ['fg', 'vertsplit'] }
 "lsp
 let g:lsp_diagnostics_enabled = 0
 let g:lsp_settings_enable_suggestions = 0
-" let g:lsp_completion_documentation_enabled = 0
+let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
-" nnoremap <c-x> <plug>(lsp-signature-help)
 inoremap <c-h> <c-o><plug>(lsp-signature-help)

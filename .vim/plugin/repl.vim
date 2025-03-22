@@ -26,7 +26,9 @@ function! SetReplBuf()
     echo buflist
 
     " Get buffer number from user
-    let b:repl_buf = input("\nEnter REPL buffer number: ")->str2nr()
+    let b:repl_buf = 
+                \input("\nEnter REPL buffer number: ")->
+                \str2nr()
 endfunction
 command! SetReplBuf call SetReplBuf()
 

@@ -40,7 +40,7 @@ bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
 bind '"\ec": capitalize-word'
 # trigger sequence
-export FZF_COMPLETION_TRIGGER='..'
+export FZF_COMPLETION_TRIGGER='ii'
 # use fd 
 _fzf_compgen_path() {
   fd --follow --exclude ".git" . "$1"
@@ -78,9 +78,21 @@ alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
 alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
 alias start='\start ""'
-alias gitt='git commit -am "no message" && git push'
-alias dott='dot commit -am "no message" && dot push'
 alias sshj='ssh jfin@10.0.0.52'
+alias gits='git status'
+alias dots='dot status'
+
+gitt() {
+    git add .
+    git commit -m "$*"
+    git push
+}
+
+dott() {
+    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
+    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "$*"
+    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
+}
 
 # expand command line
 expand_line() {

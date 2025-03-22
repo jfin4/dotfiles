@@ -1,7 +1,9 @@
 function! ViewTable(table) abort
     let table = a:table
-    let table_file = substitute(table, '[^a-zA-Z0-9]', '', 'g')
-    let table_file = '.' . table_file . '.csv'
+    let table_file = table
+                \ ->substitute('[^a-zA-Z0-9]\+', '-', 'g')
+                \ ->substitute('-$', '', '')
+    let table_file = '.' .. table_file .. '.csv'
     let code = printf('readr::write_csv(%s, "%s")', table, table_file)
     call RunCode({'code': [code], 'echo': 'FALSE'})
     while 1
@@ -15,18 +17,16 @@ function! ViewTable(table) abort
     endwhile
 endfunction
 
-function! ViewTableMap(getter, ...) abort
-    let result = call('GetCode', [a:getter] + a:000)
-    let table = map(result.code, {_, v -> substitute(v, '#.*', '', '')})
-    let table = join(table, '')
+function! ViewTableMap(method, ...) abort
+    let table = call('GetCode', [a:method] + a:000).code
+                \ ->map({_, v -> substitute(v, '#.*', '', '')})
+                \ ->join('')
     call ViewTable(table)
 
-    " Set up for repeat based on the getter type
-    if a:getter ==# 'line'
+    " Set up for repeat based on the method type
+    if a:method ==# 'line'
         silent! call repeat#set("\<Plug>ViewTableLine", v:count)
-    elseif a:getter ==# 'selection'
-        " Visual mode is handled differently
-    elseif a:getter ==# 'text_object'
+    elseif a:method ==# 'text_object'
         if a:1 ==# 'p'
             silent! call repeat#set("\<Plug>ViewTableTextObjectP", v:count)
         elseif a:1 ==# 'w'
@@ -38,8 +38,7 @@ function! ViewTableMap(getter, ...) abort
 endfunction
 
 function! ViewTableOp(type) abort
-    let result = GetCode('motion', a:type)
-    let table = result.code[0]
+    let table = GetCode('motion', a:type).code[0]
     call ViewTable(table)
     " allow . repeat
     silent! call repeat#set("\<Plug>ViewTableMotion", v:count)

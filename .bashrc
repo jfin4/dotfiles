@@ -79,6 +79,7 @@ alias open='open-link'
 alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
 alias start='\start ""'
 alias sshj='ssh jfin@10.0.0.52'
+alias sshr='ssh jfin@10.0.0.157'
 alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'
@@ -86,13 +87,13 @@ alias dotp='dot pull'
 
 gitt() {
     git add .
-    git commit -m "$*"
+    git commit -m "${*:-no message}"
     git push
 }
 
 dott() {
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "$*"
+    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
 

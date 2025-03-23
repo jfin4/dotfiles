@@ -3,7 +3,7 @@
 ```
 #!/usr/bin/bash
 
-[ -z "$1" ] && echo need branch && return
+[ -z "$1" ] && echo need branch && exit
 branch=$1
 
 git_dir=$HOME/.dotfiles.git

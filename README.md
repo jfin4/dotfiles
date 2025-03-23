@@ -1,6 +1,8 @@
 # Set Up Dotfiles
+
 ```
-# set <branch>
+#!/usr/bin/bash
+
 [ -z "$1" ] && echo need branch && return
 branch=$1
 

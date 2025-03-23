@@ -19,3 +19,8 @@ if [ $? != 0 ]; then
         | xargs -I{} mv {} $backup_dir/{}
     dot switch $branch
 fi
+
+# because crlf
+dot restore . 
+
+dot pull --set-upstream origin $branch

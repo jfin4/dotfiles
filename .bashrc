@@ -7,7 +7,7 @@ shopt -s nocaseglob
 export HISTCONTROL="erasedups:ignorespace"
 
 # for vcxsrv
-export DISPLAY=localhost:0.0
+export DISPLAY="localhost:0.0"
 
 # complete some commands
 [[ $(hostname) == 'WB-102575' ]] && source $HOME/.bash_completion
@@ -19,7 +19,7 @@ x='${SSH_TTY:+\u@\h }'
 PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n\$ "
 
 # if interactive then make cursor blink
-if [[ $- == *i* ]] && echo -e "\e[?12h"
+[[ $- == *i* ]] && echo -e "\e[?12h"
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"

@@ -6,36 +6,42 @@ shopt -s nocaseglob
 # To remove all but the last identical command, and commands that start with a space:
 export HISTCONTROL="erasedups:ignorespace"
 
+# for vcxsrv
+export DISPLAY=localhost:0.0
+
 # complete some commands
-[[ "$(uname -s)" =~ "MINGW" ]] \
-    && source $HOME/.bash_completion
+[[ $(hostname) == 'WB-102575' ]] && source $HOME/.bash_completion
 
 # prompt
-file=/usr/share/git/completion/git-prompt.sh
-[[ -f $file ]] && source $file
-ssh='${SSH_TTY:+\u@\h }'
+[[ $(hostname) == 'jfin' ]] && source /usr/share/git/completion/git-prompt.sh
+x='${SSH_TTY:+\u@\h }'
 # $(command) doesn't work on windows, use `command`
-PS1="\[\e]0;$ssh\W\a\]\n$ssh\w\`__git_ps1 ' %s'\`\n\$ "
+PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n\$ "
 
-# ensure cursor blinks in vim terminals
-# echo -e "\e[?12h"
+# if interactive then make cursor blink
+if [[ $- == *i* ]] && echo -e "\e[?12h"
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
-PATH="$HOME/.bin:$PATH" 
-PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
-# get latest r
-for r in "c:/Program Files/R"/*; do
-    true
-done
-PATH="/c${r#c:}/bin/x64:$PATH" 
+if [[ $(hostname) == 'WB-102575' ]]; then
+    PATH="$HOME/.bin:$PATH" 
+    PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
+    # get latest r
+    for r in "c:/Program Files/R"/*; do
+        true
+    done
+    PATH="/c${r#c:}/bin/x64:$PATH" 
+fi
 export PATH
 
 # set up fzf
-file=/usr/share/doc/fzf/examples/key-bindings.bash
-[[ -f $file ]] && source $file || eval "$(fzf --bash)"
+if [[ $(hostname) == 'rpi' ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+else
+    eval "$(fzf --bash)"
+fi
 # rebind readline commands, i only use .. trigger
 bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
@@ -44,17 +50,20 @@ bind '"\ec": capitalize-word'
 export FZF_COMPLETION_TRIGGER='ii'
 # use fd 
 _fzf_compgen_path() {
-  fd --follow --exclude ".git" . "$1"
+    fd --follow --exclude ".git" . "$1"
 }
 _fzf_compgen_dir() {
-  fd --type d --follow --exclude ".git" . "$1"
+    fd --type d --follow --exclude ".git" . "$1"
 }
 
 # shortcut variables
 export bo='/c/users/jinman/onedrive - water boards'
 export br='/c/users/jinman/desktop/final_relep'
 export dd=$(date +%Y-%m-%d)
-export jfin='jfin@10.0.0.52'
+
+# hosts substitute
+export arch='jfin@10.0.0.52:/home/jfin'
+export rpi='jfin@10.0.0.158:/home/jfin'
 
 # aliases 
 
@@ -77,10 +86,10 @@ alias rm='~/scripts/move-to-trash'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
-# alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
+alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
 alias start='\start ""'
-alias sshj='ssh jfin@10.0.0.52'
-alias sshr='ssh jfin@10.0.0.157'
+alias sshj='ssh -YC jfin@10.0.0.52'
+alias sshr='ssh -YC jfin@10.0.0.158'
 alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'

@@ -57,14 +57,15 @@ _fzf_compgen_dir() {
 }
 
 # shortcut variables
-[[ $HOSTNAME == WB-102575 ]]
-export bo='/c/users/jinman/onedrive - water boards'
-export br='/c/users/jinman/desktop/final_relep'
 export dd=$(date +%Y-%m-%d)
-
-# hosts substitute
-export arch='jfin@10.0.0.52:/home/jfin'
-export rpi='jfin@10.0.0.158:/home/jfin'
+if [[ $HOSTNAME == WB-102575 ]]; then
+    export bo='/c/users/jinman/onedrive - water boards'
+    export br='/c/users/jinman/desktop/final_relep'
+   
+    # hosts substitute
+    export arch='jfin@10.0.0.52:/home/jfin'
+    export rpi='jfin@10.0.0.158:/home/jfin'
+fi
 
 # aliases 
 
@@ -99,6 +100,8 @@ elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshr='ssh -YC jfin@10.0.0.158'
     alias start='\start ""'
 fi
+
+# functions
 
 gitt() {
     git add .

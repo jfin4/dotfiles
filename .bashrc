@@ -11,8 +11,8 @@ export HISTCONTROL="erasedups:ignorespace"
     && source $HOME/.bash_completion
 
 # prompt
-[[ "$(uname -s)" == "Linux" ]] \
-    && source /usr/share/git/completion/git-prompt.sh
+file=/usr/share/git/completion/git-prompt.sh
+[[ -f $file ]] && source $file
 ssh='${SSH_TTY:+\u@\h }'
 # $(command) doesn't work on windows, use `command`
 PS1="\[\e]0;$ssh\W\a\]\n$ssh\w\`__git_ps1 ' %s'\`\n\$ "
@@ -34,7 +34,8 @@ PATH="/c${r#c:}/bin/x64:$PATH"
 export PATH
 
 # set up fzf
-eval "$(fzf --bash)"
+file=/usr/share/doc/fzf/examples/key-bindings.bash
+[[ -f $file ]] && source $file || eval "$(fzf --bash)"
 # rebind readline commands, i only use .. trigger
 bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
@@ -76,7 +77,7 @@ alias rm='~/scripts/move-to-trash'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
-alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
+# alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
 alias start='\start ""'
 alias sshj='ssh jfin@10.0.0.52'
 alias sshr='ssh jfin@10.0.0.157'

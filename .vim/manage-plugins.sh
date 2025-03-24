@@ -31,12 +31,12 @@ done
 
 # update plugins
 for p in $plugins; do
-    echo -e "\nupdate ${p#*/}"
+    echo "\nupdate ${p#*/}"
     git -C $dir/${p#*/} pull 2> /dev/null \
         || git clone https://github.com/$p $dir/${p#*/}
 done 
 
 # update helptags
 # /dev/null to preserve terminal output
-echo -e "\nupdate helptags"
-vim -u NONE +'helptags ALL' +quit
+echo  "\nupdate helptags"
+vim -u NONE +'helptags ALL' +quit > /dev/null 2>&1

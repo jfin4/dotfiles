@@ -18,7 +18,7 @@ ssh='${SSH_TTY:+\u@\h }'
 PS1="\[\e]0;$ssh\W\a\]\n$ssh\w\`__git_ps1 ' %s'\`\n\$ "
 
 # ensure cursor blinks in vim terminals
-echo -e "\e[?12h"
+# echo -e "\e[?12h"
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"

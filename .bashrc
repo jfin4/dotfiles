@@ -6,16 +6,16 @@ shopt -s nocaseglob
 # To remove all but the last identical command, and commands that start with a space:
 export HISTCONTROL="erasedups:ignorespace"
 
-# for vcxsrv
-export DISPLAY="localhost:0.0"
+# for mobaxterm
+[[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
 
 # complete some commands
-[[ $(hostname) == 'WB-102575' ]] && source $HOME/.bash_completion
+[[ $HOSTNAME == WB-102575 ]] && source $HOME/.bash_completion
 
 # prompt
-[[ $(hostname) == 'jfin' ]] && source /usr/share/git/completion/git-prompt.sh
+[[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
 x='${SSH_TTY:+\u@\h }'
-# $(command) doesn't work on windows, use `command`
+# $(__git_ps1) doesn't work on windows, use `__git_ps1`
 PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n\$ "
 
 # if interactive then make cursor blink
@@ -25,7 +25,7 @@ PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n\$ "
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
-if [[ $(hostname) == 'WB-102575' ]]; then
+if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="$HOME/.bin:$PATH" 
     PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
     # get latest r
@@ -37,7 +37,7 @@ fi
 export PATH
 
 # set up fzf
-if [[ $(hostname) == 'rpi' ]]; then
+if [[ $HOSTNAME == 'rpi' ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
 else
     eval "$(fzf --bash)"
@@ -57,6 +57,7 @@ _fzf_compgen_dir() {
 }
 
 # shortcut variables
+[[ $HOSTNAME == WB-102575 ]]
 export bo='/c/users/jinman/onedrive - water boards'
 export br='/c/users/jinman/desktop/final_relep'
 export dd=$(date +%Y-%m-%d)
@@ -87,13 +88,17 @@ alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
 alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
-alias start='\start ""'
-alias sshj='ssh -YC jfin@10.0.0.52'
-alias sshr='ssh -YC jfin@10.0.0.158'
 alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'
 alias dotp='dot pull'
+if [[ $HOSTNAME == rpi ]]; then
+    alias fd='fdfind'
+elif [[ $HOSTNAME == WB-102575 ]]; then
+    alias sshj='ssh -YC jfin@10.0.0.52'
+    alias sshr='ssh -YC jfin@10.0.0.158'
+    alias start='\start ""'
+fi
 
 gitt() {
     git add .

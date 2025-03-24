@@ -68,7 +68,7 @@ call Hl('underlined',     { 'style': 'underline'})
 
 call Hl('ignore',         { 'fg': 'gray'})
 
-call Hl('error',          { 'fg': 'red'})
+call Hl('error',          { 'fg': 'black', 'bg': 'red', 'style': 'bold'})
 
 call Hl('todo',           { 'fg': 'black', 'bg': 'yellow'})
 

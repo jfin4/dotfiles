@@ -171,8 +171,8 @@ nnoremap <silent> <Plug>RunCodeTextObjectCurly :call RunCodeMap('text_object', '
 nnoremap <silent> <Plug>RunCodeMotion         :set opfunc=RunCodeOp<CR>g@
 
 " Map your actual key sequences to the <Plug> mappings
-nnoremap <silent> ,,    <Plug>RunCodeLine 
-nnoremap <silent> g,    <Plug>RunCodeSection   
+nnoremap <silent> ,,    <Plug>RunCodeLine
+nnoremap <silent> g,    <Plug>RunCodeSection
 xnoremap <silent> ,     <Plug>RunCodeSelection 
 nnoremap <silent> ,ip   <Plug>RunCodeTextObjectP
 nnoremap <silent> ,iw   <Plug>RunCodeTextObjectW

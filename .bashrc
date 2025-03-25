@@ -24,7 +24,7 @@ PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n${TMUX:+tmux }\$ "
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
-PATH="$HOME/.bin:$PATH" 
+PATH="$HOME/scripts:$PATH" 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="$HOME/.bin:$PATH" 
     PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
@@ -82,7 +82,7 @@ alias mvv='rename-files'
 alias notes='cd ~/notes; search-notes notes.txt; cd -'
 alias todo='cd ~/notes; search-notes "#todo"; cd -'
 alias pdf='open-pdf'
-alias prod='echo; Rscript ~/.bin/get-productivity.r' 
+alias prod='echo; Rscript ~/scripts/get-productivity.r' 
 alias pw='get-password'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'

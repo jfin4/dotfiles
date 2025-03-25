@@ -1,5 +1,5 @@
-Font=Terminess Nerd Font
-FontHeight=12
+Font=Terminus
+FontHeight=14
 ClipShortcuts=yes
 WindowShortcuts=no
 SwitchShortcuts=no
@@ -11,7 +11,7 @@ ScrollbackLines=10000
 Transparency=off
 Scrollbar=none
 Term=xterm-256color
-FontWeight=500
+FontWeight=400
 FontIsBold=no
 FontSmoothing=none
 EmojiPlacement=stretch

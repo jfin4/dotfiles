@@ -24,7 +24,7 @@ PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n\$ "
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
-PATH="$HOME/scripts:$PATH" 
+PATH="$HOME/.bin:$PATH" 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="$HOME/.bin:$PATH" 
     PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
@@ -82,9 +82,8 @@ alias mvv='rename-files'
 alias notes='cd ~/notes; search-notes notes.txt; cd -'
 alias todo='cd ~/notes; search-notes "#todo"; cd -'
 alias pdf='open-pdf'
-alias prod='echo; Rscript ~/scripts/get-productivity.r' 
+alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
-alias rm='~/scripts/move-to-trash'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
@@ -127,6 +126,14 @@ expand_line() {
   READLINE_POINT=${#READLINE_LINE}
 }
 bind -x '"\C-l\C-l": expand_line'
+
+rm() {
+    if [[ $HOSTNAME == rpi ]]; then
+        mv --backup=numbered "$@" /media/jfin/ssd/.trash
+    else
+        mv --backup=numbered "$@" ~/.trash
+    fi
+}
 
 # future ideas
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab

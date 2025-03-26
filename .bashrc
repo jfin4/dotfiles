@@ -14,9 +14,18 @@ export HISTCONTROL="erasedups:ignorespace"
 
 # prompt
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-x='${SSH_TTY:+\u@\h }'
 # $(__git_ps1) doesn't work on windows, use `__git_ps1`
-PS1="\[\e]0;$x\W\a\]\n$x\w\`__git_ps1 ' %s'\`\n${TMUX:+tmux }\$ "
+
+PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]" # set title
+PS1="$PS1"'\n' # blank line after previous command
+PS1="$PS1"'\[\e[37m\]' # start color
+PS1="$PS1""${SSH_TTY:+\h }" # host info if ssh'ing
+PS1="$PS1"'\w' # working dir
+PS1="$PS1"'`__git_ps1 " %s"`' # git info
+PS1="$PS1"'\n' # start second line
+PS1="$PS1""${TMUX:+tmux }" # signify tmux
+PS1="$PS1"'\$ ' # end with $
+PS1="$PS1"'\[\e[0m\]' # end color
 
 # if interactive then make cursor blink
 [[ $- == *i* ]] && echo -e "\e[?12h"

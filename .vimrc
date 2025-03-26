@@ -14,6 +14,8 @@ set autowriteall
 set belloff=all
 set completeopt=menuone,longest
 set encoding=utf-8
+set fillchars-=vert:\\|
+set hlsearch
 set ignorecase 
 set laststatus=2
 set mouse=

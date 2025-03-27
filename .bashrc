@@ -18,7 +18,7 @@ export HISTCONTROL="erasedups:ignorespace"
 
 PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]" # set title
 PS1="$PS1"'\n' # blank line after previous command
-PS1="$PS1"'\[\e[37m\]' # start color
+PS1="$PS1"'\[\e[1;37m\]' # start color
 PS1="$PS1""${SSH_TTY:+\h }" # host info if ssh'ing
 PS1="$PS1"'\w' # working dir
 PS1="$PS1"'`__git_ps1 " %s"`' # git info

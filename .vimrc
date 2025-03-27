@@ -11,23 +11,25 @@ let maplocalleader = ' '
 " other options
 set autoread 
 set autowriteall
+set background=dark
 set belloff=all
 set completeopt=menuone,longest
 set encoding=utf-8
 set fillchars-=vert:\\|
+set formatoptions=qlcjnr
 set hlsearch
 set ignorecase 
 set laststatus=2
 set mouse=
 set pastetoggle=<insert> 
-set signcolumn=no
 set scrolloff=5
+set signcolumn=no
 set smartcase 
+set t_Co=16
 set undofile 
 set virtualedit=block
 set wildmenu
 set wildmode=full
-set formatoptions=qlcjnr
 
 " dir options
 set backupdir=~/.vim/backup

@@ -35,6 +35,7 @@ BellType=0
 ForegroundColour=255,255,255
 BackgroundColour=0,0,0
 CursorColour=255,153,255
+CursorColour=255,153,255
 
 Black=51,51,51
 BoldBlack=102,102,102

@@ -46,12 +46,13 @@ function! RunMotion(type = '') abort
         set operatorfunc=RunMotion
         return 'g@'
     endif
-    let text = #{
-                \ line: "'[V']",
-                \ char: "`[v`]",
-                \ block: "`[\<C-V>`]",
+    let commands = {
+                \ 'line': "'[V']",
+                \ 'char': "`[v`]",
+                \ 'block': "`[\<C-V>`]",
                 \ }[a:type]
-    execute 'normal! ' .. text .. '"ry'
+    execute printf('normal! %s"ry',
+                \ commands)
     let code = split(@r, "\n")
     call Run(code)
 endfunction

@@ -3,16 +3,18 @@ function! ViewTable(type = '') abort
         set operatorfunc=ViewTable
         return 'g@'
     endif
-    let text = #{
-                \ line: "'[V']",
-                \ char: "`[v`]",
-                \ block: "`[\<C-V>`]",
+    let commands = {
+                \ 'line': "'[V']",
+                \ 'char': "`[v`]",
+                \ 'block': "`[\<C-V>`]",
                 \ }[a:type]
-    execute 'silent normal! ' .. text .. '"ry'
-    let table = split(@r, "\n")->join('')
-    let file_name = table->substitute('[^a-zA-Z0-9]\+', '-', 'g')..".csv"
+    execute printf('silent normal! %s"ry', 
+                \ commands)
+    let table = split(@r, "\n")
+    let file_name = printf('%s.csv', 
+                \ table[0]->substitute('[^a-z]', '', 'g'))
     let code = printf('readr::write_csv({%s}, "%s")', 
-                \ table, 
+                \ table->join(''), 
                 \ file_name)
     call Run([code], 'FALSE')
     while 1

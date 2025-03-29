@@ -1,64 +1,35 @@
-function! ViewTable(table) abort
-    let table = a:table
-    let table_file = table
-                \ ->substitute('[^a-zA-Z0-9]\+', '-', 'g')
-                \ ->substitute('-$', '', '')
-    let table_file = '.' .. table_file .. '.csv'
-    let code = printf('readr::write_csv(%s, "%s")', table, table_file)
-    call RunCode({'code': [code], 'echo': 'FALSE'})
+function! ViewTable(type = '') abort
+    if a:type == ''
+        set operatorfunc=ViewTable
+        return 'g@'
+    endif
+    let text = #{
+                \ line: "'[V']",
+                \ char: "`[v`]",
+                \ block: "`[\<C-V>`]",
+                \ }[a:type]
+    execute 'silent normal! ' .. text .. '"ry'
+    let table = split(@r, "\n")->join('')
+    let file_name = table->substitute('[^a-zA-Z0-9]\+', '-', 'g')..".csv"
+    let code = printf('readr::write_csv({%s}, "%s")', 
+                \ table, 
+                \ file_name)
+    call Run([code], 'FALSE')
     while 1
-        if filereadable(table_file)
-            execute 'terminal visidata --theme=ascii8 ' . table_file
-            execute 'autocmd BufDelete <buffer=' . bufnr() . '> '
-                        \ . 'call delete("' . table_file . '")'
+        if filereadable(file_name)
+            execute printf('terminal visidata --theme=ascii8 %s', 
+                        \ file_name)
+            execute printf('autocmd BufDelete <buffer=%d> call delete("%s")', 
+                        \ bufnr(), 
+                        \ file_name)
             return
         endif
         sleep 1
     endwhile
 endfunction
-
-function! ViewTableMap(method, ...) abort
-    let table = call('GetCode', [a:method] + a:000).code
-                \ ->map({_, v -> substitute(v, '#.*', '', '')})
-                \ ->join('')
-    call ViewTable(table)
-
-    " Set up for repeat based on the method type
-    if a:method ==# 'line'
-        silent! call repeat#set("\<Plug>ViewTableLine", v:count)
-    elseif a:method ==# 'text_object'
-        if a:1 ==# 'p'
-            silent! call repeat#set("\<Plug>ViewTableTextObjectP", v:count)
-        elseif a:1 ==# 'w'
-            silent! call repeat#set("\<Plug>ViewTableTextObjectW", v:count)
-        elseif a:1 ==# '{'
-            silent! call repeat#set("\<Plug>ViewTableTextObjectCurly", v:count)
-        endif
-    endif
-endfunction
-
-function! ViewTableOp(type) abort
-    let table = GetCode('motion', a:type).code[0]
-    call ViewTable(table)
-    " allow . repeat
-    silent! call repeat#set("\<Plug>ViewTableMotion", v:count)
-endfunction
-
-" Define <Plug> mappings - each with a unique name
-nnoremap <silent> <Plug>ViewTableLine           :call ViewTableMap('line')<CR>
-nnoremap <silent> <Plug>ViewTableTextObjectP    :call ViewTableMap('text_object', 'p')<CR>
-nnoremap <silent> <Plug>ViewTableTextObjectW    :call ViewTableMap('text_object', 'w')<CR>
-nnoremap <silent> <Plug>ViewTableTextObjectCurly :call ViewTableMap('text_object', '{')<CR>
-xnoremap <silent> <Plug>ViewTableSelection      :<C-U>call ViewTableMap('selection')<CR>
-nnoremap <silent> <Plug>ViewTableMotion         :set opfunc=ViewTableOp<CR>g@
-
-" Map actual key sequences to the <Plug> mappings
-nnoremap <silent> <localleader>tt    <Plug>ViewTableLine
-xnoremap <silent> <localleader>t     <Plug>ViewTableSelection
-nnoremap <silent> <localleader>t     <Plug>ViewTableMotion
-nnoremap <silent> <localleader>tip   <Plug>ViewTableTextObjectP
-nnoremap <silent> <localleader>tiw   <Plug>ViewTableTextObjectW
-nnoremap <silent> <localleader>ti{   <Plug>ViewTableTextObjectCurly
+nnoremap <expr> <localleader>t ViewTable()
+xnoremap <expr> <localleader>t ViewTable()
+nnoremap <expr> <localleader>tt ViewTable() .. '_'
 
 function! TogglePipe()
     let line = getline('.')
@@ -79,8 +50,7 @@ inoremap <buffer> >> >
 function! s:MakeRKeymaps(args)
     let command = 
         \printf(
-            \'nnoremap <buffer> %s 
-                \:call RunCode({''code'': [''%s''], ''echo'': ''TRUE''})<cr>',
+            \'nnoremap <buffer> %s :call Run([''%s''], ''TRUE'')<cr>',
             \a:args.lhs,
             \a:args.rhs
         \)

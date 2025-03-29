@@ -46,6 +46,7 @@ fi
 export PATH
 
 # set up fzf
+# https://github.com/junegunn/fzf?tab=readme-ov-file
 if [[ $HOSTNAME == 'rpi' ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
 else
@@ -55,14 +56,44 @@ fi
 bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
 bind '"\ec": capitalize-word'
-# trigger sequence
+
+# Use trigger sequence other than the default **
 export FZF_COMPLETION_TRIGGER='ii'
-# use fd 
-_fzf_compgen_path() {
-    fd --follow --exclude ".git" . "$1"
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS='--border --info=inline'
+
+# Options for path completion (e.g. vim **<TAB>)
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+
+# Options for directory completion (e.g. cd **<TAB>)
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments ($@) to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'tree -C {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
 }
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-    fd --type d --follow --exclude ".git" . "$1"
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 # shortcut variables
@@ -96,7 +127,12 @@ alias pw='get-password'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
-alias ai="aider --model openrouter/deepseek/deepseek-chat --api-key openrouter=$(< ~/.pass/openrouter-api-key) --watch-files"
+alias ai="aider \
+    --model openrouter/deepseek/deepseek-chat \
+    --api-key openrouter=$(< ~/.pass/openrouter-api-key) \
+    --no-pretty \
+    --multiline \
+    --watch-files"
 alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'
@@ -142,6 +178,27 @@ rm() {
     else
         mv --backup=numbered "$@" ~/.trash
     fi
+}
+
+pass() {
+    cd $HOME/.pass
+    account=$(\
+        fd --path-separator // ${*:-.} |\
+        fzf \
+        --height 40% --reverse \
+        --preview 'cat {}' 
+    )
+    password=$(head -n1 $account)
+    if [[ $password ]]; then
+        old_clipboard=$(< /dev/clipboard)
+        echo -n "$password" > /dev/clipboard
+        (
+        { sleep 10
+            echo -n "$old_clipboard" > /dev/clipboard
+        } &
+    )
+    fi
+    cd - > /dev/null
 }
 
 # future ideas

@@ -96,7 +96,8 @@ endfunction
 " source updated config files 
 augroup vimrc
     au!
-    autocmd BufWritePost .vimrc,*/colors/*.vim,*/plugin/*.vim source <afile>
+    autocmd BufWritePost .vimrc source <afile>
+    autocmd BufWritePost *.vim  source <afile>
 augroup end
 
 " fzf

@@ -6,8 +6,9 @@ function! OpenRepl()
     call DWM_Focus()
     let b:repl_buf = repl_buf
     let g:repl_file = '.repl-code.r'
-    execute 'autocmd BufDelete <buffer=' . repl_buf . '> '
-                \ . 'call delete("' . g:repl_file . '")'
+    execute printf('autocmd BufDelete <buffer=%s> call delete("%s")',
+                \ repl_buf,
+                \ g:repl_file)
 endfunction
 command! OpenRepl call OpenRepl()
             

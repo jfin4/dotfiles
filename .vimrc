@@ -25,6 +25,7 @@ set pastetoggle=<insert>
 set scrolloff=5
 set signcolumn=no
 set smartcase 
+set splitkeep=topline
 set t_Co=16
 set undofile 
 set virtualedit=block
@@ -110,3 +111,5 @@ let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
 inoremap <c-h> <c-o><plug>(lsp-signature-help)
+
+cabbrev New new<cr>:Files

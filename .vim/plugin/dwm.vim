@@ -1,57 +1,64 @@
-" https://github.com/spolu/dwm.vim 
+" https://github.com/spolu/dwm.vim
+
+" default layout
+let g:wm_is_vertical = 1
+
+" stack windows
+function! WmStack()
+    for win in range(1, winnr('$'))
+        1wincmd w
+        execute g:wm_is_vertical == 1 ? 'wincmd J' : 'wincmd L'
+    endfor
+    1wincmd w
+endfunction
+
+" save cursor position of main window
+function! WmSaveCursor()
+    1wincmd w 
+    normal! mw
+endfunction
 
 " focus window
-function! DWM_Focus()
-    if winnr() == 1
-        wincmd w
-    endif
-    let l:curwin = winnr()
-    1wincmd w
-        wincmd K
-    exec l:curwin . "wincmd w"
-    wincmd H
-    normal! zz
+function! WmFocus(win = winnr())
+    let orig_window = winnr()
+    call WmSaveCursor()
+    call WmStack()
+    execute a:win..'wincmd w'
+    execute g:wm_is_vertical == 1 ? 'wincmd H' : 'wincmd K'
+    execute a:win == 1 ? orig_window..'wincmd w' : 'normal! `w'
 endfunction
-nnoremap <silent> <c-space> :call DWM_Focus()<CR>
-nnoremap <silent> <nul>     :call DWM_Focus()<CR>
-tnoremap <silent> <c-space> <c-w>:call DWM_Focus()<CR>
-tnoremap <silent> <nul>     <c-w>:call DWM_Focus()<CR>
+
+" toggle layout
+function! WmToggleLayout()
+    let g:wm_is_vertical = g:wm_is_vertical == 1 ? 0 : 1
+    call WmFocus(1)
+endfunction
 
 " close window
-function! DWM_Close()
-    if &buftype == 'terminal'
-        quit!
-    else
-        quit " autowrite
-    endif
-    if winnr() == 1
-        wincmd H
-    endif
+function! WmClose()
+    execute &buftype == 'terminal' ? 'quit!' : 'quit'
+    call WmFocus(1)
 endfunction
-tnoremap <silent> <c-o>     <c-w>:exec DWM_Close()<CR>
-nnoremap <silent> <c-o>     :exec DWM_Close()<CR>
 
-" autocommand for new windows
-function! DWM_FocusNew()
-    " move new to top and go to focused
-    wincmd K
-    wincmd w
-    " move focused to top and go back to new
-    wincmd K
-    wincmd w
-    " focus new
-    call DWM_Focus()
-endfunction
-augroup dwm
+" handle new windows
+augroup wm
     autocmd!
-    autocmd BufWinEnter * call DWM_FocusNew()
+    autocmd WinNewPre * call WmSaveCursor()
+    autocmd BufWinEnter * call WmStack() | call WmFocus(1)
 augroup end
 
 " maps
-nnoremap <silent> <c-i>     :terminal<cr>
-tnoremap <silent> <c-i>     <c-w>:terminal<cr>
-nnoremap <silent> <c-j>     :wincmd w<cr>
-nnoremap <silent> <c-k>     :wincmd W<cr>
-tnoremap <silent> <c-j>     <c-w>:wincmd w<cr>
-tnoremap <silent> <c-k>     <c-w>:wincmd W<cr>
-
+nnoremap <silent> <c-i>         :terminal<cr>
+nnoremap <silent> <c-j>         :wincmd w<cr>
+nnoremap <silent> <c-k>         :wincmd W<cr>
+nnoremap <silent> <c-o>         :call WmClose()<CR>
+nnoremap <silent> <c-space>     :call WmFocus()<CR>
+nnoremap <silent> <c-u>         :call WmToggleLayout()<CR>
+nnoremap <silent> <nul>         :call WmFocus()<CR>
+tnoremap <silent> <c-i>         <c-w>:terminal<cr>
+tnoremap <silent> <c-j>         <c-w>:wincmd w<cr>
+tnoremap <silent> <c-k>         <c-w>:wincmd W<cr>
+tnoremap <silent> <c-o>         <c-w>:call WmClose()<CR>
+tnoremap <silent> <c-space>     <c-w>:call WmFocus()<CR>
+tnoremap <silent> <c-u>         <c-w>:call WmToggleLayout()<CR>
+tnoremap <silent> <nul>         <c-w>:call WmFocus()<CR>

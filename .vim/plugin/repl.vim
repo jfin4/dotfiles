@@ -32,18 +32,21 @@ function! SetReplBuf()
 endfunction
 command! SetReplBuf call SetReplBuf()
 
-function! Run(code = [], echo = 'TRUE') abort
+function! ReplRun(code = [], echo = 'TRUE') abort
     call writefile(a:code, g:repl_file)
     let repl_command = printf(
         \ 'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
         \ a:echo,
         \ g:repl_file)
+    if !exists('b:repl_buf')
+        call SetReplBuf()
+    endif
     call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
 
 function! RunMotion(type = '') abort
     if a:type == ''
-        set operatorfunc=RunMotion
+        let &operatorfunc = matchstr(expand('<sfile>'), '\w\+$')
         return 'g@'
     endif
     let commands = {
@@ -54,7 +57,7 @@ function! RunMotion(type = '') abort
     execute printf('normal! %s"ry',
                 \ commands)
     let code = split(@r, "\n")
-    call Run(code)
+    call ReplRun(code)
 endfunction
 nnoremap <expr> , RunMotion()
 xnoremap <expr> , RunMotion()
@@ -71,6 +74,6 @@ function! RunSection() abort
     endif
     mark r  " Update mark 'r'
     let code = getline(start, current)
-    call Run(code, 'FALSE')
+    call ReplRun(code, 'FALSE')
 endfunction
 nnoremap <expr> g, RunSection()

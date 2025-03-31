@@ -17,7 +17,7 @@ for line in split(hloutput, "\n")
 endfor
 
 " colors named by function
-let alert   = 'brown'
+let alert   = 'yellow'
 let default = 'none'
 let literal = 'cyan'
 let loud    = 'black'       " bg

@@ -1,57 +1,37 @@
 " https://github.com/spolu/dwm.vim 
 
-" stack focused pane
-function! DWM_Stack(on_top)
-    1wincmd w
-    if a:on_top
-        wincmd K
-    else
-        wincmd J
-    endif
-endfunction
-
-" focus pane
+" focus window
 function! DWM_Focus()
     if winnr() == 1
         wincmd w
     endif
     let l:curwin = winnr()
-    call DWM_Stack(1)
+    1wincmd w
+        wincmd K
     exec l:curwin . "wincmd w"
     wincmd H
     normal! zz
 endfunction
+nnoremap <silent> <c-space> :call DWM_Focus()<CR>
+nnoremap <silent> <nul>     :call DWM_Focus()<CR>
+tnoremap <silent> <c-space> <c-w>:call DWM_Focus()<CR>
+tnoremap <silent> <nul>     <c-w>:call DWM_Focus()<CR>
 
 " close window
 function! DWM_Close()
     if &buftype == 'terminal'
         quit!
     else
-        quit
+        quit " autowrite
     endif
     if winnr() == 1
         wincmd H
     endif
 endfunction
+tnoremap <silent> <c-o>     <c-w>:exec DWM_Close()<CR>
+nnoremap <silent> <c-o>     :exec DWM_Close()<CR>
 
-" move window
-function! DWM_Move()
-    if winnr() == winnr('$')
-        call DWM_Stack(0)
-        wincmd W
-        call DWM_Focus()
-    elseif winnr() == 1
-        call DWM_Stack(1)
-        wincmd W
-        call DWM_Focus()
-        wincmd w
-    else
-        wincmd x
-        wincmd w
-    endif
-endfunction
-
-" focus new window
+" autocommand for new windows
 function! DWM_FocusNew()
     " move new to top and go to focused
     wincmd K
@@ -62,27 +42,16 @@ function! DWM_FocusNew()
     " focus new
     call DWM_Focus()
 endfunction
-
-" focus new windows
 augroup dwm
     autocmd!
     autocmd BufWinEnter * call DWM_FocusNew()
 augroup end
 
-" map commands
-nnoremap <silent>       :call DWM_Move()<CR>
+" maps
 nnoremap <silent> <c-i>     :terminal<cr>
+tnoremap <silent> <c-i>     <c-w>:terminal<cr>
 nnoremap <silent> <c-j>     :wincmd w<cr>
 nnoremap <silent> <c-k>     :wincmd W<cr>
-nnoremap <silent> <c-o>     :exec DWM_Close()<CR>
-nnoremap <silent> <c-space> :call DWM_Focus()<CR>
-nnoremap <silent> <nul>     :call DWM_Focus()<CR>
-
-tnoremap <silent>       <c-w>:call DWM_Move()<CR>
-tnoremap <silent> <c-i>     <c-w>:terminal<cr>
 tnoremap <silent> <c-j>     <c-w>:wincmd w<cr>
 tnoremap <silent> <c-k>     <c-w>:wincmd W<cr>
-tnoremap <silent> <c-o>     <c-w>:exec DWM_Close()<CR>
-tnoremap <silent> <c-space> <c-w>:call DWM_Focus()<CR>
-tnoremap <silent> <nul>     <c-w>:call DWM_Focus()<CR>
 

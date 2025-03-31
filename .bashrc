@@ -201,6 +201,47 @@ pass() {
     cd - > /dev/null
 }
 
+generate_password() {
+    # Reset OPTIND since we're in a function
+    local OPTIND=1
+
+    # Set defaults
+    local length=20
+    local symbols="!\"#$%&'()*+,-./:;<=>?@[\]^_\`{|}~"
+
+    # Parse arguments using getopts
+    while getopts "hl:s:" opt; do
+        case $opt in
+            h)
+                echo "Options"
+                echo "    -l NUM         password length"
+                echo "    -s SYMBOLS     acceptable symbols, e.g., '!@#$'"
+                return 0
+                ;;
+            l)
+                # Ensure length is treated as a number
+                length=$(( OPTARG + 0 ))
+                ;;
+            s)
+                symbols="$OPTARG"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                return 1
+                ;;
+            :)
+                echo "Option -$OPTARG requires an argument." >&2
+                return 1
+                ;;
+        esac
+    done
+
+    # Generate password
+    local chars="$(echo {a..z} {A..Z} {0..9} | tr -d ' ')$symbols"
+    tr -dc "$chars" < /dev/urandom | head -c "$length"
+    echo
+}
+
 # future ideas
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
 # this replaces dots with stars for easier globbing, like zsh partial string

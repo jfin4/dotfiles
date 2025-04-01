@@ -3,57 +3,58 @@
 " default layout
 let g:wm_is_vertical = 1
 
-" focus window
-function! WmFocus()
-    call WmKeepActive('WmSaveCursor')
-    call WmKeepActive('WmStack')
-    execute g:wm_is_vertical == 1 ? 'wincmd H' : 'wincmd K'
-    execute getpos("'w")[1] ? 'normal! `w' : ''
-endfunction
-
-" stack windows
-function! WmStack()
-    for win in range(1, winnr('$'))
-        execute g:wm_is_vertical == 1 ? 'wincmd J' : 'wincmd L'
-        1wincmd w
-    endfor
-endfunction
-
-" required due to scrollkeep=topline
-function! WmSaveCursor()
-    normal! mw
-endfunction
-
-" wrapper to keep active window
-function! WmKeepActive(func)
+" do something to window 1
+function! WmWin1(func)
     let active_window = winnr()
     1wincmd w
     call call(a:func, [])
     execute active_window..'wincmd w'
 endfunction
 
-" restore layout
-function! WmRestoreLayout()
-    call WmKeepActive('WmFocus')
+" stack windows
+function! WmStack()
+    for win in range(1, winnr('$'))
+        if g:wm_is_vertical == 1
+            wincmd J
+        else
+            wincmd L
+        endif
+        normal! zb
+        1wincmd w
+    endfor
+endfunction
+
+" focus window
+function! WmFocus()
+    call WmWin1('WmStack')
+    if g:wm_is_vertical == 1
+        wincmd H
+    else
+        wincmd K
+    endif
+    normal! zb
 endfunction
 
 " toggle layout
 function! WmToggleLayout()
     let g:wm_is_vertical = g:wm_is_vertical == 1 ? 0 : 1
-    call WmKeepActive('WmRestoreLayout')
+    call WmWin1('WmFocus')
 endfunction
 
 " close window
 function! WmClose()
-    execute &buftype == 'terminal' ? 'quit!' : 'quit'
-    call WmKeepActive('WmRestoreLayout')
+    if &buftype == 'terminal' 
+        quit! 
+    else
+        quit
+    endif
+    call WmWin1('WmFocus')
 endfunction
 
 " handle new windows
 augroup wm
     autocmd!
-    autocmd WinNewPre * call WmKeepActive('WmSaveCursor')
-    autocmd BufWinEnter * call WmKeepActive('WmRestoreLayout')
+    autocmd BufWinEnter * call WmWin1('WmFocus')
 augroup end
 
 " maps

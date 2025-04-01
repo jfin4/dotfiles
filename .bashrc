@@ -14,7 +14,7 @@ export HISTCONTROL="erasedups:ignorespace"
 
 # prompt
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-# $(__git_ps1) doesn't work on windows, use `__git_ps1`
+[[ $HOSTNAME == rpi ]] && source /usr/lib/git-core/git-sh-prompt
 PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]" # set title
 PS1="$PS1"'\n' # blank line after previous command
 PS1="$PS1"'\[\e[37m\]' # start color

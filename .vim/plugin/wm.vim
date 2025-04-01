@@ -1,60 +1,59 @@
-" https://github.com/spolu/dwm.vim
+" inspo: https://github.com/spolu/dwm.vim
 
 " default layout
 let g:wm_is_vertical = 1
 
-" stack windows
-function! WmStack()
-    let cur_win = winnr()
-    for win in range(1, winnr('$'))
-        1wincmd w
-        execute g:wm_is_vertical == 1 ? 'wincmd J' : 'wincmd L'
-    endfor
-    1wincmd w
-    execute cur_win..'wincmd w'
-endfunction
-
-" save cursor position of main window, assumes scrollkeep=topline
-function! WmSaveCursor()
-    let cur_win = winnr()
-    1wincmd w 
-    normal! mw
-    execute cur_win..'wincmd w'
-endfunction
-
 " focus window
 function! WmFocus()
-    call WmSaveCursor()
-    call WmStack()
+    call WmKeepActive('WmSaveCursor')
+    call WmKeepActive('WmStack')
     execute g:wm_is_vertical == 1 ? 'wincmd H' : 'wincmd K'
-    execute getpos('`w')[1] ? 'normal! `w' : ''
+    execute getpos("'w")[1] ? 'normal! `w' : ''
+endfunction
+
+" stack windows
+function! WmStack()
+    for win in range(1, winnr('$'))
+        execute g:wm_is_vertical == 1 ? 'wincmd J' : 'wincmd L'
+        1wincmd w
+    endfor
+endfunction
+
+" required due to scrollkeep=topline
+function! WmSaveCursor()
+    normal! mw
+endfunction
+
+" wrapper to keep active window
+function! WmKeepActive(func)
+    let active_window = winnr()
+    1wincmd w
+    call call(a:func, [])
+    execute active_window..'wincmd w'
 endfunction
 
 " restore layout
 function! WmRestoreLayout()
-    let cur_win = winnr()
-    1wincmd w
-    call WmFocus()
-    execute cur_win..'wincmd w'
+    call WmKeepActive('WmFocus')
 endfunction
 
 " toggle layout
 function! WmToggleLayout()
     let g:wm_is_vertical = g:wm_is_vertical == 1 ? 0 : 1
-    call WmRestoreLayout()
+    call WmKeepActive('WmRestoreLayout')
 endfunction
 
 " close window
 function! WmClose()
     execute &buftype == 'terminal' ? 'quit!' : 'quit'
-    call WmRestoreLayout()
+    call WmKeepActive('WmRestoreLayout')
 endfunction
 
 " handle new windows
 augroup wm
     autocmd!
-    autocmd WinNewPre * call WmSaveCursor()
-    autocmd BufWinEnter * call WmRestoreLayout()
+    autocmd CmdlineEnter * call WmKeepActive('WmSaveCursor')
+    autocmd BufWinEnter * call WmKeepActive('WmRestoreLayout')
 augroup end
 
 " maps

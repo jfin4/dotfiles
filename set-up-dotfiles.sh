@@ -16,11 +16,11 @@ if [ $? != 0 ]; then
     [ -d $backup_dir ] && \rm -rf $backup_dir
     mkdir -p $backup_dir
     dot switch $branch 2>&1 | grep -Pe '\t' | sed -e 's/\t\([^/]*\).*/\1/' | uniq \
-        | xargs -I{} mv {} $backup_dir/{}
+        | xargs -I{} mv $HOME/{} $backup_dir/{}
     dot switch $branch
 fi
 
 # because crlf
-dot restore . 
+dot restore $HOME/. 
 
 dot pull --set-upstream origin $branch

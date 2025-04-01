@@ -53,7 +53,8 @@ endfunction
 " handle new windows
 augroup wm
     autocmd!
-    autocmd WinNew * call WmSaveCursor()
+    " should be WinNewPre
+    autocmd WinLeave * call WmSaveCursor()
     autocmd BufWinEnter * call WmRestoreLayout()
 augroup end
 

@@ -1,24 +1,22 @@
 #!/bin/sh
 
 # plugins
-plugins='
-
-garbas/vim-snipmate
-godlygeek/tabular
-honza/vim-snippets
-junegunn/fzf
-junegunn/fzf.vim
-lifepillar/vim-mucomplete
-marcweber/vim-addon-mw-utils
-mattn/vim-lsp-settings
-michaeljsmith/vim-indent-object
-prabirshrestha/vim-lsp
-tpope/vim-commentary
-tpope/vim-repeat
-tpope/vim-surround
-wellle/targets.vim
-
-'
+plugins="
+    garbas/vim-snipmate
+    godlygeek/tabular
+    honza/vim-snippets
+    junegunn/fzf
+    junegunn/fzf.vim
+    lifepillar/vim-mucomplete
+    marcweber/vim-addon-mw-utils
+    mattn/vim-lsp-settings
+    michaeljsmith/vim-indent-object
+    prabirshrestha/vim-lsp
+    tpope/vim-commentary
+    tpope/vim-repeat
+    tpope/vim-surround
+    wellle/targets.vim
+"
 
 # plugin directory
 dir=$HOME/.vim/pack/default/start
@@ -37,6 +35,5 @@ for p in $plugins; do
 done 
 
 # update helptags
-# /dev/null to preserve terminal output
 echo -e "\nupdate helptags"
-vim -u NONE +'helptags ALL' +quit > /dev/null 2>&1
+vim --not-a-term +'helptags ALL' +quit > /dev/null

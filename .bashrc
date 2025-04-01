@@ -138,6 +138,7 @@ alias gitp='git pull'
 alias dotp='dot pull'
 if [[ $HOSTNAME == rpi ]]; then
     alias fd='fdfind'
+    alias vim='vim -X' # connecting to X server is slow
 elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
     alias sshr='ssh -YC jfin@10.0.0.158'

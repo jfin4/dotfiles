@@ -19,7 +19,7 @@ set fillchars-=vert:\\|
 set formatoptions=qlcjnr
 set hlsearch
 set ignorecase 
-set laststatus=1
+set laststatus=2
 set mouse=
 set pastetoggle=<insert> 
 set scrolloff=5

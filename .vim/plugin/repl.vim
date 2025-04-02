@@ -1,13 +1,10 @@
 " repl
 function! OpenRepl()
     terminal R --quiet --no-save
-    let repl_buf = bufnr() 
-    wincmd w
-    call DWM_Focus()
-    let b:repl_buf = repl_buf
+    let b:repl_buf = bufnr()
     let g:repl_file = '.repl-code.r'
     execute printf('autocmd BufDelete <buffer=%s> call delete("%s")',
-                \ repl_buf,
+                \ b:repl_buf,
                 \ g:repl_file)
 endfunction
 command! OpenRepl call OpenRepl()

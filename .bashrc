@@ -3,9 +3,28 @@
 shopt -s direxpand
 shopt -s nocaseglob
 
+# }}}
+# variables{{{
+
+export EDITOR=vim
+
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
 export HISTCONTROL="erasedups:ignorespace"
+
+# for mobaxterm
+[[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
+
+# shortcuts
+export dd=$(date +%Y-%m-%d)
+if [[ $HOSTNAME == WB-102575 ]]; then
+    export bo='/c/users/jinman/onedrive - water boards'
+    export br='/c/users/jinman/desktop/final_relep'
+   
+    # hosts substitute
+    export arch='jfin@10.0.0.52:/home/jfin'
+    export rpi='jfin@10.0.0.158:/home/jfin'
+fi
 # }}}
 # completion{{{
 
@@ -22,7 +41,8 @@ PS1="$PS1""${SSH_TTY:+\h }" # host info if ssh'ing
 PS1="$PS1"'\w' # working dir
 PS1="$PS1"'`__git_ps1 " %s"`' # git info
 PS1="$PS1"'\n' # start second line
-PS1="$PS1""${TMUX:+tmux }" # signify tmux
+PS1="$PS1"'`date +"%H:%M"` ' # time
+PS1="$PS1""${TMUX:+tmux }" # tmux?
 PS1="$PS1"'\$ ' # end with $
 PS1="$PS1"'\[\e[0m\]' # end color
 # }}}
@@ -31,6 +51,7 @@ PS1="$PS1"'\[\e[0m\]' # end color
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
+PATH="$HOME/.local/bin:$PATH" 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="$HOME/.bin:$PATH" 
     PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
@@ -94,18 +115,6 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 # }}}
-# shortcut variables{{{
-
-export dd=$(date +%Y-%m-%d)
-if [[ $HOSTNAME == WB-102575 ]]; then
-    export bo='/c/users/jinman/onedrive - water boards'
-    export br='/c/users/jinman/desktop/final_relep'
-   
-    # hosts substitute
-    export arch='jfin@10.0.0.52:/home/jfin'
-    export rpi='jfin@10.0.0.158:/home/jfin'
-fi
-# }}}
 # aliases {{{
 
 alias aws_ssh='ssh -i /home/JInman/.ssh/LightsailDefaultKey-us-west-2.pem admin@54.148.13.14'
@@ -117,6 +126,7 @@ alias la='ls -AlhF'
 alias lf='lf -config ~/.config/lf/lfrc'
 alias ll='ls -l --time-style=long-iso --classify --human-readable'
 alias ls='ls --format=single-column --classify'
+alias mutt='neomutt'
 alias mvv='rename-files'
 alias notes='cd ~/notes; search-notes notes.txt; cd -'
 alias todo='cd ~/notes; search-notes "#todo"; cd -'
@@ -259,6 +269,6 @@ generate_password() {
 # if interactive then make cursor blink
 [[ $- == *i* ]] && echo -e "\e[?12h"
 
-# for mobaxterm
-[[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
 # }}}
+
+. "$HOME/.local/bin/env"

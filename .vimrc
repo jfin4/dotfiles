@@ -37,6 +37,7 @@ set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 set undodir=~/.vim/undo 
 set viewdir=~/.vim/view
+set viminfo+=n~/.vim/viminfo
 
 " maps
 nnoremap <cr> :write<cr>

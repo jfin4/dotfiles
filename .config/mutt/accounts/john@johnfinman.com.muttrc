@@ -5,8 +5,8 @@ set from = "john@johnfinman.com"
 set sendmail = "msmtp -a john@johnfinman.com"
 alias me john <john@johnfinman.com>
 set folder = "/home/jfin/.local/share/mail/john@johnfinman.com"
-set header_cache = /home/jfin/.cache/mutt-wizard/john@johnfinman.com/headers
-set message_cachedir = /home/jfin/.cache/mutt-wizard/john@johnfinman.com/bodies
+set header_cache = /home/jfin/.cache/mutt/john@johnfinman.com/headers
+set message_cachedir = /home/jfin/.cache/mutt/john@johnfinman.com/bodies
 set mbox_type = Maildir
 set hostname = "johnfinman.com"
 # \. /usr/share/mutt-wizard/switch.muttrc

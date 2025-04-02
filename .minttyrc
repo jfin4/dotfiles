@@ -52,7 +52,7 @@ BoldMagenta=255,153,255
 Yellow=102,102,0
 BoldYellow=255,255,153
 White=153,153,153
-BoldWhite=204,204,204
+BoldWhite=255,255,255
 
 ThemeFile=jfin
 BellTaskbar=yes

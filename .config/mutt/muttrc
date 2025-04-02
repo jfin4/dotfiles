@@ -5,9 +5,6 @@ bind index \Cf noop
 bind index,pager M noop
 bind index,pager C noop
 
-macro index,pager V "<view-attachments><search>html<enter><pipe-entry>cat > /tmp/neomutt-html.html<enter><shell-escape>lynx /tmp/neomutt-html.html<enter><exit>" "View HTML in lynx with link following"
-# macro index,pager V "<view-attachments><search>html<enter><pipe-entry>cat > /tmp/neomutt-html.html<enter><shell-escape>lynx /tmp/neomutt-html.html && echo 'Press any key to return to neomutt' && read -n 1<enter><exit>" "View HTML in lynx with link following"
-
 source /home/jfin/.config/mutt/accounts/john@johnfinman.com.muttrc
 macro index,pager i1 '<sync-mailbox><enter-command>source /home/jfin/.config/mutt/accounts/john@johnfinman.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to john@johnfinman.com"
 
@@ -77,13 +74,13 @@ bind pager \031 previous-line		# Mouse wheel
 bind pager \005 next-line		# Mouse wheel
 bind editor <Tab> complete-query
 
-# macro index,pager \cb "<pipe-message> extract_url.pl<Enter>" "call urlview to extract URLs out of a message"
-# macro attach,compose \cb "<pipe-entry> extract_url.pl<Enter>" "call urlview to extract URLs out of a message"
-
-        macro index,pager \cb "<enter-command> set my_pdsave=\$pipe_decode<enter>\
-        <enter-command> unset pipe_decode<enter>\
-        <pipe-message>extract_url.pl<enter>\
-        <enter-command> set pipe_decode=\$my_pdsave<enter>" "get URLs"
+macro index,pager V \
+"<view-attachments>\
+<search>html<enter>\
+<pipe-entry>cat > /tmp/neomutt-html.html<enter>\
+<shell-escape>lynx /tmp/neomutt-html.html<enter>\
+<exit>" \
+"View HTML in lynx with link following"
 
 macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
 macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"

@@ -270,5 +270,3 @@ generate_password() {
 [[ $- == *i* ]] && echo -e "\e[?12h"
 
 # }}}
-
-. "$HOME/.local/bin/env"

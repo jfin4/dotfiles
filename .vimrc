@@ -19,10 +19,11 @@ set fillchars-=vert:\\|
 set formatoptions=qlcjnr
 set hlsearch
 set ignorecase 
-set laststatus=2
+set laststatus=1
 set mouse=
 set pastetoggle=<insert> 
 set scrolloff=5
+set shell=bash
 set signcolumn=no
 set smartcase 
 set t_Co=16
@@ -42,6 +43,8 @@ nnoremap <cr> :write<cr>
 nnoremap <silent> <esc> :noh<cr>
 tnoremap <esc><esc> <c-\><c-n>
 tnoremap :: <c-w>:
+nnoremap <leader>w <c-w>
+tnoremap <leader>w <c-w>
 
 " indentation
 set autoindent 
@@ -112,3 +115,4 @@ set omnifunc=lsp#complete
 inoremap <c-h> <c-o><plug>(lsp-signature-help)
 
 cabbrev New new<cr>:Files
+

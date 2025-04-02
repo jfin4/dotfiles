@@ -1,5 +1,5 @@
 snippet task
-	`strftime('%Y%m')`\
+	`getline(line(".") - 1)[0:5]`\
 	${1:`getline(line(".") - 1)[6:7]`}, \
 	${2:`getline(line(".") - 1)[16:19]`}, \
 	${3:hhmm}, \

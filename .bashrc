@@ -1,18 +1,18 @@
-# options
+# options{{{
+
 shopt -s direxpand
 shopt -s nocaseglob
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
 export HISTCONTROL="erasedups:ignorespace"
+# }}}
+# completion{{{
 
-# for mobaxterm
-[[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
-
-# complete some commands
 [[ $HOSTNAME == WB-102575 ]] && source $HOME/.bash_completion
+# }}}
+# prompt{{{
 
-# prompt
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
 [[ $HOSTNAME == rpi ]] && source /usr/lib/git-core/git-sh-prompt
 PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]" # set title
@@ -25,11 +25,9 @@ PS1="$PS1"'\n' # start second line
 PS1="$PS1""${TMUX:+tmux }" # signify tmux
 PS1="$PS1"'\$ ' # end with $
 PS1="$PS1"'\[\e[0m\]' # end color
+# }}}
+# path{{{
 
-# if interactive then make cursor blink
-[[ $- == *i* ]] && echo -e "\e[?12h"
-
-# path
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
@@ -43,8 +41,9 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="/c${r#c:}/bin/x64:$PATH" 
 fi
 export PATH
+# }}}
+# fzf{{{
 
-# set up fzf
 # https://github.com/junegunn/fzf?tab=readme-ov-file
 if [[ $HOSTNAME == 'rpi' ]]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
@@ -94,8 +93,9 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
+# }}}
+# shortcut variables{{{
 
-# shortcut variables
 export dd=$(date +%Y-%m-%d)
 if [[ $HOSTNAME == WB-102575 ]]; then
     export bo='/c/users/jinman/onedrive - water boards'
@@ -105,8 +105,8 @@ if [[ $HOSTNAME == WB-102575 ]]; then
     export arch='jfin@10.0.0.52:/home/jfin'
     export rpi='jfin@10.0.0.158:/home/jfin'
 fi
-
-# aliases 
+# }}}
+# aliases {{{
 
 alias aws_ssh='ssh -i /home/JInman/.ssh/LightsailDefaultKey-us-west-2.pem admin@54.148.13.14'
 alias bak='back-up-file'
@@ -144,43 +144,47 @@ elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshr='ssh -YC jfin@10.0.0.158'
     alias start='\start ""'
 fi
-
-# functions
-
-gitt() {
+# }}}
+# functions{{{
+# git add commit push{{{
+gitt() { 
     git add .
     git commit -m "${*:-no message}"
     git push
 }
-
-dott() {
+# }}}
+# dot add commit push{{{
+dott() { 
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
-
-# expand command line
-expand_line() {
-  local expanded_line=""
-  local token
-  for token in $READLINE_LINE; do
-    local expanded=$(eval "echo $token")
-    expanded_line+="$(printf '%q' "$expanded") " # space at end separates tokens
-  done
-  READLINE_LINE="${expanded_line% }" # remove last space?
-  READLINE_POINT=${#READLINE_LINE}
+# }}}
+# expand command line{{{
+expand_line() { 
+    # expand command line
+    local expanded_line=""
+    local token
+    for token in $READLINE_LINE; do
+        local expanded=$(eval "echo $token")
+        expanded_line+="$(printf '%q' "$expanded") " # space at end separates tokens
+    done
+    READLINE_LINE="${expanded_line% }" # remove last space?
+    READLINE_POINT=${#READLINE_LINE}
 }
 bind -x '"\C-l\C-l": expand_line'
-
-rm() {
+# }}}
+# send to trash{{{
+rm() { 
     if [[ $HOSTNAME == rpi ]]; then
         mv --backup=numbered "$@" /media/jfin/ssd/.trash
     else
         mv --backup=numbered "$@" ~/.trash
     fi
 }
-
-pass() {
+# }}}
+# get password{{{
+get_pass() {
     cd $HOME/.pass
     account=$(\
         fd --path-separator // ${*:-.} |\
@@ -200,7 +204,8 @@ pass() {
     fi
     cd - > /dev/null
 }
-
+# }}}
+# generate password{{{
 generate_password() {
     # Reset OPTIND since we're in a function
     local OPTIND=1
@@ -241,9 +246,19 @@ generate_password() {
     tr -dc "$chars" < /dev/urandom | head -c "$length"
     echo
 }
-
-# future ideas
+# }}}
+# }}}
+# future ideas{{{
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
 # this replaces dots with stars for easier globbing, like zsh partial string
 # expansion
 # READLINE_LINE="${READLINE_LINE//./*}"
+# }}}
+# misc{{{
+
+# if interactive then make cursor blink
+[[ $- == *i* ]] && echo -e "\e[?12h"
+
+# for mobaxterm
+[[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
+# }}}

@@ -5,6 +5,9 @@ bind index \Cf noop
 bind index,pager M noop
 bind index,pager C noop
 
+macro index,pager V "<view-attachments><search>html<enter><pipe-entry>cat > /tmp/neomutt-html.html<enter><shell-escape>lynx /tmp/neomutt-html.html<enter><exit>" "View HTML in lynx with link following"
+# macro index,pager V "<view-attachments><search>html<enter><pipe-entry>cat > /tmp/neomutt-html.html<enter><shell-escape>lynx /tmp/neomutt-html.html && echo 'Press any key to return to neomutt' && read -n 1<enter><exit>" "View HTML in lynx with link following"
+
 source /home/jfin/.config/mutt/accounts/john@johnfinman.com.muttrc
 macro index,pager i1 '<sync-mailbox><enter-command>source /home/jfin/.config/mutt/accounts/john@johnfinman.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to john@johnfinman.com"
 
@@ -32,6 +35,12 @@ auto_view text/html		# automatically show html (mailcap uses lynx)
 auto_view application/pgp-encrypted
 #set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
 # alternative_order text/plain text/enriched text/html # format priority if multiple exist
+
+ignore *
+unignore from date subject to cc
+# unignore x-mailer
+# unignore x-spam-status
+# unignore x-spam-report
 
 # General rebindings
 bind index gg first-entry
@@ -67,6 +76,14 @@ bind index \005 next-undeleted		# Mouse wheel
 bind pager \031 previous-line		# Mouse wheel
 bind pager \005 next-line		# Mouse wheel
 bind editor <Tab> complete-query
+
+# macro index,pager \cb "<pipe-message> extract_url.pl<Enter>" "call urlview to extract URLs out of a message"
+# macro attach,compose \cb "<pipe-entry> extract_url.pl<Enter>" "call urlview to extract URLs out of a message"
+
+        macro index,pager \cb "<enter-command> set my_pdsave=\$pipe_decode<enter>\
+        <enter-command> unset pipe_decode<enter>\
+        <pipe-message>extract_url.pl<enter>\
+        <enter-command> set pipe_decode=\$my_pdsave<enter>" "get URLs"
 
 macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
 macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
@@ -118,15 +135,20 @@ color index_author  default default '.*'
 color index_number  default default
 color index_subject default default '.*'
 
-# New mail is boldened:
-color index         default yellow "~N"
-color index_author  default yellow "~N"
-color index_subject default yellow "~N"
+# # New mail is boldened:
+# color index         brightwhite default "~N"
+# color index_author  brightwhite default "~N"
+# color index_subject brightwhite default "~N"
 
-# Tagged mail is highlighted:
-color index         default yellow "~T"
-color index_author  default yellow "~T"
-color index_subject default yellow "~T"
+# # Tagged mail is highlighted:
+# color index         default yellow "~T"
+# color index_author  default yellow "~T"
+# color index_subject default yellow "~T"
+
+# # replied mail is highlighted:
+# color index         green default "~Q"
+# color index_author  green default "~Q"
+# color index_subject green default "~Q"
 
 # Other colors and aesthetic settings:
 mono  bold       bold
@@ -140,7 +162,7 @@ mono  error      bold
 color normal     default   default
 color indicator  default   brightblack
 color normal     default   default
-color error      default   yellow
+color error      default   default
 color tilde      white     default
 color message    default   default
 color markers    white     default
@@ -160,26 +182,26 @@ color underline  default   default
 color normal     default   default
 
 # Regex highlighting:
-color header default default ".*"
-color header brightwhite default "^From"
-color header brightwhite default "^Subject"
-color header brightwhite default "^(CC|BCC)"
-# color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
-# color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
-# color body green default "\`[^\`]*\`" # Green text between ` and `
-# color body brightblue default "^# \.*" # Headings as bold blue
-# color body brightcyan default "^## \.*" # Subheadings as bold cyan
-# color body brightgreen default "^### \.*" # Subsubheadings as bold green
-# color body yellow default "^(\t| )*(-|\\*) \.*" # List items as yellow
-# color body brightcyan default "[;:][-o][)/(|]" # emoticons
-# color body brightcyan default "[;:][)(|]" # emoticons
-# color body brightcyan default "[ ][*][^*]*[*][ ]?" # more emoticon?
-# color body brightcyan default "[ ]?[*][^*]*[*][ ]" # more emoticon?
-# color body red default "(BAD signature)"
-# color body cyan default "(Good signature)"
-# color body brightblack default "^gpg: Good signature .*"
-# color body brightyellow default "^gpg: "
-# color body brightyellow red "^gpg: BAD signature from.*"
-# mono body bold "^gpg: Good signature"
-# mono body bold "^gpg: BAD signature from.*"
-# color body red default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+color header brightwhite default ".*"
+# color header brightwhite default "^From"
+# color header brightwhite default "^Subject"
+# color header brightwhite default "^(CC|BCC)"
+color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
+color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
+color body green default "\`[^\`]*\`" # Green text between ` and `
+color body brightblue default "^# \.*" # Headings as bold blue
+color body brightcyan default "^## \.*" # Subheadings as bold cyan
+color body brightgreen default "^### \.*" # Subsubheadings as bold green
+color body yellow default "^(\t| )*(-|\\*) \.*" # List items as yellow
+color body brightcyan default "[;:][-o][)/(|]" # emoticons
+color body brightcyan default "[;:][)(|]" # emoticons
+color body brightcyan default "[ ][*][^*]*[*][ ]?" # more emoticon?
+color body brightcyan default "[ ]?[*][^*]*[*][ ]" # more emoticon?
+color body red default "(BAD signature)"
+color body cyan default "(Good signature)"
+color body brightblack default "^gpg: Good signature .*"
+color body brightyellow default "^gpg: "
+color body brightyellow red "^gpg: BAD signature from.*"
+mono body bold "^gpg: Good signature"
+mono body bold "^gpg: BAD signature from.*"
+color body blue default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"

@@ -7,6 +7,9 @@ shopt -s nocaseglob
 # variables{{{
 
 export EDITOR=vim
+export BROWSER=lynx
+export LYNX_CFG=$HOME/.lynx/lynx.cfg
+export LYNX_LSS=$HOME/.lynx/lynx.lss
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:
@@ -51,6 +54,7 @@ PS1="$PS1"'\[\e[0m\]' # end color
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
+PATH="$HOME/.bin:$PATH" 
 PATH="$HOME/.local/bin:$PATH" 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     PATH="$HOME/.bin:$PATH" 
@@ -140,7 +144,6 @@ alias ai="aider \
     --model openrouter/deepseek/deepseek-chat \
     --api-key openrouter=$(< ~/.pass/openrouter-api-key) \
     --no-pretty \
-    --multiline \
     --watch-files"
 alias gits='git status'
 alias dots='dot status'

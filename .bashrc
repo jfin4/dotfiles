@@ -1,3 +1,4 @@
+#
 # options{{{
 
 shopt -s direxpand
@@ -58,7 +59,6 @@ PATH="$HOME/scripts:$PATH"
 PATH="$HOME/.bin:$PATH" 
 PATH="$HOME/.local/bin:$PATH" 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
-    PATH="$HOME/.bin:$PATH" 
     PATH="$HOME/AppData/Roaming/Python/Python312/Scripts:$PATH"
     # get latest r
     for r in "c:/Program Files/R"/*; do

@@ -1,4 +1,3 @@
-#
 # options{{{
 
 shopt -s direxpand

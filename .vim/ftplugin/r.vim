@@ -61,9 +61,9 @@ function! ViewTable(type = '') abort
         sleep 1
     endwhile
 endfunction
-nnoremap <expr> <localleader>t ViewTable()
-xnoremap <expr> <localleader>t ViewTable()
-nnoremap <expr> <localleader>tt ViewTable() .. '_'
+nnoremap <expr> <localleader>o ViewTable()
+xnoremap <expr> <localleader>o ViewTable()
+nnoremap <expr> <localleader>oo ViewTable() .. '_'
 
 function! TogglePipe()
     let line = getline('.')

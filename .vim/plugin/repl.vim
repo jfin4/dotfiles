@@ -1,11 +1,13 @@
 " repl
 function! OpenRepl()
     terminal R --quiet --no-save
-    let b:repl_buf = bufnr()
-    let g:repl_file = '.repl-code.r'
+    let repl_buf = bufnr()
+    wincmd w
+    let b:repl_buf = repl_buf
+    let b:repl_file = printf('.%s.repl', expand('%:t:r'))
     execute printf('autocmd BufDelete <buffer=%s> call delete("%s")',
                 \ b:repl_buf,
-                \ g:repl_file)
+                \ b:repl_file)
 endfunction
 command! OpenRepl call OpenRepl()
             
@@ -31,11 +33,11 @@ endfunction
 command! SetReplBuf call SetReplBuf()
 
 function! ReplRun(code = [], echo = 'TRUE') abort
-    call writefile(a:code, g:repl_file)
+    call writefile(a:code, b:repl_file)
     let repl_command = printf(
         \ 'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
         \ a:echo,
-        \ g:repl_file)
+        \ b:repl_file)
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif

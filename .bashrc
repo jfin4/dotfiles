@@ -10,6 +10,7 @@ export EDITOR=vim
 export BROWSER=lynx
 export LYNX_CFG=$HOME/.lynx/lynx.cfg
 export LYNX_LSS=$HOME/.lynx/lynx.lss
+export VIMINIT=':source $HOME/.vim/vimrc'
 
 # https://wiki.archlinux.org/title/Bash# options
 # To remove all but the last identical command, and commands that start with a space:

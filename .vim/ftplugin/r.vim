@@ -40,7 +40,7 @@ function! ViewTable(type = '') abort
     let table = split(@r, "\n")
                 \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
                 \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
-    let file_name = printf('%s.csv', 
+    let file_name = printf('.%s.csv', 
                 \ table
                 \ ->join('')
                 \ ->substitute('\W\+', '-', 'g')
@@ -51,7 +51,8 @@ function! ViewTable(type = '') abort
     call ReplRun([code], 'T')
     while 1
         if filereadable(file_name)
-            execute printf('terminal visidata --theme=ascii8 %s', 
+            " execute printf('terminal visidata --theme=ascii8 %s', 
+            execute printf('call system("start %s")',
                         \ file_name)
             execute printf('autocmd BufDelete <buffer=%d> call delete("%s")', 
                         \ bufnr(), 

@@ -4,6 +4,9 @@ snippet todo
 	${2:`strftime('%d', localtime() + (60 * 60 * 24 * 7))`} \
 	${3:description}
 
+snippet question
+	#question for ${1:who}: ${0:what}
+
 snippet note
 	`strftime('%Y-%m-%d')`
 	`repeat('-', 78)`

@@ -24,7 +24,8 @@ set mouse=
 set pastetoggle=<insert> 
 set scrolloff=5
 set shell=bash
-set shortmess-=S
+" set shortmess-=S
+set ruler
 set signcolumn=no
 set smartcase 
 set t_Co=16

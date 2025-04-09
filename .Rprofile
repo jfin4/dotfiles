@@ -28,7 +28,7 @@ local({
             if (length(size_str) > 0) {
                 width <- strsplit(size_str, " ")[[1]]
                 width <- as.integer(width[2])  # The second number is the width (columns)
-                options(width = width)
+                options(width = width - 1)
             } else {
                 # Fallback to tput
                 width <- as.integer(system("tput cols", intern = TRUE))

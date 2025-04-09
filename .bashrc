@@ -2,6 +2,7 @@
 
 shopt -s direxpand
 shopt -s nocaseglob
+# bind '"\C-\*": glob-expand-word'
 
 # }}}
 # variables{{{
@@ -20,14 +21,14 @@ export HISTCONTROL="erasedups:ignorespace"
 [[ $HOSTNAME == WB-102575 ]] && export DISPLAY="localhost:0.0"
 
 # shortcuts
-export dd=$(date +%Y-%m-%d)
+export date=$(date +%Y-%m-%d)
 if [[ $HOSTNAME == WB-102575 ]]; then
     export bo='/c/users/jinman/onedrive - water boards'
     export br='/c/users/jinman/desktop/final_relep'
    
     # hosts substitute
-    export arch='jfin@10.0.0.52:/home/jfin'
-    export rpi='jfin@10.0.0.158:/home/jfin'
+    export arch='jfin@10.0.0.52'
+    export rpi='jfin@10.0.0.158'
 fi
 # }}}
 # completion{{{
@@ -38,17 +39,19 @@ fi
 
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
 [[ $HOSTNAME == rpi ]] && source /usr/lib/git-core/git-sh-prompt
-PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]" # set title
-PS1="$PS1"'\n' # blank line after previous command
-PS1="$PS1"'\[\e[37m\]' # start color
-PS1="$PS1""${SSH_TTY:+\h }" # host info if ssh'ing
-PS1="$PS1"'\w' # working dir
-PS1="$PS1"'`__git_ps1 " %s"`' # git info
-PS1="$PS1"'\n' # start second line
-PS1="$PS1"'`date +"%H:%M"` ' # time
-PS1="$PS1""${TMUX:+tmux }" # tmux?
-PS1="$PS1"'\$ ' # end with $
-PS1="$PS1"'\[\e[0m\]' # end color
+
+PS1="\[\e]0;${SSH_TTY:+\h }\W\a\]"; # set title
+PS1="$PS1"'\n'; # blank line after previous command
+PS1="$PS1"'\[\e[37m\]'; # start color
+PS1="$PS1""${SSH_TTY:+\h }"; # host info if ssh'ing
+PS1="$PS1"'\w'; # working dir
+PS1="$PS1"'`__git_ps1 " %s"`'; # git info
+PS1="$PS1"'\n'; # start second line
+PS1="$PS1"'`date +"%H:%M"` '; # time
+PS1="$PS1""${TMUX:+tmux }"; # tmux?
+PS1="$PS1"'\$ '; # end with $
+PS1="$PS1"'\[\e[0m\]'; # end color
+
 # }}}
 # path{{{
 

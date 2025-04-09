@@ -19,7 +19,7 @@ let keymaps = [
 
 for keymap in keymaps
     execute printf(
-            \ 'nnoremap <buffer> %s :call ReplRun([''%s''], ''TRUE'')<cr>',
+            \ 'nnoremap <buffer> %s :call SendCode([''%s''], ''TRUE'')<cr>',
             \ keymap[0],
             \ keymap[1],
         \)
@@ -40,22 +40,19 @@ function! ViewTable(type = '') abort
     let table = split(@r, "\n")
                 \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
                 \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
-    let file_name = printf('.%s.csv', 
-                \ table
-                \ ->join('')
-                \ ->substitute('\W\+', '-', 'g')
-                \ ->substitute('-$', '', ''))
+    let file_name = printf('.%s-%s.csv', 
+                \ table->get(0)->substitute('\W\+', '', 'g'),
+                \ rand())
     let code = printf('readr::write_csv({%s}, "%s")', 
                 \ table->join(''), 
                 \ file_name)
-    call ReplRun([code], 'T')
+    call SendCode([code], 'T')
     while 1
         if filereadable(file_name)
             " execute printf('terminal visidata --theme=ascii8 %s', 
             execute printf('call system("start %s")',
                         \ file_name)
-            execute printf('autocmd BufDelete <buffer=%d> call delete("%s")', 
-                        \ bufnr(), 
+            execute printf('autocmd VimLeavePre * call delete("%s")', 
                         \ file_name)
             return
         endif

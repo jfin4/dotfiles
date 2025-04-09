@@ -4,17 +4,8 @@ function! OpenRepl()
     let repl_buf = bufnr()
     wincmd w
     let b:repl_buf = repl_buf
-    let b:repl_file = printf('.%s.repl', expand('%:t:r'))
-    execute printf('autocmd BufDelete <buffer=%s> call delete("%s")',
-                \ b:repl_buf,
-                \ b:repl_file)
 endfunction
 command! OpenRepl call OpenRepl()
-            
-function! CloseRepl() 
-    execute 'bdelete! ' . b:repl_buf
-endfunction
-command! CloseRepl call CloseRepl()
 
 function! SetReplBuf()
     " Show buffer list in a way that ensures visibility
@@ -32,15 +23,20 @@ function! SetReplBuf()
 endfunction
 command! SetReplBuf call SetReplBuf()
 
-function! ReplRun(code = [], echo = 'TRUE') abort
-    call writefile(a:code, b:repl_file)
-    let repl_command = printf(
-        \ 'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
-        \ a:echo,
-        \ b:repl_file)
+function! SendCode(code = [], echo = 'TRUE') abort
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif
+    let repl_file = printf('.%s.repl', expand('%:t:r'))
+    if !filereadable('repl_file')
+        execute printf('autocmd VimLeavePre * call delete("%s")',
+                    \ repl_file)
+    endif
+    call writefile(a:code, repl_file)
+    let repl_command = printf(
+        \ 'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
+        \ a:echo,
+        \ repl_file)
     call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
 
@@ -57,7 +53,7 @@ function! RunMotion(type = '') abort
     execute printf('normal! %s"ry',
                 \ commands)
     let code = split(@r, "\n")
-    call ReplRun(code)
+    call SendCode(code)
 endfunction
 nnoremap <expr> , RunMotion()
 xnoremap <expr> , RunMotion()
@@ -74,6 +70,6 @@ function! RunSection() abort
     endif
     mark r  " Update mark 'r'
     let code = getline(start, current)
-    call ReplRun(code, 'FALSE')
+    call SendCode(code, 'FALSE')
 endfunction
 nnoremap <expr> g, RunSection()

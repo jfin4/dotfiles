@@ -61,13 +61,14 @@ nnoremap <expr> ,, RunMotion() .. '_'
 
 function! RunSection() abort
     " Run from last mark 'r' to current line
-    let mark_pos = getpos("'r")
+    let mark_pos = getpos("'r")[1] " lnum
     let current = line('.')
-    if mark_pos[1] < current
-        let start = mark_pos[1]
+    if mark_pos < current && mark_pos > 0 " might not be set
+        let start = mark_pos
     else
         let start = 1
     endif
+    call setpos("'s", [0, start, 0, 0])
     mark r  " Update mark 'r'
     let code = getline(start, current)
     call SendCode(code, 'FALSE')

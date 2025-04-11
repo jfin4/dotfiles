@@ -102,7 +102,7 @@ endfunction
 " source updated config files 
 augroup vimrc
     au!
-    autocmd BufWritePost .vimrc source <afile>
+    autocmd BufWritePost vimrc source <afile>
     autocmd BufWritePost *.vim  source <afile>
 augroup end
 
@@ -119,3 +119,10 @@ inoremap <c-h> <c-o><plug>(lsp-signature-help)
 
 cabbrev New new<cr>:Files
 
+" sideways
+nnoremap gah :SidewaysLeft<cr>
+nnoremap gal :SidewaysRight<cr>
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI

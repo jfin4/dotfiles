@@ -5,15 +5,15 @@ inoremap <buffer> >> >
 
               " lhs                rhs
 let keymaps = [
-            \ ['<localleader>rc', 'ncol(<c-r><c-w>)'],
-            \ ['<localleader>rg', 'glimpse(<c-r><c-w>)'],
-            \ ['<localleader>rh', 'head(<c-r><c-w>)'],
-            \ ['<localleader>ri', '<c-r><c-w>'],
-            \ ['<localleader>rl', 'length(<c-r><c-w>)'],
-            \ ['<localleader>rn', 'names(<c-r><c-w>)'],
-            \ ['<localleader>rr', 'nrow(<c-r><c-w>)'],
-            \ ['<localleader>rs', 'str(<c-r><c-w>)'],
-            \ ['<localleader>rv', 'View(<c-r><c-w>)'],
+            \ ['grc', 'ncol(<c-r><c-w>)'],
+            \ ['grg', 'glimpse(<c-r><c-w>)'],
+            \ ['grh', 'head(<c-r><c-w>)'],
+            \ ['gri', '<c-r><c-w>'],
+            \ ['grl', 'length(<c-r><c-w>)'],
+            \ ['grn', 'names(<c-r><c-w>)'],
+            \ ['grr', 'nrow(<c-r><c-w>)'],
+            \ ['grs', 'str(<c-r><c-w>)'],
+            \ ['grv', 'View(<c-r><c-w>)'],
             \ ['K',               'help(<c-r><c-w>)']
             \ ]
 
@@ -59,9 +59,9 @@ function! ViewTable(type = '') abort
         sleep 1
     endwhile
 endfunction
-nnoremap <expr> <localleader>o ViewTable()
-xnoremap <expr> <localleader>o ViewTable()
-nnoremap <expr> <localleader>oo ViewTable() .. '_'
+nnoremap <expr> go ViewTable()
+xnoremap <expr> go ViewTable()
+nnoremap <expr> goo ViewTable() .. '_'
 
 function! TogglePipe()
     let line = getline('.')

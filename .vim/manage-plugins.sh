@@ -2,6 +2,7 @@
 
 # plugins
 plugins="
+    AndrewRadev/sideways.vim
     garbas/vim-snipmate
     godlygeek/tabular
     honza/vim-snippets
@@ -15,7 +16,6 @@ plugins="
     tpope/vim-commentary
     tpope/vim-repeat
     tpope/vim-surround
-    wellle/targets.vim
 "
 
 # plugin directory

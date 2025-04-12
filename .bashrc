@@ -2,7 +2,7 @@
 
 shopt -s direxpand
 shopt -s nocaseglob
-# bind '"\C-\*": glob-expand-word'
+bind '"\C-@": glob-expand-word'
 
 # }}}
 # variables{{{

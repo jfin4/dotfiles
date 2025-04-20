@@ -1,8 +1,17 @@
 # options{{{
 
+# https://wiki.archlinux.org/title/Readline#Faster_completion
+# https://www.man7.org/linux/man-pages/man3/readline.3.html
+
+bind '"\C-@": glob-expand-word'
+bind '"\e[Z": menu-complete'
+bind '"\t": menu-complete-backward'
+bind 'set bell-style none'
+bind 'set completion-ignore-case on'
+bind 'set menu-complete-display-prefix on'
+bind 'set show-all-if-ambiguous on'
 shopt -s direxpand
 shopt -s nocaseglob
-bind '"\C-@": glob-expand-word'
 
 # }}}
 # variables{{{
@@ -34,6 +43,9 @@ fi
 # completion{{{
 
 [[ $HOSTNAME == WB-102575 ]] && source $HOME/.bash_completion
+
+
+
 # }}}
 # prompt{{{
 
@@ -174,20 +186,6 @@ dott() {
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
 # }}}
-# expand command line{{{
-expand_line() { 
-    # expand command line
-    local expanded_line=""
-    local token
-    for token in $READLINE_LINE; do
-        local expanded=$(eval "echo $token")
-        expanded_line+="$(printf '%q' "$expanded") " # space at end separates tokens
-    done
-    READLINE_LINE="${expanded_line% }" # remove last space?
-    READLINE_POINT=${#READLINE_LINE}
-}
-bind -x '"\C-l\C-l": expand_line'
-# }}}
 # send to trash{{{
 rm() { 
     if [[ $HOSTNAME == rpi ]]; then
@@ -274,3 +272,31 @@ generate_password() {
 [[ $- == *i* ]] && echo -e "\e[?12h"
 
 # }}}
+
+__fuzzy_cd_complete() {
+    if [[ $READLINE_LINE =~ ^cd[[:space:]]+([^\&\|\;]+) ]]; then
+        local args="${BASH_REMATCH[1]}"
+        local fuzzy=""
+        local seg subfuzzy part
+
+        # Safely split on / while preserving surrounding code's IFS
+        local IFS='/'
+        for seg in $args; do
+            subfuzzy=""
+            # Now split each segment on -, again preserve IFS
+            local IFS='-'
+            for part in $seg; do
+                [[ -n $part ]] && subfuzzy+="*${part}*-"
+            done
+            subfuzzy="${subfuzzy%-}" # Remove final -
+            fuzzy+="$subfuzzy/"
+        done
+        fuzzy="${fuzzy%/}" # Remove final /
+        READLINE_LINE="cd $fuzzy"
+        READLINE_POINT=${#READLINE_LINE}
+    fi
+}
+bind -x '"//":__fuzzy_cd_complete'
+bind -x '"--":__fuzzy_cd_complete'
+
+

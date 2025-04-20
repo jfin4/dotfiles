@@ -73,6 +73,7 @@ let attributes_list = [
             \ ['tabline', quieter, loud],
             \ ['tablinefill', quieter, loud], 
             \ ['tablinesel', quiet, loud],
+            \ ['underlined', literal, default, 'underline'],
             \ ['vertsplit', default, loud], 
             \ ['visual', default, louder],
             \ ['visualnos', default, louder], 

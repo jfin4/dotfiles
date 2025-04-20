@@ -103,13 +103,17 @@ endfunction
 augroup vimrc
     au!
     autocmd BufWritePost vimrc source <afile>
-    autocmd BufWritePost *.vim  source <afile>
+    autocmd BufWritePost */plugin/*.vim  source <afile>
+    autocmd BufWritePost */colors/*.vim  source <afile>
 augroup end
 
 " fzf
 let g:fzf_colors = { 'border':  ['fg', 'vertsplit'] }
 
 "lsp
+let g:lsp_use_native_client = 1
+let g:lsp_semantic_enabled = 0
+let g:lsp_format_sync_timeout = 1000
 let g:lsp_diagnostics_enabled = 0
 let g:lsp_settings_enable_suggestions = 0
 let g:lsp_completion_documentation_enabled = 0
@@ -126,3 +130,24 @@ omap aa <Plug>SidewaysArgumentTextobjA
 xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
+
+" utilities
+
+function! Win2Unix()
+    execute 's/\\/\//g'
+    execute 's/[cC]:\//\/c\/'
+endfunction
+command! Win2Unix silent! call Win2Unix()
+
+function! Start()
+    let link = getline(line('.'))
+    execute printf('call system(''start "" %s'')',
+                \ link)
+endfunction
+command! Start silent! call Start()
+
+" markdown
+let g:vim_markdown_conceal = 2
+let g:vim_markdown_folding_disabled = 1
+set conceallevel=2
+

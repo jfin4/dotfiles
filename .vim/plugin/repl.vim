@@ -27,7 +27,10 @@ function! SendCode(code = [], echo = 'TRUE') abort
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif
-    let repl_file = printf('.%s.repl', expand('%:t:r'))
+    let repl_file = printf('%s.repl', expand('%:p:r'))
+    if hostname() == "WB-102575"
+        let repl_file = repl_file->substitute("^/c", "c:", "")
+    endif
     if !filereadable('repl_file')
         execute printf('autocmd VimLeavePre * call delete("%s")',
                     \ repl_file)

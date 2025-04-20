@@ -1,60 +1,44 @@
 " inspo: https://github.com/spolu/dwm.vim
 
-" default layout
-let g:wm_is_vertical = 1
-
-" do something to window 1
-function! WmWin1(func)
-    let active_window = winnr()
-    1wincmd w
-    call call(a:func, [])
-    execute active_window..'wincmd w'
-endfunction
-
 " stack windows
 function! WmStack()
     for win in range(1, winnr('$'))
-        if g:wm_is_vertical == 1
-            wincmd J
-        else
-            wincmd L
-        endif
-        normal! zb
         1wincmd w
+        wincmd J
+        normal! zb
     endfor
 endfunction
 
 " focus window
-function! WmFocus()
-    call WmWin1('WmStack')
-    if g:wm_is_vertical == 1
-        wincmd H
-    else
-        wincmd K
-    endif
+function! WmFocus(win = winnr())
+    call WmStack()
+    execute a:win..'wincmd w'
+    wincmd H
     normal! zb
 endfunction
 
-" toggle layout
-function! WmToggleLayout()
-    let g:wm_is_vertical = g:wm_is_vertical == 1 ? 0 : 1
-    call WmWin1('WmFocus')
+" zoom window
+function! WmZoom()
+    if !exists('b:return_tab')
+        let b:return_tab = tabpagenr()
+        tab split
+    else
+        execute 'tabclose'
+        execute 'tabnext '..b:return_tab
+        unlet b:return_tab
+    endif
 endfunction
 
 " close window
 function! WmClose()
-    if &buftype == 'terminal' 
-        quit! 
-    else
-        quit
-    endif
-    call WmWin1('WmFocus')
+    execute &buftype == 'terminal' ? 'quit!' : 'quit'
+    call WmFocus(1)
 endfunction
 
 " handle new windows
 augroup wm
     autocmd!
-    autocmd BufWinEnter * call WmWin1('WmFocus')
+    autocmd BufWinEnter * call WmFocus(1)
 augroup end
 
 " maps
@@ -63,12 +47,12 @@ nnoremap <silent> <c-j>         :wincmd w<cr>
 nnoremap <silent> <c-k>         :wincmd W<cr>
 nnoremap <silent> <c-o>         :call WmClose()<CR>
 nnoremap <silent> <c-space>     :call WmFocus()<CR>
-nnoremap <silent> <c-,>         :call WmToggleLayout()<CR>
 nnoremap <silent> <nul>         :call WmFocus()<CR>
 tnoremap <silent> <c-i>         <c-w>:terminal<cr>
 tnoremap <silent> <c-j>         <c-w>:wincmd w<cr>
 tnoremap <silent> <c-k>         <c-w>:wincmd W<cr>
 tnoremap <silent> <c-o>         <c-w>:call WmClose()<CR>
 tnoremap <silent> <c-space>     <c-w>:call WmFocus()<CR>
-tnoremap <silent> <c-,>         <c-w>:call WmToggleLayout()<CR>
 tnoremap <silent> <nul>         <c-w>:call WmFocus()<CR>
+nnoremap <silent> <c-u>         :call WmZoom()<CR>
+tnoremap <silent> <c-u><c-u>    <c-w>:call WmZoom()<CR>

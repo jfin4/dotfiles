@@ -12,4 +12,9 @@ set shiftwidth=2
 " let g:vim_markdown_auto_insert_bullets = 0
 " let g:vim_markdown_new_list_item_indent = 0
 
+" augroup markdown_url_conceal
+"   autocmd!
+"   autocmd BufWinEnter *.md syntax match MyConcealUrl /http[^)]*/ conceal cchar=🔗 containedin=ALL
+"   autocmd BufWinEnter *.md setlocal conceallevel=2
+" augroup END
 

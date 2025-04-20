@@ -74,4 +74,4 @@ function! TogglePipe()
     endif
     call setline('.', new_line)
 endfunction
-nnoremap <buffer> <localleader>> :call TogglePipe()<cr>
+nnoremap <buffer> g> :call TogglePipe()<cr>

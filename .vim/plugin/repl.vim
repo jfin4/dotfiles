@@ -27,7 +27,9 @@ function! SendCode(code = [], echo = 'TRUE') abort
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif
-    let repl_file = printf('%s.repl', expand('%:p:r'))
+    let repl_file = printf('%s/.%s.repl', 
+                \ expand('%:h'),
+                \ expand('%t:r'))
     if hostname() == "WB-102575"
         let repl_file = repl_file->substitute("^/c", "c:", "")
     endif

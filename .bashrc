@@ -65,6 +65,8 @@ PS1="$PS1"'\[\e[0m\]'; # end color
 # }}}
 # path{{{
 
+[[ $HOSTNAME == 'rpi' ]] && . "$HOME/.cargo/env"
+
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 

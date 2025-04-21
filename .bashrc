@@ -272,131 +272,140 @@ generate_password() {
 [[ $- == *i* ]] && echo -e "\e[?12h"
 
 # }}}
+# __make_fuzzy() { # uses sed{{{
+#     local _FUZZY_SEPARATORS="/-_"
+#     local line="$READLINE_LINE"
+#     local cmd args_str
+#     if [[ "$line" =~ ^([^[:space:]]+)[[:space:]]+(.*) ]]; then
+#         cmd="${BASH_REMATCH[1]}"; args_str="${BASH_REMATCH[2]}"
+#     elif [[ "$line" =~ ^([^[:space:]]+)$ ]]; then
+#         cmd="$line"; args_str=""; return 0
+#     else
+#         return 0
+#     fi
+#     [[ -z "$args_str" ]] && return 0
 
+#     local fuzzy_args_final="" arg fuzzy_single_arg
+#     local original_ifs="$IFS"; IFS=$' \t\n'
 
-# --- Configuration ---
-# Define the characters that act as separators for fuzzing
-# Add or remove characters like '.', '_', ':', etc. as needed
-_FUZZY_SEPARATORS="/-_"
+#     for arg in $args_str; do
+#         if [[ -z "$arg" ]]; then
+#             fuzzy_single_arg=""
+#         else
+#             # Step 1: General fuzzy logic
+#             fuzzy_single_arg=$(sed "s#[^${_FUZZY_SEPARATORS}]\+#*&*#g" <<< "$arg")
+#             # Step 2: Correct '*..*' back to '..' (robust escaping)
+#             fuzzy_single_arg=$(sed 's#\*\.\.\*#..#g' <<< "$fuzzy_single_arg")
+#         fi
 
-# --- Helper Function: Applies fuzzy logic to a single string ---
-# Takes the input string and the set of separators
-# Returns the string with non-separator parts wrapped in '*'
-_apply_fuzzy_logic() {
-    local input_str="$1"
-    local separators="$2"
-    local result=""
-    local current_part=""
-    local i char is_separator=0
+#         if [[ -n "$fuzzy_single_arg" ]]; then
+#              fuzzy_args_final+=" $fuzzy_single_arg"
+#         elif [[ -n "$arg" ]]; then
+#              fuzzy_args_final+=" $arg"
+#         fi
+#     done
 
-    # Handle empty input immediately
-    if [[ -z "$input_str" ]]; then
-        echo ""
-        return 0
-    fi
+#     IFS="$original_ifs"
+#     fuzzy_args_final="${fuzzy_args_final# }"
+#     if [[ -n "$fuzzy_args_final" ]]; then
+#         READLINE_LINE="$cmd $fuzzy_args_final"
+#         READLINE_POINT=${#READLINE_LINE}
+#     fi
+# }
+# bind -x '"\C-l\C-l":__make_fuzzy'
+# bind '"\C-l":clear-screen'
+# }}}
+__make_fuzzy() { # bash only, faster on windows{{{
+    # --- Configuration ---
+    local _FUZZY_SEPARATORS="/-_." # Add/remove separators as needed
 
-    for (( i=0; i<${#input_str}; i++ )); do
-        char="${input_str:i:1}"
-        is_separator=0
-
-        # Check if the current character is one of the separators
-        if [[ "$separators" == *"$char"* ]]; then
-            is_separator=1
-        fi
-
-        if (( is_separator )); then
-            # End of a part (or consecutive separators)
-            if [[ -n "$current_part" ]]; then
-                # Append the fuzzified part if it's not empty
-                 result+="*${current_part}*"
-                current_part="" # Reset for the next part
-            fi
-             # Append the separator itself
-            result+="$char"
-        else
-            # Character is part of a word segment
-            current_part+="$char"
-        fi
-    done
-
-    # Append any remaining part after the loop finishes
-    if [[ -n "$current_part" ]]; then
-        result+="*${current_part}*"
-    fi
-
-    echo "$result"
-}
-
-
-# --- Main Readline Function ---
-__fuzzy_any_complete() {
-    # Get the current command line content
+    # --- Readline Interaction ---
     local line="$READLINE_LINE"
-    # Preserve original point (though we move it later)
-    # local point="$READLINE_POINT"
 
-    # Extract the command and the argument string
+    # --- Command/Argument Parsing ---
     local cmd args_str
     if [[ "$line" =~ ^([^[:space:]]+)[[:space:]]+(.*) ]]; then
-        cmd="${BASH_REMATCH[1]}"
-        args_str="${BASH_REMATCH[2]}"
+        cmd="${BASH_REMATCH[1]}"; args_str="${BASH_REMATCH[2]}"
     elif [[ "$line" =~ ^([^[:space:]]+)$ ]]; then
-        cmd="$line"
-        args_str=""
-        return 0 # Nothing to make fuzzy
+        cmd="$line"; args_str=""; return 0
     else
-        return 0 # Line is empty or only whitespace
-    fi
-
-    # If there are no arguments, there's nothing to fuzz
-    if [[ -z "$args_str" ]]; then
         return 0
     fi
+    [[ -z "$args_str" ]] && return 0
 
-    # Process the arguments string
-    local fuzzy_args_final="" # Will store the space-separated fuzzy args
-    local arg                 # Holds each whitespace-separated original argument
-    local fuzzy_single_arg    # Holds the fuzzy version of the current 'arg'
+    # --- Argument Processing ---
+    local fuzzy_args_final=""
+    local arg fuzzy_single_arg
+    local original_ifs="$IFS"; IFS=$' \t\n'
 
-    # Save the current IFS and set IFS to split arguments by whitespace
-    local original_ifs="$IFS"
-    IFS=$' \t\n'
-
-    # Loop through each whitespace-separated argument in the original args_str
     for arg in $args_str; do
-        # Apply the generalized fuzzy logic using the helper function
-        fuzzy_single_arg=$(_apply_fuzzy_logic "$arg" "$_FUZZY_SEPARATORS")
+        # --- BEGIN INLINED PURE BASH FUZZY LOGIC ---
+        fuzzy_single_arg="" # Initialize result for this argument
+        if [[ -n "$arg" ]]; then
+            local current_part=""
+            local i char is_separator=0
+            local arg_len=${#arg}
 
-        # Append the processed argument (with a leading space)
+            for (( i=0; i<arg_len; i++ )); do
+                char="${arg:i:1}"
+                is_separator=0
+
+                # Check if the current character is a separator
+                if [[ "$_FUZZY_SEPARATORS" == *"$char"* ]]; then
+                    is_separator=1
+                fi
+
+                if (( is_separator )); then
+                    # End of a part (or consecutive separators)
+                    if [[ -n "$current_part" ]]; then
+                        # Process the completed part: Check for '..' exception
+                        if [[ "$current_part" == ".." ]]; then
+                            fuzzy_single_arg+=".."
+                        else
+                            fuzzy_single_arg+="*${current_part}*"
+                        fi
+                        current_part="" # Reset for the next part
+                    fi
+                    # Append the separator itself
+                    fuzzy_single_arg+="$char"
+                else
+                    # Character is part of a word segment
+                    current_part+="$char"
+                fi
+            done # End character loop
+
+            # Append any remaining part after the loop finishes
+            if [[ -n "$current_part" ]]; then
+                 # Process the final part: Check for '..' exception
+                 if [[ "$current_part" == ".." ]]; then
+                     fuzzy_single_arg+=".."
+                 else
+                     fuzzy_single_arg+="*${current_part}*"
+                 fi
+            fi
+        fi
+        # --- END INLINED PURE BASH FUZZY LOGIC ---
+
+        # --- Append Result ---
+        # Note: fuzzy_single_arg will be empty if arg was empty
         if [[ -n "$fuzzy_single_arg" ]]; then
              fuzzy_args_final+=" $fuzzy_single_arg"
-        # Optional Fallback: If fuzzing produced nothing, maybe wrap the whole arg?
-        # This might happen if arg consists *only* of separators.
-        # The current _apply_fuzzy_logic returns the separators as-is in that case,
-        # so this fallback might not be strictly needed unless you want `//` -> `*//*`
+        # Fallback not strictly needed as empty arg yields empty result
+        # But keep if desired for arguments containing *only* separators
         elif [[ -n "$arg" ]]; then
-             # Example: If arg was '//', fuzzy_single_arg would be '//'.
-             # If you prefer '*//*', you might adjust the helper or add logic here.
-             # For now, we just add the result from the helper, even if it's just separators.
-             fuzzy_args_final+=" $arg" # Or maybe "*${arg}*" if you want that behaviour
+             fuzzy_args_final+=" $arg"
         fi
     done
 
-    # Restore the original IFS that existed before this function was called
-    IFS="$original_ifs"
+    IFS="$original_ifs" # Restore original IFS
 
-    # Trim leading space from the assembled fuzzy arguments
+    # --- Update Readline ---
     fuzzy_args_final="${fuzzy_args_final# }"
-
-    # Reconstruct the full command line only if fuzzy arguments were generated
     if [[ -n "$fuzzy_args_final" ]]; then
         READLINE_LINE="$cmd $fuzzy_args_final"
-        # Move the cursor to the end of the modified line
         READLINE_POINT=${#READLINE_LINE}
     fi
 }
-
-# --- Bindings ---
-# Bind the generalized function to your preferred keys
-# Make sure you have sourced the file containing these functions
-bind -x '"\C-.":__fuzzy_any_complete'
+bind -x '"\C-l\C-l":__make_fuzzy'
+bind '"\C-l":clear-screen'
+# }}}

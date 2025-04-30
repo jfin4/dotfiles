@@ -28,8 +28,8 @@ function! SendCode(code = [], echo = 'TRUE') abort
         call SetReplBuf()
     endif
     let repl_file = printf('%s/.%s.repl', 
-                \ expand('%:h'),
-                \ expand('%t:r'))
+                \ expand('%:p:h'),
+                \ expand('%:t:r'))
     if hostname() == "WB-102575"
         let repl_file = repl_file->substitute("^/c", "c:", "")
     endif

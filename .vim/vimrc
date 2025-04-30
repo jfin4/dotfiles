@@ -5,8 +5,8 @@ filetype plugin on
 colorscheme jfin
 
 " define variables
-let mapleader = ' '
-let maplocalleader = ' '
+" let mapleader = ' '
+" let maplocalleader = ' '
 
 " other options
 set autoread 
@@ -46,8 +46,6 @@ nnoremap <cr> :write<cr>
 nnoremap <silent> <esc> :noh<cr>
 tnoremap <esc><esc> <c-\><c-n>
 tnoremap :: <c-w>:
-nnoremap <leader>w <c-w>
-tnoremap <leader>w <c-w>
 
 " indentation
 set autoindent 

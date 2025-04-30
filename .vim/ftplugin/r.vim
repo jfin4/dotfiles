@@ -40,9 +40,12 @@ function! ViewTable(type = '') abort
     let table = split(@r, "\n")
                 \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
                 \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
-    let file_name = printf('.%s-%s.csv', 
+    let file_name = printf('%s/.%s-%s.csv', 
+                \ expand('%:p:h'),
                 \ table->get(0)->substitute('\W\+', '', 'g'),
                 \ rand())
+    if hostname() == "WB-102575"
+        let file_name = file_name->substitute("^/c", "c:", "")
     let code = printf('readr::write_csv({%s}, "%s")', 
                 \ table->join(''), 
                 \ file_name)

@@ -149,7 +149,6 @@ alias notes='cd ~/notes; search-notes notes.txt; cd -'
 alias todo='cd ~/notes; search-notes "#todo"; cd -'
 alias pdf='open-pdf'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
-alias pw='get-password'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
@@ -196,7 +195,7 @@ rm() {
 }
 # }}}
 # get password{{{
-get_pass() {
+pw() {
     cd $HOME/.pass
     account=$(\
         fd --path-separator // ${*:-.} |\
@@ -406,6 +405,5 @@ __make_fuzzy() { # bash only, faster on windows{{{
         READLINE_POINT=${#READLINE_LINE}
     fi
 }
-bind -x '"\C-l\C-l":__make_fuzzy'
-bind '"\C-l":clear-screen'
+bind -x '"\C-@\C-@": __make_fuzzy'
 # }}}

@@ -5,8 +5,8 @@ filetype plugin on
 colorscheme jfin
 
 " define variables
-" let mapleader = ' '
-" let maplocalleader = ' '
+let mapleader = ' '
+let maplocalleader = ' '
 
 " other options
 set autoread 

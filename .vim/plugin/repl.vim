@@ -47,22 +47,22 @@ endfunction
 
 function! RunMotion(type = '') abort
     if a:type == ''
-        let &operatorfunc = matchstr(expand('<sfile>'), '\w\+$')
+        let &operatorfunc = 'RunMotion'
         return 'g@'
     endif
-    let commands = {
+    let selection = {
                 \ 'line': "'[V']",
                 \ 'char': "`[v`]",
                 \ 'block': "`[\<C-V>`]",
                 \ }[a:type]
     execute printf('normal! %s"ry',
-                \ commands)
+                \ selection)
     let code = split(@r, "\n")
     call SendCode(code)
 endfunction
-nnoremap <expr> , RunMotion()
-xnoremap <expr> , RunMotion()
-nnoremap <expr> ,, RunMotion() .. '_'
+nnoremap <expr> <leader> RunMotion()
+xnoremap <expr> <leader> RunMotion()
+nnoremap <expr> <leader><leader> RunMotion() .. '_'
 
 function! RunSection() abort
     " Run from last mark 'r' to current line

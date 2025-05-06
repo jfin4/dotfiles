@@ -2,52 +2,81 @@ inoremap <buffer> < <-
 inoremap <buffer> << <
 inoremap <buffer> > %>%
 inoremap <buffer> >> >
+nnoremap <expr> K SendCode(['help(<c-r><c-w>)'])
 
-              " lhs                rhs
-let keymaps = [
-            \ ['grc', 'ncol(<c-r><c-w>)'],
-            \ ['grg', 'glimpse(<c-r><c-w>)'],
-            \ ['grh', 'head(<c-r><c-w>)'],
-            \ ['gri', '<c-r><c-w>'],
-            \ ['grl', 'length(<c-r><c-w>)'],
-            \ ['grn', 'names(<c-r><c-w>)'],
-            \ ['grr', 'nrow(<c-r><c-w>)'],
-            \ ['grs', 'str(<c-r><c-w>)'],
-            \ ['grv', 'View(<c-r><c-w>)'],
-            \ ['K',               'help(<c-r><c-w>)']
-            \ ]
-
-for keymap in keymaps
-    execute printf(
-            \ 'nnoremap <buffer> %s :call SendCode([''%s''], ''TRUE'')<cr>',
-            \ keymap[0],
-            \ keymap[1],
-        \)
-endfor
-
-function! ViewTable(type = '') abort
+function! DoWithObject(command, type = '') abort"{{{
     if a:type == ''
-        let &operatorfunc = matchstr(expand('<sfile>'), '\w\+$')
+        let &operatorfunc = function('DoWithObject', [a:command])
         return 'g@'
     endif
-    let commands = {
+    let selection = {
                 \ 'line': "'[V']",
                 \ 'char': "`[v`]",
                 \ 'block': "`[\<C-V>`]",
                 \ }[a:type]
     execute printf('silent normal! %s"ry', 
-                \ commands)
-    let table = split(@r, "\n")
+                \ selection)
+    let object = split(@r, "\n")
+                \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
+                \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
+    let code = printf('print(%s({%s}))', 
+                \ a:command, 
+                \ object->join(''))
+    call SendCode([code])
+endfunction
+let keymaps = [
+            \ ['c', 'ncol'],
+            \ ['g', 'glimpse'],
+            \ ['h', 'head'],
+            \ ['p', ''],
+            \ ['l', 'length'],
+            \ ['n', 'names'],
+            \ ['r', 'nrow'],
+            \ ['s', 'str'],
+            \ ['V', 'View'],
+            \ ]
+for keymap in keymaps
+    execute printf(
+            \ 'nnoremap <expr> <localleader>%s DoWithObject("%s", "")',
+            \ keymap[0],
+            \ keymap[1],
+        \)
+    execute printf(
+            \ 'xnoremap <expr> <localleader>%s DoWithObject("%s", "")',
+            \ keymap[0],
+            \ keymap[1],
+        \)
+    execute printf(
+            \ 'nnoremap <expr> <localleader>%s%s DoWithObject("%s", "") .. "_"',
+            \ keymap[0],
+            \ keymap[0],
+            \ keymap[1],
+        \)
+endfor
+"}}}
+function! ViewObject(type = '') abort"{{{
+    if a:type == ''
+        let &operatorfunc = 'ViewObject'
+        return 'g@'
+    endif
+    let selection = {
+                \ 'line': "'[V']",
+                \ 'char': "`[v`]",
+                \ 'block': "`[\<C-V>`]",
+                \ }[a:type]
+    execute printf('silent normal! %s"ry', 
+                \ selection)
+    let object = split(@r, "\n")
                 \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
                 \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
     let file_name = printf('%s/.%s-%s.csv', 
                 \ expand('%:p:h'),
-                \ table->get(0)->substitute('\W\+', '', 'g'),
+                \ object->get(0)->substitute('\W\+', '', 'g'),
                 \ rand())
     if hostname() == "WB-102575"
         let file_name = file_name->substitute("^/c", "c:", "")
     let code = printf('readr::write_csv({%s}, "%s")', 
-                \ table->join(''), 
+                \ object->join(''), 
                 \ file_name)
     call SendCode([code], 'T')
     while 1
@@ -62,11 +91,11 @@ function! ViewTable(type = '') abort
         sleep 1
     endwhile
 endfunction
-nnoremap <expr> go ViewTable()
-xnoremap <expr> go ViewTable()
-nnoremap <expr> goo ViewTable() .. '_'
-
-function! TogglePipe()
+nnoremap <expr> <localleader>v ViewObject()
+xnoremap <expr> <localleader>v ViewObject()
+nnoremap <expr> <localleader>vv ViewObject() .. '_'
+"}}}
+function! TogglePipe()"{{{
     let line = getline('.')
     if line =~ '%>%'
         let new_line = substitute(line, '\s\?%>%', '', '')
@@ -78,3 +107,4 @@ function! TogglePipe()
     call setline('.', new_line)
 endfunction
 nnoremap <buffer> g> :call TogglePipe()<cr>
+"}}}

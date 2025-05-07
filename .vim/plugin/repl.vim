@@ -9,11 +9,6 @@ function! GetReplArgs()
                     \ 'term_command': 'terminal sh -c "./venv/bin/python || python"',
                     \ 'source_command': 'exec(open("%s").read())',
                     \ }
-    elseif &filetype == 'vim'
-        let b:args = { 
-                    \ 'term_command': 'new',
-                    \ 'source_command': 'source %s',
-                    \ }
     else
         let b:args = { 
                     \ 'term_command': 'terminal', 
@@ -67,11 +62,7 @@ function! SendCode(code = []) abort
     call writefile(a:code, repl_file)
     let repl_command = printf(b:args.source_command,
                 \ repl_file)
-    if &filetype == 'vim'
-        call win_execute(bufwinid(b:repl_buf), repl_command, '')
-    else
-        call term_sendkeys(b:repl_buf, repl_command . "\r")
-    endif
+    call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
 
 function! RunMotion(type = '') abort
@@ -86,8 +77,11 @@ function! RunMotion(type = '') abort
                 \ }[a:type]
     execute printf('normal! %s"ry',
                 \ selection)
-    let code = split(@r, "\n")
-    call SendCode(code)
+    if &filetype == 'vim'
+        @r
+    else
+        call split(@r, "\n")->SendCode()
+    endif
 endfunction
 nnoremap <expr> <leader> RunMotion()
 xnoremap <expr> <leader> RunMotion()

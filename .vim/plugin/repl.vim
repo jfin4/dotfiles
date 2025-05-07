@@ -5,14 +5,16 @@ function! GetReplArgs()
                     \ 'source_command': 'suppressWarnings(suppressMessages(source("%s")))',
                     \ }
     elseif &filetype == 'python'
-        " first %s is unuse echo command
         let b:args = { 
                     \ 'term_command': 'terminal sh -c "./venv/bin/python || python"',
                     \ 'source_command': 'exec(open("%s").read())',
                     \ }
-
+    elseif &filetype == 'vim'
+        let b:args = { 
+                    \ 'term_command': 'new',
+                    \ 'source_command': 'source %s',
+                    \ }
     else
-        " first %s is unuse echo command
         let b:args = { 
                     \ 'term_command': 'terminal', 
                     \ 'source_command': 'source "%s"',
@@ -65,7 +67,11 @@ function! SendCode(code = []) abort
     call writefile(a:code, repl_file)
     let repl_command = printf(b:args.source_command,
                 \ repl_file)
-    call term_sendkeys(b:repl_buf, repl_command . "\r")
+    if &filetype == 'vim'
+        call win_execute(bufwinid(b:repl_buf), repl_command, '')
+    else
+        call term_sendkeys(b:repl_buf, repl_command . "\r")
+    endif
 endfunction
 
 function! RunMotion(type = '') abort

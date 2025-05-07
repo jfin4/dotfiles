@@ -1,6 +1,29 @@
+function! GetReplArgs()
+    if &filetype == 'R'
+        let b:args = { 
+                    \ 'term_command': 'terminal R --quiet --no-save',
+                    \ 'source_command': 'suppressWarnings(suppressMessages(source("%s")))',
+                    \ }
+    elseif &filetype == 'python'
+        " first %s is unuse echo command
+        let b:args = { 
+                    \ 'term_command': 'terminal sh -c "./venv/bin/python || python"',
+                    \ 'source_command': 'exec(open("%s").read())',
+                    \ }
+
+    else
+        " first %s is unuse echo command
+        let b:args = { 
+                    \ 'term_command': 'terminal', 
+                    \ 'source_command': 'source "%s"',
+                    \ }
+    endif
+endfunction
+
 " repl
 function! OpenRepl()
-    terminal R --quiet --no-save
+    call GetReplArgs()
+    execute b:args.term_command
     let repl_buf = bufnr()
     wincmd w
     let b:repl_buf = repl_buf
@@ -20,10 +43,12 @@ function! SetReplBuf()
     let b:repl_buf = 
                 \input("\nEnter REPL buffer number: ")->
                 \str2nr()
+
+    call GetReplArgs()
 endfunction
 command! SetReplBuf call SetReplBuf()
 
-function! SendCode(code = [], echo = 'TRUE') abort
+function! SendCode(code = []) abort
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif
@@ -38,10 +63,8 @@ function! SendCode(code = [], echo = 'TRUE') abort
                     \ repl_file)
     endif
     call writefile(a:code, repl_file)
-    let repl_command = printf(
-        \ 'suppressWarnings(suppressMessages(source(max = Inf, echo = %s, "%s")))',
-        \ a:echo,
-        \ repl_file)
+    let repl_command = printf(b:args.source_command,
+                \ repl_file)
     call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
 
@@ -76,6 +99,7 @@ function! RunSection() abort
     call setpos("'s", [0, start, 0, 0])
     mark r  " Update mark 'r'
     let code = getline(start, current)
-    call SendCode(code, 'FALSE')
+    " 0: echo = 0
+    call SendCode(code)
 endfunction
 nnoremap <expr> g, RunSection()

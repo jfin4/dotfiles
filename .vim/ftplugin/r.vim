@@ -2,7 +2,7 @@ inoremap <buffer> < <-
 inoremap <buffer> << <
 inoremap <buffer> > %>%
 inoremap <buffer> >> >
-nnoremap <expr> K SendCode(['help(<c-r><c-w>)'])
+nnoremap <buffer> K :call SendCode(['help(<c-r><c-w>)'])<cr>
 
 function! DoWithObject(command, type = '') abort"{{{
     if a:type == ''

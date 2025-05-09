@@ -2,7 +2,7 @@ function! GetReplArgs()
     if &filetype == 'R'
         let b:args = { 
                     \ 'term_command': 'terminal R --quiet --no-save',
-                    \ 'source_command': 'suppressWarnings(suppressMessages(source("%s")))',
+                    \ 'source_command': 'source("%s", echo = TRUE, max.deparse.length = Inf)',
                     \ }
     elseif &filetype == 'python'
         let b:args = { 
@@ -83,9 +83,9 @@ function! RunMotion(type = '') abort
         call split(@r, "\n")->SendCode()
     endif
 endfunction
-nnoremap <expr> <leader> RunMotion()
-xnoremap <expr> <leader> RunMotion()
-nnoremap <expr> <leader><leader> RunMotion() .. '_'
+nnoremap <expr> , RunMotion()
+xnoremap <expr> , RunMotion()
+nnoremap <expr> ,, RunMotion() .. '_'
 
 function! RunSection() abort
     " Run from last mark 'r' to current line

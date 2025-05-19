@@ -4,6 +4,14 @@ inoremap <buffer> > %>%
 inoremap <buffer> >> >
 nnoremap <buffer> K :call SendCode(['help(<c-r><c-w>)'])<cr>
 
+function! RerunWithEcho()"{{{
+    let repl_file = GetReplFile()
+    let repl_command = printf('source("%s", echo = TRUE, max.deparse.length = Inf)',
+                \ repl_file)
+    call term_sendkeys(b:repl_buf, repl_command . "\r")
+endfunction
+command! RerunWithEcho call RerunWithEcho()
+"}}}
 function! DoWithObject(command, type = '') abort"{{{
     if a:type == ''
         let &operatorfunc = function('DoWithObject', [a:command])
@@ -37,17 +45,17 @@ let keymaps = [
             \ ]
 for keymap in keymaps
     execute printf(
-            \ 'nnoremap <expr> <localleader>%s DoWithObject("%s", "")',
+            \ 'nnoremap <expr> <localleader>r%s DoWithObject("%s", "")',
             \ keymap[0],
             \ keymap[1],
         \)
     execute printf(
-            \ 'xnoremap <expr> <localleader>%s DoWithObject("%s", "")',
+            \ 'xnoremap <expr> <localleader>r%s DoWithObject("%s", "")',
             \ keymap[0],
             \ keymap[1],
         \)
     execute printf(
-            \ 'nnoremap <expr> <localleader>%s%s DoWithObject("%s", "") .. "_"',
+            \ 'nnoremap <expr> <localleader>r%s%s DoWithObject("%s", "") .. "_"',
             \ keymap[0],
             \ keymap[0],
             \ keymap[1],

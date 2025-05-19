@@ -2,7 +2,7 @@ function! GetReplArgs()
     if &filetype == 'R'
         let b:args = { 
                     \ 'term_command': 'terminal R --quiet --no-save',
-                    \ 'source_command': 'source("%s", echo = TRUE, max.deparse.length = Inf)',
+                    \ 'source_command': 'suppressWarnings(suppressMessages(source("%s", echo = FALSE, max.deparse.length = Inf)))',
                     \ }
     elseif &filetype == 'python'
         let b:args = { 
@@ -45,16 +45,21 @@ function! SetReplBuf()
 endfunction
 command! SetReplBuf call SetReplBuf()
 
-function! SendCode(code = []) abort
-    if !exists('b:repl_buf')
-        call SetReplBuf()
-    endif
+function! GetReplFile()
     let repl_file = printf('%s/.%s.repl', 
                 \ expand('%:p:h'),
                 \ expand('%:t:r'))
     if hostname() == "WB-102575"
         let repl_file = repl_file->substitute("^/c", "c:", "")
     endif
+    return repl_file
+endfunction
+
+function! SendCode(code = []) abort
+    if !exists('b:repl_buf')
+        call SetReplBuf()
+    endif
+    let repl_file = GetReplFile()
     if !filereadable('repl_file')
         execute printf('autocmd VimLeavePre * call delete("%s")',
                     \ repl_file)

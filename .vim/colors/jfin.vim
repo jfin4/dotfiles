@@ -17,67 +17,66 @@ for line in split(hloutput, "\n")
 endfor
 
 " colors named by function
+let accented = 'cyan'
 let alert   = 'brown'
+let border    = 'black'
 let default = 'none'
-let literal = 'cyan'
-let loud    = 'black'       " bg
-let louder  = 'darkgray'    " bg
-let quiet   = 'gray'        " fg
-let quieter = 'black'       " fg
+let muted   = 'gray'
+let selected  = 'darkgray'
 
 " ['group', fg, bg, style]
 let attributes_list = [
-            \ ['comment', quiet], 
-            \ ['constant', literal],
-            \ ['string', literal], 
-            \ ['character', literal],
-            \ ['number', literal], 
-            \ ['boolean', literal],
-            \ ['float', literal], 
+            \ ['comment', muted], 
+            \ ['constant', accented],
+            \ ['string', accented], 
+            \ ['character', accented],
+            \ ['number', accented], 
+            \ ['boolean', accented],
+            \ ['float', accented], 
             \ ['error', default, alert],
             \ ['todo', default, alert], 
             \ ['added', default, alert],
-            \ ['removed', quiet], 
-            \ ['conceal', quiet],
-            \ ['cursearch', default, louder], 
+            \ ['removed', muted], 
+            \ ['conceal', muted],
+            \ ['cursearch', default, alert], 
             \ ['diffadd', default, alert],
-            \ ['diffdelete', quiet], 
+            \ ['diffdelete', muted], 
             \ ['difftext', default, alert],
-            \ ['endofbuffer', quiet], 
-            \ ['folded', quiet],
-            \ ['incsearch', default, louder], 
-            \ ['linenr', quiet],
-            \ ['matchparen', default, louder], 
-            \ ['nontext', quieter],
-            \ ['pmenu', default, loud], 
-            \ ['pmenuextra', default, loud],
-            \ ['pmenuextrasel', default, louder], 
-            \ ['pmenukind', default, loud],
-            \ ['pmenukindsel', default, louder], 
-            \ ['pmenumatch', default, loud],
-            \ ['pmenumatchsel', default, louder], 
-            \ ['pmenusbar', default, loud],
-            \ ['pmenusel', default, louder], 
-            \ ['pmenuthumb', default, louder],
-            \ ['popupnotification', default, loud], 
-            \ ['search', default, louder],
-            \ ['specialkey', literal], 
+            \ ['endofbuffer', muted], 
+            \ ['folded', muted],
+            \ ['incsearch', default, alert], 
+            \ ['linenr', muted],
+            \ ['matchparen', default, alert], 
+            \ ['nontext', border],
+            \ ['pmenu', default, border], 
+            \ ['pmenuextra', default, border],
+            \ ['pmenuextrasel', default, selected], 
+            \ ['pmenukind', default, border],
+            \ ['pmenukindsel', default, selected], 
+            \ ['pmenumatch', default, border],
+            \ ['pmenumatchsel', default, selected], 
+            \ ['pmenusbar', default, border],
+            \ ['pmenusel', default, selected], 
+            \ ['pmenuthumb', default, selected],
+            \ ['popupnotification', default, border], 
+            \ ['search', default, alert],
+            \ ['specialkey', accented], 
             \ ['spellbad', default, alert],
             \ ['spellcap', default, alert], 
             \ ['spelllocal', default, alert],
             \ ['spellrare', default, alert], 
-            \ ['statusline', quiet, loud],
-            \ ['statuslinenc', quieter, loud], 
-            \ ['statuslineterm', quiet, loud],
-            \ ['statuslinetermnc', quieter, loud], 
-            \ ['tabline', quieter, loud],
-            \ ['tablinefill', quieter, loud], 
-            \ ['tablinesel', quiet, loud],
-            \ ['underlined', literal, default, 'underline'],
-            \ ['vertsplit', default, loud], 
-            \ ['visual', default, louder],
-            \ ['visualnos', default, louder], 
-            \ ['wildmenu', default, louder]
+            \ ['statusline', muted, border],
+            \ ['statuslinenc', border, border], 
+            \ ['statuslineterm', muted, border],
+            \ ['statuslinetermnc', border, border], 
+            \ ['tabline', border, border],
+            \ ['tablinefill', border, border], 
+            \ ['tablinesel', muted, border],
+            \ ['underlined', accented, default],
+            \ ['vertsplit', default, border], 
+            \ ['visual', default, alert],
+            \ ['visualnos', default, alert], 
+            \ ['wildmenu', default, selected]
             \]
 
 " set highligh group attributes

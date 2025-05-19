@@ -46,6 +46,7 @@ nnoremap <cr> :write<cr>
 nnoremap <silent> <esc> :noh<cr>
 tnoremap <esc><esc> <c-\><c-n>
 tnoremap :: <c-w>:
+nnoremap <leader>n /=expand('<cword>')<cr><cr>
 
 " indentation
 set autoindent 
@@ -138,14 +139,22 @@ endfunction
 command! Win2Unix silent! call Win2Unix()
 
 function! Start()
-    let link = getline(line('.'))
-    execute printf('call system(''start "" %s'')',
-                \ link)
+    let link = getline(line('.'))->substitute('^"\|"$', '', 'g')
+    if fnamemodify(link, ':e') == 'pdf'
+        execute printf('call system(''SumatraPDF-3.5.2-64.exe "%s"'')',
+                    \ link)
+    else
+        execute printf('call system(''start "" "%s"'')',
+                    \ link)
+    endif
 endfunction
-command! Start silent! call Start()
+command! Start call Start()
 
 " markdown
 let g:vim_markdown_conceal = 2
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
 set conceallevel=2
 
+" notes
+cabbrev todo BLines #todo<cr>

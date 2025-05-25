@@ -118,17 +118,10 @@ let g:lsp_settings_enable_suggestions = 0
 let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
-inoremap <c-h> <c-o><plug>(lsp-signature-help)
-
-cabbrev New new<cr>:Files
 
 " sideways
-nnoremap gah :SidewaysLeft<cr>
-nnoremap gal :SidewaysRight<cr>
-omap aa <Plug>SidewaysArgumentTextobjA
-xmap aa <Plug>SidewaysArgumentTextobjA
-omap ia <Plug>SidewaysArgumentTextobjI
-xmap ia <Plug>SidewaysArgumentTextobjI
+nnoremap <leader>ah :SidewaysLeft<cr>
+nnoremap <leader>al :SidewaysRight<cr>
 
 " utilities
 

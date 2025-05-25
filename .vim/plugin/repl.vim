@@ -1,26 +1,11 @@
-function! GetReplArgs()
-    if &filetype == 'R'
-        let b:args = { 
-                    \ 'term_command': 'terminal R --quiet --no-save',
-                    \ 'source_command': 'suppressWarnings(suppressMessages(source("%s", echo = FALSE, max.deparse.length = Inf)))',
-                    \ }
-    elseif &filetype == 'python'
-        let b:args = { 
-                    \ 'term_command': 'terminal sh -c "./venv/bin/python || python"',
-                    \ 'source_command': 'exec(open("%s").read())',
-                    \ }
-    else
-        let b:args = { 
-                    \ 'term_command': 'terminal', 
-                    \ 'source_command': 'source "%s"',
-                    \ }
-    endif
-endfunction
-
 " repl
 function! OpenRepl()
-    call GetReplArgs()
-    execute b:args.term_command
+    let term_command = {
+                \ 'r': 'terminal R --quiet --no-save',
+                \ 'python': 'terminal sh -c "./venv/bin/python || python"',
+                \ 'sh': 'terminal', 
+                \ }
+    execute term_command[&filetype]
     let repl_buf = bufnr()
     wincmd w
     let b:repl_buf = repl_buf
@@ -41,7 +26,6 @@ function! SetReplBuf()
                 \input("\nEnter REPL buffer number: ")->
                 \str2nr()
 
-    call GetReplArgs()
 endfunction
 command! SetReplBuf call SetReplBuf()
 
@@ -55,7 +39,7 @@ function! GetReplFile()
     return repl_file
 endfunction
 
-function! SendCode(code = []) abort
+function! SendCode(code = [], echo = 1) abort
     if !exists('b:repl_buf')
         call SetReplBuf()
     endif
@@ -65,7 +49,20 @@ function! SendCode(code = []) abort
                     \ repl_file)
     endif
     call writefile(a:code, repl_file)
-    let repl_command = printf(b:args.source_command,
+    if a:echo
+        let source_command = {
+                    \ 'r': 'suppressWarnings(suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf)))',
+                    \ 'python': 'exec(open("%s").read())',
+                    \ 'sh': 'source "%s"',
+                    \ }
+    else
+        let source_command = {
+                    \ 'r': 'suppressWarnings(suppressMessages(source("%s")))',
+                    \ 'python': 'exec(open("%s").read())',
+                    \ 'sh': 'source "%s"',
+                    \ }
+    endif
+    let repl_command = printf(source_command[&filetype],
                 \ repl_file)
     call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
@@ -105,6 +102,6 @@ function! RunSection() abort
     mark r  " Update mark 'r'
     let code = getline(start, current)
     " 0: echo = 0
-    call SendCode(code)
+    call SendCode(code, 0)
 endfunction
 nnoremap <expr> g, RunSection()

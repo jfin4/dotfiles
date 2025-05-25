@@ -4,13 +4,13 @@ inoremap <buffer> > %>%
 inoremap <buffer> >> >
 nnoremap <buffer> K :call SendCode(['help(<c-r><c-w>)'])<cr>
 
-function! RerunWithEcho()"{{{
+function! EchoLastCommand()"{{{
     let repl_file = GetReplFile()
     let repl_command = printf('source("%s", echo = TRUE, max.deparse.length = Inf)',
                 \ repl_file)
     call term_sendkeys(b:repl_buf, repl_command . "\r")
 endfunction
-command! RerunWithEcho call RerunWithEcho()
+command! EchoLastCommand call EchoLastCommand()
 "}}}
 function! DoWithObject(command, type = '') abort"{{{
     if a:type == ''
@@ -86,11 +86,11 @@ function! ViewObject(type = '') abort"{{{
     let code = printf('readr::write_csv({%s}, "%s")', 
                 \ object->join(''), 
                 \ file_name)
-    call SendCode([code], 'T')
+    call SendCode([code])
     while 1
         if filereadable(file_name)
             " execute printf('terminal visidata --theme=ascii8 %s', 
-            execute printf('call system("start %s")',
+            execute printf('call system(''start "" "%s"'')',
                         \ file_name)
             execute printf('autocmd VimLeavePre * call delete("%s")', 
                         \ file_name)
@@ -99,9 +99,9 @@ function! ViewObject(type = '') abort"{{{
         sleep 1
     endwhile
 endfunction
-nnoremap <expr> <localleader>v ViewObject()
-xnoremap <expr> <localleader>v ViewObject()
-nnoremap <expr> <localleader>vv ViewObject() .. '_'
+nnoremap <expr> <localleader>rv ViewObject()
+xnoremap <expr> <localleader>rv ViewObject()
+nnoremap <expr> <localleader>rvv ViewObject() .. '_'
 "}}}
 function! TogglePipe()"{{{
     let line = getline('.')

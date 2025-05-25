@@ -13,6 +13,9 @@ bind 'set show-all-if-ambiguous on'
 shopt -s direxpand
 shopt -s nocaseglob
 
+# if interactive then make cursor blink
+[[ $- == *i* ]] && echo -e "\e[?12h"
+
 # }}}
 # variables{{{
 
@@ -170,7 +173,21 @@ elif [[ $HOSTNAME == WB-102575 ]]; then
     alias start='\start ""'
 fi
 # }}}
-# functions{{{
+# functions
+# fuzzy cd{{{
+function cd() {
+    dir=${1:-~}
+    if ! command cd "$dir" 2> /dev/null; then
+        glob=""
+        for (( i=0; i<${#dir}; i++ )); do
+            char="${dir:i:1}"
+            glob+="*-${char}"
+        done
+        glob+="*"
+        command cd $glob
+    fi
+}
+# }}}
 # git add commit push{{{
 gitt() { 
     git add .
@@ -258,180 +275,37 @@ generate_password() {
     echo
 }
 # }}}
-# }}}
-# future ideas{{{
+# magic expand{{{
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
-# this replaces dots with stars for easier globbing, like zsh partial string
-# expansion
-# READLINE_LINE="${READLINE_LINE//./*}"
-# }}}
-# misc{{{
+declare -A abbreviations=(
+  ["copy"]="> /dev/clipboard"
+)
 
-# if interactive then make cursor blink
-[[ $- == *i* ]] && echo -e "\e[?12h"
-
-# }}}
-# __make_fuzzy() { # uses sed{{{
-#     local _FUZZY_SEPARATORS="/-_"
-#     local line="$READLINE_LINE"
-#     local cmd args_str
-#     if [[ "$line" =~ ^([^[:space:]]+)[[:space:]]+(.*) ]]; then
-#         cmd="${BASH_REMATCH[1]}"; args_str="${BASH_REMATCH[2]}"
-#     elif [[ "$line" =~ ^([^[:space:]]+)$ ]]; then
-#         cmd="$line"; args_str=""; return 0
-#     else
-#         return 0
-#     fi
-#     [[ -z "$args_str" ]] && return 0
-
-#     local fuzzy_args_final="" arg fuzzy_single_arg
-#     local original_ifs="$IFS"; IFS=$' \t\n'
-
-#     for arg in $args_str; do
-#         if [[ -z "$arg" ]]; then
-#             fuzzy_single_arg=""
-#         else
-#             # Step 1: General fuzzy logic
-#             fuzzy_single_arg=$(sed "s#[^${_FUZZY_SEPARATORS}]\+#*&*#g" <<< "$arg")
-#             # Step 2: Correct '*..*' back to '..' (robust escaping)
-#             fuzzy_single_arg=$(sed 's#\*\.\.\*#..#g' <<< "$fuzzy_single_arg")
-#         fi
-
-#         if [[ -n "$fuzzy_single_arg" ]]; then
-#              fuzzy_args_final+=" $fuzzy_single_arg"
-#         elif [[ -n "$arg" ]]; then
-#              fuzzy_args_final+=" $arg"
-#         fi
-#     done
-
-#     IFS="$original_ifs"
-#     fuzzy_args_final="${fuzzy_args_final# }"
-#     if [[ -n "$fuzzy_args_final" ]]; then
-#         READLINE_LINE="$cmd $fuzzy_args_final"
-#         READLINE_POINT=${#READLINE_LINE}
-#     fi
-# }
-# bind -x '"\C-l\C-l":__make_fuzzy'
-# bind '"\C-l":clear-screen'
-# }}}
-# __make_fuzzy() { # bash only, faster on windows{{{
-#     # --- Configuration ---
-#     local _FUZZY_SEPARATORS="/-_." # Add/remove separators as needed
-
-#     # --- Readline Interaction ---
-#     local line="$READLINE_LINE"
-
-#     # --- Command/Argument Parsing ---
-#     local cmd args_str
-#     if [[ "$line" =~ ^([^[:space:]]+)[[:space:]]+(.*) ]]; then
-#         cmd="${BASH_REMATCH[1]}"; args_str="${BASH_REMATCH[2]}"
-#     elif [[ "$line" =~ ^([^[:space:]]+)$ ]]; then
-#         cmd="$line"; args_str=""; return 0
-#     else
-#         return 0
-#     fi
-#     [[ -z "$args_str" ]] && return 0
-
-#     # --- Argument Processing ---
-#     local fuzzy_args_final=""
-#     local arg fuzzy_single_arg
-#     local original_ifs="$IFS"; IFS=$' \t\n'
-
-#     for arg in $args_str; do
-#         # --- BEGIN INLINED PURE BASH FUZZY LOGIC ---
-#         fuzzy_single_arg="" # Initialize result for this argument
-#         if [[ -n "$arg" ]]; then
-#             local current_part=""
-#             local i char is_separator=0
-#             local arg_len=${#arg}
-
-#             for (( i=0; i<arg_len; i++ )); do
-#                 char="${arg:i:1}"
-#                 is_separator=0
-
-#                 # Check if the current character is a separator
-#                 if [[ "$_FUZZY_SEPARATORS" == *"$char"* ]]; then
-#                     is_separator=1
-#                 fi
-
-#                 if (( is_separator )); then
-#                     # End of a part (or consecutive separators)
-#                     if [[ -n "$current_part" ]]; then
-#                         # Process the completed part: Check for '..' exception
-#                         if [[ "$current_part" == ".." ]]; then
-#                             fuzzy_single_arg+=".."
-#                         else
-#                             fuzzy_single_arg+="*${current_part}*"
-#                         fi
-#                         current_part="" # Reset for the next part
-#                     fi
-#                     # Append the separator itself
-#                     fuzzy_single_arg+="$char"
-#                 else
-#                     # Character is part of a word segment
-#                     current_part+="$char"
-#                 fi
-#             done # End character loop
-
-#             # Append any remaining part after the loop finishes
-#             if [[ -n "$current_part" ]]; then
-#                  # Process the final part: Check for '..' exception
-#                  if [[ "$current_part" == ".." ]]; then
-#                      fuzzy_single_arg+=".."
-#                  else
-#                      fuzzy_single_arg+="*${current_part}*"
-#                  fi
-#             fi
-#         fi
-#         # --- END INLINED PURE BASH FUZZY LOGIC ---
-
-#         # --- Append Result ---
-#         # Note: fuzzy_single_arg will be empty if arg was empty
-#         if [[ -n "$fuzzy_single_arg" ]]; then
-#              fuzzy_args_final+=" $fuzzy_single_arg"
-#         # Fallback not strictly needed as empty arg yields empty result
-#         # But keep if desired for arguments containing *only* separators
-#         elif [[ -n "$arg" ]]; then
-#              fuzzy_args_final+=" $arg"
-#         fi
-#     done
-
-#     IFS="$original_ifs" # Restore original IFS
-
-#     # --- Update Readline ---
-#     fuzzy_args_final="${fuzzy_args_final# }"
-#     if [[ -n "$fuzzy_args_final" ]]; then
-#         READLINE_LINE="$cmd $fuzzy_args_final"
-#         READLINE_POINT=${#READLINE_LINE}
-#     fi
-# }
-# bind -x '"\C-@\C-@": __make_fuzzy'
-# }}}
-# fuzzy cd{{{
-function cd() {
-    dir=${1:-~}
-    if ! command cd "$dir" 2> /dev/null; then
-        glob=""
-        for (( i=0; i<${#dir}; i++ )); do
-            char="${dir:i:1}"
-            glob+="*-${char}"
-        done
-        glob+="*"
-        command cd $glob
+expand-abbrev() {
+  local abbrev_key replacement new_line new_pos
+  # Extract the part of the line before the cursor
+  local line_up_to_cursor="${READLINE_LINE:0:$READLINE_POINT}"
+  # Check if the line ends with a potential abbreviation
+  if [[ "$line_up_to_cursor" =~ ([_a-zA-Z0-9]+)$ ]]; then
+    abbrev_key="${BASH_REMATCH[1]}"
+    if [[ -v abbreviations["$abbrev_key"] ]]; then
+      # Get the replacement value
+      replacement="${abbreviations[$abbrev_key]}"
+      # Construct the new line
+      new_line="${line_up_to_cursor%$abbrev_key}$replacement ${READLINE_LINE:$READLINE_POINT}"
+      READLINE_LINE="$new_line"
+      # Calculate new cursor position
+      # new_pos=$(( READLINE_POINT - ${#abbrev_key} + ${#replacement} + 1 ))
+      new_pos=$(( READLINE_POINT - ${#abbrev_key} + ${#replacement} ))
+      READLINE_POINT="$new_pos"
+      return
     fi
+  fi
+  # If no expansion, insert space normally
+  READLINE_LINE="${READLINE_LINE:0:READLINE_POINT} ${READLINE_LINE:$READLINE_POINT}"
+  # READLINE_POINT=$(( READLINE_POINT + 1 ))
 }
+
+# Bind SPACE to magic expand
+bind -x '"\C-@":expand-abbrev'
 # }}}
-export ZSHROOT="$HOME/zsh/usr"
-export ZDOTDIR="$HOME/.config/zsh"
-export ZSH="$ZSHROOT/share/zsh"
-export ZSH_COMPDUMP="$ZDOTDIR/.zcompdump"
-
-export ZSH_CONFIG_DIR="$ZDOTDIR"
-export ZSH_CACHE_DIR="$ZDOTDIR/cache"
-export ZSH_DATA_DIR="$ZDOTDIR/data"
-
-# Optional for compiled modules
-export LD_LIBRARY_PATH="$ZSHROOT/lib:$LD_LIBRARY_PATH"
-export MODULE_PATH="$HOME/zsh/usr/lib/zsh/5.9/zsh"
-
-

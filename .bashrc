@@ -51,7 +51,7 @@ fi
 # prompt{{{
 
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-[[ $HOSTNAME == rpi ]] && source /usr/lib/git-core/git-sh-prompt
+[[ $HOSTNAME == rpi ]] && source /usr/share/git/git-prompt.sh
 
 PS1="\[\e]0;\h \W\a\]"; # set title
 PS1="$PS1"'\n'; # blank line after previous command
@@ -87,7 +87,7 @@ export PATH
 
 # https://github.com/junegunn/fzf?tab=readme-ov-file
 if [[ $HOSTNAME == 'rpi' ]]; then
-    source /usr/share/doc/fzf/examples/key-bindings.bash
+    source /usr/share/fzf/key-bindings.bash
 else
     eval "$(fzf --bash)"
 fi
@@ -165,11 +165,11 @@ alias dots='dot status'
 alias gitp='git pull'
 alias dotp='dot pull'
 if [[ $HOSTNAME == rpi ]]; then
-    alias fd='fdfind'
     alias vim='vim -X' # connecting to X server is slow
 elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
-    alias sshr='ssh -YC jfin@10.0.0.159'
+    alias sshr='ssh jfin@10.0.0.159'
+    alias sshrx='ssh -YC jfin@10.0.0.159'
     alias start='\start ""'
 fi
 # }}}
@@ -204,11 +204,7 @@ dott() {
 # }}}
 # send to trash{{{
 rm() { 
-    if [[ $HOSTNAME == rpi ]]; then
-        mv --backup=numbered "$@" /media/jfin/ssd/.trash
-    else
-        mv --backup=numbered "$@" ~/.trash
-    fi
+    mv --backup=numbered "$@" ~/.trash
 }
 # }}}
 # get password{{{

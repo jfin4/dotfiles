@@ -118,6 +118,7 @@ let g:lsp_settings_enable_suggestions = 0
 let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
+inoremap <localleader>ll <c-o><plug>(lsp-signature-help)
 
 " sideways
 nnoremap <leader>ah :SidewaysLeft<cr>

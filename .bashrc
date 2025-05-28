@@ -40,7 +40,7 @@ if [[ $HOSTNAME == WB-102575 ]]; then
    
     # hosts substitute
     export arch='jfin@10.0.0.52'
-    export rpi='jfin@10.0.0.158'
+    export rpi='jfin@10.0.0.159'
 fi
 # }}}
 # completion{{{
@@ -169,7 +169,7 @@ if [[ $HOSTNAME == rpi ]]; then
     alias vim='vim -X' # connecting to X server is slow
 elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
-    alias sshr='ssh -YC jfin@10.0.0.158'
+    alias sshr='ssh -YC jfin@10.0.0.159'
     alias start='\start ""'
 fi
 # }}}

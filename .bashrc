@@ -168,8 +168,9 @@ if [[ $HOSTNAME == rpi ]]; then
     alias vim='vim -X' # connecting to X server is slow
 elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
-    alias sshr='ssh jfin@10.0.0.159'
-    alias sshrx='ssh -YC jfin@10.0.0.159'
+    alias sshr='ssh jfin@10.0.0.160'
+    alias sshrx='ssh -YC jfin@10.0.0.160'
+    alias ssht='ssh jfin@10.0.0.27'
     alias start='\start ""'
 fi
 # }}}

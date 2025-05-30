@@ -138,7 +138,6 @@ _fzf_compgen_dir() {
 # }}}
 # aliases {{{
 
-alias fd=fdfind
 alias aws_ssh='ssh -i /home/JInman/.ssh/LightsailDefaultKey-us-west-2.pem admin@54.148.13.14'
 alias bak='back-up-file'
 alias cp='cp --recursive --no-clobber'
@@ -168,6 +167,7 @@ alias gitp='git pull'
 alias dotp='dot pull'
 if [[ $HOSTNAME == rpi ]]; then
     alias vim='vim -X' # connecting to X server is slow
+    alias fd=fdfind
 elif [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
     alias sshr='ssh jfin@10.0.0.160'

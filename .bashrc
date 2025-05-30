@@ -51,14 +51,8 @@ fi
 # prompt{{{
 
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-<<<<<<< Updated upstream
-[[ $HOSTNAME == rpi ]] && source /usr/share/bash-completion/bash_completion
-||||||| Stash base
-[[ $HOSTNAME == rpi ]] && source /usr/share/git/git-prompt.sh
-=======
 [[ $HOSTNAME == rpi ]] && source /usr/share/git/git-prompt.sh
 [[ $HOSTNAME == t14 ]] && source /usr/share/git/git-prompt.sh
->>>>>>> Stashed changes
 
 PS1="\[\e]0;\h \W\a\]"; # set title
 PS1="$PS1"'\n'; # blank line after previous command

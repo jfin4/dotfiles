@@ -42,16 +42,16 @@ augroup wm
 augroup end
 
 " maps
-nnoremap <silent> <c-i>         :terminal<cr>
+" nnoremap <silent> <c-i>         :terminal<cr>
 nnoremap <silent> <c-j>         :wincmd w<cr>
 nnoremap <silent> <c-k>         :wincmd W<cr>
-nnoremap <silent> <c-o>         :call WmClose()<CR>
+" nnoremap <silent> <c-o>         :call WmClose()<CR>
 nnoremap <silent> <c-space>     :call WmFocus()<CR>
 nnoremap <silent> <nul>         :call WmFocus()<CR>
-tnoremap <silent> <c-i>         <c-w>:terminal<cr>
+" tnoremap <silent> <c-i>         <c-w>:terminal<cr>
 tnoremap <silent> <c-j>         <c-w>:wincmd w<cr>
 tnoremap <silent> <c-k>         <c-w>:wincmd W<cr>
-tnoremap <silent> <c-o>         <c-w>:call WmClose()<CR>
+" tnoremap <silent> <c-o>         <c-w>:call WmClose()<CR>
 tnoremap <silent> <c-space>     <c-w>:call WmFocus()<CR>
 tnoremap <silent> <nul>         <c-w>:call WmFocus()<CR>
 nnoremap <silent> <c-u>         :call WmZoom()<CR>

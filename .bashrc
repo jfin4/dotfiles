@@ -51,7 +51,7 @@ fi
 # prompt{{{
 
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-[[ $HOSTNAME == rpi ]] && source /usr/share/git/git-prompt.sh
+[[ $HOSTNAME == rpi ]] && source /usr/share/bash-completion/bash_completion
 
 PS1="\[\e]0;\h \W\a\]"; # set title
 PS1="$PS1"'\n'; # blank line after previous command
@@ -87,7 +87,7 @@ export PATH
 
 # https://github.com/junegunn/fzf?tab=readme-ov-file
 if [[ $HOSTNAME == 'rpi' ]]; then
-    source /usr/share/fzf/key-bindings.bash
+    source /usr/share/doc/fzf/examples/key-bindings.bash
 else
     eval "$(fzf --bash)"
 fi
@@ -137,6 +137,7 @@ _fzf_compgen_dir() {
 # }}}
 # aliases {{{
 
+alias fd=fdfind
 alias aws_ssh='ssh -i /home/JInman/.ssh/LightsailDefaultKey-us-west-2.pem admin@54.148.13.14'
 alias bak='back-up-file'
 alias cp='cp --recursive --no-clobber'
@@ -145,7 +146,7 @@ alias kb='show-key-bindings'
 alias la='ls -AlhF'
 alias lf='lf -config ~/.config/lf/lfrc'
 alias ll='ls -l --time-style=long-iso --classify --human-readable'
-alias ls='ls --format=single-column --classify'
+alias ls='ls -1p'
 alias mutt='neomutt'
 alias mvv='rename-files'
 alias notes='cd ~/notes; search-notes notes.txt; cd -'

@@ -43,7 +43,7 @@ local({
     })
 }
 
-lib_dir <- file.path("~/.R", paste0(R.version$major, ".", R.version$minor))
+lib_dir <- file.path("~/.R")
 dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(lib_dir, .libPaths()))
 

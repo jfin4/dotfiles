@@ -155,11 +155,28 @@ alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'
 alias dotp='dot pull'
+<<<<<<< Updated upstream
 if [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
     alias sshr='ssh jfin@10.0.0.160'
     alias sshrx='ssh -YC jfin@10.0.0.160'
+||||||| Stash base
+if [[ $HOSTNAME == rpi ]]; then
+    alias vim='vim -X' # connecting to X server is slow
+    alias fd=fdfind
+elif [[ $HOSTNAME == WB-102575 ]]; then
+    alias sshj='ssh -YC jfin@10.0.0.52'
+    alias sshr='ssh jfin@10.0.0.160'
+    alias sshrx='ssh -YC jfin@10.0.0.160'
+=======
+if [[ $HOSTNAME == rpi ]]; then
+    alias vim='vim -X' # connecting to X server is slow
+    alias fd=fdfind
+elif [[ $HOSTNAME == WB-102575 ]]; then
+    alias sshr='ssh -p 2222 jfin@10.0.0.160'
+>>>>>>> Stashed changes
     alias ssht='ssh jfin@10.0.0.27'
+    alias sshtx='ssh -YC jfin@10.0.0.27'
     alias start='\start ""'
 fi
 if [[ $HOSTNAME == t14 ]]; then

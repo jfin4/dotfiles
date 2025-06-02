@@ -54,5 +54,5 @@ tnoremap <silent> <c-k>         <c-w>:wincmd W<cr>
 " tnoremap <silent> <c-o>         <c-w>:call WmClose()<CR>
 tnoremap <silent> <c-space>     <c-w>:call WmFocus()<CR>
 tnoremap <silent> <nul>         <c-w>:call WmFocus()<CR>
-nnoremap <silent> <c-u>         :call WmZoom()<CR>
-tnoremap <silent> <c-u><c-u>    <c-w>:call WmZoom()<CR>
+nnoremap <silent> <c-t>         :call WmZoom()<CR>
+tnoremap <silent> <c-t>         <c-w>:call WmZoom()<CR>

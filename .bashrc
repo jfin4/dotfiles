@@ -46,12 +46,13 @@ fi
 # completion{{{
 
 [[ $HOSTNAME == WB-102575 ]] && source $HOME/.bash_completion
+complete -cf doas
 
 # }}}
 # prompt{{{
 
 [[ $HOSTNAME == jfin ]] && source /usr/share/git/completion/git-prompt.sh
-[[ $HOSTNAME == rpi ]] && source /usr/share/git/git-prompt.sh
+[[ $HOSTNAME == rpi ]] && source ~/scripts/git-prompt.sh
 [[ $HOSTNAME == t14 ]] && source /usr/share/git/git-prompt.sh
 
 PS1="\[\e]0;\h \W\a\]"; # set title
@@ -66,8 +67,6 @@ PS1="$PS1"'\[\e[0m\]'; # end color
 
 # }}}
 # path{{{
-
-[[ $HOSTNAME == rpi ]] && source ~/.cargo/env
 
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
@@ -87,11 +86,7 @@ export PATH
 # fzf{{{
 
 # https://github.com/junegunn/fzf?tab=readme-ov-file
-if [[ $HOSTNAME == 'rpi' ]]; then
-    source /usr/share/doc/fzf/examples/key-bindings.bash
-else
-    eval "$(fzf --bash)"
-fi
+eval "$(fzf --bash)"
 # rebind readline commands, i only use .. trigger
 bind '"\C-t": transpose-chars'
 bind '"\C-r": reverse-search-history'
@@ -156,24 +151,23 @@ alias prod='echo; Rscript ~/scripts/get-productivity.r'
 alias sob='source ~/.bashrc'
 alias vdk='pdf ~/.visidata-cheat-sheet.pdf'
 alias open='open-link'
-alias ai="aider \
-    --model openrouter/deepseek/deepseek-chat \
-    --api-key openrouter=$(< ~/.pass/openrouter-api-key) \
-    --no-pretty \
-    --watch-files"
 alias gits='git status'
 alias dots='dot status'
 alias gitp='git pull'
 alias dotp='dot pull'
-if [[ $HOSTNAME == rpi ]]; then
-    alias vim='vim -X' # connecting to X server is slow
-    alias fd=fdfind
-elif [[ $HOSTNAME == WB-102575 ]]; then
+if [[ $HOSTNAME == WB-102575 ]]; then
     alias sshj='ssh -YC jfin@10.0.0.52'
     alias sshr='ssh jfin@10.0.0.160'
     alias sshrx='ssh -YC jfin@10.0.0.160'
     alias ssht='ssh jfin@10.0.0.27'
     alias start='\start ""'
+fi
+if [[ $HOSTNAME == t14 ]]; then
+    alias ai="aider \
+        --model openrouter/deepseek/deepseek-chat \
+        --api-key openrouter=$(< ~/.pass/openrouter-api-key) \
+        --no-pretty \
+        --watch-files"
 fi
 # }}}
 # functions
@@ -224,10 +218,10 @@ pw() {
         old_clipboard=$(< /dev/clipboard)
         echo -n "$password" > /dev/clipboard
         (
-        { sleep 10
-            echo -n "$old_clipboard" > /dev/clipboard
-        } &
-    )
+            { sleep 10
+                echo -n "$old_clipboard" > /dev/clipboard
+            } &
+        )
     fi
     cd - > /dev/null
 }
@@ -308,3 +302,10 @@ expand-abbrev() {
 # Bind SPACE to magic expand
 bind -x '"\C-@":expand-abbrev'
 # }}}
+
+if [[ $HOSTNAME == rpi ]]; then
+    alias ll='ls -lFh'
+    rm() { 
+        mv "$@" ~/.trash
+    }
+fi

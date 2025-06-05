@@ -1,33 +1,21 @@
 " repl
 function! OpenRepl()
-    let term_command = {
-                \ 'r': 'terminal R --quiet --no-save',
-                \ 'python': 'terminal sh -c "./venv/bin/python || python"',
-                \ 'sh': 'terminal', 
+    let term_commands = {
+                \ 'r': 'Rterm --quiet --no-save',
+                \ 'python': './venv/bin/python || python',
                 \ }
-    execute term_command[&filetype]
-    let repl_buf = bufnr()
-    wincmd w
-    let b:repl_buf = repl_buf
+    let term_command = get(term_commands, &filetype, '')
+    let tmux_command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s',
+                \ term_command)
+    let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
 endfunction
 command! OpenRepl call OpenRepl()
 
-function! SetReplBuf()
-    " Show buffer list in a way that ensures visibility
-    redir => buflist
-    silent ls
-    redir END
-
-    " Display the buffer list
-    echo buflist
-
-    " Get buffer number from user
-    let b:repl_buf = 
-                \input("\nEnter REPL buffer number: ")->
-                \str2nr()
-
+function! SetReplPane()
+    let tmux_command = 'tmux display-panes -d 5000 ''display-message -p -l %%'''
+    let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
 endfunction
-command! SetReplBuf call SetReplBuf()
+command! SetReplPane call SetReplPane()
 
 function! GetReplFile()
     let repl_file = printf('%s/.%s.repl', 
@@ -40,8 +28,9 @@ function! GetReplFile()
 endfunction
 
 function! SendCode(code = [], echo = 1) abort
-    if !exists('b:repl_buf')
-        call SetReplBuf()
+    if !exists('b:repl_pane')
+        " call SetReplBuf()
+        call SetReplPane()
     endif
     let repl_file = GetReplFile()
     if !filereadable('repl_file')
@@ -50,21 +39,22 @@ function! SendCode(code = [], echo = 1) abort
     endif
     call writefile(a:code, repl_file)
     if a:echo
-        let source_command = {
+        let term_commands = {
                     \ 'r': 'suppressWarnings(suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf)))',
                     \ 'python': 'exec(open("%s").read())',
-                    \ 'sh': 'source "%s"',
                     \ }
     else
-        let source_command = {
+        let term_commands = {
                     \ 'r': 'suppressWarnings(suppressMessages(source("%s")))',
                     \ 'python': 'exec(open("%s").read())',
-                    \ 'sh': 'source "%s"',
                     \ }
     endif
-    let repl_command = printf(source_command[&filetype],
+    let term_command = printf(get(term_commands, &filetype, 'source "%s"'),
                 \ repl_file)
-    call term_sendkeys(b:repl_buf, repl_command . "\r")
+    let repl_command = printf('tmux send-keys -t %s ''%s'' Enter',
+                \ b:repl_pane,
+                \ term_command)
+    call system(repl_command)
 endfunction
 
 function! RunMotion(type = '') abort

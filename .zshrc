@@ -62,3 +62,7 @@ elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
     source /usr/share/git/git-prompt.sh
 fi
+
+if [[ -z $TMUX ]]; then
+    tmux-attach || tmux || :
+fi

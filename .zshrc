@@ -67,6 +67,7 @@ gitt() {
     git push
 }
 
+HOSTNAME=${HOSTNAME:-HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     # git prompt
     source C:/rtools45/usr/share/git/git-prompt.sh

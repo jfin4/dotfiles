@@ -1,18 +1,23 @@
+
 # completion
+
 # The following lines were added by compinstall
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=* r:|=*'
-zstyle :compinstall filename '/home/JInman/.zshrc'
+
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=* r:|=*' '+l:|=* r:|=*'
+zstyle :compinstall filename '/home/jfin/.zshrc'
+
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# history
-# Lines configured by zsh-newuser-install
+# options and variables
+bindkey -e
+
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
-bindkey -e
-# End of lines configured by zsh-newuser-install
+
+export EDITOR=/usr/bin/vim
 
 # prompt
 setopt prompt_subst
@@ -20,8 +25,10 @@ source ~/scripts/git-prompt.sh
 PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
 %# %f'
-# Set terminal title, everytime with: precmd() {}
-print -Pn "\e]0;%m\a"
+# Set terminal title
+precmd() {
+    print -Pn "\e]0;%m\a"
+}
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"

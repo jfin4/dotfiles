@@ -48,9 +48,9 @@ alias dots='dot status'
 alias dotp='dot pull'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
-# alias wol='cmd //c ".bin\WakeMeOnLan.exe /wakeup 10.0.0.27"'
 alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 alias ssht='ssh jfin@10.0.0.27'
+alias suspend='set-wake-and-suspend'
 
 # functions
 # dot add commit push
@@ -74,7 +74,3 @@ elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
     source /usr/share/git/git-prompt.sh
 fi
-
-# if [[ -z $TMUX ]]; then
-#     tmux attach || tmux || :
-# fi

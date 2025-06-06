@@ -1,12 +1,12 @@
-
+# completion
 # The following lines were added by compinstall
-
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=* r:|=*'
 zstyle :compinstall filename '/home/JInman/.zshrc'
-
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+# history
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
@@ -15,18 +15,12 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 # prompt
-# autoload -Uz vcs_info
-# precmd_vcs_info() { vcs_info }
-# precmd_functions+=( precmd_vcs_info )
-# setopt prompt_subst
+setopt prompt_subst
+PROMPT='
+%F{white}%m %~$(__git_ps1 " %s")
+%# %f'
 
-# zstyle ':vcs_info:git:*' formats ' %b'  # Note the leading space
-# zstyle ':vcs_info:*' enable git
-
-PROMPT="
-%F{white}%m %~\$(__git_ps1 ' %s')
-%# %f"
-
+# path
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$initial_path"
 PATH="$HOME/scripts:$PATH" 
@@ -55,19 +49,20 @@ alias suspend='set-wake-and-suspend'
 alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 
 # functions
-# dot add commit push
 dott() { 
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
+
 gitt() { 
     git add .
     git commit -m "${*:-no message}"
     git push
 }
 
-HOSTNAME=${HOSTNAME:-HOST}
+# host specific
+HOSTNAME=${HOSTNAME:+$HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     # git prompt
     source C:/rtools45/usr/share/git/git-prompt.sh

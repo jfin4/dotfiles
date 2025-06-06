@@ -20,6 +20,8 @@ source ~/scripts/git-prompt.sh
 PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
 %# %f'
+# Set terminal title, everytime with: precmd() {}
+print -Pn "\e]0;%m\a"
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"

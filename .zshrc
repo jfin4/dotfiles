@@ -19,11 +19,12 @@ autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
-# PROMPT='${vcs_info_msg_0_}%# '
-zstyle ':vcs_info:git:*' formats '%b'
+
+zstyle ':vcs_info:git:*' formats ' %b'  # Note the leading space
+zstyle ':vcs_info:*' enable git
 
 PROMPT="
-%F{white}%m %~ ${vcs_info_msg_0_}
+%F{white}%m %~\${vcs_info_msg_0_}
 %# %f"
 
 [ -z "$initial_path" ] && initial_path="$PATH"
@@ -44,8 +45,12 @@ export PATH
 # aliases
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias dots='dot status'
+alias dotp='dot pull'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
+# alias wol='cmd //c ".bin\WakeMeOnLan.exe /wakeup 10.0.0.27"'
+alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
+alias ssht='ssh jfin@10.0.0.27'
 
 # functions
 # dot add commit push
@@ -54,15 +59,22 @@ dott() {
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
+gitt() { 
+    git add -u
+    git -m "${*:-no message}"
+    git push
+}
 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     # source /usr/share/git/completion/git-prompt.sh
+    eval $(ssh-agent -s) > /dev/null 
+    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
 elif [[ $HOSTNAME == rpi ]]; then
     source ~/scripts/git-prompt.sh
 elif [[ $HOSTNAME == t14 ]]; then 
     source /usr/share/git/git-prompt.sh
 fi
 
-if [[ -z $TMUX ]]; then
-    tmux-attach || tmux || :
-fi
+# if [[ -z $TMUX ]]; then
+#     tmux attach || tmux || :
+# fi

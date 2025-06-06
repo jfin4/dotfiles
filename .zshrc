@@ -15,16 +15,16 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 # prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
+# autoload -Uz vcs_info
+# precmd_vcs_info() { vcs_info }
+# precmd_functions+=( precmd_vcs_info )
+# setopt prompt_subst
 
-zstyle ':vcs_info:git:*' formats ' %b'  # Note the leading space
-zstyle ':vcs_info:*' enable git
+# zstyle ':vcs_info:git:*' formats ' %b'  # Note the leading space
+# zstyle ':vcs_info:*' enable git
 
 PROMPT="
-%F{white}%m %~\${vcs_info_msg_0_}
+%F{white}%m %~\$(__git_ps1 ' %s')
 %# %f"
 
 [ -z "$initial_path" ] && initial_path="$PATH"
@@ -68,7 +68,9 @@ gitt() {
 }
 
 if [[ $HOSTNAME == 'WB-102575' ]]; then
-    # source /usr/share/git/completion/git-prompt.sh
+    # git prompt
+    source C:/rtools45/usr/share/git/git-prompt.sh
+    # add shh key
     eval $(ssh-agent -s) > /dev/null 
     ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
 elif [[ $HOSTNAME == rpi ]]; then

@@ -16,6 +16,7 @@ bindkey -e
 
 # prompt
 setopt prompt_subst
+source ~/scripts/git-prompt.sh
 PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
 %# %f'
@@ -64,13 +65,9 @@ gitt() {
 # host specific
 HOSTNAME=${HOSTNAME:+$HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then
-    # git prompt
-    source C:/rtools45/usr/share/git/git-prompt.sh
     # add shh key
     eval $(ssh-agent -s) > /dev/null 
     ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
 elif [[ $HOSTNAME == rpi ]]; then
-    source ~/scripts/git-prompt.sh
 elif [[ $HOSTNAME == t14 ]]; then 
-    source /usr/share/git/git-prompt.sh
 fi

@@ -46,6 +46,8 @@ export PATH
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias dotp='dot pull'
 alias dots='dot status'
+alias gitp='git pull'
+alias gits='git status'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
 alias ssht='ssh jfin@10.0.0.27'
@@ -60,8 +62,8 @@ dott() {
     git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
 }
 gitt() { 
-    git add -u
-    git -m "${*:-no message}"
+    git add .
+    git commit -m "${*:-no message}"
     git push
 }
 

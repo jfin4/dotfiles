@@ -44,13 +44,13 @@ export PATH
 
 # aliases
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
-alias dots='dot status'
 alias dotp='dot pull'
+alias dots='dot status'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
-alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 alias ssht='ssh jfin@10.0.0.27'
 alias suspend='set-wake-and-suspend'
+alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 
 # functions
 # dot add commit push

@@ -28,6 +28,7 @@ set ruler
 set signcolumn=no
 set smartcase 
 set t_Co=16
+set ttimeoutlen=0 " exit command line mode immediately
 set undofile 
 set virtualedit=block
 set wildmenu
@@ -119,7 +120,7 @@ let g:lsp_settings_enable_suggestions = 0
 let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 set omnifunc=lsp#complete
-inoremap <c-space> <c-o><plug>(lsp-signature-help)
+inoremap <c-k> <c-o><plug>(lsp-signature-help)
 
 " sideways
 nnoremap <leader>ah :SidewaysLeft<cr>

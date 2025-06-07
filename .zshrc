@@ -23,9 +23,12 @@ date=$(date +'%Y-%m-%d')
 # prompt
 setopt prompt_subst
 source ~/scripts/git-prompt.sh
+# PROMPT='
+# %F{white}%m %~$(__git_ps1 " %s")
+# %# %f'
 PROMPT='
-%F{white}%m %~$(__git_ps1 " %s")
-%# %f'
+%m %~$(__git_ps1 " %s")
+%# '
 # Set terminal title
 precmd() {
     print -Pn "\e]0;%m\a"

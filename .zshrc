@@ -23,12 +23,9 @@ date=$(date +'%Y-%m-%d')
 # prompt
 setopt prompt_subst
 source ~/scripts/git-prompt.sh
-# PROMPT='
-# %F{white}%m %~$(__git_ps1 " %s")
-# %# %f'
 PROMPT='
-%m %~$(__git_ps1 " %s")
-%# '
+%F{white}%m %~$(__git_ps1 " %s")
+%# %f'
 # Set terminal title
 precmd() {
     print -Pn "\e]0;%m\a"
@@ -68,6 +65,10 @@ gitt() {
     git add .
     git commit -m "${*:-no message}"
     git push
+}
+
+rm() {
+    mv "$@" ~/.trash/ 
 }
 
 # host specific

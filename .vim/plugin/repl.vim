@@ -1,7 +1,7 @@
 " repl
 function! OpenRepl()
     let term_commands = {
-                \ 'r': 'Rterm --quiet --no-save',
+                \ 'r': 'R --quiet --no-save',
                 \ 'python': './venv/bin/python || python',
                 \ }
     let term_command = get(term_commands, &filetype, '')

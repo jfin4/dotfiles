@@ -1,7 +1,9 @@
+
+# autoload -Uz zsh-newuser-install
+# zsh-newuser-install -f
+
 # completion
-
 # The following lines were added by compinstall
-
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=* r:|=*' '+l:|=* r:|=*'
 zstyle :compinstall filename '/home/jfin/.zshrc'
 
@@ -10,6 +12,7 @@ compinit
 # End of lines added by compinstall
 
 # options and variables
+setopt extendedglob
 bindkey -e
 
 HISTFILE=~/.histfile
@@ -70,6 +73,24 @@ gitt() {
 rm() {
     mv "$@" ~/.trash/ 
 }
+
+# magic abbreviation
+# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
+typeset -Ag abbreviations
+abbreviations=(
+  "vn"  "> /dev/null 2>&1"
+  "vc"  "> /dev/clipboard"
+)
+
+magic-abbrev-expand() {
+    local MATCH
+    LBUFFER=${LBUFFER%%(#m)[_a-zA-Z0-9]#}
+    LBUFFER+=${abbreviations[$MATCH]:-$MATCH}
+    zle self-insert
+}
+
+zle -N magic-abbrev-expand
+bindkey " " magic-abbrev-expand
 
 # host specific
 HOSTNAME=${HOSTNAME:+$HOST}

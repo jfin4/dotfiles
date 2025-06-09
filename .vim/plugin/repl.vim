@@ -3,6 +3,7 @@ function! OpenRepl()
     let term_commands = {
                 \ 'r': 'R --quiet --no-save',
                 \ 'python': './venv/bin/python || python',
+                \ 'sql': 'sqlite3',
                 \ }
     let term_command = get(term_commands, &filetype, '')
     let tmux_command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s',
@@ -42,11 +43,13 @@ function! SendCode(code = [], echo = 1) abort
         let term_commands = {
                     \ 'r': 'suppressWarnings(suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf)))',
                     \ 'python': 'exec(open("%s").read())',
+                    \ 'sql': '.read %s',
                     \ }
     else
         let term_commands = {
                     \ 'r': 'suppressWarnings(suppressMessages(source("%s")))',
                     \ 'python': 'exec(open("%s").read())',
+                    \ 'sql': '.read %s',
                     \ }
     endif
     let term_command = printf(get(term_commands, &filetype, 'source "%s"'),

@@ -26,13 +26,13 @@ date=$(date +'%Y-%m-%d')
 # prompt
 setopt prompt_subst
 source ~/scripts/git-prompt.sh
+# Set terminal title
+precmd() {
+    print -Pn '\e]0;%m\a'
+}
 PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
 %# %f'
-# Set terminal title
-precmd() {
-    print -Pn "\e]0;%m\a"
-}
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
@@ -93,7 +93,7 @@ zle -N magic-abbrev-expand
 bindkey " " magic-abbrev-expand
 
 # host specific
-HOSTNAME=${HOSTNAME:+$HOST}
+HOSTNAME=${HOSTNAME:-$HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then
     # shh 
     eval $(ssh-agent -s) > /dev/null 

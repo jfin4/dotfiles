@@ -92,6 +92,9 @@ magic-abbrev-expand() {
 zle -N magic-abbrev-expand
 bindkey " " magic-abbrev-expand
 
+alias -g vn="> /dev/null 2>&1"
+alias -g vc="> /dev/clipboard"
+
 # host specific
 HOSTNAME=${HOSTNAME:-$HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then

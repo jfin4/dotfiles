@@ -56,6 +56,7 @@ alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 alias ls="ls -1F"
 alias ll="ls -lh"
 alias start='cmd //c start ""'
+alias rm='move-to-trash'
 
 # functions
 dott() { 
@@ -68,10 +69,6 @@ gitt() {
     git add .
     git commit -m "${*:-no message}"
     git push
-}
-
-rm() {
-    mv "$@" ~/.trash/ 
 }
 
 # magic abbreviation

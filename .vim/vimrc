@@ -153,4 +153,4 @@ let g:vim_markdown_new_list_item_indent = 0
 set conceallevel=2
 
 " notes
-cabbrev todo BLines #todo<cr>
+command! Todo BLines #todo

@@ -12,9 +12,10 @@ compinit
 # End of lines added by compinstall
 
 # options and variables
-setopt extendedglob
+setopt extended_glob
 bindkey -e
 
+setopt hist_ignore_dups
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
@@ -51,12 +52,14 @@ alias gits='git status'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
 alias ssht='ssh jfin@10.0.0.27'
+alias sshxt='ssh -YC jfin@10.0.0.27'
 alias suspend='set-wake-and-suspend'
 alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 alias ls="ls -1F"
 alias ll="ls -lh"
 alias start='cmd //c start ""'
 alias rm='move-to-trash'
+alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
 
 # functions
 dott() { 
@@ -107,6 +110,9 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
     done
     PATH="$PATH:/c${r#c:}/bin/x64" 
     export PATH
+
+    # use local time, doesn't recognize 'Americal/Los_Angeles'
+    export TZ='PST8PDT'
 elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
 fi

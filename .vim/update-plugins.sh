@@ -13,7 +13,6 @@ plugins="
     mattn/vim-lsp-settings
     michaeljsmith/vim-indent-object
     prabirshrestha/vim-lsp
-    preservim/vim-markdown
     tpope/vim-commentary
     tpope/vim-repeat
     tpope/vim-surround

@@ -1,7 +1,7 @@
 snippet todo
 	#todo \
-	${1:`strftime('%Y')`-${2:`strftime('%m')`}-${3:`strftime('%d')`}} \
-	${0:description}
+	${0:`strftime('%Y-%m-%d', localtime() + 2 * 7 * 24 * 60 * 60)`} \
+	${1:description}
 
 snippet question
 	#question for ${1:who}: ${0:what}

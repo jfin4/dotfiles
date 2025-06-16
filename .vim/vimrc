@@ -13,7 +13,8 @@ set autoread
 set autowriteall
 set background=dark
 set belloff=all
-set completeopt=menuone,longest
+" set completeopt=menuone,longest
+set completeopt=menuone
 set encoding=utf-8
 set fillchars-=vert:\\|
 set formatoptions=qlcjnr
@@ -88,9 +89,11 @@ let g:mucomplete#chains = {
 
 inoremap <tab> <plug>(MUcompleteFwd)
 inoremap <s-tab> <plug>(MUcompleteBwd)
-inoremap <expr> <c-l> pumvisible() ? "<plug>(MUcompleteCycFwd)" : "<plug>snipMateNextOrTrigger"
-inoremap <expr> <c-h> pumvisible() ? "<plug>(MUcompleteCycBwd)" : "<plug>snipMateBack"
-inoremap <expr> . mucomplete#extend_bwd(".")
+inoremap <c-j> <plug>(MUcompleteCycFwd)
+inoremap <c-k> <plug>(MUcompleteCycBwd)
+" inoremap <expr> <c-l> pumvisible() ? "<plug>(MUcompleteCycFwd)" : "<plug>snipMateNextOrTrigger"
+" inoremap <expr> <c-h> pumvisible() ? "<plug>(MUcompleteCycBwd)" : "<plug>snipMateBack"
+" inoremap <expr> . mucomplete#extend_bwd(".")
 
 " get highlight group
 function! GetHighlight()

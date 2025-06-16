@@ -60,6 +60,7 @@ alias ll="ls -lh"
 alias start='cmd //c start ""'
 alias rm='move-to-trash'
 alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
+alias mutt='neomutt'
 
 # functions
 dott() { 

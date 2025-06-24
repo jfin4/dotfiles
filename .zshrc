@@ -45,105 +45,30 @@ PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$initial_path"
 export PATH
 
-# zoxide
-eval "$(zoxide init zsh)"
-
 # aliases
-alias cd='z' 
-alias prod='echo; Rscript ~/scripts/get-productivity.r' 
-alias todo='echo; Rscript ~/scripts/get-todos.r' 
+alias -g COPY='> /dev/clipboard'
+alias -g QUIET='> /dev/null 2>&1'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias dotp='dot pull'
 alias dots='dot status'
+alias dott='add-commit-push-dotfiles'
 alias gitp='git pull'
 alias gits='git status'
+alias gitt='add-commit-push'
+alias ll="ls -lh"
+alias ls="ls -1F"
+alias mutt='neomutt'
+alias prod='echo; Rscript ~/scripts/get-productivity.r' 
+alias rm='move-to-trash'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
 alias ssht='ssh jfin@10.0.0.27'
 alias sshxt='ssh -YC jfin@10.0.0.27'
-alias suspend='set-wake-and-suspend'
-alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
-alias ls="ls -1F"
-alias ll="ls -lh"
-alias rm='move-to-trash'
-<<<<<<< HEAD
-alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
-alias mutt='neomutt'
-
-# functions
-dott() { 
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
-}
-
-gitt() { 
-    git add .
-    git commit -m "${*:-no message}"
-    git push
-}
-
-# magic abbreviation
-# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
-typeset -Ag abbreviations
-abbreviations=(
-  "vn"  "> /dev/null 2>&1"
-  "vc"  "> /dev/clipboard"
-)
-
-magic-abbrev-expand() {
-    local MATCH
-    LBUFFER=${LBUFFER%%(#m)[_a-zA-Z0-9]#}
-    LBUFFER+=${abbreviations[$MATCH]:-$MATCH}
-    zle self-insert
-}
-
-zle -N magic-abbrev-expand
-bindkey " " magic-abbrev-expand
-
-alias -g vn="> /dev/null 2>&1"
-alias -g vc="> /dev/clipboard"
-||||||| parent of 0e3753a (no message)
-alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
-
-# functions
-dott() { 
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
-    git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
-}
-
-gitt() { 
-    git add .
-    git commit -m "${*:-no message}"
-    git push
-}
-
-# magic abbreviation
-# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
-typeset -Ag abbreviations
-abbreviations=(
-  "vn"  "> /dev/null 2>&1"
-  "vc"  "> /dev/clipboard"
-)
-
-magic-abbrev-expand() {
-    local MATCH
-    LBUFFER=${LBUFFER%%(#m)[_a-zA-Z0-9]#}
-    LBUFFER+=${abbreviations[$MATCH]:-$MATCH}
-    zle self-insert
-}
-
-zle -N magic-abbrev-expand
-bindkey " " magic-abbrev-expand
-
-alias -g vn="> /dev/null 2>&1"
-alias -g vc="> /dev/clipboard"
 alias start='launch-file'
-alias gitt='add-commit-push'
-alias dott='add-commit-push-dotfiles'
-alias -g QUIET='> /dev/null 2>&1'
-alias -g COPY='> /dev/clipboard'
+alias suspend='set-wake-and-suspend'
+alias todo='echo; Rscript ~/scripts/get-todos.r' 
+alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
+alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 
 # host specific
 HOSTNAME=${HOSTNAME:-$HOST}
@@ -164,8 +89,15 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
 
     # use local time, doesn't recognize 'Americal/Los_Angeles'
     export TZ='PST8PDT'
+    
+    # zoxide
+    eval "$(zoxide init zsh)"
+    alias cd='z' 
 elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
+    # zoxide
+    eval "$(zoxide init zsh)"
+    alias cd='z' 
 fi
 
 # notes

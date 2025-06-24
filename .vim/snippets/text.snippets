@@ -3,6 +3,11 @@ snippet todo
 	${0:`strftime('%Y-%m-%d', localtime() + 2 * 7 * 24 * 60 * 60)`} \
 	${1:description}
 
+snippet done
+	#done \
+	${0:`strftime('%Y-%m-%d', localtime())`} \
+	${1:description}
+
 snippet question
 	#question for ${1:who}: ${0:what}
 

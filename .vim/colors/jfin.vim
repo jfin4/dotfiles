@@ -17,12 +17,13 @@ for line in split(hloutput, "\n")
 endfor
 
 " colors named by function
-let accented = 'cyan'
-let alert   = 'brown'
-let border    = 'black'
+" let accented = 'cyan'
+let accented = 'gray'
+let alert   = 'brown' "bg
+let border    = 'black' "bg
 let default = 'none'
 let muted   = 'gray'
-let selected  = 'darkgray'
+let selected  = 'darkgray' "bg
 
 " ['group', fg, bg, style]
 let attributes_list = [

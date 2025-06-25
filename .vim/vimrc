@@ -95,7 +95,7 @@ inoremap <c-j> <plug>(MUcompleteCycFwd)
 inoremap <c-k> <plug>(MUcompleteCycBwd)
 " inoremap <expr> <c-l> pumvisible() ? "<plug>(MUcompleteCycFwd)" : "<plug>snipMateNextOrTrigger"
 " inoremap <expr> <c-h> pumvisible() ? "<plug>(MUcompleteCycBwd)" : "<plug>snipMateBack"
-" inoremap <expr> . mucomplete#extend_bwd(".")
+inoremap <expr> l mucomplete#extend_bwd("l")
 
 " get highlight group
 function! GetHighlight()

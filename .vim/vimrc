@@ -70,6 +70,8 @@ let g:snipMate = get(g:, 'snipMate', {
             \ 'always_choose_first' : 1,
             \ 'no_match_completion_feedkeys_chars' : '',
             \ })
+inoremap <c-l> <Plug>snipMateNextOrTrigger
+inoremap <c-h> <Plug>snipMateBack
 snoremap <c-l> <Plug>snipMateNextOrTrigger
 snoremap <c-h> <Plug>snipMateBack
 augroup snipmate

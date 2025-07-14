@@ -48,6 +48,7 @@ export PATH
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
+alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias dotp='dot pull'
 alias dots='dot status'
 alias dott='add-commit-push-dotfiles'

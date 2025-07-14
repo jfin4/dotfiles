@@ -1,13 +1,11 @@
-
 # autoload -Uz zsh-newuser-install; zsh-newuser-install -f
+# autoload -Uz compinstall; compinstall
 
 # completion
-
-
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _expand_alias _complete _ignored
-zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' '+l:|=* r:|=*'
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=** r:|=**' 'l:|=* r:|=*'
 zstyle :compinstall filename '/c/users/jinman/.zshrc'
 
 autoload -Uz compinit
@@ -46,6 +44,7 @@ PATH="$PATH:$initial_path"
 export PATH
 
 # aliases
+
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
@@ -59,6 +58,7 @@ alias ll="ls -lh"
 alias ls="ls -1F"
 alias mutt='neomutt'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
+alias pw='get-password'
 alias rm='move-to-trash'
 alias soz='source ~/.zshrc'
 alias sshr='ssh -p 2222 jfin@10.0.0.160'
@@ -67,7 +67,6 @@ alias sshxt='ssh -YC jfin@10.0.0.27'
 alias start='launch-file'
 alias suspend='set-wake-and-suspend'
 alias todo='echo; Rscript ~/scripts/get-todos.r' 
-alias todo='rg --trim "#todo" ~/notes/notes.txt | sort'
 alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 
 # host specific

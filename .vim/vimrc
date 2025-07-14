@@ -82,17 +82,12 @@ augroup end
 " mucomplete
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
-    \ 'default' : ['path', 'omni', 'keyp', 'dict', 'uspl'],
-    \ 'r' : ['path', 'omni', 'keyn', 'dict', 'uspl']
+    \ 'default' : ['path', 'keyp', 'omni', 'dict', 'uspl'],
     \ }
-" lsp compatability
-" let g:mucomplete#completion_delay = 50
-" let g:mucomplete#reopen_immediately = 0
 
 inoremap <tab> <plug>(MUcompleteFwd)
 inoremap <s-tab> <plug>(MUcompleteBwd)
 inoremap <c-j> <plug>(MUcompleteCycFwd)
-inoremap <c-k> <plug>(MUcompleteCycBwd)
 " inoremap <expr> <c-l> pumvisible() ? "<plug>(MUcompleteCycFwd)" : "<plug>snipMateNextOrTrigger"
 " inoremap <expr> <c-h> pumvisible() ? "<plug>(MUcompleteCycBwd)" : "<plug>snipMateBack"
 inoremap <expr> l mucomplete#extend_bwd("l")

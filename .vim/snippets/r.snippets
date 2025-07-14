@@ -10,7 +10,7 @@ snippet library
 
 snippet data
 	.data <- 
-		dir_ls('../resources/calwqa/data') %>%
+		dir_ls('../../resources/calwqa/data') %>%
 		keep(function(x) str_detect(x, '2028')) %>%
 		map(function(x) {
 			fread(x, colClasses = 'character') %>%

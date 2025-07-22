@@ -81,6 +81,9 @@ function! ViewObject(type = '') abort"{{{
                 \ expand('%:p:h'),
                 \ object->get(0)->substitute('\W\+', '', 'g'),
                 \ rand())
+    if hostname() == "WB-102575"
+        let file_name = file_name->substitute('/c', 'c:', '')
+    endif
     let code = printf('readr::write_csv({%s}, "%s")', 
                 \ object->join(''), 
                 \ file_name)

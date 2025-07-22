@@ -81,8 +81,6 @@ function! ViewObject(type = '') abort"{{{
                 \ expand('%:p:h'),
                 \ object->get(0)->substitute('\W\+', '', 'g'),
                 \ rand())
-    if hostname() == "WB-102575"
-        let file_name = file_name->substitute("^/c", "c:", "")
     let code = printf('readr::write_csv({%s}, "%s")', 
                 \ object->join(''), 
                 \ file_name)
@@ -90,7 +88,7 @@ function! ViewObject(type = '') abort"{{{
     while 1
         if filereadable(file_name)
             " execute printf('terminal visidata --theme=ascii8 %s', 
-            execute printf('call system(''start "" "%s"'')',
+            execute printf('call system(''launch-file "%s"'')',
                         \ file_name)
             execute printf('autocmd VimLeavePre * call delete("%s")', 
                         \ file_name)

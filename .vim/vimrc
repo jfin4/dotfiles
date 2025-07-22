@@ -71,9 +71,7 @@ let g:snipMate = get(g:, 'snipMate', {
             \ 'no_match_completion_feedkeys_chars' : '',
             \ })
 inoremap <c-l> <Plug>snipMateNextOrTrigger
-inoremap <c-h> <Plug>snipMateBack
 snoremap <c-l> <Plug>snipMateNextOrTrigger
-snoremap <c-h> <Plug>snipMateBack
 augroup snipmate
    au!
    autocmd bufleave *.snippets SnipMateLoadScope %

@@ -1,6 +1,7 @@
 "/usr/share/vim/vim90/colors/README.txt
 " help group-name highlight-groups cterm-colors
 let colors_name = 'jfin'
+set t_Co=16
 
 " set attributes of all groups to none
 redir => hloutput
@@ -17,8 +18,8 @@ for line in split(hloutput, "\n")
 endfor
 
 " colors named by function
-" let accented = 'cyan'
-let accented = 'gray'
+let accented = 'cyan'
+" let accented = 'gray'
 let alert   = 'brown' "bg
 let border    = 'black' "bg
 let default = 'none'

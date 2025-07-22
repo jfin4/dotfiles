@@ -30,7 +30,8 @@ setopt prompt_subst
 source ~/scripts/git-prompt.sh
 # Set terminal title
 precmd() {
-    print -Pn '\e]0;%m\a'
+    # print -Pn '\e]0;%m\a' # host
+    print -Pn '\e]0;%1d\a' # current dir
 }
 PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
@@ -67,6 +68,7 @@ alias ssht='ssh jfin@10.0.0.27'
 alias sshxt='ssh -YC jfin@10.0.0.27'
 alias start='launch-file'
 alias suspend='set-wake-and-suspend'
+alias aw='toggle-alt-win'
 alias todo='echo; Rscript ~/scripts/get-todos.r' 
 alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
 
@@ -93,11 +95,13 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
+
 elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
+    export BROWSER=/usr/bin/firefox
 fi
 
 # notes

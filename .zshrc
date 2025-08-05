@@ -48,8 +48,9 @@ export PATH
 
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1'
+alias aw='toggle-alt-win'
+alias bat="echo $(< /sys/class/power_supply/BAT0/capacity)%"
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
-alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias dotp='dot pull'
 alias dots='dot status'
 alias dott='add-commit-push-dotfiles'
@@ -58,6 +59,7 @@ alias gits='git status'
 alias gitt='add-commit-push'
 alias ll="ls -lh"
 alias ls="ls -1F"
+alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mutt='neomutt'
 alias prod='echo; Rscript ~/scripts/get-productivity.r' 
 alias pw='get-password'
@@ -68,9 +70,9 @@ alias ssht='ssh jfin@10.0.0.27'
 alias sshxt='ssh -YC jfin@10.0.0.27'
 alias start='launch-file'
 alias suspend='set-wake-and-suspend'
-alias aw='toggle-alt-win'
 alias todo='echo; Rscript ~/scripts/get-todos.r' 
-alias wol="powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1"
+alias wol='powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1'
+alias sig='get-signal-quality'
 
 # host specific
 HOSTNAME=${HOSTNAME:-$HOST}

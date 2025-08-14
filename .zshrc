@@ -49,7 +49,7 @@ export PATH
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1'
 alias aw='toggle-alt-win'
-alias bat="echo $(< /sys/class/power_supply/BAT0/capacity)%"
+alias bat='get-battery-capacity'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias dotp='dot pull'
 alias dots='dot status'

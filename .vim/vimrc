@@ -148,13 +148,32 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
 set conceallevel=2
 
-" notes
 command! Todo BLines #todo
 
-" os specific
-if has("win64")
-    set clipboard=unnamed
-elseif has("unix")
-    set clipboard=unnamedplus
-endif
-
+" copy to clipboard
+function! CopyToClipboard(type = '') abort
+    
+    " operator boilerplate >>>
+    if a:type == ''
+        let &operatorfunc = 'CopyToClipboard'
+        return 'g@'
+    endif
+    let selection = {
+                \ 'line': "'[V']",
+                \ 'char': "`[v`]",
+                \ 'block': "`[\<C-V>`]",
+                \ }[a:type]
+    " <<<
+    
+    " os specific
+    if has("win64")
+        execute printf('normal! %s"*y',
+                    \ selection)
+    elseif has("unix")
+        execute printf('normal! %s"+y',
+                    \ selection)
+    endif
+endfunction
+nnoremap <expr> Y CopyToClipboard()
+xnoremap <expr> Y CopyToClipboard()
+nnoremap <expr> YY CopyToClipboard() .. '_'

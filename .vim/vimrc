@@ -150,3 +150,11 @@ set conceallevel=2
 
 " notes
 command! Todo BLines #todo
+
+" os specific
+if has("win64")
+    set clipboard=unnamed
+elseif has("unix")
+    set clipboard=unnamedplus
+endif
+

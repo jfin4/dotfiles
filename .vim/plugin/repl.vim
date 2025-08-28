@@ -2,7 +2,7 @@
 function! OpenRepl()
     let term_commands = {
                 \ 'r': 'R --quiet --no-save',
-                \ 'python': './venv/bin/python || python',
+                \ 'python': './.venv/bin/python || python',
                 \ 'sql': 'sqlite3',
                 \ }
     let term_command = get(term_commands, &filetype, '')

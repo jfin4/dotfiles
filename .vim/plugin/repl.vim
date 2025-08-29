@@ -12,6 +12,17 @@ function! OpenRepl()
 endfunction
 command! OpenRepl call OpenRepl()
 
+function! CloseRepl()
+    let close_commands = {
+                \ 'r': 'quit()',
+                \ 'python': 'quit()',
+                \ 'sql': '.exit',
+                \ }
+    let code = [get(close_commands, &filetype, '')]
+    call SendCode(code, 0)
+endfunction
+command! CloseRepl call CloseRepl()
+
 function! SetReplPane()
     let tmux_command = 'tmux display-panes -d 5000 ''display-message -p -l %%'''
     let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')

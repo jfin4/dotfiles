@@ -99,6 +99,13 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
     eval "$(zoxide init zsh)"
     alias cd='z' 
 
+
+    # update and start tmux
+    if [[ -z $TMUX ]]; then
+        pacman -Syuu --noconfirm
+        tmux
+    fi
+
 elif [[ $HOSTNAME == rpi ]]; then
 elif [[ $HOSTNAME == t14 ]]; then 
     # zoxide

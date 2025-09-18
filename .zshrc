@@ -46,6 +46,8 @@ export PATH
 
 # aliases
 
+alias bypass='sudo ip netns exec clear sudo -u $USER'
+
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1'
 alias aw='toggle-alt-win'

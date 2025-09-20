@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [[ -f ~/.altwin ]]; then
+    setxkbmap -option
+    setxkbmap -option caps:escape
+    rm ~/.altwin
+else
+    setxkbmap -option
+    setxkbmap -option caps:escape -option altwin:swap_alt_win
+    touch ~/.altwin
+fi

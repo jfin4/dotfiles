@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# mupdf
+SumatraPDF-3.5.2-64.exe "$@" &> /dev/null & disown
+

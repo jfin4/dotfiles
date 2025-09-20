@@ -1,0 +1,11 @@
+#!/bin/sh
+
+rclone sync ~/projects docs:projects 
+rclone sync ~/notes docs:notes 
+rclone sync ~/resources data:resources 
+
+add-commit-push-dotfiles
+
+cd ~/scripts
+add-commit-push
+cd -

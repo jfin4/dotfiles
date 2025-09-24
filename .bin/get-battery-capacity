@@ -1,4 +1,0 @@
-#!/bin/sh
-
-capacity=$(< /sys/class/power_supply/BAT0/capacity)
-notify-send "Battery: $(< /sys/class/power_supply/BAT0/capacity)%"

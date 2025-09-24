@@ -1,9 +1,0 @@
-# https://wiki.archlinux.org/title/Readline#Faster_completion
-set show-all-if-ambiguous on
-
-set bell-style none
-
-# https://www.man7.org/linux/man-pages/man3/readline.3.html
-TAB: menu-complete
-set menu-complete-display-prefix on
-set completion-ignore-case on

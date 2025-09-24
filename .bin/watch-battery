@@ -6,10 +6,9 @@
 
 capacity=$(< /sys/class/power_supply/BAT0/capacity)
 status=$(< /sys/class/power_supply/BAT0/status)
-# if [ $status = Discharging -a $capacity -le 100 ]; then
-if [ $status = Discharging -a $capacity -le 10 ]; then
+if [[ $status = Discharging ]] && [[ $capacity -le 10 ]]; then
     sudo -u $USER \
         DISPLAY=:0 \
-        DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus \
+        DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$UID/bus \
         notify-send --expire-time=10000 --urgency=critical "Battery ${capacity}%"
 fi

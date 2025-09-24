@@ -1,0 +1,7 @@
+#!/bin/sh
+
+rclone sync docs:projects ~/projects
+rclone sync docs:notes ~/notes
+rclone sync data:resources ~/resources
+
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull

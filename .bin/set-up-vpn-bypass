@@ -1,0 +1,78 @@
+#!/bin/bash
+
+NAMESPACE="bypass"
+VETH_HOST="veth0"
+VETH_NS="veth1"
+VETH_ADDR_HOST="10.200.200.1"
+VETH_ADDR_NS="10.200.200.2"
+VETH_NETWORK="10.200.200.0/24"
+
+# Get your physical interface and gateway BEFORE VPN modifies routing
+# Run this BEFORE starting VPN or temporarily bring VPN down
+PHYSICAL_IFACE=$(ip route | grep default | grep -v wg | awk '{print $5}' | head -1)
+# If VPN is already up, you might need to manually specify your interface
+# PHYSICAL_IFACE="wlan0"  # or eth0, enp0s3, etc.
+
+# Get your router's IP (gateway)
+REAL_GATEWAY=$(ip route | grep default | grep -v wg | awk '{print $3}' | head -1)
+# Or manually specify if needed
+# REAL_GATEWAY="192.168.1.1"
+
+echo "Cleaning up existing configuration..."
+
+# Clean up iptables rules
+sudo iptables -t nat -D POSTROUTING -s $VETH_NETWORK -o $PHYSICAL_IFACE -j MASQUERADE 2>/dev/null
+sudo iptables -D FORWARD -i $VETH_HOST -o $PHYSICAL_IFACE -j ACCEPT 2>/dev/null
+sudo iptables -D FORWARD -o $VETH_HOST -i $PHYSICAL_IFACE -j ACCEPT 2>/dev/null
+
+# Clean up policy routing
+sudo ip rule del from $VETH_NETWORK lookup 100 2>/dev/null
+sudo ip route del default via $REAL_GATEWAY dev $PHYSICAL_IFACE table 100 2>/dev/null
+
+# Clean up veth interfaces (this also cleans up any addresses)
+sudo ip link del $VETH_HOST 2>/dev/null
+
+# Clean up namespace (this should happen after veth cleanup)
+sudo ip netns del $NAMESPACE 2>/dev/null
+
+# Clean up resolv.conf
+sudo rm -rf /etc/netns/$NAMESPACE 2>/dev/null
+
+echo "Creating new configuration..."
+
+# Create namespace
+sudo ip netns add $NAMESPACE
+
+# Create veth pair
+sudo ip link add $VETH_HOST type veth peer name $VETH_NS
+
+# Setup host side
+sudo ip addr add $VETH_ADDR_HOST/24 dev $VETH_HOST
+sudo ip link set $VETH_HOST up
+
+# Move and setup namespace side
+sudo ip link set $VETH_NS netns $NAMESPACE
+sudo ip -n $NAMESPACE addr add $VETH_ADDR_NS/24 dev $VETH_NS
+sudo ip -n $NAMESPACE link set $VETH_NS up
+sudo ip -n $NAMESPACE link set lo up
+
+# Route traffic from namespace directly to your real gateway, bypassing VPN
+sudo ip -n $NAMESPACE route add default via $VETH_ADDR_HOST
+
+# Enable forwarding
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# NAT - but specifically through your physical interface, NOT the VPN
+sudo iptables -t nat -A POSTROUTING -s $VETH_NETWORK -o $PHYSICAL_IFACE -j MASQUERADE
+sudo iptables -A FORWARD -i $VETH_HOST -o $PHYSICAL_IFACE -j ACCEPT
+sudo iptables -A FORWARD -o $VETH_HOST -i $PHYSICAL_IFACE -j ACCEPT
+
+# Setup DNS (using public DNS that will work without VPN)
+sudo mkdir -p /etc/netns/$NAMESPACE
+echo -e "nameserver 8.8.8.8\nnameserver 1.1.1.1" | sudo tee /etc/netns/$NAMESPACE/resolv.conf
+
+# Add policy routing to ensure namespace traffic goes to physical interface
+sudo ip rule add from $VETH_NETWORK lookup 100
+sudo ip route add default via $REAL_GATEWAY dev $PHYSICAL_IFACE table 100
+
+echo "VPN bypass setup complete!"

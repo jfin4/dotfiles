@@ -1,0 +1,11 @@
+#!/bin/sh
+
+brightness=$(< /sys/class/backlight/intel_backlight/brightness)
+brightness=$(printf "%.0f" "$(echo "$brightness * 1.2" | bc -l)")
+
+max=$(< /sys/class/backlight/intel_backlight/max_brightness)
+if [[ $brightness -gt $max ]]; then
+    brightness=$max
+fi
+
+sudo sh -c "echo $brightness > /sys/class/backlight/intel_backlight/brightness"

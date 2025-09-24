@@ -1,0 +1,14 @@
+#!/bin/bash
+
+NAMESPACE="bypass"
+if ! ip netns | grep $NAMESPACE; then
+    set-up-vpn-bypass
+fi
+
+# env vars needed for sound
+sudo ip netns exec bypass \
+  sudo -u $USER env \
+  XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+  DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS \
+  "$@"
+

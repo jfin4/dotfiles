@@ -1,0 +1,83 @@
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+[branch]
+
+    sort = -committerdate
+
+[column]
+
+    ui = auto
+
+[commit]
+
+    verbose = true
+
+[core]
+
+    autocrlf = false
+    editor = vim
+    excludesfile = ~/.gitignore
+    fsmonitor = true
+    untrackedCache = true
+
+[credential]
+
+    helper = store
+
+[diff]
+
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+
+[fetch]
+    
+    all = true
+    prune = true
+    pruneTags = true
+
+[help]
+
+    autocorrect = prompt
+
+[init]
+
+    defaultBranch = main
+
+[merge]
+
+    conflictstyle = zdiff3 
+
+[pull]
+
+    rebase = true
+
+[push]
+
+    autoSetupRemote = true
+    default = simple
+    followTags = true
+
+[rebase]
+
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+
+[rerere]
+
+    enabled = true
+    autoupdate = true
+
+[status]
+
+    showUntrackedFiles = no
+
+[tag]
+
+    sort = version:refname
+
+[user]
+
+    email = john@jfin.net
+    name = John Inman

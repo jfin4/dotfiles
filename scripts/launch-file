@@ -1,0 +1,21 @@
+#!/bin/sh
+
+ext="${1##*.}"
+
+if [[ $HOSTNAME == 'WB-102575' ]]; then
+    # file="${1/\/c/c:}"
+    file="$1"
+    if [[ "$ext" == pdf ]]; then
+        SumatraPDF-3.5.2-64 "$file" > /dev/null 2>&1 &
+    else
+        cmd //c start "" "$file"
+    fi
+else
+    file="$1"
+    if [[ "$ext" == eml ]]; then
+        xterm -e view-mail "$file" &
+    else
+        xdg-open "$file" &
+    fi
+fi
+

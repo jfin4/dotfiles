@@ -1,0 +1,15 @@
+#!/bin/sh
+
+timestamp=$(date +%s)
+
+if [[ $(uname -o) == Msys ]]; then
+    trash_dir=$HOME/trash
+else
+    trash_dir=/home/trash
+fi
+
+for path in "$@"; do
+    file=${path##*/}
+    mv "$path" $trash_dir/"$file-$timestamp"
+done
+

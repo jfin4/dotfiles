@@ -1,0 +1,6 @@
+#!/bin/sh
+
+dir=$(mktemp -d)
+mkdir $dir/{cur,new,tmp}
+cp "$1" $dir/new
+neomutt -f $dir

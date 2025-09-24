@@ -1,0 +1,22 @@
+snippet x
+	function(x)
+
+snippet library
+	library("tidyverse")
+	library("fs")
+	library("readxl")
+	library("writexl")
+	library("data.table")
+
+snippet data
+	.data <- 
+		dir_ls('../../resources/calwqa/data') %>%
+		keep(function(x) str_detect(x, '2028')) %>%
+		map(function(x) {
+			fread(x, colClasses = 'character') %>%
+			mutate(Region = str_extract(x, '\\\\d')) %>%
+			rename(AnalyteName = any_of('Analyte'),
+					MatrixName = any_of('Matrix'))
+		}) %>% 
+		bind_rows() %>%
+		as_tibble()

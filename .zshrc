@@ -78,9 +78,9 @@ alias sig='get-signal-quality'
 # host specific
 HOSTNAME=${HOSTNAME:-$HOST}
 if [[ $HOSTNAME == 'WB-102575' ]]; then
-    # shh 
-    eval $(ssh-agent -s) > /dev/null 
-    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
+    # # shh 
+    # eval $(ssh-agent -s) > /dev/null 
+    # ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
 
     # path
     PATH="$PATH:/c/Program Files/Python312"

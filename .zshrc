@@ -27,7 +27,7 @@ date=$(date +'%Y-%m-%d')
 
 # prompt
 setopt prompt_subst
-source ~/scripts/git-prompt.sh
+source ~/.bin/git-prompt.sh
 # Set terminal title
 precmd() {
     # print -Pn '\e]0;%m\a' # host
@@ -39,7 +39,7 @@ PROMPT='
 
 # path
 [ -z "$initial_path" ] && initial_path="$PATH"
-PATH="$HOME/scripts" 
+PATH="$HOME/.bin" 
 PATH="$PATH:$HOME/.local/bin" 
 PATH="$PATH:$initial_path"
 export PATH
@@ -62,7 +62,7 @@ alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mpv='mpv --profile=fast'
 alias mutt='neomutt'
-alias prod='echo; Rscript ~/scripts/get-productivity.r' 
+alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
 alias rm='move-to-trash'
 alias soz='source ~/.zshrc'
@@ -71,8 +71,8 @@ alias ssht='ssh jfin@10.0.0.27'
 alias sshxt='ssh -YC jfin@10.0.0.27'
 alias start='launch-file'
 alias zzz='set-wake-and-suspend'
-alias todo='echo; Rscript ~/scripts/get-todos.r' 
-alias wol='powershell -ExecutionPolicy Bypass -File ~/scripts/wake-on-lan.ps1'
+alias todo='echo; Rscript ~/.bin/get-todos.r' 
+alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias sig='get-signal-quality'
 
 # host specific

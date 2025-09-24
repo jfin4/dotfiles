@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# for copy-pipe-and-cancel in tmux.conf
-
-if [[ $HOSTNAME == 'WB-102575' ]]; then
-    echo > /dev/clipboard
-else
-    xsel --clipboard -i
-fi

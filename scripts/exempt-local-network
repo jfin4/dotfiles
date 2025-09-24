@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# exempt local network from vpn
-
-mullvad_configs="$@"
-sed -i '/^\[Peer\]/i PostUp = ip route add 10.0.0.0/24 via 10.0.0.1 dev wlan0' $mullvad_configs
-sed -i '/^\[Peer\]/i PreDown = ip route del 10.0.0.0/24 via 10.0.0.1 dev wlan0' $mullvad_configs

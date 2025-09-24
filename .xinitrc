@@ -20,7 +20,7 @@ if [[ ! $WM_RUNNING ]]; then
     # Statusbar loop
     while true; do
         xsetroot -name "$(get-status)"
-        ~/scripts/watch-battery
+        ~/.bin/watch-battery
         sleep 1m    # Update time every minute
     done &
 

@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import random
 import string
+import os
 
-DICT_PATH = "/usr/share/dict/words"
+
+DICT_PATH = os.path.join(os.environ["HOME"], ".bin", "words.txt")
 SPECIALS = "!@#$%^&*()-_=+[]{};:,.<>?/"
 
 def load_common_words(path=DICT_PATH, max_len=6):

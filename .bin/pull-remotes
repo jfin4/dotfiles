@@ -1,7 +1,16 @@
 #!/bin/sh
 
-rclone sync docs:projects ~/projects
-rclone sync docs:notes ~/notes
-rclone sync data:resources ~/resources
+echo rclone sync --progress data:resources ~/resources
+rclone sync --progress data:resources ~/resources
+echo
+echo rclone sync --progress docs:notes ~/notes
+rclone sync --progress docs:notes ~/notes
+echo
+echo rclone sync --progress docs:projects ~/projects
+rclone sync --progress docs:projects ~/projects
+echo
+echo rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
+rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
+echo
 
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull

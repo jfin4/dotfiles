@@ -75,9 +75,8 @@ Bat() {
 }
 # }}}
 # get ip location
-# curl -s https://ipinfo.io/json | jq '.city, .region, .country'
 Location() {
-    var=$(curl -s https://ipinfo.io/json | jq '.city' | tr -d '"')
+    var=$(curl -s http://ip-api.com/json | jq '.city' | tr -d '"')
     echo "$var"
 }
 
@@ -88,8 +87,6 @@ Time() {
 	echo "$var" 
 }
 
-# notify-send "$(Net) $(Bat) $(Time)"
-# echo "$(Net) $(Bat) $(Time)"
 echo "$(Location) $(Time)"
 
 

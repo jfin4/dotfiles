@@ -12,5 +12,5 @@ echo
 echo rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
 rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
 echo
-
+echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull

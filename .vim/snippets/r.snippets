@@ -2,15 +2,10 @@ snippet x
 	function(x)
 
 snippet pack
-	packages <- 
-		c('fs',
-		  'readxl',
-		  'tidyverse',
-		  'writexl')
-	is_loaded <- sapply(packages, function(x) require(x, character.only = TRUE))
-	not_loaded <- packages[!is_loaded]
-	install.packages(not_loaded)
-	sapply(not_loaded, function(x) library(x, character.only = TRUE))
+	t <- require(fs); if (!t) {install.packages('fs'); library(fs)}
+	t <- require(readxl); if (!t) {install.packages('readxl'); library(readxl)}
+	t <- require(tidyverse); if (!t) {install.packages('tidyverse'); library(tidyverse)}
+	t <- require(writexl); if (!t) {install.packages('writexl'); library(writexl)}
 
 snippet data
 	.data <- 

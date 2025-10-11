@@ -27,7 +27,7 @@ function! DoWithObject(command, type = '') abort"{{{
     let object = split(@r, "\n")
                 \ ->map({_, v -> substitute(v, '\s*#.*', '', '')})
                 \ ->map({_, v -> substitute(v, '\s\+', ' ', '')})
-    let code = printf('print(%s({%s}))', 
+    let code = printf('%s({%s})', 
                 \ a:command, 
                 \ object->join(''))
     call SendCode([code])

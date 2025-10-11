@@ -2,10 +2,10 @@ snippet x
 	function(x)
 
 snippet pack
-	t <- require(fs); if (!t) {install.packages('fs'); library(fs)}
-	t <- require(readxl); if (!t) {install.packages('readxl'); library(readxl)}
-	t <- require(tidyverse); if (!t) {install.packages('tidyverse'); library(tidyverse)}
-	t <- require(writexl); if (!t) {install.packages('writexl'); library(writexl)}
+	library(fs)
+	library(readxl)
+	library(tidyverse)
+	library(writexl)
 
 snippet data
 	.data <- 

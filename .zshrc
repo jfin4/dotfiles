@@ -74,10 +74,11 @@ alias zzz='set-wake-and-suspend'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias sig='get-signal-quality'
+alias jfin='sudo -u jfin -s env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native zsh'
 
 # host specific
-HOSTNAME=${HOSTNAME:-$HOST}
-if [[ $HOSTNAME == 'WB-102575' ]]; then
+os=$(uname)
+if [[ $os == 'Msys' ]]; then
     # # shh 
     # eval $(ssh-agent -s) > /dev/null 
     # ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
@@ -106,13 +107,17 @@ if [[ $HOSTNAME == 'WB-102575' ]]; then
         tmux
     fi
 
-elif [[ $HOSTNAME == rpi ]]; then
-elif [[ $HOSTNAME == t14 ]]; then 
+elif [[ $os == OpenBSD ]]; then
+elif [[ $os == Linux ]]; then 
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
     export BROWSER=/usr/bin/firefox
-fi
+    if [[ $USER == jfin-wb ]]; then 
+        xhost +SI:localuser:jfin 
+    fi
+fi > /dev/null 2>&1
+
 
 # notes
 #

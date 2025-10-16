@@ -1,7 +1,7 @@
 snippet x
 	function(x)
 
-snippet pack
+snippet lib
 	library(fs)
 	library(readxl)
 	library(tidyverse)
@@ -20,10 +20,11 @@ snippet data
 		bind_rows() %>%
 		as_tibble()
 
-snippet load
-	if (!exists("files_loaded")) {
+snippet read
+	if (!exists("$1")) {
 
+		${1:.data} <-
+			read_${2:tsv}("$3", 
+			col_types = ${4:cols(.default = "c")})
 		$0
-
-		files_loaded <- TRUE
 	}

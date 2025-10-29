@@ -47,7 +47,7 @@ export PATH
 # aliases
 
 alias -g COPY='> /dev/clipboard'
-alias -g QUIET='> /dev/null 2>&1'
+alias -g QUIET='> /dev/null 2>&1 & disown'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
@@ -75,10 +75,11 @@ alias todo='echo; Rscript ~/.bin/get-todos.r'
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias sig='get-signal-quality'
 alias jfin='sudo -u jfin -s env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus PULSE_SERVER=unix:/run/user/$(id -u)/pulse/native zsh'
+alias calaters='start ~/notes/docs/calaters.jnlp'
 
 # host specific
 os=$(uname)
-if [[ $os == 'Msys' ]]; then
+if [[ $os == MINGW64_NT-10.0-26100 ]]; then
     # # shh 
     # eval $(ssh-agent -s) > /dev/null 
     # ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1

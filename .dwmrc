@@ -12,10 +12,11 @@ static const char dmenufont[]       = "Terminus:size=16";
 static const char col_bg[]          = "#000000";
 static const char col_fg_norm[]     = "#cccccc";
 static const char col_fg_sel[]      = "#ffffff";
+static const char col_border_sel[]      = "#00ccff";
 static const char *colors[][3]      = {
 	/*               fg           bg      border   */
 	[SchemeNorm] = { col_fg_norm, col_bg, col_bg },
-	[SchemeSel]  = { col_fg_sel,  col_bg, col_bg  },
+	[SchemeSel]  = { col_fg_sel,  col_bg, col_border_sel  },
 };
 
 /* tagging */

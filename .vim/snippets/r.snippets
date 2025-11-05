@@ -9,7 +9,7 @@ snippet lib
 
 snippet data
 	.data <- 
-		dir_ls('../../resources/calwqa/data') %>%
+		dir_ls('~/resources/calwqa/data') %>%
 		keep(function(x) str_detect(x, '2028')) %>%
 		map(function(x) {
 			fread(x, colClasses = 'character') %>%
@@ -23,7 +23,7 @@ snippet data
 snippet read
 	if (!exists("$1")) {
 
-		${1:.data} <-
+		${1:.dat} <-
 			read_${2:tsv}("$3", 
 			col_types = ${4:cols(.default = "c")})
 		$0

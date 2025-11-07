@@ -1,10 +1,5 @@
 # general
 options(max.print = 500, help_type = "html")
-# options(width = 156)
-
-# for tidyverse in terminal
-# options(cli.unicode = FALSE) 
-# options(crayon.enabled = FALSE)
 
 # specify repo
 local({
@@ -22,3 +17,8 @@ if (Sys.info()["nodename"] == "t14") {
   options(browser = "/usr/bin/firefox")
 }
 
+# for lsp completion
+suppressMessages({
+    lapply(.Options$defaultPackages, function(x) library(x, character.only=TRUE))
+    library(tidyverse)
+})

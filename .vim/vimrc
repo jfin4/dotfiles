@@ -84,13 +84,11 @@ augroup end
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
     \ 'default' : ['path', 'keyp', 'omni', 'dict', 'uspl'],
+    \ 'r' : ['omni', 'keyp', 'dict'],
     \ }
-
 inoremap <tab> <plug>(MUcompleteFwd)
 inoremap <s-tab> <plug>(MUcompleteBwd)
 inoremap <c-j> <plug>(MUcompleteCycFwd)
-" inoremap <expr> <c-l> pumvisible() ? "<plug>(MUcompleteCycFwd)" : "<plug>snipMateNextOrTrigger"
-" inoremap <expr> <c-h> pumvisible() ? "<plug>(MUcompleteCycBwd)" : "<plug>snipMateBack"
 inoremap <expr> l mucomplete#extend_bwd("l")
 
 " get highlight group
@@ -120,8 +118,8 @@ let g:lsp_diagnostics_enabled = 0
 let g:lsp_settings_enable_suggestions = 0
 let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
-set omnifunc=lsp#complete
 inoremap <c-k> <c-o><plug>(lsp-signature-help)
+set omnifunc=lsp#complete
 
 " sideways
 nnoremap <leader>ah :SidewaysLeft<cr>

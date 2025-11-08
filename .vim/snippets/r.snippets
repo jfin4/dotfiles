@@ -2,13 +2,14 @@ snippet x
 	function(x)
 
 snippet lib
+	library(data.table)
 	library(fs)
 	library(readxl)
 	library(tidyverse)
 	library(writexl)
 
-snippet data
-	.data <- 
+snippet dat
+	.dat <- 
 		dir_ls('~/resources/calwqa/data') %>%
 		keep(function(x) str_detect(x, '2028')) %>%
 		map(function(x) {

@@ -84,7 +84,6 @@ augroup end
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
     \ 'default' : ['path', 'keyp', 'omni', 'dict', 'uspl'],
-    \ 'r' : ['omni', 'keyp', 'dict'],
     \ }
 inoremap <tab> <plug>(MUcompleteFwd)
 inoremap <s-tab> <plug>(MUcompleteBwd)

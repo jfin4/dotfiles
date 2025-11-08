@@ -18,7 +18,11 @@ if (Sys.info()["nodename"] == "t14") {
 }
 
 # for lsp completion
+packages <- .Options$defaultPackages
+load_package <- function(package) library(package, character.only = TRUE)
 suppressMessages({
-    lapply(.Options$defaultPackages, function(x) library(x, character.only=TRUE))
+    # default packages have to be loaded first, other wise stats::filter will
+    # mask dplyr::filter
+    lapply(packages, load_package)
     library(tidyverse)
 })

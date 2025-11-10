@@ -76,8 +76,8 @@ Bat() {
 # }}}
 # get ip location
 Location() {
-    var=$(curl -s http://ip-api.com/json | jq '.city' | tr -d '"')
-    echo "$var"
+    var=$(curl https://am.i.mullvad.net/city)
+    echo "${var%,*}"
 }
 
 # time

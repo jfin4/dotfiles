@@ -60,7 +60,7 @@ alias gitt='add-commit-push'
 alias ll="ls -lh"
 alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
-alias mpv='mpv --profile=fast'
+alias mpv='mpv --profile=fast --hwdec=auto'
 alias mutt='cd ~/downloads; neomutt; cd -'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
@@ -113,6 +113,7 @@ elif [[ $os == Linux ]]; then
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
+    alias ZZZ='sudo shutdown now'
     export BROWSER=/usr/bin/firefox
     if [[ $USER == jfin-wb ]]; then 
         xhost +SI:localuser:jfin 

@@ -1,0 +1,161 @@
+# vim: filetype=neomuttrc
+bind index,pager i noop
+bind index,pager g noop
+bind index \Cf noop
+bind index,pager M noop
+bind index,pager C noop
+
+source /home/jfin/.mutt/accounts/john@jfin.net.muttrc
+macro index,pager i1 '<sync-mailbox><enter-command>source /home/jfin/.mutt/accounts/john@jfin.net.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to john@jfin.net"
+
+auto_view application/pgp-encrypted
+auto_view text/html		# automatically show html (mailcap uses lynx)
+set mailcap_path="~/.mutt/mailcap"
+
+
+set change_folder_next = yes     # Go to next unread mailbox when current is empty
+set collapse_all = no            # Don't collapse threads by default
+set date_format="%Y-%m-%d %H:%M"
+set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
+set delete = yes
+set edit_headers = yes
+set fast_reply			# skip to compose when replying
+set fcc_attach			# save attachments with the body
+set forward_format = "Fwd: %s"	# format of subject when forwarding
+set forward_quote		# include message in forwards
+set hide_thread_subject = yes    # Hide subject if it's the same as parent
+set include			# include message in replies
+# set index_format="%2C %Z %?X?A& ? %D %-15.15F %s (%-4.4c)"
+set index_format="%2C %Z %?X?A& ? %D %-15.15F %s"
+set mail_check=60 # to avoid lags using IMAP with some email providers (yahoo for example)
+set mailcap_path = $HOME/.mutt/mailcap
+set mark_old = no		# Unread mail stay unread until read
+set markers = no		# Disables the `+` displayed at line wraps
+set mime_forward = yes		# attachments are forwarded with mail
+set mime_type_query_command = "file --mime-type -b %s"
+set narrow_tree = no             # Make thread indicators wider/more visible
+set query_command = "abook --mutt-query '%s'"
+set reverse_name		# reply as whomever it was to
+set rfc2047_parameters = yes # encoding for non ascii characters
+set sleep_time = 0		# Pause 0 seconds for informational messages
+set sort = reverse-last-date
+set sort_aux = reverse-last-date
+set sort_re = yes                # Group messages with Re: in subject
+set strict_threads = yes         # Only thread by In-Reply-To/References
+set thread_received = yes        # Sort threads by most recent message
+set uncollapse_jump = yes        # Jump to first unread when uncollapsing
+set uncollapse_new = yes         # Automatically uncollapse threads with new mail
+set use_threads = yes            # Use threading
+set wait_key = no		# mutt won't ask "press key to continue"
+
+# General rebindings
+bind index gg first-entry
+bind index j next-entry
+bind index k previous-entry
+bind attach <return> view-mailcap
+bind attach l view-mailcap
+bind editor <space> noop
+bind index G last-entry
+bind index gg first-entry
+bind pager,attach h exit
+bind pager j next-line
+bind pager k previous-line
+bind pager l view-attachments
+bind index,pager d delete-message
+bind index,pager u undelete-message
+bind index L limit
+bind index h noop
+bind index l display-message
+bind index,query <space> tag-entry
+macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
+bind index,pager H view-raw-message
+bind browser l select-entry
+bind pager,browser gg top-page
+bind pager,browser G bottom-page
+# bind index,pager,browser d half-down
+# bind index,pager,browser u half-up
+bind index,pager S sync-mailbox
+bind index,pager R group-reply
+bind editor <Tab> complete-query
+
+# view in firefox
+# macro index,pager V "<enter-command>firefox '%f'<enter>" "open current attachment in Firefox"
+
+# macro index,pager V \
+# "<pipe-message>cat > /tmp/mutt_mail.html<enter><shell-escape>firefox /tmp/mutt_mail.html &<enter>" \
+# "open mail in firefox"
+
+# # view in lynx
+# macro index,pager V \
+# "<view-attachments>\
+# <search>html<enter>\
+# <pipe-entry>cat > /tmp/neomutt-html.html<enter>\
+# <shell-escape>lynx /tmp/neomutt-html.html<enter>\
+# <exit>" \
+# "View HTML in lynx with link following"
+
+macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
+macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
+macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
+macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
+macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"
+macro index,pager Cd ";<copy-message>=Drafts<enter>" "copy mail to drafts"
+macro index,pager gj "<change-folder>=Junk<enter>" "go to junk"
+macro index,pager Mj ";<save-message>=Junk<enter>" "move mail to junk"
+macro index,pager Cj ";<copy-message>=Junk<enter>" "copy mail to junk"
+macro index,pager gt "<change-folder>=Trash<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=Trash<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=Trash<enter>" "copy mail to trash"
+macro index,pager gs "<change-folder>=Sent<enter>" "go to sent"
+macro index,pager Ms ";<save-message>=Sent<enter>" "move mail to sent"
+macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
+macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
+macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
+macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
+
+macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+macro index O "<shell-escape>mbsync -a && notmuch new<enter>" "run mw -Y to sync all mail"
+macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>printf 'Enter a search term to find with notmuch: '; read x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;s/\^id:// for@a;$,=\"|\";print@a' | perl -le '@a=<>; chomp@a; s/\\+/\\\\+/ for@a;print@a' \`\"<enter>" "show only messages matching a notmuch pattern"
+macro index A "<limit>all\n" "show all messages (undo limit)"
+
+# index 
+color index         white default '.*'
+color index         brightwhite default '~N' 
+# color index         green default '~Q' # replied
+
+# Other colors and aesthetic settings:
+mono  bold       bold
+mono  underline  underline
+mono  indicator  reverse
+mono  error      bold
+color normal     default   default
+color indicator  default   yellow
+color normal     default   default
+color error      default   default
+color tilde      white     default
+color message    default   default
+color markers    white     default
+color attachment default   default
+color search     default   brightblack
+color status     white     black
+color hdrdefault brightwhite     default
+color quoted     white     default
+color quoted1    white     default
+color quoted2    white     default
+color quoted3    white     default
+color quoted4    white     default
+color quoted5    white     default
+color signature  default   default
+color bold       default   default
+color underline  default   default
+color normal     default   default
+
+# header
+
+ignore *
+unignore from date subject to cc
+
+# Regex highlighting:
+# color header brightwhite default ".*"
+# color body brightred default ".*"

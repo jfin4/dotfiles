@@ -1,0 +1,19 @@
+# vim: filetype=neomuttrc
+# muttrc file for account john@jfin.net
+set realname = "John Inman"
+set from = "john@jfin.net"
+set sendmail = "msmtp -a john@jfin.net"
+alias me john <john@jfin.net>
+set folder = "/home/jfin/.local/share/mail/john@jfin.net"
+set header_cache = /home/jfin/.cache/mutt/john@jfin.net/headers
+set message_cachedir = /home/jfin/.cache/mutt/john@jfin.net/bodies
+set mbox_type = Maildir
+set hostname = "jfin.net"
+set spoolfile = +INBOX
+set postponed = +Drafts
+set trash = +Trash
+set record = +Sent
+
+macro index o "<shell-escape>mbsync john@jfin.net<enter>" "run mbsync to sync john@jfin.net"
+
+mailboxes "=Archive" "=Drafts" "=INBOX" "=Sent" "=Spam" "=Trash" 

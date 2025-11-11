@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+command="$@"
+namespace="vpn"
+
+if [ ! -f /var/run/netns/$namespace ]; then
+
+    wg_conf="$HOME/.secrets/us-sjc-wg-505.conf"
+
+    # --- Extract values from config ---
+    # man perlre
+    private_key=$(grep -oP '^PrivateKey\s*=\s*\K.*' "$wg_conf")
+    address=$(grep -oP '^Address\s*=\s*\K.*' "$wg_conf" | tr -d ' ' | cut -d, -f1)
+    dns=$(grep -oP '^DNS\s*=\s*\K.*' "$wg_conf")
+    peer_pubkey=$(grep -oP '^PublicKey\s*=\s*\K.*' "$wg_conf")
+    allowed_ips=$(grep -oP '^AllowedIPs\s*=\s*\K.*' "$wg_conf" | tr -d ' ')
+    endpoint=$(grep -oP '^Endpoint\s*=\s*\K.*' "$wg_conf")
+
+
+    # --- Create namespace ---
+    sudo ip netns add "$namespace"
+
+    # --- Create WireGuard interface ---
+    sudo ip link add wg0 type wireguard
+    sudo ip link set wg0 netns "$namespace"
+
+    # --- Configure WireGuard ---
+    tmpkey=$(mktemp)
+    echo "$private_key" > "$tmpkey"
+
+    sudo ip netns exec "$namespace" wg set wg0 private-key "$tmpkey"
+    sudo ip netns exec "$namespace" wg set wg0 peer "$peer_pubkey" allowed-ips "$allowed_ips" endpoint "$endpoint"
+    sudo ip netns exec "$namespace" ip addr add "$address" dev wg0
+    sudo ip netns exec "$namespace" ip link set wg0 up
+    sudo ip netns exec "$namespace" ip route add default dev wg0
+
+    /usr/bin/rm -f "$tmpkey"
+
+    # --- Set DNS ---
+    sudo mkdir -p /etc/netns/$namespace
+    echo "nameserver $dns" | sudo tee /etc/netns/$namespace/resolv.conf >/dev/null
+
+fi
+
+# --- Run command ---
+sudo ip netns exec "$namespace" sudo -u "$USER" \
+    DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS \
+    XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    PIPEWIRE_REMOTE=unix:$XDG_RUNTIME_DIR/pipewire-0 \
+    DISPLAY=$DISPLAY \
+    XAUTHORITY=$XAUTHORITY \
+    "$command"
+
+

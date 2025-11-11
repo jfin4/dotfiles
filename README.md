@@ -19,7 +19,6 @@ if [ $? != 0 ]; then
     dot switch $branch
 fi
 
-# because crlf
 dot restore . 
 
 dot pull --set-upstream origin $branch

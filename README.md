@@ -14,7 +14,7 @@ if [ $? != 0 ]; then
     backup_dir=$HOME/dotfiles-backup
     [ -d $backup_dir ] && \rm -rf $backup_dir
     mkdir -p $backup_dir
-    dot switch $branch 2>&1 | grep -Pe '\t' | sed -e 's/\t\([^/]*\).*/\1/' | uniq \
+    dot switch $branch 2>&1 | grep -E $'\t' | sed -e $'s/\t\\([^/]*\\).*/\\1/' | uniq \
         | xargs -I{} mv {} $backup_dir/{}
     dot switch $branch
 fi

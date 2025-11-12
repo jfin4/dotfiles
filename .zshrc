@@ -21,8 +21,6 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
-export EDITOR=/usr/bin/vim
-
 date=$(date +'%Y-%m-%d')
 
 # prompt
@@ -110,12 +108,14 @@ if [[ $os == MINGW64_NT-10.0-26100 ]]; then
     fi
 
 elif [[ $os == OpenBSD ]]; then
+    export EDITOR=/usr/local/bin/vim
 elif [[ $os == Linux ]]; then 
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
     alias ZZZ='sudo shutdown now'
     export BROWSER=/usr/bin/firefox
+    export EDITOR=/usr/bin/vim
     if [[ $USER == jfin-wb ]]; then 
         xhost +SI:localuser:jfin 
     fi

@@ -57,6 +57,7 @@ alias dott='add-commit-push-dotfiles'
 alias gitp='git pull'
 alias gits='git status'
 alias gitt='add-commit-push'
+alias la="ls -lha"
 alias ll="ls -lh"
 alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'

@@ -2,7 +2,8 @@
 
 timestamp=$(date +%s)
 
-if [[ $(uname -o) == Msys ]]; then
+os=$(uname)
+if [[ $os == MINGW64_NT-10.0-26100 ]]; then
     trash_dir=$HOME/trash
 else
     trash_dir=/home/trash

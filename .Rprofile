@@ -14,7 +14,7 @@ dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Set browser only on t14 (Linux)
 if (Sys.info()["nodename"] == "t14") {
-  options(browser = "/usr/bin/firefox")
+  options(browser = "/usr/bin/firefox -P alt")
 }
 
 # for lsp completion
@@ -24,5 +24,5 @@ suppressMessages({
     # default packages have to be loaded first, other wise stats::filter will
     # mask dplyr::filter
     lapply(packages, load_package)
-    library(tidyverse)
+    library("tidyverse", character.only = TRUE)
 })

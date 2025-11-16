@@ -40,7 +40,7 @@ PROMPT='
 PATH="$HOME/.bin" 
 PATH="$PATH:$HOME/.local/bin" 
 PATH="$PATH:$initial_path"
-export PATH
+export initial_path PATH
 
 # aliases
 

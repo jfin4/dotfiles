@@ -1,15 +1,29 @@
 snippet x
 	function(x)
 
-snippet lib
+snippet prep
+	# prepare environment --------------------------------------------------------
 	library(data.table)
 	library(fs)
 	library(readxl)
 	library(tidyverse)
 	library(writexl)
 
-snippet dat
-	.dat <- 
+	rm(list = ls())
+
+	if (!exists("")) {
+
+		<-
+			read_tsv("",
+			         col_types = cols(.default = "c"))
+		<-
+			read_xlsx("",
+			col_types = "text")
+	}
+
+
+snippet data
+	.data <- 
 		dir_ls('~/resources/calwqa/data') %>%
 		keep(function(x) str_detect(x, '2028')) %>%
 		map(function(x) {
@@ -20,12 +34,3 @@ snippet dat
 		}) %>% 
 		bind_rows() %>%
 		as_tibble()
-
-snippet read
-	if (!exists("$1")) {
-
-		${1:.dat} <-
-			read_${2:tsv}("$3", 
-			col_types = ${4:cols(.default = "c")})
-		$0
-	}

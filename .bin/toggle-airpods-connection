@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if bluetoothctl info | grep 'Connected: yes'; then
+    bluetoothctl disconnect 18:3F:70:5E:41:D0
+else
+    bluetoothctl connect 18:3F:70:5E:41:D0
+fi

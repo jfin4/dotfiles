@@ -19,6 +19,7 @@ set date_format="%Y-%m-%d %H:%M"
 set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
 set delete = yes
 set edit_headers = yes
+set editor = vim
 set fast_reply			# skip to compose when replying
 set fcc_attach			# save attachments with the body
 set forward_format = "Fwd: %s"	# format of subject when forwarding

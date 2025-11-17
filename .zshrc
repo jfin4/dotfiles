@@ -4,9 +4,9 @@
 # completion
 # The following lines were added by compinstall
 
-zstyle ':completion:*' completer _expand _expand_alias _complete _ignored
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=** r:|=**' 'l:|=* r:|=*'
-zstyle :compinstall filename '/c/users/jinman/.zshrc'
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**'
+zstyle :compinstall filename '/home/jfin/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -59,7 +59,7 @@ alias la="ls -lha"
 alias ll="ls -lh"
 alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
-alias mpv='mpv --profile=fast --hwdec=auto'
+alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
 alias mutt='sudo -u jfin sh -c "cd ~/downloads; neomutt; cd -"'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'

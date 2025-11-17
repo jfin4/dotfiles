@@ -16,6 +16,8 @@ if [[ ! $WM_RUNNING ]]; then
     export WM_RUNNING=true
 
     dunst &
+
+    udiskie &
     
     # Statusbar loop
     while true; do

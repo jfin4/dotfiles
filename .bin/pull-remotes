@@ -9,8 +9,8 @@ echo
 echo rclone sync --progress docs:projects ~/projects
 rclone sync --progress docs:projects ~/projects
 echo
-echo rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
-rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**"
+echo rclone sync --progress docs:relep ~/relep
+rclone sync --progress docs:relep ~/relep
 echo
 echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull

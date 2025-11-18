@@ -6,8 +6,8 @@ echo
 echo rclone sync --progress ~/projects docs:projects 
 rclone sync --progress ~/projects docs:projects 
 echo 
-echo rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**"
-rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**"
+echo rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
+rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
 echo 
 echo rclone sync --progress ~/resources data:resources 
 rclone sync --progress ~/resources data:resources 

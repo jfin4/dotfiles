@@ -7,5 +7,6 @@ if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
         echo updated kernel. rebooting...
         sudo reboot
     fi
+    startx
 fi
 

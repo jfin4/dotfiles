@@ -11,14 +11,15 @@ snippet prep
 
 	rm(list = ls())
 
-	if (!exists("")) {
+	if (!exists(".$1")) {
 
-		<-
+		.${1:object} <-
 			read_tsv("",
 			         col_types = cols(.default = "c"))
-		<-
+		.$1 <-
 			read_xlsx("",
-			col_types = "text")
+	                  sheet = "",
+	                  col_types = "text")
 	}
 
 

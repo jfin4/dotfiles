@@ -1,3 +1,5 @@
+#!/usr/bin/sh
+
 # sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
 # sudo sh -c 'echo 0 > /sys/class/leds/platform::micmute/brightness'
 setxkbmap -option caps:escape -option altwin:swap_alt_win
@@ -10,7 +12,6 @@ xrdb -merge .Xresources
 xset b off
 ~/.screenlayout/external.sh
 
-
 if [[ ! $WM_RUNNING ]]; then
 
     export WM_RUNNING=true
@@ -21,8 +22,8 @@ if [[ ! $WM_RUNNING ]]; then
     
     # Statusbar loop
     while true; do
-        xsetroot -name "$(get-status)"
-        ~/.bin/watch-battery
+        xsetroot -name "$($HOME/.bin/get-status)"
+        $HOME/.bin/watch-battery
         sleep 1m    # Update time every minute
     done &
 

@@ -1,7 +1,6 @@
-#!/usr/bin/zsh
+#!/usr/bin/sh
 
-os=$(uname)
-if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ] && [ $os = "Linux" ]; then
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
     kernel=$(pacman -Qu linux)
     sudo pacman -Syu --noconfirm
     if [[ -n $kernel ]]; then

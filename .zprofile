@@ -8,12 +8,17 @@ PATH="$PATH:$initial_path"
 export initial_path PATH
 
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-    # kernel=$(pacman -Qu linux)
-    # sudo pacman -Syu --noconfirm
-    # if [[ -n $kernel ]]; then
-    #     echo updated kernel. rebooting...
-    #     sudo reboot
-    # fi
+    
+    # update
+    kernel=$(sudo pacman -Syu --print | grep -o "linux-[0-9.]\+")
+    sudo pacman -Syu --noconfirm
+    if [[ -n $kernel ]]; then
+        echo updated kernel. rebooting...
+        sudo reboot
+    fi
+
+    # start x
     startx
+
 fi
 

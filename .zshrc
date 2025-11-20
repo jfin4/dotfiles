@@ -35,13 +35,6 @@ PROMPT='
 %F{white}%m %~$(__git_ps1 " %s")
 %# %f'
 
-# path
-[ -z "$initial_path" ] && initial_path="$PATH"
-PATH="$HOME/.bin" 
-PATH="$PATH:$HOME/.local/bin" 
-PATH="$PATH:$initial_path"
-export initial_path PATH
-
 # aliases
 
 alias -g COPY='> /dev/clipboard'

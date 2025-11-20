@@ -138,7 +138,7 @@ color tilde      white     default
 color message    default   default
 color markers    white     default
 color attachment default   default
-color search     default   brightblack
+color search     default   yellow
 color status     white     black
 color hdrdefault brightwhite     default
 color quoted     white     default

@@ -174,3 +174,10 @@ endfunction
 nnoremap <expr> Y CopyToClipboard()
 xnoremap <expr> Y CopyToClipboard()
 nnoremap <expr> YY CopyToClipboard() .. '_'
+
+" Create or clear an augroup
+augroup mutt
+    autocmd!
+    autocmd insertenter,bufwrite /tmp/neomutt* ++once setfiletype mail
+augroup END
+

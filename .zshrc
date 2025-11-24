@@ -55,7 +55,7 @@ alias ll="ls -lh"
 alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
-alias mutt='sudo -u jfin sh -c "cd ~/downloads; neomutt; cd -"'
+alias mutt='cd ~/downloads; neomutt; cd -'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
 alias rm='move-to-trash'

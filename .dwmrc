@@ -1,4 +1,4 @@
-/* See LICENSE file for copyright and license details. */
+ /* See LICENSE file for copyright and license details. */
 
 #include <X11/XF86keysym.h>
 
@@ -12,12 +12,7 @@ static const char dmenufont[]       = "Terminus:size=16";
 static const char col_bg[]          = "#000000";
 static const char col_fg_norm[]     = "#cccccc";
 static const char col_fg_sel[]      = "#ffffff";
-<<<<<<< Updated upstream
-static const char col_border_sel[]      = "#00ccff";
-||||||| Stash base
-=======
-static const char col_border_sel[]  = "#ff0000";
->>>>>>> Stashed changes
+static const char col_border_sel[]  = "#ff99ff";
 static const char *colors[][3]      = {
 	/*               fg           bg      border   */
 	[SchemeNorm] = { col_fg_norm, col_bg, col_bg },

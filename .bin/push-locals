@@ -8,17 +8,17 @@ print_header() {
     printf "\n"
 }
 
-print_header docs:notes
+print_header "docs:notes"
 rclone sync --progress ~/notes docs:notes 
-print_header docs:projects
+print_header "docs:projects"
 rclone sync --progress ~/projects docs:projects 
-print_header docs:records
+print_header "docs:records"
 rclone sync --progress ~/records docs:records 
-print_header docs:relep
+print_header "docs:relep"
 rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
-print_header data:resources
+print_header "data:resources"
 rclone sync --progress ~/resources data:resources 
-print_header push dotfiles
+print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "automatic commit"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push

@@ -1,19 +1,24 @@
 #!/bin/sh
 
-echo rclone sync --progress data:resources ~/resources
+print_header() {
+    text="$1 "
+    pad_length=$((78 - ${#text}))
+    printf "\n%s " $text
+    printf "%0.s-" $(seq 1 $pad_length)
+    printf "\n"
+}
+
+print_header "data:resources"
 rclone sync --progress data:resources ~/resources
-echo
-echo rclone sync --progress docs:notes ~/notes
+print_header "docs:notes"
 rclone sync --progress docs:notes ~/notes
-echo
-echo rclone sync --progress docs:projects ~/projects
+print_header "docs:projects"
 rclone sync --progress docs:projects ~/projects
-echo
-echo rclone sync --progress docs:records ~/records
+print_header "docs:records"
 rclone sync --progress docs:records ~/records
-echo
-echo rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
+print_header "docs:relep"
 rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
-echo
-echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
+print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
+
+

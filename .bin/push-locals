@@ -1,26 +1,24 @@
 #!/bin/sh
 
-echo rclone sync --progress ~/notes docs:notes 
-rclone sync --progress ~/notes docs:notes 
-echo
-echo rclone sync --progress ~/projects docs:projects 
-rclone sync --progress ~/projects docs:projects 
-echo 
-echo rclone sync --progress ~/records docs:records 
-rclone sync --progress ~/records docs:records 
-echo 
-echo rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
-rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
-echo 
-echo rclone sync --progress ~/resources data:resources 
-rclone sync --progress ~/resources data:resources 
-echo
-echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-echo
-echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "automatic commit"
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "automatic commit"
-echo
-echo git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
+print_header() {
+    text="$1 "
+    pad_length=$((78 - ${#text}))
+    printf "\n%s " $text
+    printf "%0.s-" $(seq 1 $pad_length)
+    printf "\n"
+}
 
+print_header docs:notes
+rclone sync --progress ~/notes docs:notes 
+print_header docs:projects
+rclone sync --progress ~/projects docs:projects 
+print_header docs:records
+rclone sync --progress ~/records docs:records 
+print_header docs:relep
+rclone sync --progress ~/relep docs:relep --exclude="/ReLEP/**" --exclude="/Region **"
+print_header data:resources
+rclone sync --progress ~/resources data:resources 
+print_header push dotfiles
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "automatic commit"
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push

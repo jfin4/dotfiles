@@ -9,15 +9,15 @@ print_header() {
 }
 
 print_header "data:resources"
-rclone sync --progress data:resources ~/resources
+rclone sync --update --progress data:resources ~/resources
 print_header "docs:notes"
-rclone sync --progress docs:notes ~/notes
+rclone sync --update --progress docs:notes ~/notes
 print_header "docs:projects"
-rclone sync --progress docs:projects ~/projects
+rclone sync --update --progress docs:projects ~/projects
 print_header "docs:records"
-rclone sync --progress docs:records ~/records
+rclone sync --update --progress docs:records ~/records
 print_header "docs:relep"
-rclone sync --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
+rclone sync --update --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
 print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
 

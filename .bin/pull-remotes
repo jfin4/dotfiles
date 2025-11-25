@@ -8,6 +8,8 @@ print_header() {
     printf "\n"
 }
 
+print_header "dotfiles"
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
 print_header "data:resources"
 rclone sync --update --progress data:resources ~/resources
 print_header "docs:notes"
@@ -18,7 +20,5 @@ print_header "docs:records"
 rclone sync --update --progress docs:records ~/records
 print_header "docs:relep"
 rclone sync --update --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
-print_header "dotfiles"
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
 
 

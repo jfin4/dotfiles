@@ -4,9 +4,13 @@ timestamp=$(date +%s)
 
 os=$(uname)
 if [[ $os == MINGW64_NT-10.0-26100 ]]; then
-    trash_dir=$HOME/trash
+    trash_dir=$HOME/.trash
 else
-    trash_dir=/home/trash
+    trash_dir=$HOME/.trash
+fi
+
+if [[ ! -d "$trash_dir" ]]; then
+    mkdir "$trash_dir"
 fi
 
 for path in "$@"; do

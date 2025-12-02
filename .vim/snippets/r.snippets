@@ -14,12 +14,15 @@ snippet prep
 	if (!exists(".$1")) {
 
 		.${1:object} <-
-			read_tsv("",
-			         col_types = cols(.default = "c"))
+			read_xlsx("${2:path}",
+			          col_types = "text",
+					  sheet = "$3")
+
 		.$1 <-
-			read_xlsx("",
-	                  sheet = "",
-	                  col_types = "text")
+			fread("$2",
+			         colClasses = "character") %>%
+					 as_tibble()
+
 	}
 
 	$1 <- .$1

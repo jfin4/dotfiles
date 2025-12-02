@@ -1,9 +1,10 @@
-```
+#!/bin/sh
+
 branch=main
 
-cd $HOME
+cd $HOME 
 
-git_dir=$HOME/.dotfiles.git
+git_dir=.dotfiles.git
 [ -d $git_dir ] && \rm -rf $git_dir
 git clone --bare https://github.com/jfin4/dotfiles $git_dir
 
@@ -21,9 +22,8 @@ if [ $? != 0 ]; then
     dot switch $branch
 fi
 
-dot restore $HOME
+dot restore .
 
 dot pull --set-upstream origin $branch
 
 cd -
-```

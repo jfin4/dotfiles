@@ -19,7 +19,7 @@ if [ $? != 0 ]; then
     dot switch $branch
 fi
 
-dot restore . 
+dot restore $HOME
 
 dot pull --set-upstream origin $branch
 ```

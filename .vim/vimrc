@@ -97,6 +97,7 @@ function! GetHighlight()
     let lo    = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
     echo 'hi:' . hi . ', trans:' . trans . ', lo:' . lo
 endfunction
+command GetHighlight call GetHighlight()
 
 " source updated config files 
 augroup vimrc

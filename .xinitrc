@@ -18,8 +18,6 @@ if [[ ! $WM_RUNNING ]]; then
 
     dunst &
 
-    udiskie &
-    
     # Statusbar loop
     while true; do
         xsetroot -name "$(get-status)"

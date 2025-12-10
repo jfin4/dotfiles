@@ -1,0 +1,28 @@
+#!/bin/sh
+
+for p in *; do
+
+    if [[ "$p" == "${0##*/}" ]]; then
+        # do not try to update this script
+        continue
+    fi
+     
+    text="$p "
+    pad_length=$((78 - ${#text}))
+    printf "\n%s " $text
+    printf "%0.s-" $(seq 1 $pad_length)
+    printf "\n"
+
+
+    git --git-dir="${p}/.git" --work-tree="$p" pull
+        
+    makepkg \
+        --clean \
+        --syncdeps \
+        --install \
+        --noconfirm \
+        --dir "$p"
+    
+        # maybe only needed for config file changes, e.g., dwm?
+        # --force \
+done

@@ -1,24 +1,87 @@
 #!/bin/sh
 
-# get --bootnum to modify instead of --create
-# efibootmgr
+# Check if arguments are provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <label> <path_to_kernel> <path_to_initrd>"
+    echo "Example: $0 "Arch Linux" /boot/vmlinuz-linux /boot/initramfs-linux.img"
+    exit 1
+fi
 
-# get efi disk and partition
-# lsblk
+# 1. Process Arguments: Strip paths to get basenames
+BOOT_LABEL="$1"
+KERNEL_BASENAME=$(basename "$2")
+INITRD_BASENAME=$(basename "$3")
 
-# resume must be uuid because swapfile is on filesytem
+# 2. Format for efibootmgr
+# Loader needs a forward slash: /vmlinuz-linux
+LOADER_PATH="/${KERNEL_BASENAME}"
+# Initrd needs a backslash (escaped): \initramfs-linux.img
+INITRD_PATH="\\${INITRD_BASENAME}"
 
-# get resume_offset
-# filefrag -v /swapfile | awk '{if($1=="0:"){print $4}}' | sed 's/\.\.//'
+# 3. Find the EFI partition device by label "efi"
+EFI_DEV=$(findfs LABEL="efi" 2>/dev/null || findfs PARTLABEL="efi" 2>/dev/null)
 
-# NOTE: /etc/mkinitcpio.conf must have 'resume' in HOOKS(...)
+if [ -z "$EFI_DEV" ]; then
+    echo "Error: Could not find partition with label 'efi'"
+    exit 1
+fi
 
+# 4. Get the parent Disk and Partition Number
+EFI_DISK="/dev/$(lsblk -no PKNAME "$EFI_DEV")"
+EFI_PART="$(lsblk -no PARTN "$EFI_DEV")"
+
+# 5. Find the Root partition PARTUUID by label "root"
+ROOT_DEV=$(findfs LABEL="root" 2>/dev/null || findfs PARTLABEL="root" 2>/dev/null)
+
+if [ -z "$ROOT_DEV" ]; then
+    echo "Error: Could not find partition with label 'root'"
+    exit 1
+fi
+
+ROOT_PARTUUID=$(lsblk -no PARTUUID "$ROOT_DEV")
+
+# Display Configuration
+echo "--------------------------------------------------"
+echo "Configuration detected:"
+echo "  Boot Label:    $BOOT_LABEL"
+echo "  Target Disk:   $EFI_DISK"
+echo "  Target Part:   $EFI_PART"
+echo "  Root UUID:     $ROOT_PARTUUID"
+echo "  Loader:        $LOADER_PATH"
+echo "  Initrd:        $INITRD_PATH"
+echo "--------------------------------------------------"
+
+# 6. Ask for confirmation
+read -p "Create boot entry with these settings? [y/N] " response
+
+# Check if response starts with y or Y
+if [[ ! "$response" =~ ^[yY] ]]; then
+    echo "Operation aborted by user."
+    exit 0
+fi
+
+# 7. Run efibootmgr
+echo "Executing efibootmgr..."
 sudo efibootmgr \
   --create \
-  --disk /dev/nvme0n1 \
-  --part 1 \
-  --label "Arch Linux" \
-  --loader /vmlinuz-linux \
-  --unicode 'root=PARTUUID=c0010138-6f1d-4631-82c3-87dfe63c3ff2 rw initrd=\initramfs-linux.img resume=UUID=c26bc8d7-8ea5-44f1-8b21-9ec5dab753af resume_offset=5059034' \
+  --disk "$EFI_DISK" \
+  --part "$EFI_PART" \
+  --label "$BOOT_LABEL" \
+  --loader "$LOADER_PATH" \
+  --unicode "root=PARTUUID=${ROOT_PARTUUID} rw initrd=${INITRD_PATH}" \
   --verbose
+
+# for hibernation 
+#
+#     1. add boot options
+#
+#     --unicode 'resume=UUID=<uuid> resume_offset=<offset>' \
+#     resume must be uuid if swap is swapfile because it is not a partition
+#     get resume_offset:
+#         filefrag -v /swapfile | awk '{if($1=="0:"){print $4}}' | sed 's/\.\.//'
+#
+#     2. add resume hook
+#
+#     add 'resume' to HOOKS(...) in /etc/mkinitcpio.conf
+#     rebuild initrd with `mkinitcpio -P`
 

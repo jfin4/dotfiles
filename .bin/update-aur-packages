@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for p in *; do
+for p in $HOME/.aur/*; do
 
     if [[ "$p" == "${0##*/}" ]]; then
         # do not try to update this script

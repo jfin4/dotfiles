@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 dir=$(mktemp -d)
 mkdir $dir/{cur,new,tmp}

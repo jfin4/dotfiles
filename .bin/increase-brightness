@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 brightness=$(< /sys/class/backlight/intel_backlight/brightness)
 brightness=$(printf "%.0f" "$(echo "$brightness * 1.2" | bc -l)")

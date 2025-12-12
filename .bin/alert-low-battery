@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # addition vars due to invoking from cron
 # more here:

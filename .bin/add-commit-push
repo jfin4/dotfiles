@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 git add .
 git commit -m 'committed by add-commit-push script'

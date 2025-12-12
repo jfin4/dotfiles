@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if bluetoothctl info | grep 'Connected: yes'; then
     bluetoothctl disconnect 70:26:05:CF:75:A1

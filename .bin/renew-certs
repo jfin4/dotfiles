@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 sleep $((RANDOM % 3600)) 
 /usr/sbin/acme-client jfin.net 

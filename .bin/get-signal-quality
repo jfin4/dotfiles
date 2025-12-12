@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 dbm=$(iwctl station wlan0 show | grep AverageRSSI | awk '{print $2}')
 notify-send "Wifi Signal: $((2 * ($dbm + 100)))%"

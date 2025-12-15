@@ -181,4 +181,3 @@ augroup mutt
     autocmd!
     autocmd insertenter,bufwrite /tmp/neomutt* ++once setfiletype mail
 augroup END
-

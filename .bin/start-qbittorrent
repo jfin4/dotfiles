@@ -1,4 +1,0 @@
-#!/bin/bash
-
-run-in-namespace /usr/lib/jackett/jackett
-run-in-namespace qbittorrent

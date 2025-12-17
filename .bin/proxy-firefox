@@ -14,7 +14,7 @@ while ! ss -ltn | awk '{print $4}' | grep -q ":$SOCKS_PORT$"; do
 done
 
 # Launch Firefox (blocks until exit)
-/usr/bin/firefox --no-remote --profile "$HOME/.mozilla/firefox/smmsosnu.socks/"
+/usr/bin/firefox --no-remote -P socks
 
 # Firefox exited → clean up
 kill $SSH_PID

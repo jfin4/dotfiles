@@ -109,6 +109,7 @@ augroup end
 
 " fzf
 let g:fzf_colors = { 'border':  ['fg', 'vertsplit'] }
+let g:fzf_layout = { 'down': '80%' }
 
 "lsp
 let g:lsp_use_native_client = 1

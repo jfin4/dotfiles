@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SOCKS_PORT=1080
+SSH_HOST=nas
+SSH_USER=jfin
+
+# Start SSH SOCKS tunnel in background
+ssh -N -D $SOCKS_PORT ${SSH_USER}@${SSH_HOST} &
+SSH_PID=$!
+
+# Wait until port is listening
+while ! ss -ltn | awk '{print $4}' | grep -q ":$SOCKS_PORT$"; do
+    sleep 0.1
+done
+
+# Launch Firefox (blocks until exit)
+/usr/bin/firefox --no-remote --profile "$HOME/.mozilla/firefox/smmsosnu.socks/"
+
+# Firefox exited → clean up
+kill $SSH_PID
+wait $SSH_PID 2>/dev/null
+

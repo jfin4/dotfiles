@@ -76,8 +76,9 @@ Bat() {
 # }}}
 # get ip location
 Location() {
-    var=$(ssh jfin@nas 'curl -s https://am.i.mullvad.net/city')
-    echo "${var%,*}"
+    var1=$(curl -s https://am.i.mullvad.net/city)
+    var2=$(ssh jfin@nas 'curl -s https://am.i.mullvad.net/city')
+    echo "jfin: ${var1%,*} | nas: ${var2%,*}"
 }
 
 # time
@@ -87,6 +88,6 @@ Time() {
 	echo "$var" 
 }
 
-echo "$(Location) $(Time)"
+echo "$(Location) | $(Time)"
 
 

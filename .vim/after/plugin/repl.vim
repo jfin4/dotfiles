@@ -52,13 +52,13 @@ function! SendCode(code = [], echo = 1) abort
     call writefile(a:code, repl_file)
     if a:echo
         let term_commands = {
-                    \ 'r': 'suppressWarnings(suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf)))',
+                    \ 'r': 'suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf))',
                     \ 'python': 'exec(open("%s").read())',
                     \ 'sql': '.read %s',
                     \ }
     else
         let term_commands = {
-                    \ 'r': 'suppressWarnings(suppressMessages(source("%s")))',
+                    \ 'r': 'suppressMessages(source("%s"))',
                     \ 'python': 'exec(open("%s").read())',
                     \ 'sql': '.read %s',
                     \ }

@@ -63,9 +63,12 @@ static const char *lowervol[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@",
 static const char *mutevol[]  = { "pactl",  "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
 static const char *increasebrightness[]  = { "increase-brightness", NULL };
 static const char *decreasebrightness[]  = { "decrease-brightness", NULL };
+static const char *togglealtwin[]  = { "toggle-alt-win", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key                         function        argument */
+	{ MODKEY,                       XK_grave,                   spawn,          {.v = togglealtwin } },
+	{ Mod1Mask,                     XK_grave,                   spawn,          {.v = togglealtwin } },
 	{ MODKEY|ShiftMask,             XK_semicolon,               spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,                  spawn,          {.v = termcmd } },
 	{ MODKEY,                       0,                          togglebar,      {0} },

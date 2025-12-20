@@ -19,7 +19,6 @@ endfor
 
 " colors named by function
 let accented = 'cyan'
-" let accented = 'gray'
 let alert   = 'brown' "bg
 let border    = 'black' "bg
 let default = 'none'

@@ -16,7 +16,7 @@ set belloff=all
 " set completeopt=menuone,longest
 set completeopt=menuone
 set encoding=utf-8
-set fillchars-=vert:\\|
+set fillchars=vert:\ ,fold:\ ,eob:~,lastline:@
 set formatoptions=qlcjnr
 set hlsearch
 set ignorecase 
@@ -65,6 +65,15 @@ set textwidth=78
 " folds
 set foldlevelstart=0
 set foldmethod=marker
+function! CustomFoldText()
+    let l:indicator = '+++'
+    let l:line = getline(v:foldstart)->substitute('{', '', 'g')
+    let l:width = &textwidth > 0 ? &textwidth + 2 : winwidth(0)
+    let l:padding = l:width - len(l:line) - len(l:indicator) 
+    let l:spaces = repeat(' ', max([0, l:padding]))
+    return l:line . l:spaces . l:indicator 
+endfunction
+set foldtext=CustomFoldText()
 
 " snippets
 let g:snipMate = get(g:, 'snipMate', {

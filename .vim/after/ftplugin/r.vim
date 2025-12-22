@@ -1,3 +1,6 @@
+set nowrap
+set signcolumn=yes
+
 inoremap <buffer> < <-
 inoremap <buffer> << <
 inoremap <buffer> > %>%

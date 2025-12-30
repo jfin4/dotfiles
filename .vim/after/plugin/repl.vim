@@ -6,7 +6,7 @@ function! OpenRepl()
                 \ 'sql': 'sqlite3',
                 \ }
     let term_command = get(term_commands, &filetype, '')
-    let tmux_command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s',
+    let tmux_command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s\; select-layout main-vertical',
                 \ term_command)
     let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
 endfunction
@@ -18,7 +18,7 @@ function! CloseRepl()
                 \ 'python': 'quit()',
                 \ 'sql': '.exit',
                 \ }
-    let code = [get(close_commands, &filetype, '')]
+    let code = [get(close_commands, &filetype, 'exit')]
     call SendCode(code, 0)
 endfunction
 command! CloseRepl call CloseRepl()

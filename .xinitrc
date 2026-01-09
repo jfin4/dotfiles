@@ -1,8 +1,6 @@
 #!/usr/bin/sh
 
 # sudo sh -c 'echo XHC0 > /proc/acpi/wakeup'
-[[ -f ~/.altwin ]] && rm ~/.altwin
-toggle-alt-win
 xrdb -merge .Xresources
 xset b off
 ~/.screenlayout/external.sh

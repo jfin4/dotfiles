@@ -1,0 +1,126 @@
+# vim: commentstring=#\ %s
+
+borderwidth 2
+color activeborder '#f9f'
+color inactiveborder '#333'
+color menufg '#660'
+color menubg '#000'
+color font '#fff'
+color selfont '#fff'
+fontname 'Terminus:size=16'
+
+unbind-key all
+
+bind-key 4-m window-vtile
+bind-key 4-i terminal
+bind-key 4-o window-close
+bind-key 4-j window-cycle
+bind-key 4-k window-rcycle
+bind-key 4-space window-maximize
+bind-key 4-s restart
+bind-key 4-e menu-exec
+bind-key 4-w menu-window
+
+# options
+#
+# autogroup group [windowname,]windowclass
+# bind-key key function
+# bind-mouse button function
+# borderwidth pixels
+# color activeborder color
+# color font color
+# color selfont color
+# color groupborder color
+# color inactiveborder color
+# color menubg color
+# color menufg color
+# color urgencyborder color
+# color ungroupborder color
+# command name path
+# fontname font
+# gap top bottom left right
+# htile percent
+# ignore windowname
+# moveamount pixels
+# snapdist pixels
+# sticky yes|no
+# unbind-key key
+# unbind-mouse button
+# vtile percent
+# wm name path
+#
+# functions
+#
+# restart                  Restart the running cwm(1).
+# quit                     Quit cwm(1).
+# terminal                 Spawn a new terminal.
+# lock                     Lock the screen.
+# menu-window              Launch window search menu.
+# menu-window-hidden       Launch hidden window search menu.
+# menu-cmd                 Launch application search menu.
+# menu-group               Launch group search menu.
+# menu-exec                Launch “exec program” menu.
+# menu-exec-wm             Launch “exec WindowManager” menu.
+# menu-ssh                 Launch “ssh” menu.
+# group-toggle-[n]         Toggle visibility of group n, where n is 1-9.
+# group-only-[n]           Show only group n, where n is 1-9, hiding other groups.
+# group-last               Show only the previously active group.
+# group-close-[n]          Close all windows in group n, where n is 1-9.
+# group-toggle-all         Toggle visibility of all groups.
+# window-group             Toggle group membership of current window.
+# window-movetogroup-[n]   Hide current window from display and move to group n, where n is 1-9.
+# group-cycle              Forward cycle through groups.
+# group-rcycle             Reverse cycle through groups.
+# window-cycle             Forward cycle through windows.
+# window-rcycle            Reverse cycle through windows.
+# window-cycle-ingroup     Forward cycle through windows in current group.
+# window-rcycle-ingroup    Reverse cycle through windows in current group.
+# window-cycle-inclass     Forward cycle through windows of the current window class.
+# window-rcycle-inclass    Reverse cycle through windows of the current window class.
+# window-close             Close current window.
+# window-hide              Hide current window.
+# window-lower             Lower current window.
+# window-raise             Raise current window.
+# window-menu-label        Label current window.
+# window-freeze            Freeze current window geometry.
+# window-stick             Stick current window to all groups (same as assigning to nogroup).
+# window-fullscreen        Full-screen current window (gap + border removed).
+# window-maximize          Maximize current window (gap + border honored).
+# window-vmaximize         Vertically maximize current window (gap + border honored).
+# window-hmaximize         Horizontally maximize current window (gap + border honored).
+# window-htile             Current window is placed at the top of the screen, maximized horizontally and resized to htile (default half) of the vertical screen space.  Other windows in its group share remaining screen space.
+# window-vtile             Current window is placed on the left of the screen, maximized vertically and resized to vtile (default half) of the horizontal screen space.  Other windows in its group share remaining screen space.
+# window-move              Move current window.
+# window-resize            Resize current window.
+# window-move-up           Move window moveamount pixels up.
+# window-move-down         Move window moveamount pixels down.
+# window-move-right        Move window moveamount pixels right.
+# window-move-left         Move window moveamount pixels left.
+# window-move-up-big       Move window 10 times moveamount pixels up.
+# window-move-down-big     Move window 10 times moveamount pixels down.
+# window-move-right-big    Move window 10 times moveamount pixels right.
+# window-move-left-big     Move window 10 times moveamount pixels left.
+# window-resize-up         Resize window moveamount pixels up.
+# window-resize-down       Resize window moveamount pixels down.
+# window-resize-right      Resize window moveamount pixels right.
+# window-resize-left       Resize window moveamount pixels left.
+# window-resize-up-big     Resize window 10 times moveamount pixels up.
+# window-resize-down-big   Resize window 10 times moveamount pixels down.
+# window-resize-right-big  Resize window 10 times moveamount pixels right.
+# window-resize-left-big   Resize window 10 times moveamount pixels left.
+# window-snap-up           Snap window to top edge.
+# window-snap-down         Snap window to bottom edge.
+# window-snap-right        Snap window to right edge.
+# window-snap-left         Snap window to left edge.
+# window-snap-up-right     Snap window to top-right corner.
+# window-snap-up-left      Snap window to top-left corner.
+# window-snap-down-right   Snap window to bottom-right corner.
+# window-snap-down-left    Snap window to bottom-left corner.
+# pointer-move-up          Move pointer moveamount pixels up.
+# pointer-move-down        Move pointer moveamount pixels down.
+# pointer-move-right       Move pointer moveamount pixels right.
+# pointer-move-left        Move pointer moveamount pixels left.
+# pointer-move-up-big      Move pointer 10 times moveamount pixels up.
+# pointer-move-down-big    Move pointer 10 times moveamount pixels down.
+# pointer-move-right-big   Move pointer 10 times moveamount pixels right.
+# pointer-move-left-big    Move pointer 10 times moveamount pixels left.

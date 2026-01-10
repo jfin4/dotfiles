@@ -8,6 +8,7 @@ color menubg '#000'
 color font '#fff'
 color selfont '#fff'
 fontname 'Terminus:size=16'
+sticky yes
 
 unbind-key all
 
@@ -20,6 +21,14 @@ bind-key 4-space window-maximize
 bind-key 4-s restart
 bind-key 4-e menu-exec
 bind-key 4-w menu-window
+
+# bind-key group-only-[n]
+bind-key 4-1 window-movetogroup-1
+bind-key 4-2 window-movetogroup-2
+bind-key 4-3 window-movetogroup-3
+bind-key 4-4 window-movetogroup-4
+bind-key 4-l group-cycle
+bind-key 4-h group-rcycle
 
 # options
 #

@@ -14,7 +14,7 @@ while ! ss -ltn | awk '{print $4}' | grep -q ":$SOCKS_PORT$"; do
 done
 
 # Launch Firefox (blocks until exit)
-/usr/bin/firefox --no-remote -P socks
+/usr/bin/firefox -P socks $1
 
 # Firefox exited → clean up
 kill $SSH_PID

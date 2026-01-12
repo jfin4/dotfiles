@@ -1,6 +1,14 @@
 #!/usr/bin/sh
 
 xrdb -merge .Xresources
-# xset b off
-# dunst &
-cwm 2> ~/.cwm.log
+dunst &
+
+# statusbar
+while true; do
+    xsetroot -name "$(get-status)"
+    sleep 1m
+done &
+
+while true; do
+    dwm 2> ~/.dwm.log
+done

@@ -28,8 +28,8 @@ snippet prep
 	$1 <- .$1
 
 snippet data
-	.data <- 
-		dir_ls('~/resources/calwqa/data') %>%
+	data <- 
+		dir_ls('~/resources/calwqa-data', recurse = TRUE) %>%
 		keep(function(x) str_detect(x, '2028')) %>%
 		map(function(x) {
 			fread(x, colClasses = 'character') %>%

@@ -36,8 +36,8 @@
 ! *colorInnerBorder: true
 !*termName: xterm-256color
 
-!*faceName: Terminess Nerd Font Mono:size=16
-*faceName: Terminus:size=16
+*faceName: Terminess Nerd Font Mono:size=17
+! *faceName: Terminus:size=16
 ! *allowBoldFonts: true
 
 *scrollBar: false

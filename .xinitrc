@@ -1,8 +1,8 @@
 #!/usr/bin/sh
 
 xrdb -merge .Xresources
-~/.screenlayout/$HOST.sh
 dunst &
+~/.screenlayout/$HOST.sh
 
 # statusbar
 while true; do

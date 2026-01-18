@@ -5,7 +5,8 @@
 PATH="$HOME/.bin" 
 PATH="$PATH:$HOME/.local/bin" 
 PATH="$PATH:$initial_path"
-export initial_path PATH
+# startx needs HOST
+export initial_path PATH HOST
 
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
     if ping -c 1 -W 2 8.8.8.8 &> /dev/null; then

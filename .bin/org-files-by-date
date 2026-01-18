@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Loop through all items in the current directory
+for file in *; do
+    # Check if the item is a regular file (skip directories and the script itself)
+    # "$0" is the script name, extracting basename ensures we don't move the script
+    script_name=$(basename "$0")
+    
+    if [ -f "$file" ] && [ "$file" != "$script_name" ]; then
+        
+        # Extract modification time. 
+        # -r gets the reference time of the file, +%F outputs YYYY-MM-DD
+        dir_name=$(date -r "$file" +%F)
+
+        # Ensure we successfully got a directory name
+        if [ -n "$dir_name" ]; then
+            # Create the directory if it doesn't exist (-p ignores error if exists)
+            if [ ! -d "$dir_name" ]; then
+                echo "Creating directory: $dir_name"
+                mkdir -p "$dir_name"
+            fi
+
+            # Move the file into the directory
+            echo "Moving '$file' -> '$dir_name/'"
+            mv "$file" "$dir_name/"
+        else
+            echo "Error: Could not determine date for '$file'"
+        fi
+    fi
+done

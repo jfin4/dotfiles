@@ -1,6 +1,7 @@
 #!/usr/bin/sh
 
 xrdb -merge .Xresources
+~/.screenlayout/$HOST.sh
 dunst &
 
 # statusbar

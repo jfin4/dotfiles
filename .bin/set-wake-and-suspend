@@ -14,12 +14,5 @@ earliest=$mon
 [ $sat -lt $earliest ] && earliest=$sat
 
 # Set RTC wake and suspend
-nohup sudo bash -c "
-    for i in 3 2 1; do
-        echo $i
-        sleep 1
-    done
-    rtcwake -m mem -t $earliest
-" &
-# " &> /dev/null &
+nohup sudo bash -c "sleep 3; rtcwake -m mem -t $earliest" &> /dev/null &
 pkill sshd-session

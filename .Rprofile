@@ -13,6 +13,9 @@ dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(lib_dir, .libPaths()))
 
 # Set browser only on t14 (Linux)
+if (Sys.info()["nodename"] %in% c("t14")) {
+  options(browser = "/usr/bin/firefox -P socks")
+}
 if (Sys.info()["nodename"] %in% c("jfin")) {
   options(browser = "/usr/bin/firefox -P socks")
 }

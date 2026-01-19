@@ -73,7 +73,7 @@ alias sjfin='ssh jfin@jfin'
 alias start='launch-file'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
-alias zzz='set-wake-and-suspend'
+alias zzz='systemctl suspend'
 
 # host specific
 os=$(uname)

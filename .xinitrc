@@ -1,6 +1,7 @@
 #!/usr/bin/sh
 
 xrdb -merge .Xresources
+xset -b 
 dunst &
 ~/.screenlayout/$HOST.sh
 

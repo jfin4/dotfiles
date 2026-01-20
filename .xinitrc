@@ -5,7 +5,7 @@ xset -b
 dunst &
 ~/.screenlayout/$HOST.sh
 
-# statusbar
+statusbar
 while true; do
     xsetroot -name "$(get-status)"
     sleep 1m

@@ -74,26 +74,24 @@ Bat() {
     echo "$var"
 }
 # }}}
-# get ip location
+# ip location{{{
 Location() {
     var1=$(curl -s https://am.i.mullvad.net/city)
     var2=$(ssh jfin@nas 'curl -s https://am.i.mullvad.net/city')
     echo "jfin: ${var1%,*} | nas: ${var2%,*}"
 }
-    
-# get use
+    # }}}
+# user{{{
 User() {
     var=$(whoami)
     echo "$var"
 }
-
-# time
+# }}}
+# time{{{
 Time() {
 	# var="$(date '+%a, %b %d, %H:%M')"
     var="$(date +'%F %R')"
 	echo "$var" 
 }
-
-echo "$(User) $(Time)"
-
-
+# }}}
+echo "$(Time)"

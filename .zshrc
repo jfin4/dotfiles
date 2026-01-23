@@ -27,12 +27,12 @@ date=$(date +'%Y-%m-%d')
 setopt prompt_subst
 source ~/.bin/git-prompt.sh
 # Set terminal title
-precmd() {
-    # print -Pn '\e]0;%m\a' # host
-    print -Pn '\e]0;%1d\a' # current dir
-}
+# precmd() {
+#     # print -Pn '\e]0;%m\a' # host
+#     print -Pn '\e]0;%1d\a' # current dir
+# }
 PROMPT='
-%F{white}%m %~$(__git_ps1 " %s")
+%F{white}%n@%m:%~$(__git_ps1 " %s")
 %# %f'
 
 # aliases

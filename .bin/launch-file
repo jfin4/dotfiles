@@ -3,7 +3,7 @@
 ext="${1##*.}"
 
 os=$(uname)
-if [[ $os == MINGW64_NT-10.0-26100 ]]; then
+if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     # file="${1/\/c/c:}"
     file="$1"
     if [[ "$ext" == pdf ]]; then

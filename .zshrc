@@ -16,6 +16,12 @@ compinit
 setopt extended_glob
 bindkey -e
 
+# home, end, delete
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
+
+
 setopt hist_ignore_dups
 HISTFILE=~/.histfile
 HISTSIZE=10000
@@ -77,7 +83,7 @@ alias zzz='sudo systemctl suspend'
 
 # host specific
 os=$(uname)
-if [[ $os == MINGW64_NT-10.0-26100 ]]; then
+if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     
     # # shh 
     # eval $(ssh-agent -s) > /dev/null 

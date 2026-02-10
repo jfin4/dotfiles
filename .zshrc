@@ -45,6 +45,7 @@ PROMPT='
 
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
+alias -g JFIN='jfin-wb@10.0.0.235:~/downloads'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
 alias calaters='start ~/notes/docs/calaters.jnlp'

@@ -27,7 +27,7 @@ set scrolloff=5
 set shell=bash
 " set shortmess-=S
 set ruler
-set signcolumn=no
+set signcolumn=yes
 set smartcase 
 set t_Co=16
 set ttimeoutlen=0 " exit command line mode immediately
@@ -66,12 +66,11 @@ set textwidth=78
 set foldlevelstart=0
 set foldmethod=marker
 function! CustomFoldText()
-    let l:indicator = '+++'
     let l:line = getline(v:foldstart)->substitute('{', '', 'g')
     let l:width = &textwidth > 0 ? &textwidth + 2 : winwidth(0)
-    let l:padding = l:width - len(l:line) - len(l:indicator) 
-    let l:spaces = repeat(' ', max([0, l:padding]))
-    return l:line . l:spaces . l:indicator 
+    let l:padding = l:width - len(l:line)
+    let l:indicator = repeat('+', max([0, l:padding]))
+    return l:line . l:indicator
 endfunction
 set foldtext=CustomFoldText()
 

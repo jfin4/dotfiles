@@ -27,15 +27,9 @@ snippet prep
 
 	$1 <- .$1
 
-snippet data
-	data <- 
-		dir_ls('~/resources/calwqa-data', recurse = TRUE) %>%
-		keep(function(x) str_detect(x, '2028')) %>%
-		map(function(x) {
-			fread(x, colClasses = 'character') %>%
-			mutate(Region = str_extract(x, '\\\\d')) %>%
-			rename(AnalyteName = any_of('Analyte'),
-					MatrixName = any_of('Matrix'))
-		}) %>% 
-		bind_rows() %>%
-		as_tibble()
+snippet water
+	Region_${1}_water_sediment_field_2028.txt
+snippet tissue
+	Region_${1}_Tissue_2028.txt
+snippet toxicity
+	Region_${1}_Toxicity_2028.txt

@@ -3,7 +3,7 @@
 let colors_name = 'jfin'
 set t_Co=16
 
-" set attributes of all groups to none
+" set attributes of all groups to none{{{
 redir => hloutput
 silent highlight
 redir END
@@ -16,6 +16,7 @@ for line in split(hloutput, "\n")
         execute 'hi ' . group . ' ctermfg=none ctermbg=none cterm=none'
     endif
 endfor
+"}}}
 
 " colors named by function
 let accented = 'cyan'

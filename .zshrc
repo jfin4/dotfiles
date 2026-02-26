@@ -41,6 +41,8 @@ PROMPT='
 %F{white}%n@%m:%~$(__git_ps1 " %s")
 %# %f'
 
+OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
+
 # aliases
 
 alias -g COPY='> /dev/clipboard'

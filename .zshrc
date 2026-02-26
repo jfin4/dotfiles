@@ -41,8 +41,6 @@ PROMPT='
 %F{white}%n@%m:%~$(__git_ps1 " %s")
 %# %f'
 
-OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
-
 # aliases
 
 alias -g COPY='> /dev/clipboard'
@@ -83,6 +81,7 @@ alias start='launch-file'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias zzz='sudo systemctl suspend'
+alias code='aider --model openrouter/openai/gpt-oss-120b:free'
 
 # host specific
 os=$(uname)

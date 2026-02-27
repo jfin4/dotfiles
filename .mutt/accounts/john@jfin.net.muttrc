@@ -1,19 +1,42 @@
 # vim: filetype=neomuttrc
 # muttrc file for account john@jfin.net
-set realname = "John Inman"
+set real_name = "John Inman"
 set from = "john@jfin.net"
 set sendmail = "msmtp -a john@jfin.net"
 alias me john <john@jfin.net>
 set folder = "/home/jfin/.local/share/mail/john@jfin.net"
 set header_cache = /home/jfin/.cache/mutt/john@jfin.net/headers
-set message_cachedir = /home/jfin/.cache/mutt/john@jfin.net/bodies
+set message_cache_dir = /home/jfin/.cache/mutt/john@jfin.net/bodies
 set mbox_type = Maildir
 set hostname = "jfin.net"
-set spoolfile = +INBOX
 set postponed = +Drafts
 set trash = +Trash
+# private email does not automatically save to sent
 set record = +Sent
+
+set spool_file = "notmuch://?query=folder:\"john@jfin.net/INBOX\" OR folder:\"john@jfin.net/Sent\""
+
+# TODO: needs work
+macro index,pager gi "<change-vfolder>Inbox+Sent<enter>" "go to inbox+sent"
+macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
+macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
+macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
+macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"
+macro index,pager Cd ";<copy-message>=Drafts<enter>" "copy mail to drafts"
+macro index,pager gj "<change-folder>=Spam<enter>" "go to junk"
+macro index,pager Mj ";<save-message>=Spam<enter>" "move mail to junk"
+macro index,pager Cj ";<copy-message>=Spam<enter>" "copy mail to junk"
+macro index,pager gt "<change-folder>=Trash<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=Trash<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=Trash<enter>" "copy mail to trash"
+macro index,pager gs "<change-folder>=Sent<enter>" "go to sent"
+macro index,pager Ms ";<save-message>=Sent<enter>" "move mail to sent"
+macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
+macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
+macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
+macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
 macro index o "<shell-escape>mbsync john@jfin.net<enter>" "run mbsync to sync john@jfin.net"
 
 mailboxes "=Archive" "=Drafts" "=INBOX" "=Sent" "=Spam" "=Trash" 
+mailboxes -label "Inbox+Sent" "notmuch://?query=folder:\"john@jfin.net/INBOX\" OR folder:\"john@jfin.net/Sent\""

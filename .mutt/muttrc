@@ -12,7 +12,6 @@ auto_view application/pgp-encrypted
 auto_view text/html		# automatically show html (mailcap uses lynx)
 set mailcap_path="~/.mutt/mailcap"
 
-
 set change_folder_next = yes     # Go to next unread mailbox when current is empty
 set collapse_all = no            # Don't collapse threads by default
 set date_format="%Y-%m-%d %H:%M"
@@ -35,18 +34,17 @@ set markers = no		# Disables the `+` displayed at line wraps
 set mime_forward = yes		# attachments are forwarded with mail
 set mime_type_query_command = "file --mime-type -b %s"
 set narrow_tree = no             # Make thread indicators wider/more visible
+set nm_default_url = "notmuch:///home/jfin/.local/share/mail/"
 set query_command = "abook --mutt-query '%s'"
 set reverse_name		# reply as whomever it was to
 set rfc2047_parameters = yes # encoding for non ascii characters
 set sleep_time = 0		# Pause 0 seconds for informational messages
 set sort = reverse-last-date
-set sort_aux = reverse-last-date
-set sort_re = yes                # Group messages with Re: in subject
+set sort_aux = date
 set strict_threads = yes         # Only thread by In-Reply-To/References
-set thread_received = yes        # Sort threads by most recent message
 set uncollapse_jump = yes        # Jump to first unread when uncollapsing
 set uncollapse_new = yes         # Automatically uncollapse threads with new mail
-set use_threads = yes            # Use threading
+set use_threads = threads            # Use threading
 set wait_key = no		# mutt won't ask "press key to continue"
 
 # General rebindings
@@ -78,41 +76,6 @@ bind pager,browser G bottom-page
 bind index,pager S sync-mailbox
 bind index,pager R group-reply
 bind editor <Tab> complete-query
-
-# view in firefox
-# macro index,pager V "<enter-command>firefox '%f'<enter>" "open current attachment in Firefox"
-
-# macro index,pager V \
-# "<pipe-message>cat > /tmp/mutt_mail.html<enter><shell-escape>firefox /tmp/mutt_mail.html &<enter>" \
-# "open mail in firefox"
-
-# # view in lynx
-# macro index,pager V \
-# "<view-attachments>\
-# <search>html<enter>\
-# <pipe-entry>cat > /tmp/neomutt-html.html<enter>\
-# <shell-escape>lynx /tmp/neomutt-html.html<enter>\
-# <exit>" \
-# "View HTML in lynx with link following"
-
-macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
-macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
-macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
-macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
-macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"
-macro index,pager Cd ";<copy-message>=Drafts<enter>" "copy mail to drafts"
-macro index,pager gj "<change-folder>=Junk<enter>" "go to junk"
-macro index,pager Mj ";<save-message>=Junk<enter>" "move mail to junk"
-macro index,pager Cj ";<copy-message>=Junk<enter>" "copy mail to junk"
-macro index,pager gt "<change-folder>=Trash<enter>" "go to trash"
-macro index,pager Mt ";<save-message>=Trash<enter>" "move mail to trash"
-macro index,pager Ct ";<copy-message>=Trash<enter>" "copy mail to trash"
-macro index,pager gs "<change-folder>=Sent<enter>" "go to sent"
-macro index,pager Ms ";<save-message>=Sent<enter>" "move mail to sent"
-macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
-macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
-macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
-macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
 macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"

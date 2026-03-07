@@ -1,8 +1,10 @@
 #!/bin/bash
 
-for p in $HOME/.aur/*; do
+dir=$HOME/.aur
 
-    if [[ "$p" == "${0##*/}" ]]; then
+for p in $dir/*; do
+
+    if [[ "$p" == "$dir/${0##*/}" ]]; then
         # do not try to update this script
         continue
     fi
@@ -13,9 +15,15 @@ for p in $HOME/.aur/*; do
     printf "%0.s-" $(seq 1 $pad_length)
     printf "\n"
 
+    if [[ "$p" == "$dir/dwm" ]]; then
+        git --git-dir="${p}/.git" --work-tree="$p" switch master 
+        git --git-dir="${p}/.git" --work-tree="$p" pull
+        git --git-dir="${p}/.git" --work-tree="$p" switch patched
+        git --git-dir="${p}/.git" --work-tree="$p" rebase --rebase-merges master
+    else
+        git --git-dir="${p}/.git" --work-tree="$p" pull
+    fi
 
-    git --git-dir="${p}/.git" --work-tree="$p" pull
-        
     makepkg \
         --clean \
         --syncdeps \
@@ -23,6 +31,4 @@ for p in $HOME/.aur/*; do
         --noconfirm \
         --dir "$p"
     
-        # maybe only needed for config file changes, e.g., dwm?
-        # --force \
 done

@@ -63,7 +63,7 @@ static const char *lowervol[]  = { "lower-volume", NULL };
 static const char *mutevol[]  = { "mute-volume", NULL };
 static const char *switchwindow[]  = { "switch-window", NULL };
 
-#include "shift-tools.c"
+#include "/home/jfin/.aur/dwm/patches/shift-tools.c"
 static const Key keys[] = {
 	/* modifier                     key                         function        argument */
 	{ MODKEY,                       XK_d,                       spawn,          { .v = dmenucmd } },

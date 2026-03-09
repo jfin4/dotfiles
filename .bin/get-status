@@ -94,4 +94,11 @@ Time() {
 	echo "$var" 
 }
 # }}}
-echo "$(Time)"
+# bluetooth{{{
+Device() {
+    devices_pattern=(airpods)
+    device=$(bluetoothctl devices Connected | grep -io $devices_pattern)
+	echo "$device" 
+}
+# }}}
+echo "$(Device) $(Time)"

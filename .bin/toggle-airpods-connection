@@ -5,3 +5,5 @@ if bluetoothctl info | grep 'Connected: yes'; then
 else
     bluetoothctl connect 18:3F:70:5E:41:D0
 fi
+
+xsetroot -name "$(get-status)"

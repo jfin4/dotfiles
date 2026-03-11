@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import random
 import string
 import os
@@ -14,7 +15,8 @@ def load_common_words(path=DICT_PATH, max_len=6):
     return words
 
 def generate_string(wordlist):
-    words = random.sample(wordlist, 4)
+    # words = random.sample(wordlist, 4)
+    words = random.sample(wordlist, 2)
     number = str(random.randint(1, 9999))
     special = random.choice(SPECIALS)
     items = words + [number, special]

@@ -20,7 +20,7 @@ bindkey -e
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
-
+bindkey  "^[[Z"   reverse-menu-complete
 
 setopt hist_ignore_dups
 HISTFILE=~/.histfile

@@ -9,26 +9,38 @@ for p in $dir/*; do
         continue
     fi
      
-    text="$p "
-    pad_length=$((78 - ${#text}))
-    printf "\n%s " $text
-    printf "%0.s-" $(seq 1 $pad_length)
+    text=${p##*/}
+    pad=$((78 - ${#text}))
+    printf "\n%s" $text
+    printf "%0.s-" $(seq 1 $pad)
     printf "\n"
 
     if [[ "$p" == "$dir/dwm" ]]; then
         git --git-dir="${p}/.git" --work-tree="$p" switch master 
-        git --git-dir="${p}/.git" --work-tree="$p" pull
+        if git --git-dir="${p}/.git" --work-tree="$p" pull | grep -q "Already up to date\\."; then
+            is_already_up_to_date=true
+        else
+            is_already_up_to_date=false
+        fi
         git --git-dir="${p}/.git" --work-tree="$p" switch patched
         git --git-dir="${p}/.git" --work-tree="$p" rebase --rebase-merges master
     else
-        git --git-dir="${p}/.git" --work-tree="$p" pull
-    fi
+        if git --git-dir="${p}/.git" --work-tree="$p" pull | grep -q "Already up to date\\."; then
+            is_already_up_to_date=true
+        else
+            is_already_up_to_date=false
+        fi
+    fi >& /dev/null
 
-    makepkg \
-        --clean \
-        --syncdeps \
-        --install \
-        --noconfirm \
-        --dir "$p"
+    if $is_already_up_to_date; then
+        echo already up to date
+    else
+        makepkg \
+            --clean \
+            --syncdeps \
+            --install \
+            --noconfirm \
+            --dir "$p"
+    fi
     
 done

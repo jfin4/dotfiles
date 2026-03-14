@@ -58,5 +58,8 @@
 
 ! for copy/paste
 *selectToClipboard: true
+XTerm*vt100.translations: #override \
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD, PRIMARY) \n
 
+! zoom
 Xft.dpi: 120

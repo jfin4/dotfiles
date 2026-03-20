@@ -57,3 +57,5 @@ ThemeFile=jfin
 BellTaskbar=yes
 KeyAlphaMode=yes
 Answerback=
+
+KeyFunctions=ctrl+shift+v:paste

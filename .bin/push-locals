@@ -12,8 +12,8 @@ print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "automatic commit"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
-print_header "data:resources"
-rclone sync --update --progress ~/resources data:resources 
+# print_header "data:resources"
+# rclone sync --update --progress ~/resources data:resources 
 print_header "docs:notes"
 rclone sync --update --progress ~/notes docs:notes 
 print_header "docs:projects"

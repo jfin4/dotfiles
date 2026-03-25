@@ -95,6 +95,7 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     # path
     PATH="$PATH:/c/Program Files/Python312"
     PATH="$PATH:/c/Program Files/Python312/Scripts"
+    PATH="$PATH:$HOME/AppData/Roaming/Python/Python312/Scripts"
     # get latest r
     for r in "c:/Program Files/R"/*; do
         true

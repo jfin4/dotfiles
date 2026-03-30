@@ -12,14 +12,6 @@ lib_dir <- file.path("~/.R")
 dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(lib_dir, .libPaths()))
 
-# Set browser only on t14 (Linux)
-if (Sys.info()["nodename"] %in% c("t14")) {
-  options(browser = "/usr/bin/firefox")
-}
-if (Sys.info()["nodename"] %in% c("jfin")) {
-  options(browser = "/usr/bin/firefox")
-}
-
 # for lsp completion
 packages <- .Options$defaultPackages
 load_package <- function(package) library(package, character.only = TRUE)
@@ -29,3 +21,9 @@ suppressMessages({
     lapply(packages, load_package)
     require("tidyverse", character.only = TRUE)
 })
+
+# Set options for home computer
+if (Sys.info()["nodename"] %in% c("jfin")) {
+  options(browser = "/usr/bin/firefox",
+          width = 135)
+}

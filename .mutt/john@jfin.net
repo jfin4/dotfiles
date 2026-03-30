@@ -1,0 +1,15 @@
+# receive options
+set imap_user = john@jfin.net
+set imap_pass = `cat ~/.secrets/privateemail`
+set folder = imaps://mail.privateemail.com
+set postponed = +Drafts
+set record = +Sent
+set spoolfile = +INBOX
+set imap_check_subscribed
+
+# send options
+set from = john@jfin.net
+set realname = 'John Inman'
+set signature = ~/.mutt/signature
+set smtp_pass = $imap_pass
+set smtp_url = smtp://$imap_user@mail.privateemail.com:587

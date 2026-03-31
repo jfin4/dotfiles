@@ -87,7 +87,7 @@ function! ViewObject(type = '') abort"{{{
     if hostname() == "WB-102575"
         let file_name = file_name->substitute('/c', 'c:', '')
     endif
-    let code = printf('readr::write_csv({%s}, "%s")', 
+    let code = printf('readr::write_csv({%s}, "%s", na = "")', 
                 \ object->join(''), 
                 \ file_name)
     call SendCode([code])

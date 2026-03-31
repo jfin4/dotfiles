@@ -2,8 +2,8 @@
 
 # for copy-pipe-and-cancel in tmux.conf
 
-if [[ $(uname -o) == 'GNU/Linux' ]]; then
-    cat > /dev/clipboard
-else
+if [[ $(uname) == 'Linux' ]]; then
     xsel --clipboard -i
+else
+    cat > /dev/clipboard
 fi

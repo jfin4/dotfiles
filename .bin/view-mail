@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/zsh
 
 dir=$(mktemp -d)
 mkdir $dir/{cur,new,tmp}
 cp "$1" $dir/new
-neomutt -f $dir
+mutt -f $dir

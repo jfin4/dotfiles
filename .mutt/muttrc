@@ -1,86 +1,92 @@
 # https://wiki.archlinux.org/title/Mutt
 
-# general
-set sleep_time = 0
-set delete = yes
-set confirmappend = no
-
-# accounts
+# accounts{{{
 macro index g1 '<enter-command>source ~/.mutt/john@jfin.net<enter><change-folder>+INBOX<enter>' 'go to john@jfin.net'
 source ~/.mutt/john@jfin.net
+# }}}
 
-# cache
+# cache{{{
 set header_cache = ~/.cache/mutt/
 set message_cachedir = ~/.cache/mutt/
+# }}}
 
-# index
+# index{{{
+bind index D undelete-message
+bind index G last-entry
+bind index J next-page
+bind index K previous-page
+bind index R group-reply
+bind index gg first-entry
+bind index h browse-mailboxes
+bind index i imap-fetch-mail
+bind index j next-entry
+bind index k previous-entry
+bind index l display-message
+bind index o sync-mailbox
+bind index u toggle-new
+macro index / '<limit>=b ' "search message bodies"
+macro index <esc> "<limit>all<enter>" "remove limit"
+macro index d '<save-message>+Trash<enter>' "move to Trash"
+set confirmappend = no
 set date_format = '%a %b %d %H:%M'
+set delete = yes
 set index_format = '%D    %-20.20F    %?X?@& ? %s'
 set sort = threads
 set sort_aux = date
 set sort_thread_groups = reverse-last-date
-bind index R group-reply
-bind index j next-entry
-bind index k previous-entry
-bind index J next-page
-bind index K previous-page
-bind index h browse-mailboxes
-bind index gg first-entry
-bind index G last-entry
-bind index i imap-fetch-mail
-bind index o sync-mailbox
-bind index D undelete-message
-bind index u toggle-new
-bind index l display-message
-macro index d '<save-message>+Trash<enter>' "move to Trash"
-macro index / '<limit>=b ' "search message bodies"
-macro index <esc> "<limit>all<enter>" "remove limit"
+# }}}
 
-# pager
-set display_filter="sed '/\\[-- /d'"
+# pager{{{
 auto_view text/html
+bind pager G bottom
+bind pager J next-entry
+bind pager K previous-entry
 bind pager R group-reply
+bind pager gg top
 bind pager h exit
 bind pager j next-line
 bind pager k previous-line
-bind pager J next-entry
-bind pager K previous-entry
-bind pager gg top
-bind pager G bottom
+bind pager l view-attachments
 macro pager d "<save-message>+Trash<enter>" "move to Trash"
+set display_filter="sed '/\\[-- /d'"
+# }}}
 
-# attachments
-set mailcap_path  = ~/.mutt/mailcap
+# attachments{{{
 bind attach <return> view-mailcap
-bind attach l view-mailcap
 bind attach h exit
+bind attach l view-mailcap
+set mailcap_path  = ~/.mutt/mailcap
+# }}}
 
-# compose
-# set edit_headers = yes
+# compose{{{
+my_hdr Bcc: $imap_user
 set fast_reply = yes
 set include = yes
 set sig_on_top
-my_hdr Bcc: $imap_user
+# }}}
 
-# browser
+# browser{{{
 bind browser l select-entry
+set sleep_time = 0
+# }}}
 
-# alias
+# alias{{{
+set alias_file = ~/.mutt/aliases
 set reverse_alias = yes
 set sort_alias = alias
-set alias_file = ~/.mutt/aliases
 source $alias_file
+# }}}
 
-# colors
+# colors{{{
 color attachment       default default
 color body             default default '.*'
 color bold             default default
 color error            red     default
 color hdrdefault       default default
 color header           white   default '.*'
-color index            white   default '~A'
 color index            default default '~U'
 color index            red     default '~D'
+color index            white   default '~A'
 color indicator        default yellow 
 color markers          white   default
 color message          default default
@@ -93,3 +99,4 @@ color status           white   black
 color tilde            white   default
 color tree             white   default
 color underline        default default
+# }}}

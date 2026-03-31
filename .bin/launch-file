@@ -1,9 +1,15 @@
-#!/bin/bash
+#!/usr/bin/zsh
 
-ext="${1##*.}"
+start_linux() {
+    file="$1"
+    if [[ "$ext" == eml ]]; then
+        xterm -e view-mail "$file" &
+    else
+        xdg-open "$file" &
+    fi
+}
 
-os=$(uname)
-if [[ $os == MINGW64_NT-10.0-26200 ]]; then
+start_msys() {
     # file="${1/\/c/c:}"
     file="$1"
     if [[ "$ext" == pdf ]]; then
@@ -11,12 +17,15 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     else
         cmd //c start "" "$file"
     fi
-else
-    file="$1"
-    if [[ "$ext" == eml ]]; then
-        xterm -e view-mail "$file" &
+}
+
+os=$(uname)
+for f in $@; do
+    ext="${1##*.}"
+    if [[ $os == "Linux" ]]; then
+        start_linux "$f"
     else
-        xdg-open "$file" &
+        start_msys "$f"
     fi
-fi
+done
 

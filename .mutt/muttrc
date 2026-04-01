@@ -30,9 +30,9 @@ macro index d '<save-message>+Trash<enter>' "move to Trash"
 set confirmappend = no
 set date_format = '%a %b %d %H:%M'
 set delete = yes
-set index_format = '%D    %-20.20F    %?X?@& ? %s'
+# set index_format = '%D    %-20.20F    %?X?@& ? %s'
+set index_format = '%-100.100s %-50.50F %D %?X?@& ?'
 set sort = threads
-set sort_aux = date
 set sort_thread_groups = reverse-last-date
 # }}}
 
@@ -84,9 +84,9 @@ color bold             default default
 color error            red     default
 color hdrdefault       default default
 color header           white   default '.*'
-color index            default default '~U'
+color index            white   default '~R'
+color index            white   default '~P'
 color index            red     default '~D'
-color index            white   default '~A'
 color indicator        default yellow 
 color markers          white   default
 color message          default default

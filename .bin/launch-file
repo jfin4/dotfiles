@@ -3,9 +3,9 @@
 start_linux() {
     file="$1"
     if [[ "$ext" == eml ]]; then
-        xterm -e view-mail "$file" &
+        xterm -e view-mail "$file"
     else
-        xdg-open "$file" &
+        xdg-open "$file"
     fi
 }
 
@@ -13,7 +13,7 @@ start_msys() {
     # file="${1/\/c/c:}"
     file="$1"
     if [[ "$ext" == pdf ]]; then
-        SumatraPDF-3.5.2-64 "$file" > /dev/null 2>&1 &
+        SumatraPDF-3.5.2-64 "$file" > /dev/null 2>&1
     else
         cmd //c start "" "$file"
     fi
@@ -23,9 +23,9 @@ os=$(uname)
 for f in $@; do
     ext="${1##*.}"
     if [[ $os == "Linux" ]]; then
-        start_linux "$f"
+        start_linux "$f" &> /dev/null &
     else
-        start_msys "$f"
+        start_msys "$f" &> /dev/null &
     fi
 done
 

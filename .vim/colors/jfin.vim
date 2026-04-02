@@ -101,7 +101,7 @@ let attributes_list = [
             \ ['modemsg', default, default],
             \ ['msgarea', default, default],
             \ ['moremsg', default, default],
-            \ ['nontext', border, default],
+            \ ['nontext', muted, default],
             \ ['normal', default, default],
             \ ['pmenu', default, border],
             \ ['pmenusel', default, selected],

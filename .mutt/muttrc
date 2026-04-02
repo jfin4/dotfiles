@@ -30,8 +30,7 @@ macro index d '<save-message>+Trash<enter>' "move to Trash"
 set confirmappend = no
 set date_format = '%a %b %d %H:%M'
 set delete = yes
-# set index_format = '%D    %-20.20F    %?X?@& ? %s'
-set index_format = '%-100.100s %-50.50F %D %?X?@& ?'
+set index_format = '%?X?@& ? %D %-20.20F %s'
 set sort = threads
 set sort_thread_groups = reverse-last-date
 # }}}
@@ -79,14 +78,14 @@ source $alias_file
 
 # colors{{{
 color attachment       default default
-color body             default default '.*'
+# color body             default default '.*'
 color bold             default default
 color error            red     default
 color hdrdefault       default default
 color header           white   default '.*'
-color index            white   default '~R'
-color index            white   default '~P'
-color index            red     default '~D'
+color index            white   default '~R' # read
+color index            white   default '~P' # from me
+color index            red     default '~D' # deleted
 color indicator        default yellow 
 color markers          white   default
 color message          default default
@@ -94,7 +93,7 @@ color normal           default default
 color prompt           default default
 color quoted           white   default
 color search           default yellow 
-color signature        default default
+color signature        white   default
 color status           white   black  
 color tilde            white   default
 color tree             white   default

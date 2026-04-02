@@ -6,7 +6,7 @@ import os
 
 
 DICT_PATH = os.path.join(os.environ["HOME"], ".bin", "words.txt")
-SPECIALS = "!@#$%^&*()-_=+[]{};:,.<>?/"
+SPECIALS = "!@#$%^&*()_=+[]{};:,.<>?/"
 
 def load_common_words(path=DICT_PATH, max_len=6):
     with open(path, "r") as f:
@@ -21,7 +21,7 @@ def generate_string(wordlist):
     special = random.choice(SPECIALS)
     items = words + [number, special]
     random.shuffle(items)
-    return " ".join(items)
+    return "-".join(items)
 
 if __name__ == "__main__":
     wordlist = load_common_words()

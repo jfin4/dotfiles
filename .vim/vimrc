@@ -143,9 +143,8 @@ endfunction
 command! Win2Unix silent! call Win2Unix()
 
 function! Start()
-    let link = getline(line('.'))->substitute('^"\|"$', '', 'g')
-    execute printf('call system(''launch-file "%s"'')',
-                \ link)
+    let link = getline(line('.'))->trim()
+    call system('launch-file ' .. shellescape(link))
 endfunction
 command! Start call Start()
 

@@ -23,7 +23,8 @@ bindkey  "^[[3~"  delete-char
 bindkey '^[[Z' reverse-menu-complete
 
 
-setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt share_history
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000

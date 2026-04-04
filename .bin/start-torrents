@@ -1,0 +1,16 @@
+#!/usr/bin/zsh
+
+start_torrents() {
+    sudo mount /dev/disk/by-label/storage /mnt/storage
+    wg-quick up ~/.wg/us-sjc-wg-302.conf
+    xsetroot -name "$(get-status)"
+    qbittorrent-nox &
+    PID=$!
+    sleep 1
+    firefox localhost:8080 &
+    wait $PID
+    wg-quick down ~/.wg/us-sjc-wg-302.conf
+    xsetroot -name "$(get-status)"
+}
+ 
+start_torrents &> /dev/null

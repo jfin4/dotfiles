@@ -1,4 +1,4 @@
-text/html; file=/tmp/mutt-$UID.html\; cp %s $file\; xdg-open $file &> /dev/null
+text/html; file=/tmp/mutt-$UID.html\; cp %s $file\; xdg-open $file &> /dev/null &
 text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -collapse_br_tags -dump -nolist %s; nametemplate=%s.html; copiousoutput
 application/*; s=%s\; file=/tmp/mutt-$UID.${s##*.}\; cp $s $file\; xdg-open $file &> /dev/null &
 image/*; s=%s\; file=/tmp/mutt-$UID.${s##*.}\; cp $s $file\; xdg-open $file &> /dev/null &

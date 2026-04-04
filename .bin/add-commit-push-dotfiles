@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
+git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u .bin .mutt .vim
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add $HOME/.bin
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push

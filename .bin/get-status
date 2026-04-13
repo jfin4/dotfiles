@@ -74,19 +74,29 @@ Bat() {
     echo "$var"
 }
 # }}}
-# vpn status{{{
-VPN() {
-    if curl -s https://am.i.mullvad.net/connected | grep -q "not"; then
-        var1=""
-    else
-        var1="VPN "
-    fi
-    echo "$var1"
-}
-    # }}}
 # user{{{
 User() {
     var=$(whoami)
+    echo "$var"
+}
+# }}}
+# vpn {{{
+VPN() {
+    if curl -s https://am.i.mullvad.net/connected | grep -q "not"; then
+        var=""
+    else
+        var="VPN "
+    fi
+    echo "$var"
+}
+    # }}}
+# bluetooth{{{
+Bluethooth() {
+    if bluetoothctl devices Connected | grep -qi "airpods"; then
+        var="airpods "
+    else
+        var=""
+    fi
     echo "$var"
 }
 # }}}
@@ -97,11 +107,4 @@ Time() {
 	echo "$var" 
 }
 # }}}
-# bluetooth{{{
-Device() {
-    devices_pattern=(airpods)
-    device=$(bluetoothctl devices Connected | grep -io $devices_pattern)
-	echo "$device " 
-}
-# }}}
-echo "$(VPN)$(Device)$(Time)"
+echo "$(VPN)$(Bluethooth)$(Time)"

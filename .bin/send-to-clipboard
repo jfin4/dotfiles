@@ -4,6 +4,6 @@
 
 if [[ $(uname) == 'Linux' ]]; then
     xsel --clipboard -i
-else
+elif [[ $(uname) == 'MINGW64_NT-10.0-26200' ]]; then
     cat > /dev/clipboard
 fi

@@ -8,7 +8,11 @@ function! OpenRepl()
     let term_command = get(term_commands, &filetype, '')
     let tmux_command = printf('tmux split-window -d -h -P -F "#{pane_id}" %s\; select-layout main-vertical',
                 \ term_command)
-    let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
+    if $TMUX != ''
+        let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
+    else
+        echo 'start tmux'
+    endif
 endfunction
 command! OpenRepl call OpenRepl()
 

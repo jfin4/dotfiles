@@ -10,8 +10,8 @@ print_header() {
 
 print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
-# print_header "data:resources"
-# rclone sync --update --progress data:resources ~/resources
+print_header "data:resources"
+rclone sync --update --progress data:resources ~/resources
 print_header "docs:notes"
 rclone sync --update --progress docs:notes ~/notes
 print_header "docs:projects"

@@ -37,7 +37,8 @@ function! GetReplFile()
     let repl_file = printf('%s/.%s.repl', 
                 \ expand('%:p:h'),
                 \ expand('%:t:r'))
-    if hostname() == "WB-102575"
+    let uname = substitute(system('uname -s'), '\n', '', '')
+    if uname =~? 'MSYS' || uname =~? 'MINGW'
         let repl_file = repl_file->substitute("^/c", "c:", "")
     endif
     return repl_file

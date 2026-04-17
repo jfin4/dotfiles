@@ -82,10 +82,10 @@ User() {
 # }}}
 # vpn {{{
 VPN() {
-    if curl -s https://am.i.mullvad.net/connected | grep -q "not"; then
-        var=""
-    else
+    if curl -s https://am.i.mullvad.net/connected | grep -q "are connected"; then
         var="VPN "
+    else
+        var=""
     fi
     echo "$var"
 }

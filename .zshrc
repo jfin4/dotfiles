@@ -114,7 +114,6 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
 
     # update and start tmux
     if [[ -z $TMUX ]]; then
-        pacman -Syuu --noconfirm
         tmux
     fi
 
@@ -127,7 +126,7 @@ elif [[ $os == Linux ]]; then
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
-    alias ZZZ='sudo shutdown now'
+    alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
     if [[ $USER == jfin-wb ]]; then 

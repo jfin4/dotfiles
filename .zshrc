@@ -89,10 +89,11 @@ alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 os=$(uname)
 if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     
-    # # shh 
-    # eval $(ssh-agent -s) > /dev/null 
-    # ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
-
+    export EDITOR=/usr/bin/vim
+    
+    # use local time, doesn't recognize 'Americal/Los_Angeles'
+    export TZ='PST8PDT'
+    
     # path
     PATH="$PATH:/c/Program Files/Python312"
     PATH="$PATH:/c/Program Files/Python312/Scripts"
@@ -103,14 +104,14 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     done
     PATH="$PATH:/c${r#c:}/bin/x64" 
     export PATH
-
-    # use local time, doesn't recognize 'Americal/Los_Angeles'
-    export TZ='PST8PDT'
     
+    # shh 
+    eval $(ssh-agent -s) > /dev/null 
+    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
+
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
-
 
     # update and start tmux
     if [[ -z $TMUX ]]; then
@@ -123,15 +124,30 @@ elif [[ $os == OpenBSD ]]; then
 
 elif [[ $os == Linux ]]; then 
     
+    export BROWSER=/usr/bin/firefox
+    export EDITOR=/usr/bin/vim
+
+    alias ZZZ='sudo shutdown now'
+
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
+<<<<<<< Updated upstream
     alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
     if [[ $USER == jfin-wb ]]; then 
         xhost +SI:localuser:jfin 
     fi
+||||||| Stash base
+    alias ZZZ='sudo shutdown now'
+    export BROWSER=/usr/bin/firefox
+    export EDITOR=/usr/bin/vim
+    if [[ $USER == jfin-wb ]]; then 
+        xhost +SI:localuser:jfin 
+    fi
+=======
+>>>>>>> Stashed changes
 
 fi > /dev/null 2>&1
 

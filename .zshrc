@@ -83,6 +83,8 @@ alias start='launch-file'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias zzz='sudo systemctl suspend'
+alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
+alias reboot='sudo pacman -Syu --noconfirm; reboot'
 alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 
 # host specific
@@ -127,27 +129,10 @@ elif [[ $os == Linux ]]; then
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
 
-    alias ZZZ='sudo shutdown now'
-
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
-<<<<<<< Updated upstream
-    alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
-    export BROWSER=/usr/bin/firefox
-    export EDITOR=/usr/bin/vim
-    if [[ $USER == jfin-wb ]]; then 
-        xhost +SI:localuser:jfin 
-    fi
-||||||| Stash base
-    alias ZZZ='sudo shutdown now'
-    export BROWSER=/usr/bin/firefox
-    export EDITOR=/usr/bin/vim
-    if [[ $USER == jfin-wb ]]; then 
-        xhost +SI:localuser:jfin 
-    fi
-=======
->>>>>>> Stashed changes
+
 
 fi > /dev/null 2>&1
 

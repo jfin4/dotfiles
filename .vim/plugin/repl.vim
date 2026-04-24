@@ -57,7 +57,7 @@ function! SendCode(code = [], echo = 1) abort
     call writefile(a:code, repl_file)
     if a:echo
         let term_commands = {
-                    \ 'r': 'suppressMessages(source("%s", echo = TRUE, max.deparse.length = Inf))',
+                    \ 'r': 'source("%s", echo = TRUE, max.deparse.length = Inf)',
                     \ 'python': 'exec(open("%s").read())',
                     \ 'sql': '.read %s',
                     \ }

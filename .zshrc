@@ -47,7 +47,7 @@ PROMPT='
 
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
-alias -g JFIN='jfin-wb@10.0.0.235:downloads'
+alias -g JFIN='jfin-wb@10.0.0.235:unsorted'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
 alias calaters='start ~/notes/docs/calaters.jnlp'
@@ -64,7 +64,7 @@ alias ll="ls -lh"
 alias ls="ls -1F"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
-alias mutt='cd ~/downloads; /usr/bin/mutt; cd -'
+alias mutt='cd ~/unsorted; /usr/bin/mutt; cd -'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
 alias rm='move-to-trash'

@@ -48,6 +48,7 @@ bind pager k previous-line
 bind pager l view-attachments
 macro pager d "<save-message>+Trash<enter>" "move to Trash"
 set display_filter="sed '/\\[-- /d'"
+set pager_index_lines=10
 # }}}
 
 # attachments{{{

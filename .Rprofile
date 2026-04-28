@@ -12,15 +12,15 @@ lib_dir <- file.path("~/.R")
 dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(lib_dir, .libPaths()))
 
-# for lsp completion
-packages <- .Options$defaultPackages
-load_package <- function(package) library(package, character.only = TRUE)
-suppressMessages({
-    # default packages have to be loaded first, other wise stats::filter will
-    # mask dplyr::filter
-    lapply(packages, load_package)
-    require("tidyverse", character.only = TRUE)
-})
+# # for lsp completion
+# packages <- .Options$defaultPackages
+# load_package <- function(package) library(package, character.only = TRUE)
+# suppressMessages({
+#     # default packages have to be loaded first, other wise stats::filter will
+#     # mask dplyr::filter
+#     lapply(packages, load_package)
+#     require("tidyverse", character.only = TRUE)
+# })
 
 # Set options for home computer
 if (Sys.info()["nodename"] %in% c("jfin")) {

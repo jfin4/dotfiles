@@ -46,11 +46,14 @@ PROMPT='
 # aliases
 
 alias -g COPY='> /dev/clipboard'
-alias -g QUIET='> /dev/null 2>&1 & disown'
 alias -g JFIN='jfin-wb@10.0.0.235:unsorted'
+alias -g QUIET='> /dev/null 2>&1 & disown'
+alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
+alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
 alias calaters='start ~/notes/docs/calaters.jnlp'
+alias cp='cp -r'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias dotp='dot pull'
 alias dots='dot status'
@@ -67,25 +70,23 @@ alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
 alias mutt='cd ~/unsorted; /usr/bin/mutt; cd -'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
+alias reboot='sudo pacman -Syu --noconfirm; reboot'
 alias rm='move-to-trash'
 alias sig='get-signal-quality'
-alias soz='source ~/.zshrc'
-alias sot='tmux source-file ~/.tmux.conf'
-alias sod='\cd ~/.aur/dwm; makepkg -sfic; \cd -'
-alias srpi='ssh -p 2222 jfin@rpi'
+alias sjfin='ssh jfin@jfin'
 alias skaren='ssh jfin@karen'
 alias skids='ssh jfin@kids'
+alias snas='ssh jfin@nas'
+alias sod='\cd ~/.aur/dwm; makepkg -sfic; \cd -'
+alias sot='tmux source-file ~/.tmux.conf'
+alias soz='source ~/.zshrc'
+alias srpi='ssh -p 2222 jfin@rpi'
 alias ssht='ssh jfin@10.0.0.27'
 alias sshxt='ssh -YC jfin@10.0.0.27'
-alias snas='ssh jfin@nas'
-alias sjfin='ssh jfin@jfin'
 alias start='launch-file'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias zzz='sudo systemctl suspend'
-alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
-alias reboot='sudo pacman -Syu --noconfirm; reboot'
-alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 
 # host specific
 os=$(uname)
@@ -97,19 +98,14 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     export TZ='PST8PDT'
     
     # path
-    PATH="$PATH:/c/Program Files/Python312"
-    PATH="$PATH:/c/Program Files/Python312/Scripts"
-    PATH="$PATH:$HOME/AppData/Roaming/Python/Python312/Scripts"
+    sumatra="/c/users/jinman/AppData/Local/SumatraPDF"
     # get latest r
-    for r in "c:/Program Files/R"/*; do
-        true
-    done
-    PATH="$PATH:/c${r#c:}/bin/x64" 
-    export PATH
+    for v in /c/Program\ Files/*; do r="$v/bin/x64"; done
+    export PATH="$PATH:$sumatra:$r"
     
-    # shh 
-    eval $(ssh-agent -s) > /dev/null 
-    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
+    # shh; needs procps-ng
+    pgrep ssh-agent || eval $(ssh-agent -s) > /dev/null 
+    ssh-add ~/.ssh/id_ed25519 > /dev/null
 
     # zoxide
     eval "$(zoxide init zsh)"

@@ -21,3 +21,11 @@ snippet note
 
 snippet link
 	#link ${0:description}
+snippet task
+	`getline(line(".") - 1)[0:5]`\
+	${1:`getline(line(".") - 1)[6:7]`}, \
+	${2:`getline(line(".") - 1)[16:19]`}, \
+	${3:hhmm}, \
+	${4:w}, \
+	${5:description}
+

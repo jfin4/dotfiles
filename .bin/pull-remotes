@@ -10,16 +10,19 @@ print_header() {
 
 print_header "dotfiles"
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
-print_header "data:resources"
-# use copy instead of sync to preserve local data
-rclone copy --update --progress data:resources ~/resources
+
 print_header "docs:notes"
 rclone copy --update --progress docs:notes ~/notes
+
 print_header "docs:projects"
 rclone copy --update --progress docs:projects ~/projects
+
 print_header "docs:records"
 rclone copy --update --progress docs:records ~/records
+
 print_header "docs:relep"
 rclone copy --update --progress docs:relep ~/relep --exclude="/ReLEP/**" --exclude="/Region **"
 
-
+print_header "data:resources"
+# use copy instead of sync to preserve local data
+rclone copy --update --progress data:resources ~/resources

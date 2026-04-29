@@ -100,7 +100,7 @@ if [[ $os == MINGW64_NT-10.0-26200 ]]; then
     # path
     sumatra="/c/users/jinman/AppData/Local/SumatraPDF"
     # get latest r
-    for v in /c/Program\ Files/*; do r="$v/bin/x64"; done
+    for v in /c/Program\ Files/R/*; do r="$v/bin/x64"; done
     export PATH="$PATH:$sumatra:$r"
     
     # shh; needs procps-ng

@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+timestamp=$(date +%s)
+
+trash_dir=$HOME/.trash
+
+if [[ ! -d "$trash_dir" ]]; then
+    mkdir "$trash_dir"
+fi
+
+for file_path in "$@"; do
+    file=${file_path##*/}
+    mv "$file_path" "$trash_dir/$file-$timestamp"
+done
+

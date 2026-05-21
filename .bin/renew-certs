@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-
-sleep $((RANDOM % 3600)) 
-/usr/sbin/acme-client jfin.net 
-/usr/sbin/acme-client waterplots.com 
-/usr/local/sbin/nginx -s reload

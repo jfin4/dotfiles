@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-# for copy-pipe-and-cancel in tmux.conf
-
-if [[ $(uname) == 'Linux' ]]; then
-    xsel --clipboard -i
-elif [[ $(uname) == 'MINGW64_NT-10.0-26200' ]]; then
-    cat > /dev/clipboard
-fi

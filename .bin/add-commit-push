@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+git add .
+git commit -m "${1:-committed by add-commit-push script}"
+git push
+
+

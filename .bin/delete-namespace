@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+namespace="vpn"
+sudo ip netns delete "$namespace"

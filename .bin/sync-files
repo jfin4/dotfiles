@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+print_header() {
+    text="$1 "
+    pad_length=$((78 - ${#text}))
+    printf "\n%s " $text
+    printf "%0.s-" $(seq 1 $pad_length)
+    printf "\n"
+}
+
+case $1 in
+    push)
+        print_header "push files to home computer"
+        # requires RSYNC_RSH set in .zshrc
+        rsync -ahP --exclude="ReLEP/" ~/{notes,projects,records,relep,resources,music} wb:
+        ;;
+    pull)
+        print_header "pull files from home computer"
+        # requires RSYNC_RSH set in .zshrc
+        rsync -ahP --exclude="ReLEP/" wb:{notes,projects,records,relep,resources,music} ~
+        ;;
+    *)
+        echo argument must be "push" or "pull"
+        ;;
+esac

@@ -3,7 +3,7 @@
 start_torrents() {
     sudo mount /dev/disk/by-label/storage /mnt/storage
     wg-quick up ~/.wg/us-sjc-wg-302.conf
-    sleep 1
+    sleep 5
     if curl -s https://am.i.mullvad.net/connected | grep -q "not connected"; then
         echo "couldn't connect to mullvad"
         exit

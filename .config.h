@@ -1,3 +1,5 @@
+/* ~/.aur/dwm/config.h */
+
  /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 

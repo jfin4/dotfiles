@@ -1,3 +1,5 @@
+; appdata/roaming/microsoft/windows/start menu/programs/startup/script.ahk
+
 CapsLock::Escape
 
 ; make bs act like alt while held, allows multiple actions, e.g.

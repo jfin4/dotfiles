@@ -1,20 +1,12 @@
-# autoload -Uz zsh-newuser-install; zsh-newuser-install -f
-# autoload -Uz compinstall; compinstall
-
-# completion
-# The following lines were added by compinstall
-
-zstyle ':completion:*' completer _expand _complete _ignored
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' '+r:|[._-]=** r:|=**'
-zstyle :compinstall filename "~/.zshrc"
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 # options and variables
 setopt extended_glob
 bindkey -e
+
+# completion
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|[._-]=* r:|=*'
+zstyle ':completion:*' menu select # highlights selection
 
 # home, end, delete
 bindkey  "^[[H"   beginning-of-line
@@ -35,11 +27,7 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
-export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
-
 date=$(date +'%Y-%m-%d')
-
-export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
 
 # prompt
 setopt prompt_subst
@@ -136,6 +124,9 @@ elif [[ $os == Linux ]]; then
     
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
+    export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
+
+    export PATH="$PATH:$HOME/.secrets/bin"
 
     # zoxide
     eval "$(zoxide init zsh)"

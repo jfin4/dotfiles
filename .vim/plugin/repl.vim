@@ -100,6 +100,9 @@ xnoremap <expr> , RunMotion()
 nnoremap <expr> ,, RunMotion() .. '_'
 
 function! RunToCurrentLine() abort
+    if !exists("b:first_run")
+        let b:first_run = 1
+    endif
     if b:first_run
         let start = 1
         let b:first_run = 0

@@ -32,8 +32,11 @@ snippet data
 snippet x
 	\\(${1:x})
 
+snippet reltionship
+	relationship = "many-to-many"
+
 snippet read_excel
-	read_excel("${1:data}", 
+	read_excel(${1:data}, 
 	           sheet = "${2:sheet}",
 	           col_types = "text")
 

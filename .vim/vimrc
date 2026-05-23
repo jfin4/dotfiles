@@ -35,6 +35,7 @@ set undofile
 set virtualedit=block
 set wildmenu
 set wildmode=full
+set wildignorecase
 
 " dir options
 set backupdir=~/.vim/backup
@@ -91,7 +92,7 @@ augroup end
 " mucomplete
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
-    \ 'default' : ['path', 'keyp', 'omni', 'dict', 'uspl'],
+    \ 'default' : ['snip', 'path', 'keyp', 'omni', 'dict', 'uspl'],
     \ }
 inoremap <tab> <plug>(MUcompleteFwd)
 inoremap <s-tab> <plug>(MUcompleteBwd)

@@ -1,9 +1,4 @@
 {
-  "keyMappings": "# Insert your preferred key mappings here.\nmap J nextTab\nmap K previousTab\nmap \\ passNextKey",
-  "newTabUrl": "pages/blank.html",
-  "grabBackFocus": true,
-  "searchEngines": "wik: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\nyou: https://www.youtube.com/results?search_query=%s Youtube\nrot: https://www.rottentomatoes.com/search?search=%s Rotten Tomatoes\n\n# More examples.\n#\n# (Vimium supports search completion Wikipedia, as\n# above, and for these.)\n#\n# g: https://www.google.com/search?q=%s Google\n# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky...\n# y: https://www.youtube.com/results?search_query=%s Youtube\n# gm: https://www.google.com/maps?q=%s Google maps\n# b: https://www.bing.com/search?q=%s Bing\n# d: https://duckduckgo.com/?q=%s DuckDuckGo\n# az: https://www.amazon.com/s/?field-keywords=%s\n# qw: https://www.qwant.com/?q=%s Qwant",
-  "settingsVersion": "2.3.1",
   "exclusionRules": [
     {
       "passKeys": "",
@@ -29,5 +24,9 @@
       "passKeys": "",
       "pattern": "https?://monkeytype.com/*"
     }
-  ]
+  ],
+  "grabBackFocus": true,
+  "keyMappings": "# Insert your preferred key mappings here.\nmap J nextTab\nmap K previousTab\nmap \\ passNextKey",
+  "searchEngines": "wik: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\nyou: https://www.youtube.com/results?search_query=%s Youtube\nrot: https://www.rottentomatoes.com/search?search=%s Rotten Tomatoes\narch: https://wiki.archlinux.org/index.php?search=%s Arch Wiki\n\n# More examples.\n#\n# (Vimium supports search completion Wikipedia, as\n# above, and for these.)\n#\n# g: https://www.google.com/search?q=%s Google\n# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky...\n# y: https://www.youtube.com/results?search_query=%s Youtube\n# gm: https://www.google.com/maps?q=%s Google maps\n# b: https://www.bing.com/search?q=%s Bing\n# d: https://duckduckgo.com/?q=%s DuckDuckGo\n# az: https://www.amazon.com/s/?field-keywords=%s\n# qw: https://www.qwant.com/?q=%s Qwant",
+  "settingsVersion": "2.4.2"
 }

@@ -5,7 +5,7 @@ bindkey -e
 # completion
 autoload -Uz compinit
 compinit
-zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 zstyle ':completion:*' menu select # highlights selection
 
 # home, end, delete

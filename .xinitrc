@@ -7,8 +7,9 @@ dunst &
 # needed for xdg-desktop-portal-gtk.service (opens browser file chooser)
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 
+reload_keyd &
+
 # statusbar
-sudo zsh -c "keyd listen > /tmp/keyd_listener" &
 while true; do
     xsetroot -name "$(get-status)"
     sleep 1

@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+reload_keyd() {
+    keyd reload
+    sudo sh -c "keyd listen > /tmp/keyd_listener" & 
+}
+
+reload_keyd
+
+limit=900000
+already_run=false
+while true; do
+    if  (( $(xprintidle) >= $limit )); then
+        if ! $already_run; then
+            reload_keyd
+            already_run=true
+        fi
+    else
+        already_run=false
+    fi
+    sleep 60
+done

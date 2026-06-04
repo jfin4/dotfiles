@@ -2,7 +2,7 @@
 
 sudo mount /dev/disk/by-label/storage /mnt/storage
 
-wg-quick up ~/.wg/us-sjc-wg-302.conf &> /dev/null &
+wg-quick up ~/.wg/us-sjc-wg-302.conf 
 
 until curl -s https://am.i.mullvad.net/connected | grep -q "are connected"; do
     echo "connecting to vpn..."

@@ -8,12 +8,12 @@ static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "NotoSans:size=16" };
-static const char dmenufont[]       = "NotoSans:size=16";
+static const char *fonts[]          = { "NotoSans:size=14" };
+static const char dmenufont[]       = "NotoSans:size=14";
 static const char col_bg[]       = "#000000";
 static const char col_norm[]       = "#999999";
 static const char col_sel[]       = "#ffffff";
-static const char col_border[]     = "#339999";
+static const char col_border[]     = "#ff99ff";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_norm,  col_bg, col_bg },

@@ -132,10 +132,6 @@ elif [[ $os == Linux ]]; then
     # startx needs HOST
     export HOST
 
-    if [[ -z $DISPLAY ]] && [[ $XDG_VTNR = 1 ]] && [[ $(whoami) != root ]]; then
-        startx
-    fi
-
 fi > /dev/null 2>&1
 
 # notes

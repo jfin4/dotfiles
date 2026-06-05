@@ -17,8 +17,6 @@ snippet data
 	# load data
 	# ------------------------------------------------------------------------------
 
-	rm(list = ls())
-
 	rm(list = ls(all = TRUE))
 	$1
 	.data_loaded <- NULL
@@ -28,6 +26,7 @@ snippet data
 		load(".rdata")
 	}
 
+	rm(list = ls())
 
 snippet x
 	\\(${1:x})

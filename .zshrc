@@ -7,6 +7,8 @@ autoload -Uz compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 zstyle ':completion:*' menu select # highlights selection
+setopt menu_complete
+
 
 # home, end, delete
 bindkey  "^[[H"   beginning-of-line
@@ -67,7 +69,7 @@ alias pw='get-password'
 alias reboot='sudo pacman -Syu --noconfirm; reboot'
 alias rm='move-to-trash'
 alias sig='get-signal-quality'
-alias sod='\cd ~/.aur/dwm; cp ~/.dwm_config.h config.h; makepkg -sfic; \cd -'
+alias sod='\cd ~/.aur/dwm; cp ~/.config.h config.h; makepkg -sfic; \cd -'
 alias sot='tmux source-file ~/.tmux.conf'
 alias soz='source ~/.zshrc'
 alias start='launch-file'

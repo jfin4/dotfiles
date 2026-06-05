@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+
+sudo lpadmin -p brother -E -v ipp://10.0.0.30/ipp/print -m everywhere

@@ -68,7 +68,7 @@ set foldlevelstart=0
 set foldmethod=marker
 function! CustomFoldText()
     let l:line = getline(v:foldstart)->substitute('{', '', 'g')
-    let l:width = &textwidth > 0 ? &textwidth + 2 : winwidth(0)
+    let l:width = &textwidth * 3 / 4
     let l:padding = l:width - len(l:line)
     let l:indicator = repeat('+', max([0, l:padding]))
     return l:line . l:indicator
@@ -143,11 +143,11 @@ function! Win2Unix()
 endfunction
 command! Win2Unix silent! call Win2Unix()
 
-function! Start()
+function! OPen()
     let link = getline(line('.'))->trim()
     call system('launch-file ' .. shellescape(link))
 endfunction
-command! Start call Start()
+command! OPen call OPen()
 
 " markdown
 let g:vim_markdown_conceal = 2
@@ -160,7 +160,7 @@ command! Todo BLines #todo
 " copy to clipboard
 function! CopyToClipboard(type = '') abort
     
-    " operator boilerplate >>>
+    " operator boilerplate
     if a:type == ''
         let &operatorfunc = 'CopyToClipboard'
         return 'g@'
@@ -170,7 +170,6 @@ function! CopyToClipboard(type = '') abort
                 \ 'char': "`[v`]",
                 \ 'block': "`[\<C-V>`]",
                 \ }[a:type]
-    " <<<
     
     " os specific
     if has("win64")

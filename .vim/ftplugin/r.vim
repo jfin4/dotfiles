@@ -3,7 +3,7 @@ set signcolumn=yes
 
 inoremap <buffer> < <-
 inoremap <buffer> << <
-inoremap <buffer> > %>%
+inoremap <buffer> > \|>
 inoremap <buffer> >> >
 nnoremap <buffer> K :call SendCode(['help(<c-r><c-w>)'])<cr>
 
@@ -110,12 +110,12 @@ nnoremap <expr> <localleader>rvv ViewObject() .. '_'
 "}}}
 function! TogglePipe()"{{{
     let line = getline('.')
-    if line =~ '%>%'
-        let new_line = substitute(line, '\s\?%>%', '', '')
+    if line =~ '|>'
+        let new_line = substitute(line, '\s\?|>', '', '')
     elseif line =~ '#'
-        let new_line = substitute(line, '#', '%>% #', '')
+        let new_line = substitute(line, '#', '|> #', '')
     else
-        let new_line = printf('%s %%>%%', line)
+        let new_line = printf('%s |>', line)
     endif
     call setline('.', new_line)
 endfunction

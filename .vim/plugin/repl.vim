@@ -13,7 +13,6 @@ function! OpenRepl()
     else
         echo 'start tmux'
     endif
-    let b:first_run = 1 " for RunToCurrentLine()
 endfunction
 command! OpenRepl call OpenRepl()
 

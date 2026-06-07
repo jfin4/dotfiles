@@ -1,4 +1,4 @@
 #!/usr/bin/env zsh
 
-sudo reflector --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
 sudo pacman -Syu

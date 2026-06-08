@@ -79,6 +79,7 @@ alias zzz='sudo systemctl suspend'
 os=$(uname)
 
 if [[ $os =~ MING.* ]]; then
+
     
     export EDITOR=/usr/bin/vim
     
@@ -90,6 +91,7 @@ if [[ $os =~ MING.* ]]; then
     # for v in "/c/Program Files/R/*"; do r="$v/bin/x64"; done
     r="/c/Users/jinman/AppData/Local/Programs/R/R-4.3.3/bin/x64"
     export PATH="$PATH:$sumatra:$r"
+    export PATH="$PATH:$HOME/.secrets/bin"
     
     # shh; needs procps-ng
     pgrep ssh-agent || eval $(ssh-agent -s) > /dev/null 

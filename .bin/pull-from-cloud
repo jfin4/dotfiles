@@ -3,11 +3,11 @@
 for dir in notes projects records resources; do
     echo
     echo $dir ------------------------------------------------------------------------------
-    rclone --progress copy ~/$dir docs:$dir
+    rclone --progress copy docs:$dir ~/$dir 
 done
 
 for dir in resources; do
     echo
     echo $dir ------------------------------------------------------------------------------
-    rclone --progress copy ~/$dir data:$dir
+    rclone --progress copy data:$dir ~/$dir 
 done

@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+rsync \
+    -ahP \
+    -e "ssh -F $HOME/.secrets/ssh_config" \
+    --exclude="ReLEP/" \
+    wb:{notes,projects,records,relep,resources} \
+    ~
+    

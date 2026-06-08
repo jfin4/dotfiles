@@ -43,8 +43,6 @@ PROMPT='
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
 alias rg='rg --colors=path:none --colors=line:none'
-alias push='sync-files push'
-alias pull='sync-files pull'
 alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
 alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 alias aw='toggle-alt-win'
@@ -97,9 +95,6 @@ if [[ $os =~ MING.* ]]; then
     pgrep ssh-agent || eval $(ssh-agent -s) > /dev/null 
     ssh-add ~/.ssh/id_ed25519 > /dev/null
     
-    # needed to rsync between host wo typing ip address
-    export RSYNC_RSH="ssh -F $HOME/.secrets/ssh_config"
-
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 

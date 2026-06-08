@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+for dir in notes projects records resources; do
+    echo
+    echo $dir ------------------------------------------------------------------------------
+    rclone --progress sync ~/$dir docs:$dir
+done

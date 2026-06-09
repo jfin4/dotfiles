@@ -4,6 +4,6 @@ rsync \
     -ahP \
     -e "ssh -F $HOME/.secrets/ssh_config" \
     --exclude="ReLEP/" \
-    wb:{notes,projects,records,relep,resources} \
+    desktop:{.secrets,notes,projects,records,relep,resources} \
     ~
     

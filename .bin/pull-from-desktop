@@ -3,6 +3,7 @@
 rsync \
     -ahP \
     -e "ssh -F $HOME/.secrets/ssh_config" \
+    --delete \
     --exclude="ReLEP/" \
     desktop:{.secrets,notes,projects,records,relep,resources} \
     ~

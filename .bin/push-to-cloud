@@ -3,11 +3,11 @@
 for dir in notes projects records; do
     echo
     echo $dir ------------------------------------------------------------------------------
-    rclone --progress sync ~/$dir docs:$dir --exclude "/archive/**"
+    rclone --progress sync ~/$dir docs:$dir --exclude "archive/**"
 done
 
 for dir in resources; do
     echo
     echo $dir ------------------------------------------------------------------------------
-    rclone --progress sync ~/$dir data:$dir --exclude "/archive/**"
+    rclone --progress sync ~/$dir data:$dir --exclude "archive/**"
 done

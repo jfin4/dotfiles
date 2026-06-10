@@ -102,7 +102,7 @@ Bluethooth() {
 # }}}
 # keyd layout {{{
 Layout() {
-    echo "$(cat /home/jfin/.keyd_layout)$sep"
+    echo "$(<~/.keyd_layout)$sep"
 }
     # }}}
 # date{{{

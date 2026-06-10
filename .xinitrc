@@ -10,10 +10,14 @@ systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 ~/.fehbg &
 
 # statusbar
-sudo sh -c "keyd listen > /tmp/keyd_listener" &
 while true; do
     xsetroot -name "$(get-status)"
-    sleep 1
+    sleep 60
+done &
+
+# update status if keyd layout changes
+keyd listen | grep "/" | while read -r line; do
+    get-keyd-layout
 done &
 
 while true; do

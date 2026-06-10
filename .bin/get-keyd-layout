@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+[[ -f ~/.keyd_layout ]] || echo xwin > ~/.keyd_layout
+
 layout=$(<~/.keyd_layout)
 
 [[ $layout == xwin ]] && layout=tmux || layout=xwin

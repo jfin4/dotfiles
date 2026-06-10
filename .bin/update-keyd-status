@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+layout=$(<~/.keyd_layout)
+
+[[ $layout == xwin ]] && layout=tmux || layout=xwin
+
+echo $layout > ~/.keyd_layout
+
+xsetroot -name "$(get-status)"

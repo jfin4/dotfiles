@@ -1,13 +1,15 @@
 #!/usr/bin/env zsh
 
-for dir in notes projects records resources; do
-    echo
-    echo $dir ------------------------------------------------------------------------------
-    rclone --progress copy docs:$dir ~/$dir 
-done
+run_copy() {
+    local store=$1; shift
+    for dir in "$@"; do
+        echo
+        echo "$dir ------------------------------------------------------------------------------"
+        rclone --progress copy $store:$dir ~/$dir
+    done
+}
 
-for dir in resources; do
-    echo
-    echo $dir ------------------------------------------------------------------------------
-    rclone --progress copy data:$dir ~/$dir 
-done
+tmux split-window -h "zsh -c '$(typeset -f run_copy); run_copy docs notes projects records; exec zsh'"
+tmux split-window -h "zsh -c '$(typeset -f run_copy); run_copy data resources; exec zsh'"
+
+tmux select-layout main-vertical

@@ -100,9 +100,9 @@ Bluethooth() {
 
 }
 # }}}
-# layout {{{
+# keyd layout {{{
 Layout() {
-    echo $(cat /tmp/keyd_listener | grep -a / | tail -n1 | sed 's/\///')"$sep"
+    echo "$(cat ~/.keyd_layout)$sep"
 }
     # }}}
 # date{{{
@@ -115,5 +115,5 @@ Time() {
     echo $(date +'%H %M')
 }
 # }}}
-sep="    "
+sep="        "
 echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"

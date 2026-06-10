@@ -6,4 +6,4 @@ else
     bluetoothctl connect 70:26:05:CF:75:A1
 fi
 
-# xsetroot -name "$(get-status)"
+xsetroot -name "$(get-status)"

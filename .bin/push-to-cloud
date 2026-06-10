@@ -1,13 +1,15 @@
 #!/usr/bin/env zsh
 
-for dir in notes projects records; do
-    echo
-    echo $dir ------------------------------------------------------------------------------
-    rclone --progress sync ~/$dir docs:$dir --exclude "archive/**"
-done
+run_sync() {
+    local store=$1; shift
+    for dir in "$@"; do
+        echo
+        echo "$dir ------------------------------------------------------------------------------"
+        rclone --progress --exclude "archive/**" sync ~/$dir $store:$dir 
+    done
+}
 
-for dir in resources; do
-    echo
-    echo $dir ------------------------------------------------------------------------------
-    rclone --progress sync ~/$dir data:$dir --exclude "archive/**"
-done
+tmux split-window -h "zsh -c '$(typeset -f run_sync); run_sync docs notes projects records; exec zsh'"
+tmux split-window -h "zsh -c '$(typeset -f run_sync); run_sync data resources; exec zsh'"
+
+tmux select-layout main-vertical

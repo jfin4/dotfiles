@@ -16,7 +16,7 @@ while true; do
 done &
 
 # update status if keyd layout changes
-keyd listen | grep "/" | while read -r line; do
+keyd listen | grep --line-buffered "/" | while read -r line; do
     get-keyd-layout
 done &
 

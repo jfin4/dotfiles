@@ -8,6 +8,7 @@ compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 zstyle ':completion:*' menu select # highlights selection
 setopt menu_complete
+zmodload zsh/complist
 bindkey -M menuselect '^@' accept-and-menu-complete
 
 

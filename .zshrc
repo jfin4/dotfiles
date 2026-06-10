@@ -8,6 +8,7 @@ compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 zstyle ':completion:*' menu select # highlights selection
 setopt menu_complete
+bindkey -M menuselect '^@' accept-and-menu-complete
 
 
 # home, end, delete

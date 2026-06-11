@@ -19,7 +19,11 @@ done &
 echo xwin > /tmp/keyd-status
 keyd listen | while read -r line; do
     if [[ $line == /* ]]; then
-        { [[ $line == /xwin ]] && echo xwin || echo tmux } > /tmp/keyd-status
+        if [[ $line == /xwin ]]; then
+            echo xwin > /tmp/keyd-status
+        else
+            echo tmux > /tmp/keyd-status
+        fi
         xsetroot -name "$(get-status)"
     fi
 done &

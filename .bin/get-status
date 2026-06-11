@@ -102,7 +102,7 @@ Bluethooth() {
 # }}}
 # keyd layout {{{
 Layout() {
-    echo "$(<~/.keyd-status)$sep"
+    echo "$(</tmp/keyd-status)$sep"
 }
     # }}}
 # date{{{

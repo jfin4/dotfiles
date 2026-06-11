@@ -102,7 +102,7 @@ Bluethooth() {
 # }}}
 # keyd layout {{{
 Layout() {
-    echo "$(<~/.keyd_layout)$sep"
+    echo "$(<~/.keyd-status)$sep"
 }
     # }}}
 # date{{{
@@ -116,4 +116,5 @@ Time() {
 }
 # }}}
 sep="        "
-echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"
+# echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"
+echo "$(Bluethooth)$(Layout)$(Date)$(Time)"

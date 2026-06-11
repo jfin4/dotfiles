@@ -16,11 +16,12 @@ while true; do
 done &
 
 # update status if keyd layout changes
-[[ -f ~/.keyd_layout ]] || echo xwin > ~/.keyd_layout
-keyd listen | grep --line-buffered "/" | while read -r line; do
-    [[ $layout == xwin ]] && layout=tmux || layout=xwin
-    echo $layout > ~/.keyd_layout
-    xsetroot -name "$(get-status)"
+echo xwin > /tmp/keyd-status
+keyd listen | while read -r line; do
+    if [[ $line == /* ]]; then
+        { [[ $line == /xwin ]] && echo xwin || echo tmux } > /tmp/keyd-status
+        xsetroot -name "$(get-status)"
+    fi
 done &
 
 while true; do

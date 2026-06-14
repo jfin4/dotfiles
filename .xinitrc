@@ -28,6 +28,10 @@ keyd listen | while read -r line; do
     fi
 done &
 
-while true; do
-    dwm 2> ~/.dwm.log
-done
+if [[ $USER == jfin* ]]; then 
+    while true; do
+        dwm 2> ~/.dwm.log
+    done
+else
+    openbox-session
+fi

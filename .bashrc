@@ -7,11 +7,6 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
-alias dotp='dot pull'
-alias dots='dot status'
-alias dott='add-commit-push-dotfiles'
-
 PS1='[\u@\h \W]\$ '
 
 # test if already logged in

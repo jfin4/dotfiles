@@ -18,6 +18,7 @@ typeset -A expected_ttys=(
 )
 target_tty="${expected_ttys[$USER]}"
 if [[ -z "$DISPLAY" && "$this_tty" != "tty$target_tty" ]]; then
+    echo
     for i in {1..50}; do
         echo -ne "\r==> GO TO F$target_tty <=="
         sleep 0.2

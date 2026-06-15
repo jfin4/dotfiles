@@ -9,22 +9,23 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
-# test if already logged in
-this_term=$(tty | sed -e 's#/dev/##')
-all_terms=$(who | grep $USER | awk '{print $2}')
-for term in $all_terms; do
-    if [[ -z "$DISPLAY" && $term != $this_term ]]; then
-        term_no=$(echo $term | grep -o -e '[0-9]')
-        echo -e "\nALREADY LOGGED IN\n" 
-        for i in {1..50}; do
-            echo -ne "\r==> GO TO F${term_no} <=="
-            sleep 0.2
-            echo -ne "\r    GO TO F${term_no}    "
-            sleep 0.2
-        done
-        exit
-    fi
-done
+# check tty
+this_tty=$(tty | sed -e 's#/dev/##')
+typeset -A expected_ttys=(
+    [karen]="3"
+    [basilia]="4"
+    [ginny]="5"
+)
+target_tty="${expected_ttys[$USER]}"
+if [[ -z "$DISPLAY" && "$this_tty" != "tty$target_tty" ]]; then
+    for i in {1..50}; do
+        echo -ne "\r==> GO TO F$target_tty <=="
+        sleep 0.2
+        echo -ne "\r    GO TO F$target_tty    "
+        sleep 0.2
+    done
+    exit
+fi
 
 # startx
 if [[ -z "$DISPLAY" ]]; then

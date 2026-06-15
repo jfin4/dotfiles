@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
-sudo mount /dev/disk/by-label/storage /mnt/storage
+wg-quick up ~/.wg/us-sjc-wg-302.conf &> /dev/null &
 
-wg-quick up ~/.wg/us-sjc-wg-302.conf 
-
-until curl -s https://am.i.mullvad.net/connected | grep -q "are connected"; do
+until sudo wg show interfaces | grep -q "."; do
     echo "connecting to vpn..."
     sleep 1
 done
@@ -15,11 +13,13 @@ qbittorrent-nox &> /dev/null &
 PID=$!
 
 until curl -s localhost:8080 | grep -q "qBittorrent"; do
-    echo "starting qbittorrent"
+    echo "starting qbittorrent..."
     sleep 1
 done
 
 firefox localhost:8080 &> /dev/null &
+
+echo "ready..."
 
 trap '
     kill $PID

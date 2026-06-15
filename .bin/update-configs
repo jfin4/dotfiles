@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+
+for user in karen basilia ginny; do
+    sudo -u $user sh -c 'git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull'
+done

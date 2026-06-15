@@ -82,7 +82,7 @@ User() {
 
 # vpn {{{
 VPN() {
-    if curl -s https://am.i.mullvad.net/connected | grep -q "are connected"; then
+    if sudo wg show interfaces | grep -q "."; then
         echo VPN"$sep"
     fi
 }
@@ -116,5 +116,4 @@ Time() {
 }
 # }}}
 sep="        "
-# echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"
-echo "$(Bluethooth)$(Layout)$(Date)$(Time)"
+echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"

@@ -58,3 +58,10 @@ snippet read.csv
 snippet read.delim
 	read.delim(${1:data}, 
 	           colClasses = "character")
+
+snippet flag
+	working_data <-
+	    working_data \|>
+	    mutate(Issues = if_else(${1:test},
+	                            str_c(Issues, "${2:flag}; "),
+	                            Issues))

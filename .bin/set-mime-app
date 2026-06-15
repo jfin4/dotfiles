@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+mime=$(xdg-mime query filetype $1)
+app=$2
+xdg-mime default $app.desktop $mime

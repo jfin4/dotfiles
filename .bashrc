@@ -23,6 +23,7 @@ if [[ -z "$DISPLAY" && "$this_tty" != "tty$target_tty" ]]; then
         figlet "GO TO F$target_tty"
         sleep 0.75
         clear
+        figlet " "
         sleep 0.25
     done
     exit

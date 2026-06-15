@@ -1,9 +1,9 @@
 # escaped semi-colons keep in first field
 text/html; \
     attachment=%s\; \
-    temp_file=/tmp/mutt-$RANDOM.html\; \
+    temp_file=/tmp/mutt-$(date '+\%s').html\; \
     cp $attachment $temp_file\; \
-    xdg-open $file &> /dev/null &
+    xdg-open $temp_file &> /dev/null &
 
 text/html; \
     lynx \
@@ -17,13 +17,13 @@ text/html; \
 application/*; \
     attachment=%s\; \
     ext=${attachment##*.}\; \
-    temp_file=/tmp/mutt-$RANDOM.$ext\; \
+    temp_file=/tmp/mutt-$(date '+\%s').$ext\; \
     cp $application $temp_file\; \
-    xdg-open $file &> /dev/null &
+    xdg-open $temp_file &> /dev/null &
 
 image/*; \
     attachment=%s\; \
     ext=${attachment##*.}\; \
-    temp_file=/tmp/mutt-$RANDOM.$ext\; \
+    temp_file=/tmp/mutt-$(date '+\%s').$ext\; \
     cp $attachment $temp_file\; \
     xdg-open $temp_file &> /dev/null &

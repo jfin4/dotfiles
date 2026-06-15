@@ -41,8 +41,8 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "",      tile },    /* first entry is default */
 	{ "",      monocle },
+	{ "",      tile },    /* first entry is default */
 };
 
 /* key definitions */

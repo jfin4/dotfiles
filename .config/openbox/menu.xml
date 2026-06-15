@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_menu>
   <menu id="root-menu" label="OpenBox 3">
-    <item label="Firefox"> <action name="Execute">
-	<execute>firefox</execute>
+    <item label="Chrome"> <action name="Execute">
+	<execute>google-chrome-stable</execute>
     </action> </item>
     <item label="Minecraft"> <action name="Execute">
 	<execute>prismlauncher</execute>

@@ -18,12 +18,12 @@ typeset -A expected_ttys=(
 )
 target_tty="${expected_ttys[$USER]}"
 if [[ -z "$DISPLAY" && "$this_tty" != "tty$target_tty" ]]; then
-    echo
-    for i in {1..50}; do
+    clear
+    for i in {1..10}; do
         figlet "GO TO F$target_tty"
-        sleep 0.2
+        sleep 0.75
         clear
-        sleep 0.2
+        sleep 0.25
     done
     exit
 fi

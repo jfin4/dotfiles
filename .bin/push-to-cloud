@@ -8,7 +8,7 @@ ptc() {
         printf '%s\n' $remote:$dir
         for i in {1..78}; do printf '-'; done
         printf '\n'
-        rclone --progress --exclude "archive/**" sync ~/$dir $remote:$dir 
+        rclone --progress --exclude 'archive/**' sync ~/$dir $remote:$dir 
         exec zsh
     "
     tmux select-layout main-vertical

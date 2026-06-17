@@ -4,17 +4,19 @@
 pfc() {
     local remote=$1
     local dir=$2
-    tmux split-window -h "
+    # -h prevent artifacts?
+    tmux split-window -h -d "
         printf '%s\n' $remote:$dir
         for i in {1..78}; do printf '-'; done
         printf '\n'
-        rclone --progress copy $remote:$dir ~/$dir
-        exec zsh
+        rclone --progress copy $remote:$dir ~/$dir \
+            || exec sh
     "
-    tmux select-layout main-vertical
 }
 
-pfc docs notes
+pfc docs notes 
 pfc docs projects
 pfc docs records
 pfc data resources
+
+tmux select-layout main-vertical

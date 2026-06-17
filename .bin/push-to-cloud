@@ -4,17 +4,19 @@
 ptc() {
     local remote=$1
     local dir=$2
-    tmux split-window -h "
+    # -h prevent artifacts?
+    tmux split-window -h -d "
         printf '%s\n' $remote:$dir
         for i in {1..78}; do printf '-'; done
         printf '\n'
-        rclone --progress --exclude 'archive/**' sync ~/$dir $remote:$dir 
-        exec zsh
+        rclone --progress --exclude 'archive/**' sync ~/$dir $remote:$dir \
+            || exec sh
     "
-    tmux select-layout main-vertical
 }
 
 ptc docs notes
 ptc docs projects
 ptc docs records
 ptc data resources
+
+tmux select-layout main-vertical

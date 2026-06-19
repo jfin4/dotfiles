@@ -3,7 +3,6 @@
 file=/run/keyd-status
 sudo touch $file
 sudo chmod 777 $file
-echo xwin > $file
 while read -r line; do
     if [[ $line == /* ]]; then
         [[ $line == /xwin ]] && echo xwin > $file

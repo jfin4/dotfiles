@@ -1,10 +1,6 @@
 #!/usr/bin/env zsh
 
-if [[ -f /tmp/keyd-status ]]; then
-    echo xwin > /tmp/keyd-status
-    chmod 777 /tmp/keyd-status
-fi 
-
+[[ -e /tmp/keyd-status ]] || echo xwin > /tmp/keyd-status
 keyd listen | while read -r line; do
     if [[ $line == /* ]]; then
         if [[ $line == /xwin ]]; then

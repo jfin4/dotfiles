@@ -9,9 +9,9 @@ if [[ $USER == jfin* ]]; then
     pkill -f dunst; dunst &
     pkill -f update-status; update-status &
     pkill -f update-keyd-status; update-keyd-status &
-    [[ -z "$DISPLAY" ]] && while true; do
+    pgrep -u $USER -f dwm || while true; do
         dwm
     done
 else
-    [[ -z "$DISPLAY" ]] && openbox-session
+    pgrep -u $USER -f openbox || openbox-session
 fi

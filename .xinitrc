@@ -6,9 +6,9 @@ systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 ~/.fehbg
 
 if [[ $USER == jfin* ]]; then
-    pkill -f dunst; dunst &
-    pkill -f update-status; update-status &
-    pkill -f update-keyd-status; update-keyd-status &
+    pkill -u $USER -f dunst; dunst &
+    pkill -u $USER -f update-status; update-status &
+    pkill -u $USER -f update-keyd-status; update-keyd-status &
     pgrep -u $USER -f dwm || while true; do
         dwm
     done

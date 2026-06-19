@@ -7,13 +7,13 @@ systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 
 case $USER in
     jfin*)
-        pgrep -f update-keyd-status -u $USER || update-keyd-status &
-        pgrep -f update-status -u $USER || update-status &
-        pgrep -f dwm -u $USER || while true; do
+        pgrep -u $USER -f update-keyd-status || update-keyd-status &
+        pgrep -u $USER -f update-status || update-status &
+        pgrep -u $USER -f dwm || while true; do
             dwm
         done
     ;;
     *)
-        pgrep -f openbox -u $USER || openbox-session
+        pgrep -u $USER -f openbox || openbox-session
     ;;
 esac

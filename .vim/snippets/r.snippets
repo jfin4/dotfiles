@@ -35,33 +35,26 @@ snippet reltionship
 	relationship = "many-to-many"
 
 snippet read_excel
-	read_excel(${1:data}, 
-	           sheet = "${2:sheet}",
+	read_excel(${1:path}, 
+	           sheet = ${2:sheet},
 	           col_types = "text")
 
 snippet read_csv
-	read_csv(${1:data}, 
+	read_csv(${1:path}, 
 	         col_types = cols(.default = "c"))
 
 snippet read_tsv
-	read_tsv(${1:data}, 
+	read_tsv(${1:path}, 
 	         col_types = cols(.default = "c"))
 
 snippet fread
-	fread(${1:data}, 
+	fread(${1:path}, 
 	      colClasses = "character")
 
 snippet read.csv
-	read.csv(${1:data}, 
+	read.csv(${1:path}, 
 	         colClasses = "character")
 
 snippet read.delim
-	read.delim(${1:data}, 
+	read.delim(${1:path}, 
 	           colClasses = "character")
-
-snippet flag
-	working_data <-
-	    working_data \|>
-	    mutate(Issues = if_else(${1:test},
-	                            str_c(Issues, "${2:flag}; "),
-	                            Issues))

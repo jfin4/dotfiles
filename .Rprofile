@@ -33,3 +33,13 @@ load_package <- function(package) {
 lapply(packages, load_package) |> 
     invisible() |>
     suppressMessages()
+
+.env <- new.env(parent = baseenv())
+
+.env$`%~%` <- function(x, pattern) str_detect(x, pattern)
+
+.env$`%nin%` <- Negate(`%in%`)
+
+attach(.env, name = "my_utils", warn.conflicts = FALSE)
+
+lockEnvironment(.env, bindings = TRUE)

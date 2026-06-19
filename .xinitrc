@@ -1,36 +1,16 @@
 #!/usr/bin/env zsh
 
 xrdb -merge .Xresources
-xset -b 
-dunst &
-~/.screenlayout/$HOST.sh
-# needed for xdg-desktop-portal-gtk.service (opens browser file chooser)
+xset -b
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
+~/.fehbg
 
-~/.fehbg &
-
-# statusbar
-while true; do
-    xsetroot -name "$(get-status)"
-    sleep 60
-done &
-
-# update status if keyd layout changes
-echo xwin > /tmp/keyd-status
-keyd listen | while read -r line; do
-    if [[ $line == /* ]]; then
-        if [[ $line == /xwin ]]; then
-            echo xwin > /tmp/keyd-status
-        else
-            echo tmux > /tmp/keyd-status
-        fi
-        xsetroot -name "$(get-status)"
-    fi
-done &
-
-if [[ $USER == jfin* ]]; then 
-    while true; do
-        dwm 2> ~/.dwm.log
+if [[ $USER == jfin* ]]; then
+    pkill -f dunst; dunst &
+    pkill -f update-status; update-status &
+    pkill -f update-keyd-status; update-keyd-status &
+    pgrep -f dwm || while true; do
+        dwm
     done
 else
     openbox-session

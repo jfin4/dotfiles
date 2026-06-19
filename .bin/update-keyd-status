@@ -1,13 +1,12 @@
 #!/usr/bin/env zsh
 
-echo xwin > /tmp/keyd-status
+sudo touch /run/keyd-status
+sudo chmod 777 /run/keyd-status
+echo xwin > /run/keyd-status
 keyd listen | while read -r line; do
     if [[ $line == /* ]]; then
-        if [[ $line == /xwin ]]; then
-            echo xwin > /tmp/keyd-status
-        else
-            echo tmux > /tmp/keyd-status
-        fi
+        [[ $line == /xwin ]] && echo xwin > /run/keyd-status
+        [[ $line == /tmux ]] && echo tmux > /run/keyd-status
         xsetroot -name "$(get-status)"
     fi
 done

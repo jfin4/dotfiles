@@ -6,11 +6,11 @@ systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 ~/.fehbg
 
 if [[ $USER == jfin* ]]; then
-    pgrep -u $USER -f update-status || update-status &
     pgrep -f update-keyd-status || update-keyd-status &
-    pgrep -u $USER -f dwm || while true; do
+    pgrep -f update-status -u $USER || update-status &
+    pgrep -f dwm -u $USER || while true; do
         dwm
     done
 else
-    pgrep -u $USER -f openbox || openbox-session
+    pgrep -f openbox -u $USER || openbox-session
 fi

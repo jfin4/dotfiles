@@ -12,9 +12,8 @@ ptc() {
         rclone \
             --progress \
             --exclude 'archive/**' \
-            --exclude 'ReLEP/**' \
             sync ~/$dir $remote:$dir \
-            || exec sh
+            || exec zsh
     "
 }
 

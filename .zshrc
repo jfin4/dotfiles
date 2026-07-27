@@ -101,6 +101,10 @@ if [[ $os =~ MING.* ]]; then
     # zoxide
     eval "$(zoxide init zsh)"
     alias cd='z' 
+    # Workaround for zoxide 0.10.0 MSYS2 cygpath bug (missing command substitution)
+    __zoxide_pwd() {
+        \command cygpath -w "$(\builtin pwd -L)"
+    }
 
     # update and start tmux
     if [[ -z $TMUX ]]; then

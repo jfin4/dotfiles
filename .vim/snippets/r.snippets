@@ -1,4 +1,4 @@
-snippet top
+snippet meta
 	# ${1:title}
 	# john.inman@waterboards.ca.gov
 	# `strftime('%F')`
@@ -17,21 +17,41 @@ snippet data
 	# load data
 	# ------------------------------------------------------------------------------
 
+	# read files{{{
 	rm(list = ls(all = TRUE))
-	$1
+
+	$0
+
 	.data_loaded <- NULL
-	save.image(".rdata")
+	save.image(".RData")
+	#}}}
 
 	if (!exists(".data_loaded")) {
-		load(".rdata")
+		load(".RData")
 	}
 
 	rm(list = ls())
 
+snippet new
+	meta$0
+
+	library
+
+	data
+
+	# END
+
+snippet lookups
+	path <- "${1:path}"
+	sheets <- excel_sheets(path)
+	.lookups <- 
+		map(sheets, \\(x) read_excel(path, x, col_types = "text")) |>
+		set_names(sheets)
+
 snippet x
 	\\(${1:x})
 
-snippet reltionship
+snippet relationship
 	relationship = "many-to-many"
 
 snippet read_excel

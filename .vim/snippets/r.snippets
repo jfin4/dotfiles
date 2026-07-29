@@ -24,7 +24,7 @@ snippet data
 
 	.data_loaded <- NULL
 	save.image(".RData")
-	#}}}
+	# }}}
 
 	if (!exists(".data_loaded")) {
 		load(".RData")
@@ -32,7 +32,7 @@ snippet data
 
 	rm(list = ls())
 
-snippet new
+snippet top
 	meta$0
 
 	library
@@ -51,30 +51,17 @@ snippet lookups
 snippet x
 	\\(${1:x})
 
-snippet relationship
+snippet many
 	relationship = "many-to-many"
 
 snippet read_excel
 	read_excel(${1:path}, 
 	           sheet = ${2:sheet},
-	           col_types = "text")
-
-snippet read_csv
-	read_csv(${1:path}, 
-	         col_types = cols(.default = "c"))
-
-snippet read_tsv
-	read_tsv(${1:path}, 
-	         col_types = cols(.default = "c"))
+	           col_types = "text",
+			   na = "")
 
 snippet fread
 	fread(${1:path}, 
-	      colClasses = "character")
+	      colClasses = "character",
+	      na.strings = "")
 
-snippet read.csv
-	read.csv(${1:path}, 
-	         colClasses = "character")
-
-snippet read.delim
-	read.delim(${1:path}, 
-	           colClasses = "character")

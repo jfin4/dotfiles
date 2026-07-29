@@ -11,7 +11,9 @@ ptc() {
         printf '\n'
         rclone \
             --progress \
-            --exclude 'archive/**' \
+            --filter '+ .Rdata' \
+            --filter '- .*' \
+            --filter '- archive/**' \
             sync ~/$dir $remote:$dir \
             || exec zsh
     "

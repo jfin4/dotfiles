@@ -13,6 +13,7 @@ ptc() {
             --progress \
             --filter '+ .Rdata' \
             --filter '- .*' \
+            --filter '- .*/**' \
             --filter '- archive/**' \
             sync ~/$dir $remote:$dir \
             || exec zsh

@@ -11,7 +11,7 @@ ptc() {
         printf '\n'
         rclone \
             --progress \
-            --filter '+ .Rdata' \
+            --filter '+ .RData' \
             --filter '- .*' \
             --filter '- .*/**' \
             --filter '- archive/**' \

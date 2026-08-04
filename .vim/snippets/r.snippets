@@ -4,7 +4,7 @@ snippet meta
 	# `strftime('%F')`
 
 snippet library
-	# load packages
+	# load packages{{{
 	# ------------------------------------------------------------------------------
 
 	library(data.table)
@@ -13,8 +13,10 @@ snippet library
 	library(writexl)
 	library(tidyverse)
 
+	# }}}
+
 snippet data
-	# load data
+	# load data{{{
 	# ------------------------------------------------------------------------------
 
 	# read files{{{
@@ -31,6 +33,8 @@ snippet data
 	}
 
 	rm(list = ls())
+
+	# }}}
 
 snippet top
 	meta$0
@@ -65,3 +69,10 @@ snippet fread
 	      colClasses = "character",
 	      na.strings = "")
 
+snippet sec
+	# ${1:section}
+	# ==============================================================================
+
+snippet sub
+	# ${1:section}
+	# ------------------------------------------------------------------------------

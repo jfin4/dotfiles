@@ -1,15 +1,26 @@
 #!/usr/bin/env zsh
 
-timestamp=$(date +%s)
+# timestamp=$(date +%s)
 
-trash_dir=$HOME/.trash
+# trash_dir=$HOME/.trash
 
-if [[ ! -d "$trash_dir" ]]; then
-    mkdir "$trash_dir"
+# if [[ ! -d "$trash_dir" ]]; then
+#     mkdir "$trash_dir"
+# fi
+
+# for file_path in "$@"; do
+#     if [[ "$file_path" =~ $trash_dir ]]; then
+#         /usr/bin/rm -rf "$file_path"
+#     else
+#         file=${file_path##*/}
+#         mv "$file_path" "$trash_dir/$file-$timestamp"
+#     fi
+# done
+
+echo foo
+
+if [[ foo_bar =~ foo.* ]]; then
+    echo foo_bar =~ foo
+else
+    echo no foo_bar =~ foo
 fi
-
-for file_path in "$@"; do
-    file=${file_path##*/}
-    mv "$file_path" "$trash_dir/$file-$timestamp"
-done
-

@@ -1,19 +1,28 @@
 #!/usr/bin/env zsh
 
-timestamp=$(date +%s)
+readonly trash_dir="$HOME/.trash"
+readonly timestamp=$(date +%s)
 
-trash_dir=$HOME/.trash
-
-if [[ ! -d "$trash_dir" ]]; then
-    mkdir "$trash_dir"
-fi
+mkdir -p "$trash_dir"
 
 for file in "$@"; do
+    if [[ -L "$file" ]]; then
+        # Remove the symlink itself, never the target
+        /usr/bin/rm -f "$file"
+        continue
+    fi
+
+    if [[ ! -e "$file" ]]; then
+        print -u2 "trash: no such file: $file"
+        continue
+    fi
+
     file_path=$(realpath "$file")
-    if [[ "$file_path" =~ $trash_dir ]]; then
+    file_name=${file_path:t}
+
+    if [[ "$file_path" == "$trash_dir"/* ]]; then
         /usr/bin/rm -rf "$file_path"
     else
-        file_name=${file_path##*/}
         mv "$file_path" "$trash_dir/$file_name-$timestamp"
     fi
 done

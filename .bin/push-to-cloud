@@ -23,6 +23,6 @@ ptc() {
 ptc docs notes
 ptc docs projects
 ptc docs records
-ptc data resources
+ptc data res
 
 tmux select-layout main-vertical

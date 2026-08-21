@@ -76,7 +76,7 @@ let attributes_list = [
             \ ['lcursor', default, default],
             \ ['cursorim', default, default],
             \ ['cursorcolumn', default, default],
-            \ ['cursorline', default, default],
+            \ ['cursorline', default, alert],
             \ ['directory', default, default],
             \ ['diffadd', default, alert],
             \ ['diffchange', default, default],

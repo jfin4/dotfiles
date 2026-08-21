@@ -3,6 +3,7 @@
 # plugins
 plugins="
     AndrewRadev/sideways.vim
+    bkad/camelcasemotion
     garbas/vim-snipmate
     godlygeek/tabular
     honza/vim-snippets

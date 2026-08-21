@@ -17,6 +17,6 @@ pfc() {
 pfc docs notes 
 pfc docs projects
 pfc docs records
-pfc data resources
+pfc data res
 
 tmux select-layout main-vertical

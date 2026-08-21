@@ -1,47 +1,43 @@
-snippet meta
+snippet top
 	# ${1:title}
 	# john.inman@waterboards.ca.gov
 	# `strftime('%F')`
 
-snippet library
-	# load packages{{{
-	# ------------------------------------------------------------------------------
+	# LOAD ========================================================================={{{
 
+	# packages{{{
 	library(data.table)
 	library(fs)
 	library(readxl)
+	library(tools)
 	library(writexl)
-	library(tidyverse)
+	library(tidyverse)# }}}
 
-	# }}}
-
-snippet data
-	# load data{{{
-	# ------------------------------------------------------------------------------
-
-	# read files{{{
+	# files{{{
 	rm(list = ls(all = TRUE))
 
-	$0
+	read <- function(path, sheet = NULL) {
+		ext <- file_ext(path)
+		if (ext == "xlsx") {
+			read_excel(path, sheet = sheet, col_types = "text", na = "", progress = FALSE)
+		} else {
+			fread(path, colClasses = "character", na.strings = "", showProgress = FALSE) |>
+				as_tibble()
+		}
+	}
+
+	$2
 
 	.data_loaded <- NULL
-	save.image(".RData")
+	rm(list = ls())
+	save.image("./.RData")
 	# }}}
-
-	if (!exists(".data_loaded")) {
-		load(".RData")
-	}
 
 	rm(list = ls())
 
-	# }}}
-
-snippet top
-	meta$0
-
-	library
-
-	data
+	if (!exists(".data_loaded")) {
+		load(".RData")
+	}# }}}
 
 	# END
 
@@ -60,7 +56,7 @@ snippet many
 
 snippet read_excel
 	read_excel(${1:path}, 
-	           sheet = ${2:sheet},
+	           sheet = ${2:1},
 	           col_types = "text",
 			   na = "")
 
@@ -70,9 +66,20 @@ snippet fread
 	      na.strings = "")
 
 snippet sec
-	# ${1:section}
-	# ==============================================================================
+	# $1==============================================================================
 
 snippet sub
-	# ${1:section}
-	# ------------------------------------------------------------------------------
+	# $1------------------------------------------------------------------------------
+
+snippet origin
+	mutate(SampleDate = as.Date(as.numeric(SampleDate), origin = "1899-12-30"))
+
+snippet in
+	%in%
+
+snippet nin
+	%nin%
+
+snippet ~
+	%~%
+

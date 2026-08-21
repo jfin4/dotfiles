@@ -63,7 +63,7 @@ function! SendCode(code = [], echo = 1) abort
                     \ }
     else
         let term_commands = {
-                    \ 'r': 'suppressMessages(source("%s"))',
+                    \ 'r': 'source("%s")',
                     \ 'python': 'exec(open("%s").read())',
                     \ 'sql': '.read %s',
                     \ }

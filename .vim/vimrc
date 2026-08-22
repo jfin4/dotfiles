@@ -66,17 +66,7 @@ set textwidth=78
 " folds
 set foldlevelstart=0
 set foldmethod=marker
-function! CustomFoldText()
-    let l:line = getline(v:foldstart)->substitute('{', '', 'g')
-    let l:width = &textwidth
-    let l:indicator = ' . . .'
-    let l:maxlinelen = l:width - len(l:indicator)
-    if len(l:line) > l:maxlinelen
-        let l:line = l:line[0 : l:maxlinelen - 1]
-    endif
-    return l:line . l:indicator
-endfunction
-set foldtext=CustomFoldText()
+set foldtext=getline(v:foldstart)
 
 " snippets
 let g:snipMate = get(g:, 'snipMate', {

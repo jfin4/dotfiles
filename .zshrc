@@ -64,6 +64,7 @@ alias ls="ls -1F --group-directories-first"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
 alias mutt='cd ~/unsorted; /usr/bin/mutt; cd -'
+alias mv='mv --no-clobber --verbose'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
 alias rm='move-to-trash'
@@ -124,6 +125,7 @@ elif [[ $os == Linux ]]; then
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
+    export BRAVE_API_KEY="BSASiYfMuzWHVlKXYUkrYiMG8q6TCGm"
 
     export PATH="$PATH:$HOME/.secrets/bin"
 

@@ -3,7 +3,7 @@ snippet top
 	# john.inman@waterboards.ca.gov
 	# `strftime('%F')`
 
-	# LOAD ========================================================================={{{
+	# LOAD ======================================================================{{{
 
 	# packages{{{
 	library(data.table)
@@ -83,3 +83,9 @@ snippet nin
 snippet ~
 	%~%
 
+snippet xwalk
+	path <- "~/res/misc/colname-crosswalk.csv"
+	.cols_xwalk <- fread(path, colClasses = "character", na.strings = "")
+	cols_xwalk <- .cols_xwalk |>
+		filter(!is.na(unified), !is.na(${1:comp_report})) |>
+		(\\(x) set_names(x\$$1, x\$unified))()

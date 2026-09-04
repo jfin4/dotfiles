@@ -36,7 +36,7 @@ lapply(packages, load_package) |>
 
 .env <- new.env(parent = baseenv())
 
-.env$`%~%` <- function(x, pattern) str_detect(x, pattern)
+.env$`%~%` <- function(x, pattern) str_detect(str_to_lower(x), str_to_lower(pattern))
 
 .env$`%nin%` <- Negate(`%in%`)
 

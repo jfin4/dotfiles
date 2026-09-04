@@ -136,11 +136,11 @@ function! Win2Unix()
 endfunction
 command! Win2Unix silent! call Win2Unix()
 
-function! OPen()
+function! Start()
     let link = getline(line('.'))->trim()
     call system('launch-file ' .. shellescape(link))
 endfunction
-command! OPen call OPen()
+command! Start call Start()
 
 " markdown
 let g:vim_markdown_conceal = 2

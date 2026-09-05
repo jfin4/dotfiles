@@ -125,7 +125,7 @@ elif [[ $os == Linux ]]; then
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
-    export BRAVE_API_KEY="BSASiYfMuzWHVlKXYUkrYiMG8q6TCGm"
+    export BRAVE_API_KEY=$(< ~/.secrets/brave-api-key) 
 
     export PATH="$PATH:$HOME/.secrets/bin"
 

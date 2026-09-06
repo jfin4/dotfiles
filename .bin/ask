@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+"""
+Submit a prompt to the OpenRouter Batch API.
+
+Usage:
+    export OPENROUTER_API_KEY=sk-or-...
+    ./batch.py my-tag
+
+Keep one MODEL: line in the editor, write your prompt below it,
+then save and quit. The script waits for the batch to finish and
+saves the prompt and answer together in response-<timestamp>-<tag>.md.
+"""
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+
+BASE_URL = "https://openrouter.ai/api/beta/batches"
+API_KEY = os.environ.get("OPENROUTER_API_KEY")
+HEADERS = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+}
+TERMINAL_STATUSES = {"completed", "failed", "expired", "cancelled"}
+
+MODEL_STUBS = """MODEL: deepseek/deepseek-v4-flash-0813:batch
+MODEL: openai/gpt-6-astra:batch
+MODEL: anthropic/claude-fable-5.1:batch
+
+"""
+
+
+def _api_post(payload: dict) -> dict:
+    """Submit a batch and return the API's JSON response."""
+    data = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        BASE_URL, data=data, headers=HEADERS, method="POST"
+    )
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        message = error.read().decode("utf-8", errors="replace")
+        print(f"HTTP {error.code}: {message}", file=sys.stderr)
+        sys.exit(1)
+
+
+def _api_get(batch_id: str) -> dict:
+    """Get the latest batch status and any completed results."""
+    request = urllib.request.Request(
+        f"{BASE_URL}/{batch_id}", headers=HEADERS, method="GET"
+    )
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            print("Batch not found; it may have been rejected.", file=sys.stderr)
+        else:
+            message = error.read().decode("utf-8", errors="replace")
+            print(f"HTTP {error.code}: {message}", file=sys.stderr)
+        sys.exit(1)
+
+
+def _open_editor(initial: str) -> str:
+    """Write a temporary file, let the user edit it, then read it back."""
+    editor = os.environ.get("EDITOR", os.environ.get("VISUAL", "vi"))
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".txt", encoding="utf-8", delete=False
+    ) as file:
+        file.write(initial)
+        path = Path(file.name)
+
+    try:
+        subprocess.check_call([editor, str(path)])
+        return path.read_text(encoding="utf-8").strip()
+    finally:
+        path.unlink()
+
+
+def _parse_prompt(content: str) -> tuple[str, str]:
+    """Read one model header, followed by the prompt."""
+    lines = content.strip().splitlines()
+    if not lines or not lines[0].startswith("MODEL:"):
+        print("Start with one MODEL: line.", file=sys.stderr)
+        sys.exit(1)
+
+    model = lines[0].removeprefix("MODEL:").strip()
+    if not model:
+        print("The MODEL: line needs a model name.", file=sys.stderr)
+        sys.exit(1)
+
+    # Catch model choices that were not deleted from the template.
+    for line in lines[1:]:
+        if line.startswith("MODEL:"):
+            print("Keep exactly one MODEL: line.", file=sys.stderr)
+            sys.exit(1)
+
+    prompt = "\n".join(lines[1:]).strip()
+    if not prompt:
+        print("Write a prompt below the MODEL: line.", file=sys.stderr)
+        sys.exit(1)
+    return model, prompt
+
+
+def _wait_for_batch(batch: dict) -> dict:
+    """Check progress every 30 seconds, for up to 24 hours."""
+    deadline = time.monotonic() + 24 * 60 * 60
+    while True:
+        counts = batch["request_counts"]
+        print(
+            f"  {batch['status']}: "
+            f"{counts['completed']}/{counts['total']} completed, "
+            f"{counts['failed']} failed"
+        )
+        if batch["status"] in TERMINAL_STATUSES:
+            return batch
+        if time.monotonic() >= deadline:
+            print("Timed out after 24 hours.", file=sys.stderr)
+            sys.exit(1)
+
+        time.sleep(30)
+        batch = _api_get(batch["id"])
+
+
+def _save_response(batch: dict, model: str, prompt: str, response_path: Path) -> None:
+    """Save the prompt, answer (or request errors), timing, and cost."""
+    header = f"Model: {model}"
+    created = batch.get("created_at")
+    finalized = batch.get("finalized_at")
+    if created is not None and finalized is not None:
+        duration = finalized - created
+        minutes = duration // 60
+        seconds = duration % 60
+        header += f"\nDuration: {minutes}m {seconds}s"
+
+    usage = batch.get("usage") or {}
+    cost = usage.get("cost", 0)
+    if cost:
+        header += f"\nCost: ${float(cost):.6f}"
+
+    outputs = []
+    errors = []
+    for result in batch.get("results") or []:
+        if result.get("error"):
+            error = f"ERROR ({result['custom_id']}): {result['error']}"
+            outputs.append(error)
+            errors.append(error)
+        else:
+            message = result["response"]["body"]["choices"][0]["message"]
+            outputs.append(message.get("content") or "")
+
+    text = f"{header}\nPrompt: {prompt}\n\n"
+    text += "\n".join(outputs) + "\n"
+    # Use "x" to avoid overwriting an existing response.
+    with response_path.open("x", encoding="utf-8") as file:
+        file.write(text)
+    print(f"Response saved to {response_path}.")
+    print(header)
+    if errors:
+        print("\n".join(errors), file=sys.stderr)
+        sys.exit(1)
+
+
+def run(tag: str) -> None:
+    # 1. Let the user choose a model and write a prompt.
+    print("Opening editor — keep one MODEL: line, then write your prompt.")
+    content = _open_editor(MODEL_STUBS)
+    model, prompt = _parse_prompt(content)
+
+    # 2. Submit one request. The API requires this top-level field order.
+    payload = {
+        "endpoint": "/v1/chat/completions",
+        "model": model,
+        "requests": [
+            {
+                "custom_id": tag,
+                "body": {
+                    "messages": [{"role": "user", "content": prompt}]
+                },
+            }
+        ],
+    }
+    print("Submitting batch …")
+    batch = _api_post(payload)
+    print(f"Batch ID: {batch['id']}")
+
+    # 3. Choose the output filename in the current directory.
+    timestamp = batch.get("created_at") or int(time.time())
+    response_path = Path(f"response-{timestamp}-{tag}.md")
+    print(f"Model: {model}")
+
+    # 4. Wait for completion, then save the response.
+    batch = _wait_for_batch(batch)
+    if batch["status"] != "completed":
+        print(f"Batch ended with status: {batch['status']}", file=sys.stderr)
+        if batch.get("error"):
+            print(batch["error"], file=sys.stderr)
+        sys.exit(1)
+    _save_response(batch, model, prompt, response_path)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("tag", help="Label for the response filename")
+    args = parser.parse_args()
+
+    if not API_KEY:
+        print("Set the OPENROUTER_API_KEY environment variable.", file=sys.stderr)
+        sys.exit(1)
+    run(args.tag)
+
+
+if __name__ == "__main__":
+    main()

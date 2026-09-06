@@ -143,10 +143,10 @@ endfunction
 command! Start call Start()
 
 " markdown
-let g:vim_markdown_conceal = 2
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_new_list_item_indent = 0
-set conceallevel=2
+" let g:vim_markdown_conceal = 2
+" let g:vim_markdown_folding_disabled = 1
+" let g:vim_markdown_new_list_item_indent = 0
+" set conceallevel=2
 
 command! Todo BLines #todo
 

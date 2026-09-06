@@ -113,8 +113,8 @@ def _parse_prompt(content: str) -> tuple[str, str]:
 
 
 def _wait_for_batch(batch: dict) -> dict:
-    """Check progress every 30 seconds, for up to 24 hours."""
-    deadline = time.monotonic() + 24 * 60 * 60
+    """Check progress every 15 seconds, for up to 1 hour."""
+    deadline = time.monotonic() + 60 * 60
     while True:
         counts = batch["request_counts"]
         print(
@@ -125,10 +125,10 @@ def _wait_for_batch(batch: dict) -> dict:
         if batch["status"] in TERMINAL_STATUSES:
             return batch
         if time.monotonic() >= deadline:
-            print("Timed out after 24 hours.", file=sys.stderr)
+            print("Timed out after 1 hour.", file=sys.stderr)
             sys.exit(1)
 
-        time.sleep(30)
+        time.sleep(15)
         batch = _api_get(batch["id"])
 
 
@@ -161,11 +161,9 @@ def _save_response(batch: dict, model: str, prompt: str, response_path: Path) ->
 
     text = f"{header}\nPrompt: {prompt}\n\n"
     text += "\n".join(outputs) + "\n"
-    # Use "x" to avoid overwriting an existing response.
     with response_path.open("x", encoding="utf-8") as file:
         file.write(text)
-    print(f"Response saved to {response_path}.")
-    print(header)
+    print(response_path.read_text(encoding="utf-8"))
     if errors:
         print("\n".join(errors), file=sys.stderr)
         sys.exit(1)
@@ -173,7 +171,6 @@ def _save_response(batch: dict, model: str, prompt: str, response_path: Path) ->
 
 def run(tag: str) -> None:
     # 1. Let the user choose a model and write a prompt.
-    print("Opening editor — keep one MODEL: line, then write your prompt.")
     content = _open_editor(MODEL_STUBS)
     model, prompt = _parse_prompt(content)
 
@@ -190,17 +187,15 @@ def run(tag: str) -> None:
             }
         ],
     }
-    print("Submitting batch …")
     batch = _api_post(payload)
-    print(f"Batch ID: {batch['id']}")
 
     # 3. Choose the output filename in the current directory.
     timestamp = batch.get("created_at") or int(time.time())
     response_path = Path(f"response-{timestamp}-{tag}.md")
-    print(f"Model: {model}")
 
     # 4. Wait for completion, then save the response.
     batch = _wait_for_batch(batch)
+    print()
     if batch["status"] != "completed":
         print(f"Batch ended with status: {batch['status']}", file=sys.stderr)
         if batch.get("error"):

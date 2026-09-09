@@ -20,5 +20,7 @@ for dir in "${dirs[@]}"; do
         --filter '- .*' \
         --filter '- .*/**' \
         --filter '- old/**' \
+        --filter '- resources/**' \
+        --filter '- refs/**' \
         sync "$dir" "$remote:$dir"
 done

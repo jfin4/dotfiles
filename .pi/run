@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+dir=${0%/*}
+tag=$(< $dir/tag)
+
+docker run --rm -it \
+           -e OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) \
+           -e BRAVE_API_KEY=$(< ~/.secrets/brave-api-key) \
+           -e EDITOR=vim \
+           -v "$PWD:/workspace" \
+           -v $tag:/root/.pi/agent \
+           $tag
+

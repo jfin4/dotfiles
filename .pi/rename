@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+dir=${0%/*}
+parent_dir=${dir%/*}
+new_name=$parent_dir
+old_name=$(< $dir/tag)
+echo $new_name > $dir/tag
+
+docker tag "$old_name" "$new_name"
+docker rmi "$old_name"
+
+docker volume create "$new_name" >/dev/null
+docker run --rm \
+  -v "$old_name:/from" \
+  -v "$new_name:/to" \
+  alpine sh -c "cp -a /from/. /to/" >/dev/null
+docker volume rm "$old_name"
+

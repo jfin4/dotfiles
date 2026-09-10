@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+dir=${0%/*}
+parent_dir=${dir%/*}
+tag=$parent_dir
+echo $tag > $dir/tag
+docker build -t $tag -f $dir/Dockerfile $dir

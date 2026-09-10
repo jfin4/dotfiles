@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+dir=${0%/*}
+tag=$(< $dir/tag)
+
+docker rmi $tag
+docker volume rm $tag

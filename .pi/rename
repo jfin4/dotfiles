@@ -1,7 +1,9 @@
 #!/usr/bin/env zsh
 
 dir=${0%/*}
-parent_dir=${dir%/*}
+full_dir=$(realpath $dir)
+full_parent_dir=${full_dir%/*}
+parent_dir=${full_parent_dir##*/}
 new_name=$parent_dir
 old_name=$(< $dir/tag)
 echo $new_name > $dir/tag

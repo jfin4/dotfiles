@@ -82,7 +82,6 @@ os=$(uname)
 
 if [[ $os =~ MING.* ]]; then
 
-    
     export EDITOR=/usr/bin/vim
     
     # use local time, doesn't recognize 'Americal/Los_Angeles'
@@ -106,6 +105,9 @@ if [[ $os =~ MING.* ]]; then
     __zoxide_pwd() {
         \command cygpath -w "$(\builtin pwd -L)"
     }
+
+    # autohotkey
+    /Users/jinman/AppData/Local/Programs/AutoHotkey/v2/AutoHotkey64.exe ~/.script.ahk
 
     # update and start tmux
     if [[ -z $TMUX ]]; then

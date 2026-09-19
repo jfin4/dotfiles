@@ -14,7 +14,8 @@ RUN apt-get install -y --no-install-recommends \
         r-cran-tidyverse \
         r-cran-data.table \
         ripgrep \
-        vim
+        vim \
+        zsh
 RUN  rm -rf /var/lib/apt/lists/*
 RUN npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 

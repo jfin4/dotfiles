@@ -64,7 +64,6 @@ alias ls="ls -1F --group-directories-first"
 alias lynx='/usr/bin/lynx -cfg ~/.lynx/lynx.cfg -lss ~/.lynx/lynx.lss'
 alias mpv='mpv --profile=fast --hwdec=auto --sid=no --fullscreen'
 alias mutt='cd ~/unsorted; /usr/bin/mutt; cd -'
-alias mv='mv --no-clobber --verbose'
 alias prod='echo; Rscript ~/.bin/get-productivity.r' 
 alias pw='get-password'
 alias rm='move-to-trash'
@@ -130,6 +129,8 @@ elif [[ $os == Linux ]]; then
     export BRAVE_API_KEY=$(< ~/.secrets/brave-api-key) 
 
     export PATH="$PATH:$HOME/.secrets/bin"
+
+    alias mv='mv --no-clobber --verbose'
 
     # zoxide
     eval "$(zoxide init zsh)"

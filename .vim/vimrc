@@ -198,3 +198,7 @@ let g:camelcasemotion_key = '<leader>'
 
 " imap <silent> <S-Left> <C-o><Plug>CamelCaseMotion_b
 " imap <silent> <S-Right> <C-o><Plug>CamelCaseMotion_w
+
+" easy align
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)

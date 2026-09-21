@@ -5,10 +5,10 @@ plugins="
     AndrewRadev/sideways.vim
     bkad/camelcasemotion
     garbas/vim-snipmate
-    godlygeek/tabular
     honza/vim-snippets
     junegunn/fzf
     junegunn/fzf.vim
+    junegunn/vim-easy-align
     lifepillar/vim-mucomplete
     marcweber/vim-addon-mw-utils
     mattn/vim-lsp-settings

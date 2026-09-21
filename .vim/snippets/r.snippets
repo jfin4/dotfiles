@@ -13,31 +13,56 @@ snippet top
 	library(writexl)
 	library(tidyverse)# }}}
 
-	# files{{{
-	rm(list = ls(all = TRUE))
+	rm(list = ls())
 
-	read <- function(path, sheet = NULL) {
-		ext <- file_ext(path)
-		if (ext == "xlsx") {
-			read_excel(path, sheet = sheet, col_types = "text", na = "", progress = FALSE)
-		} else {
-			fread(path, colClasses = "character", na.strings = "", showProgress = FALSE) |>
-				as_tibble()
-		}
+	load_files <- function(files) {
+		cache_dir <- path(".Rcache")
+		dir_create(cache_dir)
+		object_names <- names(files)
+
+		# ---- prune stale cache files (names not in current input) ----
+		dir_ls(cache_dir, all = TRUE) |>
+			keep(\(x) {
+				cached_name <- str_remove(x, "\\.rds$")
+				!cached_name %in% object_names
+			}) |>
+			walk(file_delete)
+
+		# ---- read (or load from cache) each file ----
+		files |> 
+			iwalk(\(x, idx) {
+			if (exists(idx, envir = .GlobalEnv, inherits = FALSE)) return(invisible())
+
+			cache_file <- path(cache_dir, str_c(idx, ".rds"))
+
+			if (file_exists(cache_file)) {
+				assign(idx, readRDS(cache_file), envir = .GlobalEnv)
+				return(invisible())
+			}
+
+			ext <- path_ext(str_to_lower(x))
+
+			object <- if (str_detect(ext, "xls")) {
+				x |>
+					excel_sheets() |>
+					set_names() |>
+					map(\(y) read_excel(x, sheet = y, col_types = "text", na = "")) |>
+					(\(z) if (length(z) == 1L) z[[1L]] else z)()
+			} else {
+				fread(x, colClasses = "character", na.strings = "")
+			}
+
+			assign(idx, object, envir = .GlobalEnv)
+			saveRDS(object, cache_file)
+		})
+
+		invisible()
 	}
 
-	$2
-
-	.data_loaded <- NULL
-	rm(list = ls())
-	save.image("./.RData")
-	# }}}
-
-	rm(list = ls())
-
-	if (!exists(".data_loaded")) {
-		load(".RData")
-	}# }}}
+	files <- c(
+		$1  = "$2"
+	)
+	load_files(files)
 
 	# END
 

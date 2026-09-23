@@ -1,3 +1,5 @@
+#SingleInstance
+
 ; appdata/roaming/microsoft/windows/start menu/programs/startup/script.ahk
 
 CapsLock::Escape

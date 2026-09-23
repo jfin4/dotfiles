@@ -46,7 +46,6 @@ alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
 alias rg='rg --colors=path:none --colors=line:none'
 alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
-alias aider='aider --model openrouter/openai/gpt-oss-120b:free --no-pretty'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
 alias calaters='start ~/notes/docs/calaters.jnlp'
@@ -82,6 +81,8 @@ os=$(uname)
 if [[ $os =~ MING.* ]]; then
 
     export EDITOR=/usr/bin/vim
+    export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
+    export BRAVE_API_KEY=$(< ~/.secrets/brave-api-key) 
     
     # use local time, doesn't recognize 'Americal/Los_Angeles'
     export TZ='PST8PDT'
@@ -106,7 +107,7 @@ if [[ $os =~ MING.* ]]; then
     }
 
     # autohotkey
-    /Users/jinman/AppData/Local/Programs/AutoHotkey/v2/AutoHotkey64.exe ~/.script.ahk
+    start ~/.script.ahk
 
     # update and start tmux
     if [[ -z $TMUX ]]; then

@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# copy files from staging area to transfer between personal and work computers
+
+rsync -ahP jfin-wb@10.0.0.10:staged/ ~

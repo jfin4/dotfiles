@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+# sync files to staging area to transfer between personal and work computers
+
+rsync -ahP --delete \
+  ~/notes ~/projects ~/records ~/resources \
+  jfin-wb@10.0.0.10:staged

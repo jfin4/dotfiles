@@ -1,5 +1,15 @@
 #!/usr/bin/env zsh
 
 # copy files from staging area to transfer between personal and work computers
+# delete extraneous files
 
-rsync -ahP jfin-wb@10.0.0.10:staged/ ~
+dirs="\
+  notes
+  projects
+  records
+  resources
+"
+
+for dir in $dirs; do 
+  rsync -ahP --delete jfin-wb@10.0.0.10:staged/$dir ~/$dir
+done

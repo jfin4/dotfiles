@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# copy files from staging area to transfer between personal and work computers
+# delete extraneous files
+
+dirs="notes projects records resources"
+remote=jfin-wb@10.0.0.10:staged
+
+for dir in $dirs; do
+
+  case $1 in
+    push) cmd="rsync -ahP ~/$dir $remote" ;;
+    pull) cmd="rsync --dry-run -ahP --delete $remote/$dir ~/" ;;
+    *) echo "usage: $0 push|pull" >&2; exit 1 ;;
+  esac
+
+  tmux split-window -dh "$cmd || read"
+  tmux select-layout main-vertical
+
+done

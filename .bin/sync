@@ -10,7 +10,7 @@ for dir in $dirs; do
 
   case $1 in
     push) cmd="rsync -ahP ~/$dir $remote" ;;
-    pull) cmd="rsync --dry-run -ahP --delete $remote/$dir ~/" ;;
+    pull) cmd="rsync -ahP --delete $remote/$dir ~/" ;;
     *) echo "usage: $0 push|pull" >&2; exit 1 ;;
   esac
 

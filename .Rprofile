@@ -1,45 +1,83 @@
-# general
-options(max.print = 500, help_type = "html")
-
-# specify repo
+# set options
 local({
-    r <- getOption("repos")
-    r["CRAN"] <- "https://cloud.r-project.org/"
-    options(repos = r)
+  r <- getOption("repos")
+  r["CRAN"] <- "https://cloud.r-project.org/"
+  options(
+    repos = r,
+    max.print = 500, 
+    help_type = "html"
+  )
 })
 
-lib_dir <- file.path("~/.R", paste0(R.version$major, ".", R.version$minor))
-dir.create(lib_dir, recursive = TRUE, showWarnings = FALSE)
-.libPaths(c(lib_dir, .libPaths()))
+# Version-specific personal library path
+local({
+  lib <- file.path("~/.R", paste0(R.version$major, ".", R.version$minor))
+  dir.create(lib, recursive = TRUE, showWarnings = FALSE)
+  .libPaths(c(lib, .libPaths()))
+})
 
-# Set options for home computer
-if (Sys.info()["nodename"] %in% c("jfin")) {
-  options(browser = "/usr/bin/firefox",
-          width = 135)
+# Machine-specific options
+if (Sys.info()["nodename"] == "jfin") {
+  options(
+    browser = "/usr/bin/firefox", 
+    width = 135
+  )
 }
 
-# for lsp completion
-# order matters for masking
-packages <- c(.Options$defaultPackages, 
-              "data.table",
-              "fs", 
-              "git2r",
-              "readxl", 
-              "tidyverse", 
-              "writexl")
-load_package <- function(package) {
-    require(package, character.only = TRUE)
-}
-lapply(packages, load_package) |> 
-    invisible() |>
-    suppressMessages()
+# Custom utility operators and functions
+local({
+  .env <- new.env(parent = baseenv())
 
-.env <- new.env(parent = baseenv())
+  .env$`%~%` <- function(x, pattern) {
+    grepl(pattern, x, ignore.case = TRUE)
+  }
 
-.env$`%~%` <- function(x, pattern) str_detect(str_to_lower(x), str_to_lower(pattern))
+  .env$`%nin%` <- Negate(`%in%`)
 
-.env$`%nin%` <- Negate(`%in%`)
+  .env$load_files <- function(files) {
+    cache_dir <- fs::path(".Rcache")
+    fs::dir_create(cache_dir)
+    object_names <- names(files)
 
-attach(.env, name = "my_utils", warn.conflicts = FALSE)
+    # ---- prune stale cache files (names not in current input) ----
+    fs::dir_ls(cache_dir, all = TRUE) |>
+      purrr::keep(\(x) {
+        cached_name <- stringr::str_remove(x, "\\.rds$")
+        !cached_name %in% object_names
+      }) |>
+      purrr::walk(fs::file_delete)
 
-lockEnvironment(.env, bindings = TRUE)
+    # ---- read (or load from cache) each file ----
+    files |>
+      purrr::iwalk(\(x, idx) {
+        if (exists(idx, envir = .GlobalEnv, inherits = FALSE)) return(invisible())
+
+        cache_file <- fs::path(cache_dir, stringr::str_c(idx, ".rds"))
+
+        if (fs::file_exists(cache_file)) {
+          assign(idx, readRDS(cache_file), envir = .GlobalEnv)
+          return(invisible())
+        }
+
+        ext <- fs::path_ext(stringr::str_to_lower(x))
+
+        object <- if (stringr::str_detect(ext, "xls")) {
+          x |>
+            readxl::excel_sheets() |>
+            purrr::set_names() |>
+            purrr::map(\(y) readxl::read_excel(x, sheet = y, col_types = "text", na = "")) |>
+            (\(z) if (length(z) == 1L) z[[1L]] else z)()
+        } else {
+          data.table::fread(x, colClasses = "character", na.strings = "")
+        }
+
+        assign(idx, object, envir = .GlobalEnv)
+        saveRDS(object, cache_file)
+      })
+
+    invisible()
+  }
+
+  attach(.env, name = "utils", warn.conflicts = FALSE)
+  lockEnvironment(.env, bindings = TRUE)
+})

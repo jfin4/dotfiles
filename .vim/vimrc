@@ -123,6 +123,19 @@ let g:lsp_completion_documentation_enabled = 0
 let g:lsp_signature_help_enabled = 0
 inoremap <c-k> <c-o><plug>(lsp-signature-help)
 set omnifunc=lsp#complete
+let g:lsp_settings = 
+      \ {
+      \   'r': {
+      \     'initializationOptions': {
+      \       'r': {
+      \         'languageserver': {
+      \           'packages': ['tidyverse', 'data.table']
+      \         }
+      \       }
+      \     }
+      \   }
+      \ }
+
 
 " sideways
 nnoremap <leader>ah :SidewaysLeft<cr>

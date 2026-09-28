@@ -1,16 +1,8 @@
 snippet todo
-	#todo \
-	${0:`strftime('%Y-%m-%d', localtime() + 2 * 7 * 24 * 60 * 60)`} \
-	${1:2028-ir: }\
-	${2:description}
-
-snippet done
-	#done \
-	${0:`strftime('%Y-%m-%d', localtime())`} \
-	${1:description}
+	#todo $0
 
 snippet question
-	#question for ${1:who}: ${0:what}
+	#question $0
 
 snippet note
 	`strftime('%Y-%m-%d')` 
@@ -20,12 +12,14 @@ snippet note
 
 
 snippet link
-	#link ${0:description}
+	#link $0
+
 snippet task
 	`getline(line(".") - 1)[0:5]`\
 	${1:`getline(line(".") - 1)[6:7]`}, \
 	${2:`getline(line(".") - 1)[16:19]`}, \
 	${3:hhmm}, \
 	${4:w}, \
-	$5
+	${5:<description>}
+	task$0
 

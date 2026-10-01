@@ -1,47 +1,47 @@
-# options and variables
+# options and variables{{{
 setopt extended_glob
-bindkey -e
+bindkey -e # }}}
 
-# completion
+# completion{{{
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 zstyle ':completion:*' menu select # highlights selection
 setopt menu_complete
 zmodload zsh/complist
-bindkey -M menuselect '^@' accept-and-menu-complete
+bindkey -M menuselect '^@' accept-and-menu-complete # }}}
 
-
-# home, end, delete
+# home, end, delete{{{
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
-bindkey '^[[Z' reverse-menu-complete
+bindkey '^[[Z' reverse-menu-complete # }}}
 
-# path
+# path{{{
 [ -z "$initial_path" ] && initial_path="$PATH"
 PATH="$HOME/.bin" 
 PATH="$PATH:$HOME/.local/bin" 
 PATH="$PATH:$initial_path"
-export initial_path PATH 
+export initial_path PATH # }}}
 
+# history{{{
 setopt hist_ignore_all_dups
 setopt share_history
 HISTFILE=~/.histfile
 HISTSIZE=10000
-SAVEHIST=10000
+SAVEHIST=10000 # }}}
 
-date=$(date +'%Y-%m-%d')
+# date{{{
+date=$(date +'%Y-%m-%d') # }}}
 
-# prompt
+# prompt{{{
 setopt prompt_subst
 source ~/.bin/git-prompt.sh
 PROMPT='
 %F{white}%n@%m:%~$(__git_ps1 " %s")
-%# %f'
+%# %f' # }}}
 
-# aliases
-
+# aliases{{{
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
 alias rg='rg --colors=path:none --colors=line:none'
@@ -73,29 +73,32 @@ alias soz='source ~/.zshrc'
 alias start='launch-file'
 alias todo='echo; Rscript ~/.bin/get-todos.r' 
 alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
-alias zzz='sudo systemctl suspend'
+alias zzz='sudo systemctl suspend' # }}}
 
-# host specific
-os=$(uname)
+# host{{{
+os=$(uname) # }}}
 
+# msys{{{
 if [[ $os =~ MING.* ]]; then
 
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
-    export BRAVE_API_KEY=$(< ~/.secrets/brave-api-key) 
     
     # use local time, doesn't recognize 'Americal/Los_Angeles'
     export TZ='PST8PDT'
     
     # path
-    sumatra="/c/users/jinman/AppData/Local/SumatraPDF"
-    # for v in "/c/Program Files/R/*"; do r="$v/bin/x64"; done
-    r="/c/Users/jinman/AppData/Local/Programs/R/R-4.3.3/bin/x64"
-    export PATH="$PATH:$sumatra:$r"
+    sumatra="$HOME/AppData/Local/SumatraPDF"
+    r="$HOME/.local/bin/R.exe"
+    scoop="$HOME/scoop/shims"
+    export PATH="$PATH:$sumatra:$r:$scoop"
     export PATH="$PATH:$HOME/.secrets/bin"
     
-    # shh; needs procps-ng
-    pgrep ssh-agent || { eval $(ssh-agent -s) && ssh-add ~/.ssh/id_ed25519 }
+    # shh
+    if [[ -z "$SSH_AGENT_PID" ]]; then
+      eval $(ssh-agent -s) 
+      ssh-add ~/.ssh/id_ed25519
+    fi > /dev/null
     
     # zoxide
     eval "$(zoxide init zsh)"
@@ -112,8 +115,10 @@ if [[ $os =~ MING.* ]]; then
     if [[ -z $TMUX ]]; then
         tmux
     fi
+fi # }}}
 
-elif [[ $os == OpenBSD ]]; then
+# openbsd{{{
+if [[ $os == OpenBSD ]]; then
 
     export EDITOR=/usr/local/bin/vim
 
@@ -121,7 +126,10 @@ elif [[ $os == OpenBSD ]]; then
     alias ll="ls -lh"
     alias ls="ls -1F"
 
-elif [[ $os == Linux ]]; then 
+fi # }}}
+
+# linux{{{
+if [[ $os == Linux ]]; then 
     
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
@@ -139,9 +147,9 @@ elif [[ $os == Linux ]]; then
     # startx needs HOST
     export HOST
 
-fi > /dev/null 2>&1
+fi # }}}
 
-# notes
+# notes{{{
 #
 # magic abbreviation
-# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab
+# https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab}}}

@@ -3,7 +3,7 @@
 xrdb -merge .Xresources
 xset -b
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
-~/.fehbg
+[[ -f ~/.fehbg ]] && ~/.fehbg
 
 case $USER in
     jfin*)

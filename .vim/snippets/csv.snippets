@@ -1,0 +1,8 @@
+snippet task
+	`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{4}')`\
+	${1:`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{4}\\zs\\d\\{4}')`}, \
+	${2:`matchstr(getline(line('.') - 1), '^.*, \\zs\\d\\{4}')`}, \
+	${3:hhmm}, \
+	${4:w}, \
+	${5:<description>}$0
+

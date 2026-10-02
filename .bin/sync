@@ -15,21 +15,21 @@ for dir in $dirs; do
     WB-102492) 
       case $1 in
         push) cmd="rclone -P copy ~/$dir server:$root" ;;
-        pull) cmd="rclone -P sync server:$root/$dir ~/" ;;
+        pull) cmd="rclone -P -f'- old/**' sync server:$root/$dir ~/" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;
     jfin) 
       case $1 in
         push) cmd="rsync -ahP ~/$dir $host:$root" ;;
-        pull) cmd="rsync -ahP --delete $host:$root/$dir ~/" ;;
+        pull) cmd="rsync -ahP -f'- old/' --delete $host:$root/$dir ~/" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;
     *) echo "unknown host: $hostname" ;;
   esac
 
-  tmux split-window -dh "$cmd || read"
+  tmux split-window -dh "echo $dir; $cmd || read"
   tmux select-layout main-vertical
 
 done

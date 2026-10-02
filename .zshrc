@@ -81,11 +81,12 @@ alias zzz='sudo systemctl suspend' # }}}
 # host{{{
 hostname=$(uname -n) # }}}
 
-# msys{{{
+# work laptop{{{
 if [[ $hostname == WB-102492 ]]; then
 
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
+    export RCLONE_CONFIG=~/.config/rclone/rclone.conf
     
     # use local time, doesn't recognize 'Americal/Los_Angeles'
     export TZ='PST8PDT'
@@ -98,11 +99,10 @@ if [[ $hostname == WB-102492 ]]; then
     PATH="$PATH:$sumatra:$r:$scoop:$secrets"
     
     # shh
-    if [[ -z "$SSH_AGENT_PID" ]]; then
-      eval $(ssh-agent -s) 
-      ssh-add ~/.ssh/id_ed25519
-    fi &> /dev/null
-    alias ssh='/usr/bin/ssh -F ~/.ssh/config' 
+    # if [[ -z "$SSH_AGENT_PID" ]]; then
+    #   eval $(ssh-agent -s) 
+    #   ssh-add ~/.ssh/id_ed25519
+    # fi &> /dev/null
     
     # zoxide
     eval "$(zoxide init zsh)"

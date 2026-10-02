@@ -98,7 +98,7 @@ if [[ $os =~ MING.* ]]; then
     if [[ -z "$SSH_AGENT_PID" ]]; then
       eval $(ssh-agent -s) 
       ssh-add ~/.ssh/id_ed25519
-    fi > /dev/null
+    fi &> /dev/null
     
     # zoxide
     eval "$(zoxide init zsh)"

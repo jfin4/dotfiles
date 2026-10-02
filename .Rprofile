@@ -37,87 +37,86 @@ local({
   # read inputs -------------------------------------------------------------
 
   # main function -----------------------------------------------------------
-  .env$read <- function(paths, cache_dir = ".Rcache") {
+  .env$gather <- function(input, cache_dir = ".Rcache") {
 
-    # get arg vecs
-    remove_vec <- get_vec(paths, "remove", cache_dir)
-    load_vec <- get_vec(paths, "load", cache_dir)
-    read_vec <- get_vec(paths, "read", cache_dir)
+    # sort files
+    input_to_remove <- sort_input(input, "remove", cache_dir)
+    input_to_restore <- sort_input(input, "restore", cache_dir)
+    input_to_read <- sort_input(input, "read", cache_dir)
 
-    # remove stale input
-    if (length(remove_vec) > 0) {
+    # remove
+    if (length(input_to_remove) > 0) {
       # from env
-      rm(list = names(remove_vec), envir = .GlobalEnv)
+      rm(list = names(input_to_remove), envir = .GlobalEnv)
       # from cache
-      purrr::walk(remove_vec, fs::file_delete)
-      cat("removed: ", names(remove_vec), "\n")
+      purrr::walk(input_to_remove, fs::file_delete)
+      cat("\nremoved:", names(input_to_remove), sep = "\n")
     }
 
-    # load cached input
-    if (length(load_vec) > 0) {
-      purrr::iwalk(load_vec, \(x, idx) assign(idx, readRDS(x), envir = .GlobalEnv))
-      cat("loaded: ", names(load_vec), "\n")
+    # restore
+    if (length(input_to_restore) > 0) {
+      purrr::iwalk(input_to_restore, \(x, idx) {
+        assign(idx, readRDS(x), envir = .GlobalEnv)
+    })
+      cat("\nrestored:", names(input_to_restore), sep = "\n")
     }
 
-    if (length(read_vec) > 0) {
-      purrr::iwalk(read_vec, \(x, idx) {
-        make_object_from_file(x, idx)
+    # read
+    if (length(input_to_read) > 0) {
+      purrr::iwalk(input_to_read, \(x, idx) {
+        read(x, idx)
         saveRDS(x, fs::path(cache_dir, stringr::str_c(idx, ".rds")))
       })
-      cat("read: ", names(read_vec), "\n")
+      cat("\nread:", names(input_to_read), sep = "\n")
     }
   }
 
   # helper functions ------------------------------------------------------
 
-  get_vec <- function(paths_vec, selection, cache_dir) {
+  sort_input <- function(input, bin, cache_dir) {
      
+    # remove
     fs::dir_create(cache_dir)
-    cache_files <- fs::dir_ls(cache_dir, all = TRUE)
-    cache_names <- names(cache_files) |>
-          fs::path_file() |> 
-          fs::path_ext_remove()
-    cache_vec <- purrr::set_names(cache_files, cache_names)
+    cache_objects <- fs::dir_ls(cache_dir, all = TRUE) |>
+      (\(x) purrr::set_names(x, fs::path_ext_remove(fs::path_file(x))))()
+    remove_names <- setdiff(names(cache_objects), names(input))
+    input_to_remove <- cache_objects[remove_names]
 
-    # remove names
-    path_names <- names(paths_vec)
-    is_removed <- !cache_names %in% path_names
-    remove_vec <- cache_vec[is_removed]
-
-    # load names
-    keep_names <- intersect(path_names, cache_names)
-    keep_vec <- cache_vec[keep_names]
-    keep_times <- purrr::map_vec(keep_vec[keep_names],
+    # restore
+    keep_names <- intersect(names(cache_objects), names(input))
+    keep_times <- purrr::map_vec(cache_objects[keep_names],
                            \(x) fs::file_info(x)$modification_time)
-    path_times <- purrr::map_vec(paths_vec[keep_names],
+    input_times <- purrr::map_vec(input[keep_names],
                           \(x) fs::file_info(x)$modification_time)
-    is_updated <- path_times > keep_times
-    is_loaded <- keep_names %in% ls(.GlobalEnv, all = TRUE)
-    load_vec <- keep_vec[!is_updated & !is_loaded]
+    update_names <- keep_names[input_times > keep_times]
+    loaded_names <- intersect(keep_names, ls(.GlobalEnv))
+    input_to_restore <- cache_objects[setdiff(keep_names, 
+                                              union(update_names,
+                                                    loaded_names))]
 
-    # read names
-    is_new <- !path_names %in% keep_names
-    read_vec <- c(paths_vec[is_new], keep_vec[is_updated])
+    # read
+    new_names <- setdiff(names(input), names(cache_objects))
+    input_to_read <- input[union(new_names, update_names)]
 
-    # select
-    switch(selection,
-           remove = remove_vec,
-           load = load_vec,
-           read = read_vec
+    # return
+    switch(bin,
+           remove = input_to_remove,
+           restore = input_to_restore,
+           read = input_to_read
     )
   }
 
-  make_object_from_file <- function(path, name) {
+  read <- function(path, name) {
     ext <- fs::path_ext(stringr::str_to_lower(path))
     if (stringr::str_detect(ext, "xls")) {
-      object <- read_excel_file(path)
+      object <- read_excel(path)
     } else {
-      object <- read_text_file(path)
+      object <- read_text(path)
     }
     assign(name, object, envir = .GlobalEnv)
   }
 
-  read_excel_file <- function(path) {
+  read_excel <- function(path) {
       path |>
         readxl::excel_sheets() |>
         purrr::set_names() |>
@@ -128,8 +127,8 @@ local({
         (\(wb) if (length(wb) == 1L) unlist(wb) else wb)()
   }
 
-  read_text_file <- function(path) {
-    readr::read_csv(path, 
+  read_text <- function(path) {
+    readr::read_delim(path, 
                     col_types = readr::cols(.default = "c"),
                     na = "",
                     lazy = TRUE,

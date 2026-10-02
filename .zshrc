@@ -79,10 +79,10 @@ alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
 alias zzz='sudo systemctl suspend' # }}}
 
 # host{{{
-os=$(uname) # }}}
+hostname=$(uname -n) # }}}
 
 # msys{{{
-if [[ $os =~ MING.* ]]; then
+if [[ $hostname == WB-102492 ]]; then
 
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
@@ -102,7 +102,7 @@ if [[ $os =~ MING.* ]]; then
       eval $(ssh-agent -s) 
       ssh-add ~/.ssh/id_ed25519
     fi &> /dev/null
-    alias ssh='ssh -F ~/.ssh/config' 
+    alias ssh='/usr/bin/ssh -F ~/.ssh/config' 
     
     # zoxide
     eval "$(zoxide init zsh)"
@@ -122,7 +122,7 @@ if [[ $os =~ MING.* ]]; then
 fi # }}}
 
 # openbsd{{{
-if [[ $os == OpenBSD ]]; then
+if [[ $hostname == OpenBSD ]]; then
 
     export EDITOR=/usr/local/bin/vim
 
@@ -133,7 +133,7 @@ if [[ $os == OpenBSD ]]; then
 fi # }}}
 
 # linux{{{
-if [[ $os == Linux ]]; then 
+if [[ $hostname == Linux ]]; then 
     
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim

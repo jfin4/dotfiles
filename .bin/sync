@@ -4,14 +4,29 @@
 # delete extraneous files
 
 dirs="notes projects records resources"
-remote=jfin@10.0.0.40:/var/www/htdocs/wb
+host=jfin@10.0.0.40
+root=/var/www/htdocs/wb
 
 for dir in $dirs; do
 
-  case $1 in
-    push) cmd="rsync -ahP ~/$dir $remote" ;;
-    pull) cmd="rsync -ahP --delete $remote/$dir ~/" ;;
-    *) echo "usage: $0 push|pull" >&2; exit 1 ;;
+  hostname=$(uname -n)
+
+  case $hostname in
+    WB-102492) 
+      case $1 in
+        push) cmd="rclone -P copy ~/$dir server:$root" ;;
+        pull) cmd="rclone -P sync server:$root/$dir ~/" ;;
+        *) echo "usage: $0 push|pull" >&2; exit 1 ;;
+      esac
+      ;;
+    jfin) 
+      case $1 in
+        push) cmd="rsync -ahP ~/$dir $host:$root" ;;
+        pull) cmd="rsync -ahP --delete $host:$root/$dir ~/" ;;
+        *) echo "usage: $0 push|pull" >&2; exit 1 ;;
+      esac
+      ;;
+    *) echo "unknown host: $hostname" ;;
   esac
 
   tmux split-window -dh "$cmd || read"

@@ -19,10 +19,13 @@ bindkey '^[[Z' reverse-menu-complete # }}}
 
 # path{{{
 [ -z "$initial_path" ] && initial_path="$PATH"
-PATH="$HOME/.bin" 
-PATH="$PATH:$HOME/.local/bin" 
-PATH="$PATH:$initial_path"
-export initial_path PATH # }}}
+export initial_path PATH  
+
+bin="$HOME/.bin" 
+local_bin="$HOME/.local/bin" 
+PATH="$bin:$local_bin:$initial_path"
+
+# }}}
 
 # history{{{
 setopt hist_ignore_all_dups
@@ -91,8 +94,8 @@ if [[ $os =~ MING.* ]]; then
     sumatra="$HOME/AppData/Local/SumatraPDF"
     r="$HOME/.local/bin/R.exe"
     scoop="$HOME/scoop/shims"
-    export PATH="$PATH:$sumatra:$r:$scoop"
-    export PATH="$PATH:$HOME/.secrets/bin"
+    secrets="$HOME/.secrets/bin"
+    PATH="$PATH:$sumatra:$r:$scoop:$secrets"
     
     # shh
     if [[ -z "$SSH_AGENT_PID" ]]; then

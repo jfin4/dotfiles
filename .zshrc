@@ -87,9 +87,11 @@ if [[ $hostname == WB-102492 ]]; then
     export EDITOR=/usr/bin/vim
     export OPENROUTER_API_KEY=$(< ~/.secrets/openrouter-api-key) 
     export RCLONE_CONFIG=~/.config/rclone/rclone.conf
-    
     # use local time, doesn't recognize 'Americal/Los_Angeles'
     export TZ='PST8PDT'
+
+    alias ssh='/usr/bin/ssh -F ~/.ssh/config'
+    alias scp='/usr/bin/scp -F ~/.ssh/config'
     
     # path
     sumatra="$HOME/AppData/Local/SumatraPDF"

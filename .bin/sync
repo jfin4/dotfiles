@@ -14,8 +14,8 @@ for dir in $dirs; do
   case $hostname in
     WB-102492) 
       case $1 in
-        push) cmd="rclone -P copy ~/$dir server:$root" ;;
-        pull) cmd="rclone -P -f'- old/**' sync server:$root/$dir ~/" ;;
+        push) cmd="rclone -P copy ~/$dir server:$root/$dir" ;;
+        pull) cmd="rclone -P -f'- old/**' sync server:$root/$dir ~/$dir" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;

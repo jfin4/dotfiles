@@ -15,6 +15,7 @@ case $USER in
         done
     ;;
     *)
+        ~/.fehbg
         pgrep -u $USER -f openbox || openbox-session
     ;;
 esac

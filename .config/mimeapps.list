@@ -1,3 +1,4 @@
 
 [Default Applications]
 application/pdf=mupdf.desktop
+text/plain=libreoffice-calc.desktop

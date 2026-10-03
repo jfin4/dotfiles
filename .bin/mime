@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+if [[ -z "$1" ]]; then 
+  echo usage: ${0##*/} FILE
+  exit
+fi
+
+mime=$(xdg-mime query filetype $1)
+app=$( fd desktop$ /usr/share/applications | fzf | sed 's#.*/##')
+xdg-mime default $app $mime

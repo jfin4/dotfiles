@@ -3,8 +3,8 @@
 xrdb -merge .Xresources
 xset -b
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
-[[ -f ~/.fehbg ]] && ~/.fehbg
 export GTK_THEME=Adwaita:dark
+dbus-update-activation-environment --systemd GTK_THEME DISPLAY XAUTHORITY
 
 case $USER in
     jfin*)
@@ -19,3 +19,4 @@ case $USER in
         pgrep -u $USER -f openbox || openbox-session
     ;;
 esac
+

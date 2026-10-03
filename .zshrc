@@ -161,32 +161,17 @@ fi # }}}
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab}}}
 
 # functions
-fman() {
-  local page
+man() {
+  local tmp line
+  tmp=$(mktemp) || return
+  MANWIDTH=100 /usr/bin/man "$@" 2>/dev/null | col -bx > "$tmp" || { rm -f "$tmp"; return 1; }
 
-  # If an argument is provided, skip step 1 and use it directly
-  if [ -n "$1" ]; then
-    page="$1"
-  else
-    # 1. Select the manual page first
-    page=$(
-      man -k . |
-      fzf --prompt="Man Pages> " \
-        --preview="echo {} | awk '{print \$1}' | xargs man" \
-        --preview-window=right:60% \
-        --bind="ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
-        --bind="ctrl-e:preview-down,ctrl-y:preview-up" |
-      awk '{print $1}'
-    )
-  fi
+  line=$(rg -n '\S' "$tmp" | fzf \
+    --delimiter : --nth 2.. --no-sort --reverse \
+    --preview "bat --color=always --style=numbers --plain --highlight-line {1} --language=man '$tmp'" \
+    --preview-window 'right,60%,+{1}-/2' \
+    --bind 'ctrl-/:toggle-preview' | cut -d: -f1)
 
-  [ -z "$page" ] && return
-
-  # 2. Extract lines with numbers, search immediately without a preview window
-  man "$page" | col -b | awk '{print NR, $0}' | \
-  fzf --prompt="Search inside $page> " \
-      --with-nth=2.. | \
-  awk '{print $1}' | \
-  xargs -I {} env MANPAGER="less +{}g" man "$page"
+  [[ -n $line ]] && less +"${line}g" "$tmp"
+  rm -f "$tmp"
 }
-

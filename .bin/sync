@@ -29,6 +29,7 @@ for dir in $dirs; do
     *) echo "unknown host: $hostname" ;;
   esac
 
+  [[ -z "$TMUX" ]] && echo run in tmux && exit
   tmux split-window -dh "echo $dir; $cmd || read"
   tmux select-layout main-vertical
 

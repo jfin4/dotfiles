@@ -4,6 +4,7 @@ xrdb -merge .Xresources
 xset -b
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 [[ -f ~/.fehbg ]] && ~/.fehbg
+export GTK_THEME=Adwaita:dark
 
 case $USER in
     jfin*)

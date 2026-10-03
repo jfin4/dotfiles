@@ -81,7 +81,7 @@ alias zzz='sudo systemctl suspend' # }}}
 # host{{{
 hostname=$(uname -n) # }}}
 
-# work laptop{{{
+# wb{{{
 if [[ $hostname == WB-102492 ]]; then
 
     export EDITOR=/usr/bin/vim
@@ -159,3 +159,34 @@ fi # }}}
 #
 # magic abbreviation
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab}}}
+
+# functions
+fman() {
+  local page
+
+  # If an argument is provided, skip step 1 and use it directly
+  if [ -n "$1" ]; then
+    page="$1"
+  else
+    # 1. Select the manual page first
+    page=$(
+      man -k . |
+      fzf --prompt="Man Pages> " \
+        --preview="echo {} | awk '{print \$1}' | xargs man" \
+        --preview-window=right:60% \
+        --bind="ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
+        --bind="ctrl-e:preview-down,ctrl-y:preview-up" |
+      awk '{print $1}'
+    )
+  fi
+
+  [ -z "$page" ] && return
+
+  # 2. Extract lines with numbers, search immediately without a preview window
+  man "$page" | col -b | awk '{print NR, $0}' | \
+  fzf --prompt="Search inside $page> " \
+      --with-nth=2.. | \
+  awk '{print $1}' | \
+  xargs -I {} env MANPAGER="less +{}g" man "$page"
+}
+

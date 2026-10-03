@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add -u
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME add $HOME/{.bin,.mutt,.vim} 
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "${*:-no message}"
-git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
-

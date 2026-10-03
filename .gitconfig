@@ -1,34 +1,60 @@
 # https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [branch]
     sort = -committerdate
+
 [column]
     ui = auto
+
 [core]
     autocrlf = false
     eol = lf
+
 [credential]
     helper = store
+
 [diff]
     algorithm = histogram
     colorMoved = plain
     mnemonicPrefix = true
     renames = true
+
 [fetch]
     prune = true
     pruneTags = true
     all = true
+
 [init]
     defaultBranch = main
+
 [push]
     default = simple
     autoSetupRemote = true
     followTags = true
+
 [status]
     showUntrackedFiles = no
+
 [tag]
     sort = version:refname
+
 [user]
     email = john@jfin.net
     name = John Inman
+
 [pull]
 	rebase = true
+
+[alias]
+  st = status -sb
+  co = checkout
+  sw = switch
+  br = branch
+  ci = commit
+  cm = commit -m
+  ca = commit --amend --no-edit
+  unstage = reset HEAD --
+  last = log -1 --stat
+  lg = log --oneline --graph --decorate --all
+  d = diff
+  ds = diff --staged
+  pf = push --force-with-lease

@@ -159,19 +159,3 @@ fi # }}}
 #
 # magic abbreviation
 # https://web.archive.org/web/20180329223229/http://zshwiki.org:80/home/examples/zleiab}}}
-
-# functions
-man() {
-  local tmp line
-  tmp=$(mktemp) || return
-  MANWIDTH=100 /usr/bin/man "$@" 2>/dev/null | col -bx > "$tmp" || { rm -f "$tmp"; return 1; }
-
-  line=$(rg -n '\S' "$tmp" | fzf \
-    --delimiter : --nth 2.. --no-sort --reverse \
-    --preview "bat --color=always --style=numbers --plain --highlight-line {1} --language=man '$tmp'" \
-    --preview-window 'right,60%,+{1}-/2' \
-    --bind 'ctrl-/:toggle-preview' | cut -d: -f1)
-
-  [[ -n $line ]] && less +"${line}g" "$tmp"
-  rm -f "$tmp"
-}

@@ -1,10 +1,14 @@
 #!/usr/bin/env zsh
 
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    eval $(dbus-launch --sh-syntax --exit-with-session)
+    export DBUS_SESSION_BUS_ADDRESS
+fi
+
 xrdb -merge .Xresources
 xset -b
-systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 export GTK_THEME=Adwaita:dark
-dbus-update-activation-environment --systemd GTK_THEME DISPLAY XAUTHORITY
+dbus-update-activation-environment DISPLAY XAUTHORITY GTK_THEME
 
 case $USER in
     jfin*)
@@ -19,4 +23,3 @@ case $USER in
         pgrep -u $USER -f openbox || openbox-session
     ;;
 esac
-

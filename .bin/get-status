@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # unicode chars{{{
 bar18=$(echo -e '\xe2\x96\x81')
@@ -116,4 +116,5 @@ Time() {
 }
 # }}}
 sep="        "
-echo "$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)"
+status=$(Bluethooth)$(VPN)$(Layout)$(Date)$(Time)
+echo "${status}"

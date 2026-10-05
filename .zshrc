@@ -44,6 +44,10 @@ PROMPT='
 %F{white}%n@%m:%~$(__git_ps1 " %s")
 %# %f' # }}}
 
+# fzf{{{
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh) # }}}
+
 # aliases{{{
 alias -g COPY='> /dev/clipboard'
 alias -g QUIET='> /dev/null 2>&1 & disown'
@@ -115,7 +119,7 @@ if [[ $hostname == WB-102492 ]]; then
 fi # }}}
 
 # openbsd{{{
-if [[ $hostname == OpenBSD ]]; then
+if [[ $hostname == server ]]; then
 
     export EDITOR=/usr/local/bin/vim
 
@@ -126,7 +130,7 @@ if [[ $hostname == OpenBSD ]]; then
 fi # }}}
 
 # linux{{{
-if [[ $hostname == Linux ]]; then 
+if [[ $hostname == desktop ]]; then 
     
     export BROWSER=/usr/bin/firefox
     export EDITOR=/usr/bin/vim
@@ -143,6 +147,8 @@ if [[ $hostname == Linux ]]; then
     
     # startx needs HOST
     export HOST
+
+    [[ -z "$DISPLAY" ]] && exec startx
 
 fi # }}}
 

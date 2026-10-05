@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# common
+# ------------------------------------------------------------------------------
+
+xrdb .Xresources
+xset -b
+dunst &
+
+# handles dbus for firefox file picker
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
   for f in /etc/X11/xinit/xinitrc.d/?*.sh;  do
     [ -x "$f" ] && . "$f"
@@ -7,39 +15,41 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-xrdb .Xresources
-xset -b
+jfin_users=(jfin wb)
+is_jfin_user=0
 
-status_loop() {
-  while true; do
+for u in "${jfin_users[@]}"; do
+  [[ $u == "$USER" ]] && { is_jfin_user=1; break; }
+done
+
+# guest
+# ------------------------------------------------------------------------------
+if (( ! is_jfin_user )); then
+  openbox-session
+  exit 0
+fi
+
+# jfin accounts
+# ------------------------------------------------------------------------------
+
+# status bar
+while true; do
+  xsetroot -name "$(status)"
+  sleep 60
+done
+
+# keyd layout indicator
+file=/run/keyd-status
+sudo touch $file
+sudo chmod 777 $file
+while read -r line; do
+  if [[ $line == /* ]]; then
+    [[ $line == /xwin ]] && echo xwin > $file
+    [[ $line == /tmux ]] && echo tmux > $file
     xsetroot -name "$(status)"
-    sleep 60
-  done
-}
+  fi
+done < <(keyd listen)
 
-watch_keyd() {
-  file=/run/keyd-status
-  sudo touch $file
-  sudo chmod 777 $file
-  while read -r line; do
-    if [[ $line == /* ]]; then
-      [[ $line == /xwin ]] && echo xwin > $file
-      [[ $line == /tmux ]] && echo tmux > $file
-      xsetroot -name "$(status)"
-    fi
-  done < <(keyd listen)
-}
-
-case $USER in
-  jfin|wb)
-    watch_keyd &
-    status_loop &
-    while true; do
-      dwm
-    done
-    ;;
-  *) openbox-session ;;
-esac
-
-
-
+while true; do
+  dwm
+done

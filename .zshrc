@@ -10,6 +10,8 @@ zstyle ':completion:*' menu select # highlights selection
 setopt menu_complete
 zmodload zsh/complist
 bindkey -M menuselect '^@' accept-and-menu-complete # }}}
+# default is for ubuntu's pre-systemd init `upstart` 
+compdef _files start
 
 # home, end, delete{{{
 bindkey  "^[[H"   beginning-of-line

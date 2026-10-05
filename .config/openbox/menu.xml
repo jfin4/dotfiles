@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_menu>
   <menu id="root-menu" label="OpenBox 3">
-    <item label="Chrome"> <action name="Execute">
-	<execute>google-chrome-stable</execute>
-    </action> </item>
-    <item label="Minecraft"> <action name="Execute">
-	<execute>prismlauncher</execute>
-    </action> </item>
-    <item label="Files"> <action name="Execute">
-	<execute>pcmanfm-qt</execute>
-    </action> </item>
-    <item label="Office"> <action name="Execute">
-	<execute>libreoffice</execute>
-    </action> </item>
-    <item label="Volume"> <action name="Execute">
-	<execute>pavucontrol</execute>
-    </action> </item>
-    <item label="Exit"> <action name="Exit"/> </item>
+    <item label="Chrome"> 
+      <action name="Execute">
+        <execute>google-chrome-stable</execute>
+      </action> 
+    </item>
+    <item label="Minecraft"> 
+      <action name="Execute">
+        <execute>prismlauncher</execute>
+      </action> 
+    </item>
+    <item label="Retroarch"> 
+      <action name="Execute">
+        <execute>retroarch</execute>
+      </action> 
+    </item>
+    <item label="Files"> 
+      <action name="Execute">
+        <execute>pcmanfm-qt</execute>
+      </action> 
+    </item>
+    <item label="Office"> 
+      <action name="Execute">
+        <execute>libreoffice</execute>
+      </action> 
+    </item>
+    <item label="Volume"> 
+      <action name="Execute">
+        <execute>pavucontrol</execute>
+      </action> 
+    </item>
+    <item label="Exit"> 
+      <action name="Exit"/> 
+    </item>
   </menu>
 </openbox_menu>

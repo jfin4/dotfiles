@@ -3,7 +3,7 @@
 # common
 # ------------------------------------------------------------------------------
 
-xrdb .Xresources
+xrdb ~/.Xresources
 xset -b
 dunst &
 
@@ -25,8 +25,7 @@ done
 # guest
 # ------------------------------------------------------------------------------
 if (( ! is_jfin_user )); then
-  openbox-session
-  exit 0
+  exec openbox-session
 fi
 
 # jfin accounts
@@ -36,19 +35,18 @@ fi
 while true; do
   xsetroot -name "$(status)"
   sleep 60
-done
+done &
 
 # keyd layout indicator
-file=/run/keyd-status
-sudo touch $file
-sudo chmod 777 $file
+keyd_layout =/run/keyd-layout
+sudo install -m 666 /dev/null "$keyd_layout"
 while read -r line; do
   if [[ $line == /* ]]; then
-    [[ $line == /xwin ]] && echo xwin > $file
-    [[ $line == /tmux ]] && echo tmux > $file
+    [[ $line == /xwin ]] && echo xwin > $keyd_layout
+    [[ $line == /tmux ]] && echo tmux > $keyd_layout
     xsetroot -name "$(status)"
   fi
-done < <(keyd listen)
+done < <(keyd listen) &
 
 while true; do
   dwm

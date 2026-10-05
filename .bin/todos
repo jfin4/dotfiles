@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 suppressMessages(library("tidyverse"))
 
 options(width = 120)

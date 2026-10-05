@@ -1,9 +1,3 @@
 #!/usr/bin/env zsh
 
-dir=${0%/*}
-full_dir=$(realpath $dir)
-full_parent_dir=${full_dir%/*}
-parent_dir=${full_parent_dir##*/}
-tag=$parent_dir
-echo $tag > $dir/tag
-docker build -t $tag -f $dir/Dockerfile $dir
+docker build -t pi-sandbox -f ./Dockerfile .

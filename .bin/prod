@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 suppressMessages(library(tidyverse))
 
 read_csv('~/notes/hours.csv', 

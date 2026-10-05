@@ -7,7 +7,7 @@ until sudo wg show interfaces | grep -q "."; do
     sleep 1
 done
 
-xsetroot -name "$(get-status)"
+xsetroot -name "$(status)"
 
 qbittorrent-nox &> /dev/null &
 PID=$!
@@ -24,7 +24,7 @@ echo "ready..."
 trap '
     kill $PID
     wg-quick down ~/.wg/us-sjc-wg-302.conf &> /dev/null
-    xsetroot -name "$(get-status)"
+    xsetroot -name "$(status)"
     trap - INT
 ' INT
 

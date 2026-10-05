@@ -63,9 +63,9 @@ static const char *termcmd[]  = { "xterm", NULL };
 static const char *raisevol[]  = { "raise-volume", NULL };
 static const char *lowervol[]  = { "lower-volume", NULL };
 static const char *mutevol[]  = { "mute-volume", NULL };
-static const char *switchwindow[]  = { "switch-window", NULL };
+static const char *selwindow[]  = { "selwindow", NULL };
 
-#include "/home/jfin/.aur/dwm/patches/shift-tools.c"
+#include "/home/jfin/.aur/dwm/shift-tools.c"
 static const Key keys[] = {
 	/* modifier                     key                         function        argument */
 	{ MODKEY,                       XK_d,                       spawn,          { .v = dmenucmd } },
@@ -103,10 +103,10 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                                       8)
 	{ MODKEY,                       XK_c,                       quit,           {0} },
     { MODKEY,                       XK_l,	                    shiftview,      { .i = +1 } },
- 	{ MODKEY,                       XK_h,	                    shiftview,      { .i = -1 } },
+ 	{ MODKEY,                       XK_h,	                      shiftview,      { .i = -1 } },
     { MODKEY|ShiftMask,             XK_l,	                    shifttag,       { .i = +1 } },
- 	{ MODKEY|ShiftMask,             XK_h,	                    shifttag,       { .i = -1 } },
-	{ MODKEY,                       XK_f,                       spawn,          { .v = switchwindow } },
+ 	{ MODKEY|ShiftMask,             XK_h,	                      shifttag,       { .i = -1 } },
+	{ MODKEY,                       XK_w,                       spawn,          { .v = selwindow } },
 	{ 0,                            XF86XK_AudioRaiseVolume,    spawn,          { .v = raisevol } },
 	{ 0,                            XF86XK_AudioLowerVolume,    spawn,          { .v = lowervol } },
 	{ 0,                            XF86XK_AudioMute,           spawn,          { .v = mutevol } },

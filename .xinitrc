@@ -1,25 +1,45 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-    eval $(dbus-launch --sh-syntax --exit-with-session)
-    export DBUS_SESSION_BUS_ADDRESS
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/?*.sh;  do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
 fi
 
-xrdb -merge .Xresources
+xrdb .Xresources
 xset -b
-export GTK_THEME=Adwaita:dark
-dbus-update-activation-environment DISPLAY XAUTHORITY GTK_THEME
+
+status_loop() {
+  while true; do
+    xsetroot -name "$(status)"
+    sleep 60
+  done
+}
+
+watch_keyd() {
+  file=/run/keyd-status
+  sudo touch $file
+  sudo chmod 777 $file
+  while read -r line; do
+    if [[ $line == /* ]]; then
+      [[ $line == /xwin ]] && echo xwin > $file
+      [[ $line == /tmux ]] && echo tmux > $file
+      xsetroot -name "$(status)"
+    fi
+  done < <(keyd listen)
+}
 
 case $USER in
-    jfin*)
-        pgrep -u $USER -f update-keyd-status || update-keyd-status &
-        pgrep -u $USER -f update-status || update-status &
-        pgrep -u $USER -f dwm || while true; do
-            dwm
-        done
+  jfin|wb)
+    watch_keyd &
+    status_loop &
+    while true; do
+      dwm
+    done
     ;;
-    *)
-        ~/.fehbg
-        pgrep -u $USER -f openbox || openbox-session
-    ;;
+  *) openbox-session ;;
 esac
+
+
+

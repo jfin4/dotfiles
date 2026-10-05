@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-
-while true; do
-    xsetroot -name "$(get-status)"
-    sleep 60
-done

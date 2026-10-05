@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
 case $1 in
-  pods) device=18:3F:70:5E:41:D0 ;;
-  xm3s) device=70:26:05:CF:75:A1 ;;
+  xm3) device=70:26:05:CF:75:A1 ;;
   *) huh? ;;
 esac
 
@@ -12,4 +11,4 @@ bluetoothctl info | grep 'Connected: yes' \
 
 bluetoothctl $action $device
 
-xsetroot -name "$(get-status)"
+xsetroot -name "$(status)"

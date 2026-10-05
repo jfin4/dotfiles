@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+
+tmp=$(mktemp) || return
+trap 'rm -f "$tmp"' EXIT
+
+MANWIDTH=100 /usr/bin/man "$@" 2>/dev/null | col -bx > "$tmp" || exit 1
+
+line=$(
+  rg -n '\S' "$tmp" |\
+  fzf --delimiter :\
+    --nth=2..\
+    --no-sort\
+    --reverse\
+    --preview="\
+      bat\
+        --color=always\
+        --style=numbers\
+        --plain\
+        --highlight-line {1}\
+        --language=man\
+        '$tmp'\
+    "\
+    --preview-border=line\
+    --preview-window '+{1}/2' |\
+  cut -d: -f1\
+)
+
+[[ -n $line ]] && less +"${line}g" "$tmp"

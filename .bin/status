@@ -92,7 +92,7 @@ Bluethooth() {
 
     devices="XM3"
 
-    for dev in ${=devices}; do
+    for dev in ${devices}; do
         if bluetoothctl devices Connected | grep -qi $dev; then
             echo $dev"$sep"
         fi

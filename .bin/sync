@@ -4,7 +4,6 @@
 # delete extraneous files
 
 dirs="notes projects records resources"
-host=jfin@10.0.0.40
 root=/var/www/htdocs/wb
 
 for dir in $dirs; do
@@ -14,15 +13,17 @@ for dir in $dirs; do
   case $hostname in
     WB-102492) 
       case $1 in
+        # server defined in rclone config
         push) cmd="rclone -P copy ~/$dir server:$root/$dir" ;;
         pull) cmd="rclone -P -f'- old/**' sync server:$root/$dir ~/$dir" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;
-    jfin) 
+    desktop) 
       case $1 in
-        push) cmd="rsync -ahP ~/$dir $host:$root" ;;
-        pull) cmd="rsync -ahP -f'- old/' --delete $host:$root/$dir ~/" ;;
+        # server defined in ssh config
+        push) cmd="rsync -ahP ~/$dir server:$root" ;;
+        pull) cmd="rsync -ahP -f'- old/' --delete server:$root/$dir ~/" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;

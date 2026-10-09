@@ -38,11 +38,11 @@ while true; do
 done &
 
 # keyd layout indicator
-keyd_layout =/run/keyd-layout
+keyd_layout=/run/keyd-layout
 sudo install -m 666 /dev/null "$keyd_layout"
 while read -r line; do
   if [[ $line == /* ]]; then
-    [[ $line == /xwin ]] && echo xwin > $keyd_layout
+    [[ $line == /xwin ]] && echo > $keyd_layout
     [[ $line == /tmux ]] && echo tmux > $keyd_layout
     xsetroot -name "$(status)"
   fi

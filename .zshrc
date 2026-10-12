@@ -150,7 +150,7 @@ if [[ $hostname == desktop ]]; then
     # startx needs HOST
     export HOST
 
-    [[ -z "$DISPLAY" ]] && exec startx
+    [[ -z "$DISPLAY" ]] && [[ $(id -u) != 0 ]] && exec startx
 
 fi # }}}
 

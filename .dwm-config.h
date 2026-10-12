@@ -1,4 +1,4 @@
-/* ~/.aur/dwm/config.h */
+/* ~/software/dwm/config.h */
 
  /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
@@ -60,56 +60,53 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_norm, "-sb", col_bg, "-sf", col_sel, NULL };
 static const char *termcmd[]  = { "xterm", NULL };
-static const char *raisevol[]  = { "raise-volume", NULL };
-static const char *lowervol[]  = { "lower-volume", NULL };
-static const char *mutevol[]  = { "mute-volume", NULL };
 static const char *selwindow[]  = { "selwindow", NULL };
 
-#include "/home/jfin/.aur/dwm/shift-tools.c"
+#include "/home/jfin/software/dwm/shift-tools.c"
 static const Key keys[] = {
-	/* modifier                     key                         function        argument */
-	{ MODKEY,                       XK_d,                       spawn,          { .v = dmenucmd } },
-	{ Mod1Mask,                     XK_d,                       spawn,          { .v = dmenucmd } },
-	{ MODKEY,                       XK_i,                       spawn,          { .v = termcmd } },
-	{ 0,                            0,                          togglebar,      {0} },
-	{ MODKEY,                       XK_j,                       focusstack,     { .i = +1 } },
-	{ MODKEY,                       XK_k,                       focusstack,     { .i = -1 } },
-	{ 0,                            0,                          incnmaster,     { .i = +1 } },
-	{ 0,                            0,                          incnmaster,     { .i = -1 } },
-	{ 0,                            0,                          setmfact,       { .f = -0.05} },
-	{ 0,                            0,                          setmfact,       { .f = +0.05} },
-	{ MODKEY,                       XK_space,                   zoom,           {0} },
-	{ 0,                            0,                          view,           {0} },
-	{ MODKEY,                       XK_o,                       killclient,     {0} },
-	{ 0,                            0,                          setlayout,      {.v = &layouts[0]} },
-	{ 0,                            0,                          setlayout,      {.v = &layouts[1]} },
-	{ 0,                            0,                          setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_Return,                  setlayout,      {0} },
-	{ 0,                            0,                          togglefloating, {0} },
-	{ 0,                            0,                          view,           {.ui = ~0 } },
-	{ 0,                            0,                          tag,            {.ui = ~0 } },
-	{ 0,                            0,                          focusmon,       {.i = -1 } },
-	{ 0,                            0,                          focusmon,       {.i = +1 } },
-	{ 0,                            0,                          tagmon,         {.i = -1 } },
-	{ 0,                            0,                          tagmon,         {.i = +1 } },
-	TAGKEYS(                        XK_1,                                       0)
-	TAGKEYS(                        XK_2,                                       1)
-	TAGKEYS(                        XK_3,                                       2)
-	TAGKEYS(                        XK_4,                                       3)
-	TAGKEYS(                        XK_5,                                       4)
-	TAGKEYS(                        XK_6,                                       5)
-	TAGKEYS(                        XK_7,                                       6)
-	TAGKEYS(                        XK_8,                                       7)
-	TAGKEYS(                        XK_9,                                       8)
-	{ MODKEY,                       XK_c,                       quit,           {0} },
-    { MODKEY,                       XK_l,	                    shiftview,      { .i = +1 } },
- 	{ MODKEY,                       XK_h,	                      shiftview,      { .i = -1 } },
-    { MODKEY|ShiftMask,             XK_l,	                    shifttag,       { .i = +1 } },
- 	{ MODKEY|ShiftMask,             XK_h,	                      shifttag,       { .i = -1 } },
-	{ MODKEY,                       XK_w,                       spawn,          { .v = selwindow } },
-	{ 0,                            XF86XK_AudioRaiseVolume,    spawn,          { .v = raisevol } },
-	{ 0,                            XF86XK_AudioLowerVolume,    spawn,          { .v = lowervol } },
-	{ 0,                            XF86XK_AudioMute,           spawn,          { .v = mutevol } },
+  /* modifier                     key                         function        argument */
+  { MODKEY,                       XK_d,                       spawn,          { .v = dmenucmd } },
+  { Mod1Mask,                     XK_d,                       spawn,          { .v = dmenucmd } },
+  { MODKEY,                       XK_i,                       spawn,          { .v = termcmd } },
+  { 0,                            0,                          togglebar,      {0} },
+  { MODKEY,                       XK_j,                       focusstack,     { .i = +1 } },
+  { MODKEY,                       XK_k,                       focusstack,     { .i = -1 } },
+  { 0,                            0,                          incnmaster,     { .i = +1 } },
+  { 0,                            0,                          incnmaster,     { .i = -1 } },
+  { 0,                            0,                          setmfact,       { .f = -0.05} },
+  { 0,                            0,                          setmfact,       { .f = +0.05} },
+  { MODKEY,                       XK_space,                   zoom,           {0} },
+  { 0,                            0,                          view,           {0} },
+  { MODKEY,                       XK_o,                       killclient,     {0} },
+  { 0,                            0,                          setlayout,      {.v = &layouts[0]} },
+  { 0,                            0,                          setlayout,      {.v = &layouts[1]} },
+  { 0,                            0,                          setlayout,      {.v = &layouts[2]} },
+  { MODKEY,                       XK_Return,                  setlayout,      {0} },
+  { 0,                            0,                          togglefloating, {0} },
+  { 0,                            0,                          view,           {.ui = ~0 } },
+  { 0,                            0,                          tag,            {.ui = ~0 } },
+  { 0,                            0,                          focusmon,       {.i = -1 } },
+  { 0,                            0,                          focusmon,       {.i = +1 } },
+  { 0,                            0,                          tagmon,         {.i = -1 } },
+  { 0,                            0,                          tagmon,         {.i = +1 } },
+  TAGKEYS(                        XK_1,                                       0)
+  TAGKEYS(                        XK_2,                                       1)
+  TAGKEYS(                        XK_3,                                       2)
+  TAGKEYS(                        XK_4,                                       3)
+  TAGKEYS(                        XK_5,                                       4)
+  TAGKEYS(                        XK_6,                                       5)
+  TAGKEYS(                        XK_7,                                       6)
+  TAGKEYS(                        XK_8,                                       7)
+  TAGKEYS(                        XK_9,                                       8)
+  { MODKEY,                       XK_c,                       quit,           {0} },
+  { MODKEY,                       XK_l,	                    shiftview,      { .i = +1 } },
+  { MODKEY,                       XK_h,	                      shiftview,      { .i = -1 } },
+  { MODKEY|ShiftMask,             XK_l,	                    shifttag,       { .i = +1 } },
+  { MODKEY|ShiftMask,             XK_h,	                      shifttag,       { .i = -1 } },
+  { MODKEY,                       XK_w,                       spawn,          { .v = selwindow } },
+  { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+") },
+  { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
+  { 0, XF86XK_AudioMute,        spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
 };
 
 /* button definitions */

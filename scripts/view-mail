@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+dir=$(mktemp -d)
+mkdir $dir/{cur,new,tmp}
+cp "$1" $dir/new
+mutt -f $dir

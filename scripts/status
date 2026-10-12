@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+sep="    "
+
+Vpn() {
+  if sudo wg show interfaces | grep -q "."; then
+    echo vpn"$sep"
+  fi
+}
+
+Bt() {
+  devices="XM3"
+  for dev in ${devices}; do
+    if bluetoothctl devices Connected | grep -qi $dev; then
+      echo ${dev@L}"$sep"
+    fi
+  done
+}
+
+Layout() {
+  echo "$(</run/keyd-layout)$sep"
+}
+
+Date() {
+  date=$(date +'%a %b %d')
+  echo ${date@L}"$sep"
+}
+
+Time() {
+  echo $(date +'%H%M')
+}
+
+echo "$(Layout)$(Bt)$(Vpn)$(Date)$(Time)"

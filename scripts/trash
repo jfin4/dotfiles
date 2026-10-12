@@ -1,0 +1,69 @@
+#!/bin/sh
+# trash - freedesktop.org trash, portable (linux, openbsd, msys)
+# usage: trash file...
+
+# percent-encode a path
+enc() {
+	printf %s "$1" | LC_ALL=C awk '
+	BEGIN { for (i = 1; i < 256; i++) o[sprintf("%c", i)] = i }
+	{ for (i = 1; i <= length($0); i++) {
+		c = substr($0, i, 1)
+		if (c ~ /[A-Za-z0-9._~\/-]/) printf "%s", c
+		else printf "%%%02X", o[c] } }'
+}
+
+# mount point of a path
+mp() {
+	df -P "$1" | awk 'NR==2 { $1=$2=$3=$4=$5=""; sub(/^ +/, ""); print }'
+}
+
+# move one file to the right trash
+trash_one() {
+	dir=$(cd "$(dirname -- "$1")" && pwd -P) || return 1
+	name=$(basename -- "$1")
+	abs=$dir/$name
+	data=${XDG_DATA_HOME:-$HOME/.local/share}
+	mkdir -p "$data" || return 1
+	m=$(mp "$abs")
+	if [ "$m" = "$(mp "$data")" ]; then
+		base=$data/Trash path=$abs
+	else
+		base=$m/.Trash-$(id -u) path=${abs#"$m"/}
+	fi
+	mkdir -p "$base/files" "$base/info" && chmod 700 "$base" || return 1
+
+	dest=$name i=0
+	while [ -e "$base/files/$dest" ] || [ -L "$base/files/$dest" ] ||
+	      [ -e "$base/info/$dest.trashinfo" ]; do
+		i=$((i + 1)) dest=$name.$i
+	done
+
+	printf '[Trash Info]\nPath=%s\nDeletionDate=%s\n' \
+		"$(enc "$path")" "$(date +%Y-%m-%dT%H:%M:%S)" \
+		> "$base/info/$dest.trashinfo" || return 1
+	mv -- "$1" "$base/files/$dest" || { rm -f "$base/info/$dest.trashinfo"; return 1; }
+}
+
+# windows recycle bin (msys, mingw, cygwin)
+trash_win() {
+	T=$(cygpath -w "$1") && export T || return 1
+	[ -d "$1" ] && m=DeleteDirectory || m=DeleteFile
+	powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::$m(\$env:T,'OnlyErrorDialogs','SendToRecycleBin')"
+}
+
+[ $# -gt 0 ] || { echo "usage: trash file..." >&2; exit 2; }
+
+case $(uname -s) in
+	MSYS*|MINGW*|CYGWIN*) fn=trash_win ;;
+	*) fn=trash_one ;;
+esac
+
+rc=0
+for f in "$@"; do
+	if [ -e "$f" ] || [ -L "$f" ]; then
+		$fn "$f" || { echo "trash: $f: failed" >&2; rc=1; }
+	else
+		echo "trash: $f: no such file" >&2; rc=1
+	fi
+done
+exit $rc

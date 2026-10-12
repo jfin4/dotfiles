@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+if yt-dlp --simulate --flat-playlist "$1" | grep playlist; then
+    yt-dlp \
+        --extract-audio \
+        --embed-metadata \
+        --output "%(playlist_index)03d %(fulltitle)s.%(ext)s" \
+        "$1"
+else
+    yt-dlp \
+        --extract-audio \
+        --embed-metadata \
+        "$1"
+fi
+

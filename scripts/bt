@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+case $1 in
+  xm3) device=70:26:05:CF:75:A1 ;;
+  *) huh? ;;
+esac
+
+bluetoothctl info | grep 'Connected: yes' \
+  && action=disconnect \
+  || action=connect
+
+bluetoothctl $action $device
+
+xsetroot -name "$(status)"

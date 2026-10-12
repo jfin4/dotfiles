@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+sudo reflector \
+    --verbose \
+    --download-timeout 3 \
+    --protocol https \
+    --country "United States" \
+    --score 10 \
+    --fastest 2 \
+    --sort rate \
+    --save /etc/pacman.d/mirrorlist

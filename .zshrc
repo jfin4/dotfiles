@@ -5,13 +5,19 @@ bindkey -e # }}}
 # completion{{{
 autoload -Uz compinit
 compinit
-zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
-zstyle ':completion:*' menu select # highlights selection
-setopt menu_complete
-zmodload zsh/complist
-bindkey -M menuselect '^@' accept-and-menu-complete # }}}
+source ~/software/fzf-tab/fzf-tab.plugin.zsh
+# zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
+# zstyle ':completion:*' menu select # highlights selection
+# setopt menu_complete
+# zmodload zsh/complist
+# bindkey -M menuselect '^@' accept-and-menu-complete 
 # default is for ubuntu's pre-systemd init `upstart` 
 compdef _files start
+# }}}
+
+# man
+export MANWIDTH=80
+export MANPAGER="vim +MANPAGER --not-a-term -"
 
 # home, end, delete{{{
 bindkey  "^[[H"   beginning-of-line
@@ -23,9 +29,9 @@ bindkey '^[[Z' reverse-menu-complete # }}}
 [ -z "$initial_path" ] && initial_path="$PATH"
 export initial_path PATH  
 
-bin="$HOME/.bin" 
+scripts="$HOME/scripts" 
 local_bin="$HOME/.local/bin" 
-PATH="$bin:$local_bin:$initial_path"
+PATH="$scripts:$local_bin:$initial_path"
 
 # }}}
 
@@ -41,7 +47,7 @@ date=$(date +'%Y-%m-%d') # }}}
 
 # prompt{{{
 setopt prompt_subst
-source ~/.bin/git-prompt.sh
+source ~/scripts/git-prompt.sh
 PROMPT='
 %F{white}%n@%m:%~$(__git_ps1 " %s")
 %# %f' # }}}
@@ -71,9 +77,9 @@ alias sig='get-signal-quality'
 alias sod='\cd ~/.aur/dwm; makepkg -sfic; \cd -'
 alias sot='tmux source-file ~/.tmux.conf'
 alias soz='source ~/.zshrc'
-alias todo='echo; Rscript ~/.bin/get-todos.r' 
-alias wol='powershell -ExecutionPolicy Bypass -File ~/.bin/wake-on-lan.ps1'
+alias todo='echo; Rscript ~/bin/get-todos.r' 
 alias zzz='sudo systemctl suspend' # }}}
+alias pi='~/.pi/run'
 
 # host{{{
 hostname=$(uname -n) # }}}

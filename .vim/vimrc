@@ -202,3 +202,6 @@ let g:camelcasemotion_key = '<leader>'
 " easy align
 vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" fzf
+nmap <leader>/ :BLines<cr>

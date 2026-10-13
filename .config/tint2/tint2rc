@@ -199,7 +199,7 @@ tooltip_font_color = #dddddd 100
 
 #-------------------------------------
 # Push Button
-button_lclick_command = xdotool key ctrl+m
+button_lclick_command = xdotool key super+m
 button_text = ☰
 button_font = 40
 button_font_color = #ffffff

@@ -265,7 +265,7 @@
       </action>
     </keybind>
     <!-- Keybindings for window switching -->
-    <keybind key="A-Tab">
+    <keybind key="W-Tab">
       <action name="NextWindow">
         <finalactions>
           <action name="Focus"/>
@@ -274,7 +274,7 @@
         </finalactions>
       </action>
     </keybind>
-    <keybind key="A-S-Tab">
+    <keybind key="W-S-Tab">
       <action name="PreviousWindow">
         <finalactions>
           <action name="Focus"/>
@@ -325,7 +325,7 @@
         <command>kfmclient openProfile filemanagement</command>
       </action>
     </keybind>
-    <keybind key="C-m">
+    <keybind key="W-m">
       <action name="ShowMenu">
         <menu>root-menu</menu>
       </action>

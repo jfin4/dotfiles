@@ -5,7 +5,6 @@ bindkey -e # }}}
 # completion{{{
 autoload -Uz compinit
 compinit
-source ~/software/fzf-tab/fzf-tab.plugin.zsh
 # zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 # zstyle ':completion:*' menu select # highlights selection
 # setopt menu_complete
@@ -54,7 +53,10 @@ PROMPT='
 
 # fzf{{{
 # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh) # }}}
+source <(fzf --zsh) 
+fzf_tab_plug=~/software/fzf-tab/fzf-tab.plugin.zsh
+[[ -f $fzf_tab_plug ]] && source $fzf_tab_plug
+# }}}
 
 # aliases{{{
 alias -g COPY='> /dev/clipboard'

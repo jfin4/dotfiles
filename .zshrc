@@ -5,19 +5,20 @@ bindkey -e # }}}
 # completion{{{
 autoload -Uz compinit
 compinit
-# zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
 # zstyle ':completion:*' menu select # highlights selection
 # setopt menu_complete
 # zmodload zsh/complist
 # bindkey -M menuselect '^@' accept-and-menu-complete 
-# default is for ubuntu's pre-systemd init `upstart` 
+# default compdef for start is for ubuntu's pre-systemd init `upstart` 
 compdef _files start
 # }}}
 
-# man
+# man{{{
 export MANWIDTH=80
 export MANPAGER="vim +MANPAGER --not-a-term -"
-
+# }}}
+#
 # home, end, delete{{{
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line

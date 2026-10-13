@@ -17,10 +17,10 @@ local({
 })
 
 # Machine-specific options
-if (Sys.info()["nodename"] == "jfin") {
+if (Sys.info()["nodename"] == "desktop") {
   options(
     browser = "/usr/bin/firefox", 
-    width = 135
+    width = 125
   )
 }
 
@@ -64,8 +64,8 @@ local({
     # read
     if (length(input_to_read) > 0) {
       purrr::iwalk(input_to_read, \(x, idx) {
-        read(x, idx)
-        saveRDS(x, fs::path(cache_dir, stringr::str_c(idx, ".rds")))
+        object <- read(x, idx)
+        saveRDS(object, fs::path(cache_dir, stringr::str_c(idx, ".rds")))
       })
       cat("\nread:", names(input_to_read), sep = "\n")
     }
@@ -114,6 +114,7 @@ local({
       object <- read_text(path)
     }
     assign(name, object, envir = .GlobalEnv)
+    return(object)
   }
 
   read_excel <- function(path) {

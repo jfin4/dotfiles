@@ -6,10 +6,6 @@ bindkey -e # }}}
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]} r:|[._-]=** r:|=*'
-# zstyle ':completion:*' menu select # highlights selection
-# setopt menu_complete
-# zmodload zsh/complist
-# bindkey -M menuselect '^@' accept-and-menu-complete 
 # default compdef for start is for ubuntu's pre-systemd init `upstart` 
 compdef _files start
 # }}}
@@ -18,7 +14,7 @@ compdef _files start
 export MANWIDTH=80
 export MANPAGER="vim +MANPAGER --not-a-term -"
 # }}}
-#
+
 # home, end, delete{{{
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
@@ -81,8 +77,9 @@ alias sod='\cd ~/software/dwm; makepkg -sfic; \cd -'
 alias sot='tmux source-file ~/.tmux.conf'
 alias soz='source ~/.zshrc'
 alias todo='echo; Rscript ~/bin/get-todos.r' 
-alias zzz='sudo systemctl suspend' # }}}
+alias zzz='sudo systemctl suspend' 
 alias pi='~/.pi/run'
+# }}}
 
 # host{{{
 hostname=$(uname -n) # }}}

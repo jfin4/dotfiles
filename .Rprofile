@@ -37,7 +37,7 @@ local({
   # read inputs -------------------------------------------------------------
 
   # main function -----------------------------------------------------------
-  .env$gather <- function(input, cache_dir = ".Rcache") {
+  .env$get_input <- function(input, cache_dir = ".Rcache") {
 
     # sort files
     input_to_remove <- sort_input(input, "remove", cache_dir)
@@ -133,8 +133,8 @@ local({
                     col_types = readr::cols(.default = "c"),
                     na = "",
                     lazy = TRUE,
-                    progress = FALSE) |>
-    tibble::as_tibble()
+                    trim_ws = TRUE,
+                    progress = FALSE)
   }
 
   attach(.env, name = "utils", warn.conflicts = FALSE)

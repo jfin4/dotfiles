@@ -1,6 +1,6 @@
 snippet task
-	`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{4}')`\
-	${1:`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{4}\\zs\\d\\{4}')`}, \
+	`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{6}')`\
+	${1:`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{6}\\zs\\d\\{2}')`}, \
 	${2:`matchstr(getline(line('.') - 1), '^[# ]*\\d\\{8}, \\d\\{4}, \\zs\\d\\{4}')`}, \
 	${3:hhmm}, \
 	${4:w}, \

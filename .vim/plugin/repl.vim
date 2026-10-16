@@ -28,9 +28,12 @@ function! CloseRepl()
 endfunction
 command! CloseRepl call CloseRepl()
 
-function! SetReplPane()
-    let tmux_command = 'tmux display-panes -d 5000 ''display-message -p -l %%'''
-    let b:repl_pane = system(tmux_command)->substitute('\n$', '', '')
+function! SetReplPane() abort
+  call system(join([
+    \ "tmux set-option -gu @repl_pane",
+    \ "tmux display-panes -d 0 'set-option -g @repl_pane %% ; wait-for -S ch'",
+    \ "tmux wait-for ch"], ';'))
+  let b:repl_pane = trim(system("tmux show -gqv @repl_pane"))
 endfunction
 command! SetReplPane call SetReplPane()
 

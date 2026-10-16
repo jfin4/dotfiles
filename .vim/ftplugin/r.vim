@@ -95,7 +95,7 @@ function! ViewObject(type = '') abort"{{{
     while 1
         if filereadable(file_name)
             " execute printf('terminal visidata --theme=ascii8 %s', 
-            execute printf('call system(''launch-file "%s"'')',
+            execute printf('call system(''start "%s"'')',
                         \ file_name)
             execute printf('autocmd VimLeavePre * call delete("%s")', 
                         \ file_name)

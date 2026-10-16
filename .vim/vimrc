@@ -138,7 +138,7 @@ command! Win2Unix silent! call Win2Unix()
 
 function! Start()
     let link = getline(line('.'))->trim()
-    call system('launch-file ' .. shellescape(link))
+    call system('start ' .. shellescape(link))
 endfunction
 command! Start call Start()
 

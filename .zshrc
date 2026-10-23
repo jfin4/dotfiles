@@ -62,7 +62,7 @@ alias rg='rg --colors=path:none --colors=line:none'
 alias ZZZ='sudo pacman -Syu --noconfirm; sudo shutdown now'
 alias aw='toggle-alt-win'
 alias bat='get-battery-capacity'
-alias calaters='start ~/notes/docs/calaters.jnlp'
+alias calaters='start ~/notes/resources/calaters.jnlp'
 alias cp='cp -r'
 alias dot='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 alias la="ls -lha --group-directories-first"

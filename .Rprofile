@@ -34,9 +34,6 @@ local({
 
   .env$`%nin%` <- Negate(`%in%`)
 
-  # read inputs -------------------------------------------------------------
-
-  # main function -----------------------------------------------------------
   .env$get_input <- function(input, cache_dir = ".Rcache") {
 
     # sort files

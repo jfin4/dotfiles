@@ -119,10 +119,11 @@ local({
       path |>
         readxl::excel_sheets() |>
         purrr::set_names() |>
-        purrr::map(\(sheet) readxl::read_excel(path, 
-                                               sheet = sheet, 
-                                               col_types = "text", 
-                                               na = "")) |>
+        purrr::map(\(sheet) 
+          readxl::read_excel(path, sheet = sheet, na = "") |>
+          mutate(across(everything(), as.character))
+        ) |>
+        # instead of col_types = "text" to auto convert dates
         (\(wb) if (length(wb) == 1L) list_c(wb) else wb)()
   }
 

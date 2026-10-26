@@ -14,16 +14,16 @@ for dir in $dirs; do
     WB-102492) 
       case $1 in
         # server defined in rclone config
-        push) cmd="rclone -P copy ~/$dir server:$root/$dir" ;;
-        pull) cmd="rclone -P -f'- old/**' sync server:$root/$dir ~/$dir" ;;
+        push) cmd="rclone -uP copy ~/$dir server:$root/$dir" ;;
+        pull) cmd="rclone -uP -f'- old/**' sync server:$root/$dir ~/$dir" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;
     desktop) 
       case $1 in
         # server defined in ssh config
-        push) cmd="rsync -ahP ~/$dir server:$root" ;;
-        pull) cmd="rsync -ahP -f'- old/' --delete server:$root/$dir ~/" ;;
+        push) cmd="rsync -ahuP ~/$dir server:$root" ;;
+        pull) cmd="rsync -ahuP -f'- old/' --delete server:$root/$dir ~/" ;;
         *) echo "usage: $0 push|pull" >&2; exit 1 ;;
       esac
       ;;

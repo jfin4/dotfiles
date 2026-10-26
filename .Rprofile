@@ -93,7 +93,8 @@ local({
 
     # read
     new_names <- setdiff(names(input), names(cache_objects))
-    input_to_read <- input[union(new_names, update_names)]
+    # input[union(new_names, update_names)] can result in NA of length 1
+    input_to_read <- input[c(new_names, update_names)]
 
     # return
     switch(bin,
@@ -122,7 +123,7 @@ local({
                                                sheet = sheet, 
                                                col_types = "text", 
                                                na = "")) |>
-        (\(wb) if (length(wb) == 1L) unlist(wb) else wb)()
+        (\(wb) if (length(wb) == 1L) list_c(wb) else wb)()
   }
 
   read_text <- function(path) {

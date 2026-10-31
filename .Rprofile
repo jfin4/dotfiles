@@ -19,10 +19,18 @@ local({
 # Machine-specific options
 if (Sys.info()["nodename"] == "desktop") {
   options(
-    browser = "/usr/bin/firefox", 
+    browser = function(url) {
+      cmd <- sprintf("/usr/bin/lynx -nocolor -cfg %s -lss %s %s",
+                      shQuote(path.expand("~/.lynx/lynx.cfg")),
+                      shQuote(path.expand("~/.lynx/lynx.lss")),
+                      shQuote(url))
+      system2("tmux", c("split-window", "-h", shQuote(cmd)))
+      system2("tmux", c("select-layout", "main-vertical"))
+    },
     width = 125
   )
 }
+
 
 # Custom utility operators and functions
 local({
@@ -120,20 +128,17 @@ local({
         readxl::excel_sheets() |>
         purrr::set_names() |>
         purrr::map(\(sheet) 
-          readxl::read_excel(path, sheet = sheet, na = "") |>
-          mutate(across(everything(), as.character))
+          readxl::read_excel(path, sheet = sheet, col_types = "text", na = "")
         ) |>
-        # instead of col_types = "text" to auto convert dates
         (\(wb) if (length(wb) == 1L) list_c(wb) else wb)()
   }
 
   read_text <- function(path) {
     readr::read_delim(path, 
-                    col_types = readr::cols(.default = "c"),
-                    na = "",
-                    lazy = TRUE,
-                    trim_ws = TRUE,
-                    progress = FALSE)
+                      col_types = readr::cols(.default = "c"),
+                      na = "",
+                      trim_ws = TRUE,
+                      progress = FALSE)
   }
 
   attach(.env, name = "utils", warn.conflicts = FALSE)

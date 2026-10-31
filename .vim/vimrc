@@ -205,3 +205,9 @@ nmap ga <Plug>(EasyAlign)
 
 " fzf
 nmap <leader>/ :BLines<cr>
+
+" man pager
+augroup man
+   au!
+   autocmd FileType man nnoremap q ZZ
+augroup end

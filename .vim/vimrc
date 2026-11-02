@@ -50,6 +50,8 @@ nnoremap <silent> <esc> :noh<cr>
 tnoremap <esc><esc> <c-\><c-n>
 tnoremap :: <c-w>:
 nnoremap <leader>n /\<=expand('<cword>')<cr>\><cr>
+nnoremap j gj
+nnoremap k gk
 
 " indentation
 set autoindent 

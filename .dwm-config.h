@@ -13,7 +13,7 @@ static const char dmenufont[]       = "SourceCodePro:size=15";
 static const char col_bg[]       = "#000000";
 static const char col_norm[]       = "#999999";
 static const char col_sel[]       = "#ffffff";
-static const char col_border[]     = "#ff99ff";
+static const char col_border[]     = "#996699";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_norm,  col_bg, col_bg },

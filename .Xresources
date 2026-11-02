@@ -31,7 +31,7 @@
 *cursorBlink: true
 *cursorOffTime: 500
 *cursorOnTime: 500
-*cursorColor: #ff99ff
+*cursorColor: #996699
 
 ! *colorInnerBorder: true
 !*termName: xterm-256color

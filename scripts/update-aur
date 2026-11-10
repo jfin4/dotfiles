@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# aur dir (may include non-aur subdirs)
+dir=$HOME/software
+
+for p in $dir/*; do
+
+  # skip dwm
+  [[ $p =~ dwm ]] && continue
+
+  # skip non aur
+  [[ ! -f ${p}/PKGBUILD ]] && continue
+
+  # skip up to date
+  git --git-dir=${p}/.git --work-tree=$p pull |\
+    grep -q "up to date" && continue
+
+  # print package being updated
+  printf "\n%s\n" ${p##*/}
+
+  makepkg \
+    --clean \
+    --syncdeps \
+    --install \
+    --noconfirm \
+    --dir $p
+
+done

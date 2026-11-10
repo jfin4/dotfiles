@@ -9,21 +9,10 @@ local({
   )
 })
 
-# Version-specific personal library path
-local({
-  lib <- file.path("~/.R", paste0(R.version$major, ".", R.version$minor))
-  dir.create(lib, recursive = TRUE, showWarnings = FALSE)
-  .libPaths(c(lib, .libPaths()))
-})
-
 # Machine-specific options
 if (Sys.info()["nodename"] == "desktop") {
   options(
     browser = function(url) {
-      # cmd <- sprintf("/usr/bin/lynx -nocolor -cfg %s -lss %s %s",
-      #                 shQuote(path.expand("~/.lynx/lynx.cfg")),
-      #                 shQuote(path.expand("~/.lynx/lynx.lss")),
-      #                 shQuote(url))
       cmd <- sprintf("/usr/bin/w3m %s",
                       shQuote(url))
       system2("tmux", c("split-window", "-h", shQuote(cmd)))

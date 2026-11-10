@@ -3,4 +3,5 @@
   "theme": "dark",
   "defaultProvider": "openrouter",
   "defaultModel": "deepseek/deepseek-v4-flash"
+  "defaultModel": "z-ai/glm-5.3-flash"
 }

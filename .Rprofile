@@ -20,9 +20,11 @@ local({
 if (Sys.info()["nodename"] == "desktop") {
   options(
     browser = function(url) {
-      cmd <- sprintf("/usr/bin/lynx -nocolor -cfg %s -lss %s %s",
-                      shQuote(path.expand("~/.lynx/lynx.cfg")),
-                      shQuote(path.expand("~/.lynx/lynx.lss")),
+      # cmd <- sprintf("/usr/bin/lynx -nocolor -cfg %s -lss %s %s",
+      #                 shQuote(path.expand("~/.lynx/lynx.cfg")),
+      #                 shQuote(path.expand("~/.lynx/lynx.lss")),
+      #                 shQuote(url))
+      cmd <- sprintf("/usr/bin/w3m %s",
                       shQuote(url))
       system2("tmux", c("split-window", "-h", shQuote(cmd)))
       system2("tmux", c("select-layout", "main-vertical"))

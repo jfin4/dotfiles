@@ -61,6 +61,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_norm, "-sb", col_bg, "-sf", col_sel, NULL };
 static const char *termcmd[]  = { "xterm", NULL };
 static const char *selwindow[]  = { "selwindow", NULL };
+static const char *screenshot_full[]  = { "screenshot", "full", NULL };
+static const char *screenshot_area[]  = { "screenshot", "area", NULL };
 
 #include "/home/jfin/software/dwm/shift-tools.c"
 static const Key keys[] = {
@@ -68,6 +70,8 @@ static const Key keys[] = {
   { MODKEY,                       XK_d,                       spawn,          { .v = dmenucmd } },
   { Mod1Mask,                     XK_d,                       spawn,          { .v = dmenucmd } },
   { MODKEY,                       XK_i,                       spawn,          { .v = termcmd } },
+  { MODKEY,                       XK_s,                       spawn,          { .v = screenshot_full } },
+  { MODKEY_ShiftMask,             XK_s,                       spawn,          { .v = screenshot_area } },
   { 0,                            0,                          togglebar,      {0} },
   { MODKEY,                       XK_j,                       focusstack,     { .i = +1 } },
   { MODKEY,                       XK_k,                       focusstack,     { .i = -1 } },
@@ -99,9 +103,9 @@ static const Key keys[] = {
   TAGKEYS(                        XK_8,                                       7)
   TAGKEYS(                        XK_9,                                       8)
   { MODKEY,                       XK_c,                       quit,           {0} },
-  { MODKEY,                       XK_l,	                    shiftview,      { .i = +1 } },
+  { MODKEY,                       XK_l,	                      shiftview,      { .i = +1 } },
   { MODKEY,                       XK_h,	                      shiftview,      { .i = -1 } },
-  { MODKEY|ShiftMask,             XK_l,	                    shifttag,       { .i = +1 } },
+  { MODKEY|ShiftMask,             XK_l,	                      shifttag,       { .i = +1 } },
   { MODKEY|ShiftMask,             XK_h,	                      shifttag,       { .i = -1 } },
   { MODKEY,                       XK_w,                       spawn,          { .v = selwindow } },
   { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+") },

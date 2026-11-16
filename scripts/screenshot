@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+mode="${1:-area}"
+dir="$HOME/unsorted"
+mkdir -p "$dir"
+file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+case "$mode" in
+  full)   maim "$file" ;;
+  window) maim -i "$(xdotool getactivewindow)" "$file" ;;
+  area)   maim -s -u "$file" ;;
+  *) echo "usage: $0 [full|area|window]" >&2; exit 1 ;;
+esac
+
+# user cancelled selection or maim failed
+[ -s "$file" ] || { rm -f "$file"; exit 0; }
+
+xclip -selection clipboard -t image/png < "$file"
+command -v notify-send >/dev/null && notify-send "Screenshot saved" "$file"

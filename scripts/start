@@ -3,7 +3,8 @@
 start_linux() {
     file="$1"
     if [[ "$ext" == eml ]]; then
-        xterm -e view-mail "$file"
+        tmux split-window -h "view-mail '$file'"
+        tmux select-layout main-vertical
     else
         xdg-open "$file"
     fi

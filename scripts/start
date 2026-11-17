@@ -1,18 +1,28 @@
-#!/usr/bin/zsh
+#!/usr/bin/env bash
+
+if [[ "$1" == --view-mail ]]; then
+  dir=$(mktemp -d)
+  mkdir "$dir"/{cur,new,tmp}
+  cp "$2" "$dir/new"
+  mutt -f "$dir"
+  rm -rf "$dir"
+  exit
+fi
 
 start_linux() {
     file="$1"
+    ext="${file##*.}"
     if [[ "$ext" == eml ]]; then
-        tmux split-window -h "view-mail '$file'"
-        tmux select-layout main-vertical
+      tmux split-window -h "$0" --view-mail "$file"
+      tmux select-layout main-vertical
     else
-        xdg-open "$file"
+      xdg-open "$file"
     fi
 }
 
 start_msys() {
-    # file="${1/\/c/c:}"
     file="$1"
+    ext="${file##*.}"
     if [[ "$ext" == pdf ]]; then
         SumatraPDF "$file" > /dev/null 2>&1
     else
@@ -21,12 +31,10 @@ start_msys() {
 }
 
 os=$(uname)
-for f in $@; do
-    ext="${1##*.}"
+for f in "$@"; do
     if [[ $os == "Linux" ]]; then
         start_linux "$f" &> /dev/null &
     else
         start_msys "$f" &> /dev/null &
     fi
 done
-

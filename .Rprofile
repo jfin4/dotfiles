@@ -119,7 +119,7 @@ local({
         readxl::excel_sheets() |>
         purrr::set_names() |>
         purrr::map(\(sheet) 
-          readxl::read_excel(path, sheet = sheet, col_types = "text", na = "")
+          readxl::read_excel(path, sheet = sheet, col_types = "text")
         ) |>
         (\(wb) if (length(wb) == 1L) list_c(wb) else wb)()
   }
@@ -127,7 +127,6 @@ local({
   read_text <- function(path) {
     readr::read_delim(path, 
                       col_types = readr::cols(.default = "c"),
-                      na = "",
                       trim_ws = TRUE,
                       progress = FALSE)
   }

@@ -36,7 +36,6 @@ function! SetReplPane() abort
   let b:repl_pane = pane
   return 1
 endfunction
-command! SetReplPane call SetReplPane()
 
 function! GetReplFile()
   let repl_file = printf('%s/.%s.repl', 
@@ -54,7 +53,7 @@ function! SendCode(code = [], echo = 1) abort
     if !SetReplPane() | return | endif
   endif
   let repl_file = GetReplFile()
-  if !filereadable('repl_file')
+  if !filereadable(repl_file)
     execute printf('autocmd VimLeavePre * call delete("%s")',
           \ repl_file)
   endif

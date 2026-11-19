@@ -29,13 +29,10 @@ endfunction
 command! CloseRepl call CloseRepl()
 
 function! SetReplPane() abort
-  call system("tmux set-option -gu @repl_pane")
   call system("tmux display-panes -d 0 'set-option -g @repl_pane %%'")
-  let pane = trim(system("tmux show -gqv @repl_pane"))
-  if pane == '' | unlet! b:repl_pane | return 0 | endif
-  let b:repl_pane = pane
-  return 1
+  let b:repl_pane = system("tmux show -gv @repl_pane")->trim()
 endfunction
+command! SetReplPane call SetReplPane()
 
 function! GetReplFile()
   let repl_file = printf('%s/.%s.repl', 
@@ -50,7 +47,7 @@ endfunction
 
 function! SendCode(code = [], echo = 1) abort
   if !exists('b:repl_pane')
-    if !SetReplPane() | return | endif
+    call SetReplPane()
   endif
   let repl_file = GetReplFile()
   if !filereadable(repl_file)

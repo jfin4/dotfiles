@@ -70,7 +70,6 @@ local({
   # helper functions ------------------------------------------------------
 
   sort_input <- function(input, bin, cache_dir) {
-     
     # remove
     fs::dir_create(cache_dir)
     cache_objects <- fs::dir_ls(cache_dir, all = TRUE) |>
@@ -106,29 +105,31 @@ local({
   read <- function(path, name) {
     ext <- fs::path_ext(stringr::str_to_lower(path))
     if (stringr::str_detect(ext, "xls")) {
-      object <- read_excel(path)
-    } else {
-      object <- read_text(path)
-    }
-    assign(name, object, envir = .GlobalEnv)
-    return(object)
-  }
-
-  read_excel <- function(path) {
-      path |>
+      object <- path |>
         readxl::excel_sheets() |>
         purrr::set_names() |>
         purrr::map(\(sheet) 
           readxl::read_excel(path, sheet = sheet, col_types = "text")
         ) |>
         (\(wb) if (length(wb) == 1L) list_c(wb) else wb)()
-  }
-
-  read_text <- function(path) {
-    readr::read_delim(path, 
-                      col_types = readr::cols(.default = "c"),
-                      trim_ws = TRUE,
-                      progress = FALSE)
+    } else if (stringr::str_detect(ext, "csv")) {
+      object <- path |> 
+        readr::read_csv(col_types = readr::cols(.default = "c"),
+                        trim_ws = TRUE,
+                        progress = FALSE)
+    } else if (stringr::str_detect(ext, "txt")) {
+      object <- path |> 
+        readr::read_tsv(col_types = readr::cols(.default = "c"),
+                        trim_ws = TRUE,
+                        progress = FALSE)
+    } else {
+      object <- path |> 
+        readr::read_delim(col_types = readr::cols(.default = "c"),
+                        trim_ws = TRUE,
+                        progress = FALSE)
+    }
+    assign(name, object, envir = .GlobalEnv)
+    return(object)
   }
 
   attach(.env, name = "utils", warn.conflicts = FALSE)

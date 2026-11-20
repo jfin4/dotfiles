@@ -71,7 +71,7 @@ static const Key keys[] = {
   { Mod1Mask,                     XK_d,                       spawn,          { .v = dmenucmd } },
   { MODKEY,                       XK_i,                       spawn,          { .v = termcmd } },
   { MODKEY,                       XK_s,                       spawn,          { .v = screenshot_full } },
-  { MODKEY_ShiftMask,             XK_s,                       spawn,          { .v = screenshot_area } },
+  { MODKEY|ShiftMask,             XK_s,                       spawn,          { .v = screenshot_area } },
   { 0,                            0,                          togglebar,      {0} },
   { MODKEY,                       XK_j,                       focusstack,     { .i = +1 } },
   { MODKEY,                       XK_k,                       focusstack,     { .i = -1 } },
